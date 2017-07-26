@@ -1,0 +1,29 @@
+{
+    "name": "chubbyphp/chubbyphp-serialization",
+    "description": "Chubbyphp Deserialize",
+    "keywords": ["chubbyphp", "slim", "serialization"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dominik Zogg",
+            "email": "dominik.zogg@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "~7.0",
+        "psr/log": "~1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.5",
+        "container-interop/container-interop": "~1.0",
+        "pimple/pimple": "~3.0"
+    },
+    "autoload": {
+        "psr-4": { "Chubbyphp\\Serialization\\": "src/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
