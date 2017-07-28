@@ -16,8 +16,6 @@ final class SerializationProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['serializer.emptystringtonull'] = false;
-
         $container['serializer.objectmappings'] = function () {
             return [];
         };
@@ -29,7 +27,6 @@ final class SerializationProvider implements ServiceProviderInterface
         $container['serializer'] = function () use ($container) {
             return new Serializer(
                 $container['serializer.objectmappingregistry'],
-                $container['serializer.emptystringtonull'],
                 $container['logger'] ?? null
             );
         };

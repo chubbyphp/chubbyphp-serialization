@@ -12,17 +12,7 @@ interface ObjectMappingInterface
     public function getClass(): string;
 
     /**
-     * @return array
+     * @return FieldMappingInterface[]
      */
-    public function getFields(): array;
-
-    /**
-     * @return EmbeddedInterface[]
-     */
-    public function getEmbeddeds(): array;
-
-    /**
-     * @return LinkInterface[]
-     */
-    public function getLinks(): array;
+    public function getFieldMappings(): array;
 }

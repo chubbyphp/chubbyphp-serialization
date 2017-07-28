@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Mapping;
 
+use Chubbyphp\Serialization\Serializer\Field\FieldSerializerInterface;
 use Interop\Container\ContainerInterface;
 
 final class LazyObjectMapping implements ObjectMappingInterface
@@ -43,4 +44,11 @@ final class LazyObjectMapping implements ObjectMappingInterface
         return $this->class;
     }
 
+    /**
+     * @return FieldSerializerInterface[]
+     */
+    public function getFieldSerializers(): array
+    {
+        return $this->container->get($this->serviceId)->getFieldSerializers();
+    }
 }
