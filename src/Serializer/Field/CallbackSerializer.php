@@ -39,6 +39,6 @@ final class CallbackSerializer implements FieldSerializerInterface
     {
         $callback = $this->callback;
 
-        return $callback($object, $serializer);
+        return $callback($path, $object, $serializer);
     }
 }
