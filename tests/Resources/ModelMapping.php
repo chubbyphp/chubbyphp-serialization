@@ -49,13 +49,13 @@ final class ModelMapping implements ObjectMappingInterface
     public function getLinkMappings(): array
     {
         return [
-            new LinkMapping('name:read', new CallbackLinkSerializer(function (Request $request, $object) {
+            new LinkMapping('name:read', new CallbackLinkSerializer(function (Request $request, Model $object) {
                 return new Link('http://test.com/models/'.$object->getId(), Link::METHOD_GET);
             })),
-            new LinkMapping('name:update', new CallbackLinkSerializer(function (Request $request, $object) {
+            new LinkMapping('name:update', new CallbackLinkSerializer(function (Request $request, Model$object) {
                 return new Link('http://test.com/models/'.$object->getId(), Link::METHOD_PUT);
             })),
-            new LinkMapping('name:delete', new CallbackLinkSerializer(function (Request $request, $object) {
+            new LinkMapping('name:delete', new CallbackLinkSerializer(function (Request $request, Model $object) {
                 return new Link('http://test.com/models/'.$object->getId(), Link::METHOD_DELETE);
             })),
         ];
