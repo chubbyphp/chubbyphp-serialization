@@ -35,15 +35,15 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
             '_links' => [
                 'name:read' => [
                     'href' => 'http://test.com/models/id1',
-                    'method' => 'get',
+                    'method' => 'GET',
                 ],
                 'name:update' => [
                     'href' => 'http://test.com/models/id1',
-                    'method' => 'put',
+                    'method' => 'PUT',
                 ],
                 'name:delete' => [
                     'href' => 'http://test.com/models/id1',
-                    'method' => 'delete',
+                    'method' => 'DELETE',
                 ],
             ],
         ], $data);
