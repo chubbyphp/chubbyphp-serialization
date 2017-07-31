@@ -15,4 +15,9 @@ interface ObjectMappingInterface
      * @return FieldMappingInterface[]
      */
     public function getFieldMappings(): array;
+
+    /**
+     * @return FieldMappingInterface[]
+     */
+    public function getEmbeddedFieldMappings(): array;
 }

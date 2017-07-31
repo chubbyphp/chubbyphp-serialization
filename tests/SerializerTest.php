@@ -24,7 +24,11 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
 
         $data = $serializer->serialize($model);
 
-        self::assertArrayHasKey('name', $data);
-        self::assertSame('name1', $data['name']);
+        self::assertEquals([
+            'name' => 'name1',
+            '_embedded' => [
+                'name' => 'name1',
+            ]
+        ], $data);
     }
 }

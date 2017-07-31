@@ -58,6 +58,19 @@ final class Serializer implements SerializerInterface
             $data[$fieldMapping->getName()] = $fieldMapping->getFieldSerializer()->serializeField($subPath, $object, $this);
         }
 
+        foreach ($objectMapping->getEmbeddedFieldMappings() as $fieldMapping) {
+            $name = $fieldMapping->getName();
+            $subPath = '' !== $path ? $path . '._embedded.' . $name : '_embedded.' . $name;
+
+            $this->logger->info('deserialize: path {path}', ['path' => $subPath]);
+
+            if (!isset($data['_embedded'])) {
+                $data['_embedded'] = [];
+            }
+
+            $data['_embedded'][$fieldMapping->getName()] = $fieldMapping->getFieldSerializer()->serializeField($subPath, $object, $this);
+        }
+
         return $data;
     }
 }

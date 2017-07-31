@@ -27,4 +27,14 @@ final class ModelMapping implements ObjectMappingInterface
             new FieldMapping('name')
         ];
     }
+
+    /**
+     * @return FieldMappingInterface[]
+     */
+    public function getEmbeddedFieldMappings(): array
+    {
+        return [
+            new FieldMapping('name')
+        ];
+    }
 }
