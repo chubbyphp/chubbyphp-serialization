@@ -22,7 +22,7 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
 
         $request = $this->getRequest();
 
-        $model = new Model();
+        $model = new Model('id1');
         $model->setName('name1');
 
         $data = $serializer->serialize($request, $model);
@@ -33,9 +33,17 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
                 'name' => 'name1',
             ],
             '_links' => [
-                'name' => [
-                    'href' => 'http://test.com/models',
+                'name:read' => [
+                    'href' => 'http://test.com/models/id1',
                     'method' => 'get',
+                ],
+                'name:update' => [
+                    'href' => 'http://test.com/models/id1',
+                    'method' => 'put',
+                ],
+                'name:delete' => [
+                    'href' => 'http://test.com/models/id1',
+                    'method' => 'delete',
                 ],
             ],
         ], $data);
