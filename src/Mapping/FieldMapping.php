@@ -20,7 +20,7 @@ final class FieldMapping implements FieldMappingInterface
     private $fieldSerializer;
 
     /**
-     * @param string                             $name
+     * @param string                        $name
      * @param FieldSerializerInterface|null $fieldSerializer
      */
     public function __construct(string $name, FieldSerializerInterface $fieldSerializer = null)

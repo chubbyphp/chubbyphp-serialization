@@ -9,9 +9,10 @@ use Chubbyphp\Serialization\SerializerInterface;
 interface FieldSerializerInterface
 {
     /**
-     * @param string $path
-     * @param object $object
+     * @param string                   $path
+     * @param object                   $object
      * @param SerializerInterface|null $serializer
+     *
      * @return mixed
      */
     public function serializeField(string $path, $object, SerializerInterface $serializer = null);

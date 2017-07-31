@@ -20,4 +20,9 @@ interface ObjectMappingInterface
      * @return FieldMappingInterface[]
      */
     public function getEmbeddedFieldMappings(): array;
+
+    /**
+     * @return LinkMappingInterface[]
+     */
+    public function getLinkMappings(): array;
 }

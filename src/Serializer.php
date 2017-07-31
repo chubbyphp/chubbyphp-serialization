@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization;
 
+use Chubbyphp\Serialization\Mapping\ObjectMappingInterface;
 use Chubbyphp\Serialization\Registry\ObjectMappingRegistryInterface;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -22,7 +24,7 @@ final class Serializer implements SerializerInterface
 
     /**
      * @param ObjectMappingRegistryInterface $objectMappingRegistry
-     * @param LoggerInterface $logger
+     * @param LoggerInterface                $logger
      */
     public function __construct(ObjectMappingRegistryInterface $objectMappingRegistry, LoggerInterface $logger = null)
     {
@@ -31,12 +33,15 @@ final class Serializer implements SerializerInterface
     }
 
     /**
-     * @param object $object
-     * @param string $path
+     * @param Request $request
+     * @param object  $object
+     * @param string  $path
+     *
      * @return array
+     *
      * @throws NotObjectException
      */
-    public function serialize($object, string $path = ''): array
+    public function serialize(Request $request, $object, string $path = ''): array
     {
         if (!is_object($object)) {
             $this->logger->error('serialize: object without an object given {type}', ['type' => gettype($object)]);
@@ -48,19 +53,50 @@ final class Serializer implements SerializerInterface
 
         $objectMapping = $this->objectMappingRegistry->getObjectMappingForClass($objectClass);
 
+        return array_replace_recursive(
+            $this->serializeFields($objectMapping, $object, $path),
+            $this->serializeEmbeddedFields($objectMapping, $object, $path),
+            $this->serializeLinks($request, $objectMapping, $object, $path)
+        );
+    }
+
+    /**
+     * @param ObjectMappingInterface $objectMapping
+     * @param $object
+     * @param string $path
+     *
+     * @return array
+     */
+    private function serializeFields(ObjectMappingInterface $objectMapping, $object, string $path): array
+    {
         $data = [];
         foreach ($objectMapping->getFieldMappings() as $fieldMapping) {
             $name = $fieldMapping->getName();
-            $subPath = '' !== $path ? $path . '.' . $name : $name;
+            $subPath = '' !== $path ? $path.'.'.$name : $name;
 
             $this->logger->info('deserialize: path {path}', ['path' => $subPath]);
 
-            $data[$fieldMapping->getName()] = $fieldMapping->getFieldSerializer()->serializeField($subPath, $object, $this);
+            $data[$fieldMapping->getName()] = $fieldMapping
+                ->getFieldSerializer()
+                ->serializeField($subPath, $object, $this);
         }
 
-        foreach ($objectMapping->getEmbeddedFieldMappings() as $fieldMapping) {
-            $name = $fieldMapping->getName();
-            $subPath = '' !== $path ? $path . '._embedded.' . $name : '_embedded.' . $name;
+        return $data;
+    }
+
+    /**
+     * @param ObjectMappingInterface $objectMapping
+     * @param $object
+     * @param string $path
+     *
+     * @return array
+     */
+    private function serializeEmbeddedFields(ObjectMappingInterface $objectMapping, $object, string $path): array
+    {
+        $data = [];
+        foreach ($objectMapping->getEmbeddedFieldMappings() as $fieldEmbeddedMapping) {
+            $name = $fieldEmbeddedMapping->getName();
+            $subPath = '' !== $path ? $path.'.'.$name : $name;
 
             $this->logger->info('deserialize: path {path}', ['path' => $subPath]);
 
@@ -68,7 +104,43 @@ final class Serializer implements SerializerInterface
                 $data['_embedded'] = [];
             }
 
-            $data['_embedded'][$fieldMapping->getName()] = $fieldMapping->getFieldSerializer()->serializeField($subPath, $object, $this);
+            $data['_embedded'][$fieldEmbeddedMapping->getName()] = $fieldEmbeddedMapping
+                ->getFieldSerializer()
+                ->serializeField($subPath, $object, $this);
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param Request                $request
+     * @param ObjectMappingInterface $objectMapping
+     * @param $object
+     * @param string $path
+     *
+     * @return array
+     */
+    private function serializeLinks(
+        Request $request,
+        ObjectMappingInterface $objectMapping,
+        $object,
+        string $path
+    ): array {
+        $data = [];
+        foreach ($objectMapping->getLinkMappings() as $linkMapping) {
+            $name = $linkMapping->getName();
+            $subPath = '' !== $path ? $path.'._links.'.$name : '_links.'.$name;
+
+            $this->logger->info('deserialize: path {path}', ['path' => $subPath]);
+
+            if (!isset($data['_links'])) {
+                $data['_links'] = [];
+            }
+
+            $data['_links'][$linkMapping->getName()] = $linkMapping
+                ->getLinkSerializer()
+                ->serializeLink($subPath, $request, $object, $this)
+                ->jsonSerialize();
         }
 
         return $data;
