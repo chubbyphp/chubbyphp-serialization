@@ -45,10 +45,26 @@ final class LazyObjectMapping implements ObjectMappingInterface
     }
 
     /**
-     * @return FieldSerializerInterface[]
+     * @return FieldMappingInterface[]
      */
-    public function getFieldSerializers(): array
+    public function getFieldMappings(): array
     {
-        return $this->container->get($this->serviceId)->getFieldSerializers();
+        return $this->container->get($this->serviceId)->getFieldMappings();
+    }
+
+    /**
+     * @return FieldMappingInterface[]
+     */
+    public function getEmbeddedFieldMappings(): array
+    {
+        return $this->container->get($this->serviceId)->getEmbeddedFieldMappings();
+    }
+
+    /**
+     * @return LinkMappingInterface[]
+     */
+    public function getLinkMappings(): array
+    {
+        return $this->container->get($this->serviceId)->getLinkMappings();
     }
 }
