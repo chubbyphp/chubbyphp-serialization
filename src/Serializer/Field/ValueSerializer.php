@@ -16,11 +16,31 @@ final class ValueSerializer implements FieldSerializerInterface
     private $accessor;
 
     /**
-     * @param AccessorInterface $accessor
+     * @var string|null
      */
-    public function __construct(AccessorInterface $accessor)
+    private $cast;
+
+    const CAST_BOOL = 'bool';
+    const CAST_FLOAT = 'float';
+    const CAST_INT = 'int';
+
+    /**
+     * @param AccessorInterface $accessor
+     * @param string $cast
+     */
+    public function __construct(AccessorInterface $accessor, string $cast = null)
     {
         $this->accessor = $accessor;
+
+        if (null !== $cast) {
+            $supportedCasts = [self::CAST_BOOL, self::CAST_FLOAT, self::CAST_INT];
+            if (!in_array($cast, $supportedCasts, true)) {
+                throw new \InvalidArgumentException(
+                    sprintf('Cast %s is not support, supported casts: %s', $cast, implode(', ', $supportedCasts))
+                );
+            }
+            $this->cast = $cast;
+        }
     }
 
     /**
@@ -33,6 +53,22 @@ final class ValueSerializer implements FieldSerializerInterface
      */
     public function serializeField(string $path, Request $request, $object, SerializerInterface $serializer = null)
     {
-        return $this->accessor->getValue($object);
+        $value = $this->accessor->getValue($object);
+
+        if (null !== $this->cast) {
+            switch ($this->cast) {
+                case self::CAST_BOOL:
+                    $value = (bool) $value;
+                    break;
+                case self::CAST_FLOAT:
+                    $value = (float) $value;
+                    break;
+                case self::CAST_INT:
+                    $value = (int) $value;
+                    break;
+            }
+        }
+
+        return $value;
     }
 }
