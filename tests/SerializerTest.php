@@ -6,6 +6,8 @@ namespace Chubbyphp\Tests\Serialization;
 
 use Chubbyphp\Serialization\Registry\ObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;
+use Chubbyphp\Tests\Serialization\Resources\EmbeddedModel;
+use Chubbyphp\Tests\Serialization\Resources\EmbeddedModelMapping;
 use Chubbyphp\Tests\Serialization\Resources\Model;
 use Chubbyphp\Tests\Serialization\Resources\ModelMapping;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -16,6 +18,7 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
     {
         $registry = new ObjectMappingRegistry([
             new ModelMapping(),
+            new EmbeddedModelMapping(),
         ]);
 
         $serializer = new Serializer($registry);
@@ -24,13 +27,32 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
 
         $model = new Model('id1');
         $model->setName('name1');
+        $model->setEmbeddedModel((new EmbeddedModel())->setName('embedded1'));
+        $model->setEmbeddedModels([
+            (new EmbeddedModel())->setName('embedded2'),
+            (new EmbeddedModel())->setName('embedded3'),
+            (new EmbeddedModel())->setName('embedded4'),
+        ]);
 
         $data = $serializer->serialize($request, $model);
 
         self::assertEquals([
             'name' => 'name1',
             '_embedded' => [
-                'name' => 'name1',
+                'embeddedModel' => [
+                    'name' => 'embedded1',
+                ],
+                'embeddedModels' => [
+                    [
+                        'name' => 'embedded2',
+                    ],
+                    [
+                        'name' => 'embedded3',
+                    ],
+                                       [
+                        'name' => 'embedded4',
+                    ],
+                ],
             ],
             '_links' => [
                 'name:read' => [

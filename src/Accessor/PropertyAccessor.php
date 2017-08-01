@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Serialization\Serializer\Field;
+namespace Chubbyphp\Serialization\Accessor;
 
-use Chubbyphp\Serialization\SerializerInterface;
-
-final class PropertySerializer implements FieldSerializerInterface
+final class PropertyAccessor implements AccessorInterface
 {
     /**
      * @var string
@@ -22,13 +20,11 @@ final class PropertySerializer implements FieldSerializerInterface
     }
 
     /**
-     * @param string                   $path
-     * @param object                   $object
-     * @param SerializerInterface|null $serializer
+     * @param object $object
      *
      * @return mixed
      */
-    public function serializeField(string $path, $object, SerializerInterface $serializer = null)
+    public function getValue($object)
     {
         $reflectionProperty = new \ReflectionProperty(get_class($object), $this->property);
         $reflectionProperty->setAccessible(true);

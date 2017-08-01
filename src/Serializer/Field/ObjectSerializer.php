@@ -4,30 +4,23 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Serializer\Field;
 
+use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\SerializerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-final class CallbackSerializer implements FieldSerializerInterface
+final class ObjectSerializer implements FieldSerializerInterface
 {
     /**
-     * @var callable
+     * @var AccessorInterface
      */
-    private $callback;
+    private $accessor;
 
     /**
-     * @return callable
+     * @param AccessorInterface $accessor
      */
-    public function getCallback(): callable
+    public function __construct(AccessorInterface $accessor)
     {
-        return $this->callback;
-    }
-
-    /**
-     * @param callable $callback
-     */
-    public function setCallback(callable $callback)
-    {
-        $this->callback = $callback;
+        $this->accessor = $accessor;
     }
 
     /**
@@ -40,8 +33,6 @@ final class CallbackSerializer implements FieldSerializerInterface
      */
     public function serializeField(string $path, Request $request, $object, SerializerInterface $serializer = null)
     {
-        $callback = $this->callback;
-
-        return $callback($path, $request, $object, $serializer);
+        return $serializer->serialize($request, $this->accessor->getValue($object), $path);
     }
 }

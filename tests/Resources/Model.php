@@ -17,6 +17,16 @@ final class Model
     private $name;
 
     /**
+     * @var EmbeddedModel
+     */
+    private $embeddedModel;
+
+    /**
+     * @var EmbeddedModel[]
+     */
+    private $embeddedModels;
+
+    /**
      * Model constructor.
      *
      * @param string $id
@@ -44,9 +54,45 @@ final class Model
 
     /**
      * @param null|string $name
+     *
+     * @return self
      */
-    public function setName($name)
+    public function setName(string $name = null): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return EmbeddedModel
+     */
+    public function getEmbeddedModel(): EmbeddedModel
+    {
+        return $this->embeddedModel;
+    }
+
+    /**
+     * @param EmbeddedModel $embeddedModel
+     */
+    public function setEmbeddedModel(EmbeddedModel $embeddedModel)
+    {
+        $this->embeddedModel = $embeddedModel;
+    }
+
+    /**
+     * @return EmbeddedModel[]
+     */
+    public function getEmbeddedModels(): array
+    {
+        return $this->embeddedModels;
+    }
+
+    /**
+     * @param EmbeddedModel[] $embeddedModels
+     */
+    public function setEmbeddedModels(array $embeddedModels)
+    {
+        $this->embeddedModels = $embeddedModels;
     }
 }

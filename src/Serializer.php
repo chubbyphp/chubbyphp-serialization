@@ -54,21 +54,26 @@ final class Serializer implements SerializerInterface
         $objectMapping = $this->objectMappingRegistry->getObjectMappingForClass($objectClass);
 
         return array_replace_recursive(
-            $this->serializeFields($objectMapping, $object, $path),
-            $this->serializeEmbeddedFields($objectMapping, $object, $path),
+            $this->serializeFields($request, $objectMapping, $object, $path),
+            $this->serializeEmbeddedFields($request, $objectMapping, $object, $path),
             $this->serializeLinks($request, $objectMapping, $object, $path)
         );
     }
 
     /**
+     * @param Request                $request
      * @param ObjectMappingInterface $objectMapping
      * @param $object
      * @param string $path
      *
      * @return array
      */
-    private function serializeFields(ObjectMappingInterface $objectMapping, $object, string $path): array
-    {
+    private function serializeFields(
+        Request $request,
+        ObjectMappingInterface $objectMapping,
+        $object,
+        string $path
+    ): array {
         $data = [];
         foreach ($objectMapping->getFieldMappings() as $fieldMapping) {
             $name = $fieldMapping->getName();
@@ -78,21 +83,26 @@ final class Serializer implements SerializerInterface
 
             $data[$fieldMapping->getName()] = $fieldMapping
                 ->getFieldSerializer()
-                ->serializeField($subPath, $object, $this);
+                ->serializeField($subPath, $request, $object, $this);
         }
 
         return $data;
     }
 
     /**
+     * @param Request                $request
      * @param ObjectMappingInterface $objectMapping
      * @param $object
      * @param string $path
      *
      * @return array
      */
-    private function serializeEmbeddedFields(ObjectMappingInterface $objectMapping, $object, string $path): array
-    {
+    private function serializeEmbeddedFields(
+        Request $request,
+        ObjectMappingInterface $objectMapping,
+        $object,
+        string $path
+    ): array {
         $data = [];
         foreach ($objectMapping->getEmbeddedFieldMappings() as $fieldEmbeddedMapping) {
             $name = $fieldEmbeddedMapping->getName();
@@ -106,7 +116,7 @@ final class Serializer implements SerializerInterface
 
             $data['_embedded'][$fieldEmbeddedMapping->getName()] = $fieldEmbeddedMapping
                 ->getFieldSerializer()
-                ->serializeField($subPath, $object, $this);
+                ->serializeField($subPath, $request, $object, $this);
         }
 
         return $data;
