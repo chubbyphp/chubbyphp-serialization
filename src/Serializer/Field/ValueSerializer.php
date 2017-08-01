@@ -55,7 +55,7 @@ final class ValueSerializer implements FieldSerializerInterface
     {
         $value = $this->accessor->getValue($object);
 
-        if (null !== $this->cast) {
+        if (null !== $value && null !== $this->cast) {
             switch ($this->cast) {
                 case self::CAST_BOOL:
                     $value = (bool) $value;
