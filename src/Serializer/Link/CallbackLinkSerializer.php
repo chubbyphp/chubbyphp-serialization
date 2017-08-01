@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Chubbyphp\Serialization\Serializer\Link;
 
 use Chubbyphp\Serialization\Link\LinkInterface;
-use Chubbyphp\Serialization\SerializerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class CallbackLinkSerializer implements LinkSerializerInterface
@@ -24,10 +23,10 @@ final class CallbackLinkSerializer implements LinkSerializerInterface
     }
 
     /**
-     * @param string                   $path
-     * @param Request                  $request
-     * @param object                   $object
-     * @param SerializerInterface|null $serializer
+     * @param string  $path
+     * @param Request $request
+     * @param object  $object
+     * @param array   $fields
      *
      * @return LinkInterface
      */
@@ -35,10 +34,10 @@ final class CallbackLinkSerializer implements LinkSerializerInterface
         string $path,
         Request $request,
         $object,
-        SerializerInterface $serializer = null
+        array $fields
     ): LinkInterface {
         $callback = $this->callback;
 
-        return $callback($request, $object);
+        return $callback($request, $object, $fields);
     }
 }

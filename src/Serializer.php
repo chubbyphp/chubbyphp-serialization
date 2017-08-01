@@ -53,11 +53,19 @@ final class Serializer implements SerializerInterface
 
         $objectMapping = $this->objectMappingRegistry->getObjectMappingForClass($objectClass);
 
-        return array_replace_recursive(
-            $this->serializeFields($request, $objectMapping, $object, $path),
-            $this->serializeEmbeddedFields($request, $objectMapping, $object, $path),
-            $this->serializeLinks($request, $objectMapping, $object, $path)
-        );
+        $fields = $this->serializeFields($request, $objectMapping, $object, $path);
+        $embeddedFields = $this->serializeEmbeddedFields($request, $objectMapping, $object, $path);
+        $links = $this->serializeLinks($request, $objectMapping, $object, $fields, $path);
+
+        $data = $fields;
+        if ([] !== $embeddedFields) {
+            $data['_embedded'] = $embeddedFields;
+        }
+        if ([] !== $links) {
+            $data['_links'] = $links;
+        }
+
+        return $data;
     }
 
     /**
@@ -110,11 +118,7 @@ final class Serializer implements SerializerInterface
 
             $this->logger->info('deserialize: path {path}', ['path' => $subPath]);
 
-            if (!isset($data['_embedded'])) {
-                $data['_embedded'] = [];
-            }
-
-            $data['_embedded'][$fieldEmbeddedMapping->getName()] = $fieldEmbeddedMapping
+            $data[$fieldEmbeddedMapping->getName()] = $fieldEmbeddedMapping
                 ->getFieldSerializer()
                 ->serializeField($subPath, $request, $object, $this);
         }
@@ -126,6 +130,7 @@ final class Serializer implements SerializerInterface
      * @param Request                $request
      * @param ObjectMappingInterface $objectMapping
      * @param $object
+     * @param array  $fields
      * @param string $path
      *
      * @return array
@@ -134,6 +139,7 @@ final class Serializer implements SerializerInterface
         Request $request,
         ObjectMappingInterface $objectMapping,
         $object,
+        array $fields,
         string $path
     ): array {
         $data = [];
@@ -143,13 +149,9 @@ final class Serializer implements SerializerInterface
 
             $this->logger->info('deserialize: path {path}', ['path' => $subPath]);
 
-            if (!isset($data['_links'])) {
-                $data['_links'] = [];
-            }
-
-            $data['_links'][$linkMapping->getName()] = $linkMapping
+            $data[$linkMapping->getName()] = $linkMapping
                 ->getLinkSerializer()
-                ->serializeLink($subPath, $request, $object, $this)
+                ->serializeLink($subPath, $request, $object, $fields)
                 ->jsonSerialize();
         }
 
