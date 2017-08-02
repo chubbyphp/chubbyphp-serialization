@@ -17,7 +17,7 @@
     "require-dev": {
         "ext-dom": "*",
         "phpunit/phpunit": "~5.5",
-        "doctrine/inflector": "~1.2",
+        "doctrine/inflector": "~1.1",
         "container-interop/container-interop": "~1.0",
         "pimple/pimple": "~3.0",
         "symfony/yaml": "~3.0"
