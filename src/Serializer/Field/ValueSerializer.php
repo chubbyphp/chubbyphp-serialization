@@ -26,7 +26,7 @@ final class ValueSerializer implements FieldSerializerInterface
 
     /**
      * @param AccessorInterface $accessor
-     * @param string $cast
+     * @param string            $cast
      */
     public function __construct(AccessorInterface $accessor, string $cast = null)
     {
