@@ -23,6 +23,7 @@ class YamlFormatterTest extends AbstractFormatterTest
 
         $expectedYaml = <<<EOD
 name: name1
+active: false
 _embedded:
     embeddedModel:
         name: embedded1

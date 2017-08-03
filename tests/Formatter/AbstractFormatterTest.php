@@ -21,6 +21,7 @@ abstract class AbstractFormatterTest extends \PHPUnit_Framework_TestCase
             [
                 'data' => [
                     'name' => 'name1',
+                    'active' => false,
                     '_embedded' => [
                         'embeddedModel' => [
                             'name' => 'embedded1',

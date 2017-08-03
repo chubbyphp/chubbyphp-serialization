@@ -48,10 +48,26 @@ final class XmlFormatter implements FormatterInterface
                 $childNode = $document->createElement(is_int($key) ? Inflector::singularize($listNode->nodeName) : $key);
                 $this->dataToNodes($document, $childNode, $value);
             } else {
-                $childNode = $document->createElement($key, $value);
+                $childNode = $document->createElement($key, $this->getValueAsString($value));
+                $childNode->setAttribute('type', gettype($value));
             }
 
             $listNode->appendChild($childNode);
         }
+    }
+
+    /**
+     * @param bool|float|int|string $value
+     * @return string
+     */
+    private function getValueAsString($value): string
+    {
+        $type = gettype($value);
+
+        if ('boolean' === $type) {
+            return $value ? 'true' : 'false';
+        }
+
+        return (string) $value;
     }
 }

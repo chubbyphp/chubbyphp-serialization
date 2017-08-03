@@ -22,35 +22,36 @@ class XmlFormatterTest extends AbstractFormatterTest
 
         $expectedXml = <<<EOD
 <?xml version="1.0" encoding="UTF-8"?>
-<name>name1</name>
+<name type="string">name1</name>
+<active type="boolean">false</active>
 <_embedded>
   <embeddedModel>
-    <name>embedded1</name>
+    <name type="string">embedded1</name>
   </embeddedModel>
   <embeddedModels>
     <embeddedModel>
-      <name>embedded2</name>
+      <name type="string">embedded2</name>
     </embeddedModel>
     <embeddedModel>
-      <name>embedded3</name>
+      <name type="string">embedded3</name>
     </embeddedModel>
     <embeddedModel>
-      <name>embedded4</name>
+      <name type="string">embedded4</name>
     </embeddedModel>
   </embeddedModels>
 </_embedded>
 <_links>
   <name:read>
-    <href>http://test.com/models/id1</href>
-    <method>GET</method>
+    <href type="string">http://test.com/models/id1</href>
+    <method type="string">GET</method>
   </name:read>
   <name:update>
-    <href>http://test.com/models/id1</href>
-    <method>PUT</method>
+    <href type="string">http://test.com/models/id1</href>
+    <method type="string">PUT</method>
   </name:update>
   <name:delete>
-    <href>http://test.com/models/id1</href>
-    <method>DELETE</method>
+    <href type="string">http://test.com/models/id1</href>
+    <method type="string">DELETE</method>
   </name:delete>
 </_links>
 

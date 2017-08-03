@@ -13,6 +13,7 @@ use Chubbyphp\Serialization\Mapping\LinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\ObjectMappingInterface;
 use Chubbyphp\Serialization\Serializer\Field\CollectionSerializer;
 use Chubbyphp\Serialization\Serializer\Field\ObjectSerializer;
+use Chubbyphp\Serialization\Serializer\Field\ValueSerializer;
 use Chubbyphp\Serialization\Serializer\Link\CallbackLinkSerializer;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -33,6 +34,7 @@ final class ModelMapping implements ObjectMappingInterface
     {
         return [
             new FieldMapping('name'),
+            new FieldMapping('active', new ValueSerializer(new PropertyAccessor('active'), ValueSerializer::CAST_BOOL)),
         ];
     }
 

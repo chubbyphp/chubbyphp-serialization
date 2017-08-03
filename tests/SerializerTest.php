@@ -38,6 +38,7 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
 
         self::assertEquals([
             'name' => 'name1',
+            'active' => false,
             '_embedded' => [
                 'embeddedModel' => [
                     'name' => 'embedded1',

@@ -17,6 +17,11 @@ final class Model
     private $name;
 
     /**
+     * @var bool
+     */
+    private $active;
+
+    /**
      * @var EmbeddedModel
      */
     private $embeddedModel;
@@ -34,6 +39,7 @@ final class Model
     public function __construct(string $id)
     {
         $this->id = $id;
+        $this->active = false;
     }
 
     /**
@@ -60,6 +66,26 @@ final class Model
     public function setName(string $name = null): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getActive(): bool
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param bool $active
+     *
+     * @return self
+     */
+    public function setActive(bool $active = false): self
+    {
+        $this->active = $active;
 
         return $this;
     }

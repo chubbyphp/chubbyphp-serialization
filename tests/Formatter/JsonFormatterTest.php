@@ -24,6 +24,7 @@ class JsonFormatterTest extends AbstractFormatterTest
         $expectedJson = <<<EOD
 {
     "name": "name1",
+    "active": false,
     "_embedded": {
         "embeddedModel": {
             "name": "embedded1"
