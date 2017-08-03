@@ -22,7 +22,7 @@ final class JsonFormatter implements FormatterInterface
      * @param int $options
      * @param int $level
      */
-    public function __construct(int $options = 0, int $level = 512)
+    public function __construct(int $options = JSON_UNESCAPED_SLASHES, int $level = 512)
     {
         $this->options = $options;
         $this->level = $level;
