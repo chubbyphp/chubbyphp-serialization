@@ -6,6 +6,9 @@ namespace Chubbyphp\Tests\Serialization\Formatter;
 
 use Chubbyphp\Serialization\Formatter\JsonFormatter;
 
+/**
+ * @covers \Chubbyphp\Serialization\Formatter\JsonFormatter
+ */
 class JsonFormatterTest extends AbstractFormatterTest
 {
     /**

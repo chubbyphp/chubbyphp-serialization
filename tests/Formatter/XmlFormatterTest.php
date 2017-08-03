@@ -6,6 +6,9 @@ namespace Chubbyphp\Tests\Serialization\Formatter;
 
 use Chubbyphp\Serialization\Formatter\XmlFormatter;
 
+/**
+ * @covers \Chubbyphp\Serialization\Formatter\XmlFormatter
+ */
 class XmlFormatterTest extends AbstractFormatterTest
 {
     /**

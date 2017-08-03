@@ -6,6 +6,9 @@ namespace Chubbyphp\Tests\Serialization\Formatter;
 
 use Chubbyphp\Serialization\Formatter\YamlFormatter;
 
+/**
+ * @covers \Chubbyphp\Serialization\Formatter\YamlFormatter
+ */
 class YamlFormatterTest extends AbstractFormatterTest
 {
     /**

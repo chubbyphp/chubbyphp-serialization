@@ -6,6 +6,9 @@ namespace Chubbyphp\Tests\Serialization\Formatter;
 
 use Chubbyphp\Serialization\Formatter\UrlEncodedFormatter;
 
+/**
+ * @covers \Chubbyphp\Serialization\Formatter\UrlEncodedFormatter
+ */
 class UrlEncodedFormatterTest extends AbstractFormatterTest
 {
     /**
