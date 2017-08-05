@@ -25,7 +25,7 @@ class XmlTransformerTest extends AbstractTransformerTest
 <?xml version="1.0" encoding="UTF-8"?>
 <response>
   <page type="integer">1</page>
-  <per_page type="integer">10</per_page>
+  <perPage type="integer">10</perPage>
   <search></search>
   <sort type="string"><![CDATA[name]]></sort>
   <order type="string"><![CDATA[asc]]></order>
@@ -95,7 +95,7 @@ class XmlTransformerTest extends AbstractTransformerTest
   </_embedded>
   <_links>
     <self>
-      <href type="string"><![CDATA[http://test.com/items/?page=1&per_page=10&sort=name&order=asc]]></href>
+      <href type="string"><![CDATA[http://test.com/items/?page=1&perPage=10&sort=name&order=asc]]></href>
       <method type="string"><![CDATA[GET]]></method>
     </self>
     <create>

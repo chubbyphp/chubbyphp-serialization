@@ -21,7 +21,7 @@ class UrlEncodedTransformerTest extends AbstractTransformerTest
         $urlEncodedTransformer = new UrlEncodedTransformer();
         $urlEncoded = $urlEncodedTransformer->transform($data);
 
-        $expectedUrlEncoded = 'page=1&per_page=10&sort=name&order=asc&_embedded%5Bitems%5D%5B0%5D%5Bid%5D=id1&_embedded'
+        $expectedUrlEncoded = 'page=1&perPage=10&sort=name&order=asc&_embedded%5Bitems%5D%5B0%5D%5Bid%5D=id1&_embedded'
             .'%5Bitems%5D%5B0%5D%5Bname%5D=A+fancy+Name&_embedded%5Bitems%5D%5B0%5D%5Bprogress%5D=76.8&_embedded%5B'
             .'items%5D%5B0%5D%5Bactive%5D=1&_embedded%5Bitems%5D%5B0%5D%5B_links%5D%5Bread%5D%5Bhref%5D='
             .'http%3A%2F%2Ftest.com%2Fitems%2Fid1&_embedded%5Bitems%5D%5B0%5D%5B_links%5D%5Bread%5D%5Bmethod%5D'
@@ -43,7 +43,7 @@ class UrlEncodedTransformerTest extends AbstractTransformerTest
             .'%3A%2F%2Ftest.com%2Fitems%2Fid3&_embedded%5Bitems%5D%5B2%5D%5B_links%5D%5Bupdate%5D%5Bmethod%5D='
             .'PUT&_embedded%5Bitems%5D%5B2%5D%5B_links%5D%5Bdelete%5D%5Bhref%5D=http%3A%2F%2Ftest.com%2Fitems'
             .'%2Fid3&_embedded%5Bitems%5D%5B2%5D%5B_links%5D%5Bdelete%5D%5Bmethod%5D=DELETE&_links%5Bself%5D'
-            .'%5Bhref%5D=http%3A%2F%2Ftest.com%2Fitems%2F%3Fpage%3D1%26per_page%3D10%26sort%3Dname%26order%3Dasc&_links'
+            .'%5Bhref%5D=http%3A%2F%2Ftest.com%2Fitems%2F%3Fpage%3D1%26perPage%3D10%26sort%3Dname%26order%3Dasc&_links'
             .'%5Bself%5D%5Bmethod%5D=GET&_links%5Bcreate%5D%5Bhref%5D=http%3A%2F%2Ftest.com%2Fitems%2F&_links'
             .'%5Bcreate%5D%5Bmethod%5D=POST';
 

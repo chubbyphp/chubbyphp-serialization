@@ -24,7 +24,7 @@ class YamlTransformerTest extends AbstractTransformerTest
 
         $expectedYaml = <<<EOD
 page: 1
-per_page: 10
+perPage: 10
 search: null
 sort: name
 order: asc
@@ -77,7 +77,7 @@ _embedded:
                     method: DELETE
 _links:
     self:
-        href: 'http://test.com/items/?page=1&per_page=10&sort=name&order=asc'
+        href: 'http://test.com/items/?page=1&perPage=10&sort=name&order=asc'
         method: GET
     create:
         href: 'http://test.com/items/'

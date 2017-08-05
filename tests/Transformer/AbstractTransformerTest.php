@@ -22,7 +22,7 @@ abstract class AbstractTransformerTest extends \PHPUnit_Framework_TestCase
             [
                 'data' => [
                     'page' => 1,
-                    'per_page' => 10,
+                    'perPage' => 10,
                     'search' => null,
                     'sort' => 'name',
                     'order' => 'asc',
@@ -92,7 +92,7 @@ abstract class AbstractTransformerTest extends \PHPUnit_Framework_TestCase
                     ],
                     '_links' => [
                         'self' => [
-                            'href' => 'http://test.com/items/?page=1&per_page=10&sort=name&order=asc',
+                            'href' => 'http://test.com/items/?page=1&perPage=10&sort=name&order=asc',
                             'method' => 'GET',
                         ],
                         'create' => [
