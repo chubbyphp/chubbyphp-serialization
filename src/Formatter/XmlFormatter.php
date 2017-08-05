@@ -14,11 +14,18 @@ final class XmlFormatter implements FormatterInterface
     private $formatOutput;
 
     /**
-     * @param bool $formatOutput
+     * @var int
      */
-    public function __construct(bool $formatOutput = false)
+    private $options;
+
+    /**
+     * @param bool $formatOutput
+     * @param int $options
+     */
+    public function __construct(bool $formatOutput = false, int $options = LIBXML_NOEMPTYTAG)
     {
         $this->formatOutput = $formatOutput;
+        $this->options = $options;
     }
 
     /**
@@ -33,7 +40,7 @@ final class XmlFormatter implements FormatterInterface
 
         $this->dataToNodes($document, $document, $data);
 
-        return trim($document->saveXML());
+        return trim($document->saveXML(null, $this->options));
     }
 
     /**

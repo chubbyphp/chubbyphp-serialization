@@ -24,7 +24,7 @@ class XmlFormatterTest extends AbstractFormatterTest
 <?xml version="1.0" encoding="UTF-8"?>
 <page type="integer">1</page>
 <perPage type="integer">10</perPage>
-<search/>
+<search></search>
 <sort type="string"><![CDATA[name]]></sort>
 <order type="string"><![CDATA[asc]]></order>
 <_embedded>
