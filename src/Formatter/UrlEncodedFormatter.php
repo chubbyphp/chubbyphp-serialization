@@ -22,9 +22,9 @@ final class UrlEncodedFormatter implements FormatterInterface
     private $encType;
 
     /**
-     * @param null|string $numericPrefix
-     * @param null|string $argSeperator
-     * @param int|null    $encType
+     * @param string $numericPrefix
+     * @param string $argSeperator
+     * @param int    $encType
      */
     public function __construct(
         string $numericPrefix = '',
