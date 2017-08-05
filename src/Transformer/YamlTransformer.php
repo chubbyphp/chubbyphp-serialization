@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Serialization\Formatter;
+namespace Chubbyphp\Serialization\Transformer;
 
 use Symfony\Component\Yaml\Yaml;
 
-final class YamlFormatter implements FormatterInterface
+final class YamlTransformer implements TransformerInterface
 {
     /**
      * @var int
@@ -24,7 +24,7 @@ final class YamlFormatter implements FormatterInterface
     private $flags;
 
     /**
-     * YamlFormatter constructor.
+     * YamlTransformer constructor.
      *
      * @param int $inline
      * @param int $indent
@@ -42,7 +42,7 @@ final class YamlFormatter implements FormatterInterface
      *
      * @return string
      */
-    public function format(array $data): string
+    public function transform(array $data): string
     {
         return trim(Yaml::dump($data, $this->inline, $this->indent, $this->flags));
     }

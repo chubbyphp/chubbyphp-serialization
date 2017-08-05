@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Tests\Serialization\Formatter;
+namespace Chubbyphp\Tests\Serialization\Transformer;
 
-use Chubbyphp\Serialization\Formatter\JsonFormatter;
+use Chubbyphp\Serialization\Transformer\JsonTransformer;
 
 /**
- * @covers \Chubbyphp\Serialization\Formatter\JsonFormatter
+ * @covers \Chubbyphp\Serialization\Transformer\JsonTransformer
  */
-class JsonFormatterTest extends AbstractFormatterTest
+class JsonTransformerTest extends AbstractTransformerTest
 {
     /**
      * @dataProvider dataProvider
@@ -18,9 +18,9 @@ class JsonFormatterTest extends AbstractFormatterTest
      */
     public function testFormat(array $data)
     {
-        $jsonFormatter = new JsonFormatter(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        $jsonTransformer = new JsonTransformer(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
-        $json = $jsonFormatter->format($data);
+        $json = $jsonTransformer->transform($data);
 
         $expectedJson = <<<EOD
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Serialization\Formatter;
+namespace Chubbyphp\Serialization\Transformer;
 
-final class JsonFormatter implements FormatterInterface
+final class JsonTransformer implements TransformerInterface
 {
     /**
      * @var int
@@ -17,7 +17,7 @@ final class JsonFormatter implements FormatterInterface
     private $level;
 
     /**
-     * JsonFormatter constructor.
+     * JsonTransformer constructor.
      *
      * @param int $options
      * @param int $level
@@ -33,7 +33,7 @@ final class JsonFormatter implements FormatterInterface
      *
      * @return string
      */
-    public function format(array $data): string
+    public function transform(array $data): string
     {
         return json_encode($data, $this->options, $this->level);
     }

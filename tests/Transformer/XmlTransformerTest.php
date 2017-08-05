@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Tests\Serialization\Formatter;
+namespace Chubbyphp\Tests\Serialization\Transformer;
 
-use Chubbyphp\Serialization\Formatter\XmlFormatter;
+use Chubbyphp\Serialization\Transformer\XmlTransformer;
 
 /**
- * @covers \Chubbyphp\Serialization\Formatter\XmlFormatter
+ * @covers \Chubbyphp\Serialization\Transformer\XmlTransformer
  */
-class XmlFormatterTest extends AbstractFormatterTest
+class XmlTransformerTest extends AbstractTransformerTest
 {
     /**
      * @dataProvider dataProvider
@@ -18,8 +18,8 @@ class XmlFormatterTest extends AbstractFormatterTest
      */
     public function testFormat(array $data)
     {
-        $xmlFormatter = new XmlFormatter(true);
-        $xml = $xmlFormatter->format($data);
+        $xmlTransformer = new XmlTransformer(true);
+        $xml = $xmlTransformer->transform($data);
 
         $expectedXml = <<<EOD
 <?xml version="1.0" encoding="UTF-8"?>

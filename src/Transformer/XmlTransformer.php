@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Serialization\Formatter;
+namespace Chubbyphp\Serialization\Transformer;
 
 use Doctrine\Common\Inflector\Inflector;
 
-final class XmlFormatter implements FormatterInterface
+final class XmlTransformer implements TransformerInterface
 {
     /**
      * @var bool
@@ -33,7 +33,7 @@ final class XmlFormatter implements FormatterInterface
      *
      * @return string
      */
-    public function format(array $data): string
+    public function transform(array $data): string
     {
         $document = new \DOMDocument('1.0', 'UTF-8');
         $document->formatOutput = $this->formatOutput;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Tests\Serialization\Formatter;
+namespace Chubbyphp\Tests\Serialization\Transformer;
 
-abstract class AbstractFormatterTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractTransformerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider dataProvider

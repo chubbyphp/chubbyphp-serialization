@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Tests\Serialization\Formatter;
+namespace Chubbyphp\Tests\Serialization\Transformer;
 
-use Chubbyphp\Serialization\Formatter\UrlEncodedFormatter;
+use Chubbyphp\Serialization\Transformer\UrlEncodedTransformer;
 
 /**
- * @covers \Chubbyphp\Serialization\Formatter\UrlEncodedFormatter
+ * @covers \Chubbyphp\Serialization\Transformer\UrlEncodedTransformer
  */
-class UrlEncodedFormatterTest extends AbstractFormatterTest
+class UrlEncodedTransformerTest extends AbstractTransformerTest
 {
     /**
      * @dataProvider dataProvider
@@ -18,8 +18,8 @@ class UrlEncodedFormatterTest extends AbstractFormatterTest
      */
     public function testFormat(array $data)
     {
-        $urlEncodedFormatter = new UrlEncodedFormatter();
-        $urlEncoded = $urlEncodedFormatter->format($data);
+        $urlEncodedTransformer = new UrlEncodedTransformer();
+        $urlEncoded = $urlEncodedTransformer->transform($data);
 
         $expectedUrlEncoded = 'page=1&perPage=10&sort=name&order=asc&_embedded%5Bitems%5D%5B0%5D%5Bid%5D=id1&_embedded'
             .'%5Bitems%5D%5B0%5D%5Bname%5D=A+fancy+Name&_embedded%5Bitems%5D%5B0%5D%5Bprogress%5D=76.8&_embedded%5B'

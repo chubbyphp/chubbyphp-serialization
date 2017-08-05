@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Tests\Serialization\Formatter;
+namespace Chubbyphp\Tests\Serialization\Transformer;
 
-use Chubbyphp\Serialization\Formatter\YamlFormatter;
+use Chubbyphp\Serialization\Transformer\YamlTransformer;
 
 /**
- * @covers \Chubbyphp\Serialization\Formatter\YamlFormatter
+ * @covers \Chubbyphp\Serialization\Transformer\YamlTransformer
  */
-class YamlFormatterTest extends AbstractFormatterTest
+class YamlTransformerTest extends AbstractTransformerTest
 {
     /**
      * @dataProvider dataProvider
@@ -18,9 +18,9 @@ class YamlFormatterTest extends AbstractFormatterTest
      */
     public function testFormat(array $data)
     {
-        $yamlFormatter = new YamlFormatter(10);
+        $yamlTransformer = new YamlTransformer(10);
 
-        $yaml = $yamlFormatter->format($data);
+        $yaml = $yamlTransformer->transform($data);
 
         $expectedYaml = <<<EOD
 page: 1

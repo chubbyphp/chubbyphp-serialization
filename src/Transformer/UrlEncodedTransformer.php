@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Serialization\Formatter;
+namespace Chubbyphp\Serialization\Transformer;
 
-final class UrlEncodedFormatter implements FormatterInterface
+final class UrlEncodedTransformer implements TransformerInterface
 {
     /**
      * @var string
@@ -41,7 +41,7 @@ final class UrlEncodedFormatter implements FormatterInterface
      *
      * @return string
      */
-    public function format(array $data): string
+    public function transform(array $data): string
     {
         return http_build_query($data, $this->numericPrefix, $this->argSeperator, $this->encType);
     }
