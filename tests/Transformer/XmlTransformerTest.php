@@ -37,18 +37,18 @@ class XmlTransformerTest extends AbstractTransformerTest
         <progress type="float">76.8</progress>
         <active type="boolean">true</active>
         <_links>
-          <item-read>
+          <read>
             <href type="string"><![CDATA[http://test.com/items/id1]]></href>
             <method type="string"><![CDATA[GET]]></method>
-          </item-read>
-          <item-update>
+          </read>
+          <update>
             <href type="string"><![CDATA[http://test.com/items/id1]]></href>
             <method type="string"><![CDATA[PUT]]></method>
-          </item-update>
-          <item-delete>
+          </update>
+          <delete>
             <href type="string"><![CDATA[http://test.com/items/id1]]></href>
             <method type="string"><![CDATA[DELETE]]></method>
-          </item-delete>
+          </delete>
         </_links>
       </item>
       <item>
@@ -57,18 +57,18 @@ class XmlTransformerTest extends AbstractTransformerTest
         <progress type="float">24</progress>
         <active type="boolean">true</active>
         <_links>
-          <item-read>
+          <read>
             <href type="string"><![CDATA[http://test.com/items/id2]]></href>
             <method type="string"><![CDATA[GET]]></method>
-          </item-read>
-          <item-update>
+          </read>
+          <update>
             <href type="string"><![CDATA[http://test.com/items/id2]]></href>
             <method type="string"><![CDATA[PUT]]></method>
-          </item-update>
-          <item-delete>
+          </update>
+          <delete>
             <href type="string"><![CDATA[http://test.com/items/id2]]></href>
             <method type="string"><![CDATA[DELETE]]></method>
-          </item-delete>
+          </delete>
         </_links>
       </item>
       <item>
@@ -77,18 +77,18 @@ class XmlTransformerTest extends AbstractTransformerTest
         <progress type="float">100</progress>
         <active type="boolean">false</active>
         <_links>
-          <item-read>
+          <read>
             <href type="string"><![CDATA[http://test.com/items/id3]]></href>
             <method type="string"><![CDATA[GET]]></method>
-          </item-read>
-          <item-update>
+          </read>
+          <update>
             <href type="string"><![CDATA[http://test.com/items/id3]]></href>
             <method type="string"><![CDATA[PUT]]></method>
-          </item-update>
-          <item-delete>
+          </update>
+          <delete>
             <href type="string"><![CDATA[http://test.com/items/id3]]></href>
             <method type="string"><![CDATA[DELETE]]></method>
-          </item-delete>
+          </delete>
         </_links>
       </item>
     </items>
@@ -98,10 +98,10 @@ class XmlTransformerTest extends AbstractTransformerTest
       <href type="string"><![CDATA[http://test.com/items/?page=1&per_page=10&sort=name&order=asc]]></href>
       <method type="string"><![CDATA[GET]]></method>
     </self>
-    <item-create>
+    <create>
       <href type="string"><![CDATA[http://test.com/items/]]></href>
       <method type="string"><![CDATA[POST]]></method>
-    </item-create>
+    </create>
   </_links>
 </response>
 EOD;

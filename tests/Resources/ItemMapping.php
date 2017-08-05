@@ -50,13 +50,13 @@ final class ItemMapping implements ObjectMappingInterface
     public function getLinkMappings(): array
     {
         return [
-            new LinkMapping('item-read', new CallbackLinkSerializer(function (Request $request, Item $item) {
+            new LinkMapping('read', new CallbackLinkSerializer(function (Request $request, Item $item) {
                 return new Link('http://test.com/items/'.$item->getId(), Link::METHOD_GET);
             })),
-            new LinkMapping('item-update', new CallbackLinkSerializer(function (Request $request, Item $item) {
+            new LinkMapping('update', new CallbackLinkSerializer(function (Request $request, Item $item) {
                 return new Link('http://test.com/items/'.$item->getId(), Link::METHOD_PUT);
             })),
-            new LinkMapping('item-delete', new CallbackLinkSerializer(function (Request $request, Item $item) {
+            new LinkMapping('delete', new CallbackLinkSerializer(function (Request $request, Item $item) {
                 return new Link('http://test.com/items/'.$item->getId(), Link::METHOD_DELETE);
             })),
         ];

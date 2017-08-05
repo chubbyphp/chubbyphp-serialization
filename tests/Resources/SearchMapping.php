@@ -61,7 +61,7 @@ final class SearchMapping implements ObjectMappingInterface
                     return new Link('http://test.com/items/?'.http_build_query($fields), Link::METHOD_GET);
                 }
             )),
-            new LinkMapping('item-create', new CallbackLinkSerializer(function () {
+            new LinkMapping('create', new CallbackLinkSerializer(function () {
                 return new Link('http://test.com/items/', Link::METHOD_POST);
             })),
         ];

@@ -37,15 +37,15 @@ class JsonTransformerTest extends AbstractTransformerTest
                 "progress": 76.8,
                 "active": true,
                 "_links": {
-                    "item-read": {
+                    "read": {
                         "href": "http://test.com/items/id1",
                         "method": "GET"
                     },
-                    "item-update": {
+                    "update": {
                         "href": "http://test.com/items/id1",
                         "method": "PUT"
                     },
-                    "item-delete": {
+                    "delete": {
                         "href": "http://test.com/items/id1",
                         "method": "DELETE"
                     }
@@ -57,15 +57,15 @@ class JsonTransformerTest extends AbstractTransformerTest
                 "progress": 24,
                 "active": true,
                 "_links": {
-                    "item-read": {
+                    "read": {
                         "href": "http://test.com/items/id2",
                         "method": "GET"
                     },
-                    "item-update": {
+                    "update": {
                         "href": "http://test.com/items/id2",
                         "method": "PUT"
                     },
-                    "item-delete": {
+                    "delete": {
                         "href": "http://test.com/items/id2",
                         "method": "DELETE"
                     }
@@ -77,15 +77,15 @@ class JsonTransformerTest extends AbstractTransformerTest
                 "progress": 100,
                 "active": false,
                 "_links": {
-                    "item-read": {
+                    "read": {
                         "href": "http://test.com/items/id3",
                         "method": "GET"
                     },
-                    "item-update": {
+                    "update": {
                         "href": "http://test.com/items/id3",
                         "method": "PUT"
                     },
-                    "item-delete": {
+                    "delete": {
                         "href": "http://test.com/items/id3",
                         "method": "DELETE"
                     }
@@ -98,7 +98,7 @@ class JsonTransformerTest extends AbstractTransformerTest
             "href": "http://test.com/items/?page=1&per_page=10&sort=name&order=asc",
             "method": "GET"
         },
-        "item-create": {
+        "create": {
             "href": "http://test.com/items/",
             "method": "POST"
         }
