@@ -24,7 +24,7 @@ class YamlTransformerTest extends AbstractTransformerTest
 
         $expectedYaml = <<<EOD
 page: 1
-perPage: 10
+per_page: 10
 search: null
 sort: name
 order: asc
@@ -36,13 +36,13 @@ _embedded:
             progress: 76.8
             active: true
             _links:
-                'item:read':
+                item-read:
                     href: 'http://test.com/items/id1'
                     method: GET
-                'item:update':
+                item-update:
                     href: 'http://test.com/items/id1'
                     method: PUT
-                'item:delete':
+                item-delete:
                     href: 'http://test.com/items/id1'
                     method: DELETE
         -
@@ -51,13 +51,13 @@ _embedded:
             progress: !!float 24
             active: true
             _links:
-                'item:read':
+                item-read:
                     href: 'http://test.com/items/id2'
                     method: GET
-                'item:update':
+                item-update:
                     href: 'http://test.com/items/id2'
                     method: PUT
-                'item:delete':
+                item-delete:
                     href: 'http://test.com/items/id2'
                     method: DELETE
         -
@@ -66,20 +66,20 @@ _embedded:
             progress: !!float 100
             active: false
             _links:
-                'item:read':
+                item-read:
                     href: 'http://test.com/items/id3'
                     method: GET
-                'item:update':
+                item-update:
                     href: 'http://test.com/items/id3'
                     method: PUT
-                'item:delete':
+                item-delete:
                     href: 'http://test.com/items/id3'
                     method: DELETE
 _links:
     self:
-        href: 'http://test.com/items/?page=1&perPage=10&sort=name&order=asc'
+        href: 'http://test.com/items/?page=1&per_page=10&sort=name&order=asc'
         method: GET
-    'item:create':
+    item-create:
         href: 'http://test.com/items/'
         method: POST
 EOD;

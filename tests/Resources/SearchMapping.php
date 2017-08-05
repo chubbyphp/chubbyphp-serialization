@@ -12,6 +12,7 @@ use Chubbyphp\Serialization\Mapping\LinkMapping;
 use Chubbyphp\Serialization\Mapping\LinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\ObjectMappingInterface;
 use Chubbyphp\Serialization\Serializer\Field\CollectionSerializer;
+use Chubbyphp\Serialization\Serializer\Field\ValueSerializer;
 use Chubbyphp\Serialization\Serializer\Link\CallbackLinkSerializer;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -32,7 +33,7 @@ final class SearchMapping implements ObjectMappingInterface
     {
         return [
             new FieldMapping('page'),
-            new FieldMapping('perPage'),
+            new FieldMapping('per_page', new ValueSerializer(new PropertyAccessor('perPage'))),
             new FieldMapping('search'),
             new FieldMapping('sort'),
             new FieldMapping('order'),
@@ -60,7 +61,7 @@ final class SearchMapping implements ObjectMappingInterface
                     return new Link('http://test.com/items/?'.http_build_query($fields), Link::METHOD_GET);
                 }
             )),
-            new LinkMapping('item:create', new CallbackLinkSerializer(function () {
+            new LinkMapping('item-create', new CallbackLinkSerializer(function () {
                 return new Link('http://test.com/items/', Link::METHOD_POST);
             })),
         ];

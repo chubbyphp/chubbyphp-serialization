@@ -38,7 +38,11 @@ final class XmlTransformer implements TransformerInterface
         $document = new \DOMDocument('1.0', 'UTF-8');
         $document->formatOutput = $this->formatOutput;
 
-        $this->dataToNodes($document, $document, $data);
+        $responseNode = $document->createElement('response');
+
+        $document->appendChild($responseNode);
+
+        $this->dataToNodes($document, $responseNode, $data);
 
         return trim($document->saveXML(null, $this->options));
     }
