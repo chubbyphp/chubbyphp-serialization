@@ -46,11 +46,13 @@ final class Search
 
     /**
      * @param int $page
+     *
      * @return self
      */
     public function setPage(int $page): self
     {
         $this->page = $page;
+
         return $this;
     }
 
@@ -64,11 +66,13 @@ final class Search
 
     /**
      * @param int $perPage
+     *
      * @return self
      */
     public function setPerPage(int $perPage): self
     {
         $this->perPage = $perPage;
+
         return $this;
     }
 
@@ -82,11 +86,13 @@ final class Search
 
     /**
      * @param null|string $search
+     *
      * @return self
      */
     public function setSearch($search): self
     {
         $this->search = $search;
+
         return $this;
     }
 
@@ -100,11 +106,13 @@ final class Search
 
     /**
      * @param null|string $sort
+     *
      * @return self
      */
     public function setSort($sort): self
     {
         $this->sort = $sort;
+
         return $this;
     }
 
@@ -118,11 +126,13 @@ final class Search
 
     /**
      * @param null|string $order
+     *
      * @return self
      */
     public function setOrder($order): self
     {
         $this->order = $order;
+
         return $this;
     }
 
@@ -136,11 +146,13 @@ final class Search
 
     /**
      * @param Item[] $items
+     *
      * @return self
      */
     public function setItems(array $items): self
     {
         $this->items = $items;
+
         return $this;
     }
 }

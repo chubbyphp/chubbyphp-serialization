@@ -8,6 +8,7 @@ abstract class AbstractFormatterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider dataProvider
+     *
      * @param array $data
      */
     abstract public function testFormat(array $data);
@@ -22,7 +23,7 @@ abstract class AbstractFormatterTest extends \PHPUnit_Framework_TestCase
                 'data' => [
                     'page' => 1,
                     'perPage' => 10,
-                    'search' => NULL,
+                    'search' => null,
                     'sort' => 'name',
                     'order' => 'asc',
                     '_embedded' => [
@@ -99,8 +100,8 @@ abstract class AbstractFormatterTest extends \PHPUnit_Framework_TestCase
                             'method' => 'POST',
                         ],
                     ],
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }

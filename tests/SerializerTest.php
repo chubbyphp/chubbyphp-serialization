@@ -42,7 +42,7 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
         self::assertEquals([
             'page' => 1,
             'perPage' => 10,
-            'search' => NULL,
+            'search' => null,
             'sort' => 'name',
             'order' => 'asc',
             '_embedded' => [

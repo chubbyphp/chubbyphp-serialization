@@ -20,7 +20,7 @@ final class XmlFormatter implements FormatterInterface
 
     /**
      * @param bool $formatOutput
-     * @param int $options
+     * @param int  $options
      */
     public function __construct(bool $formatOutput = false, int $options = LIBXML_NOEMPTYTAG)
     {
@@ -73,7 +73,9 @@ final class XmlFormatter implements FormatterInterface
 
     /**
      * @param bool|float|int $value
+     *
      * @return string|null
+     *
      * @throws \InvalidArgumentException
      */
     private function getValueAsString($value): string
@@ -91,6 +93,7 @@ final class XmlFormatter implements FormatterInterface
 
     /**
      * @param bool|float|int|string $value
+     *
      * @return null|string
      */
     private function getType($value): string

@@ -53,11 +53,13 @@ final class Item
 
     /**
      * @param string $name
+     *
      * @return self
      */
     public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -71,11 +73,13 @@ final class Item
 
     /**
      * @param float $progress
+     *
      * @return self
      */
     public function setProgress(float $progress): self
     {
         $this->progress = $progress;
+
         return $this;
     }
 
@@ -89,11 +93,13 @@ final class Item
 
     /**
      * @param bool $active
+     *
      * @return self
      */
     public function setActive(bool $active): self
     {
         $this->active = $active;
+
         return $this;
     }
 }

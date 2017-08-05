@@ -18,7 +18,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         self::assertEquals([
             'href' => 'http://test.com/models/id1',
             'method' => 'GET',
-            'attributes' => ['key' => 'value']
+            'attributes' => ['key' => 'value'],
         ], $link->jsonSerialize());
     }
 }

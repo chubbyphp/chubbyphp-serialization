@@ -13,6 +13,7 @@ class XmlFormatterTest extends AbstractFormatterTest
 {
     /**
      * @dataProvider dataProvider
+     *
      * @param array $data
      */
     public function testFormat(array $data)
