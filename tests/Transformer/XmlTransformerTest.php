@@ -23,7 +23,7 @@ class XmlTransformerTest extends AbstractTransformerTest
 
         $expectedXml = <<<EOD
 <?xml version="1.0" encoding="UTF-8"?>
-<response>
+<search>
   <page type="integer">1</page>
   <perPage type="integer">10</perPage>
   <search></search>
@@ -103,7 +103,7 @@ class XmlTransformerTest extends AbstractTransformerTest
       <method type="string">POST</method>
     </create>
   </_links>
-</response>
+</search>
 EOD;
 
         self::assertEquals($expectedXml, $xml);

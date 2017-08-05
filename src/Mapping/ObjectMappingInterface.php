@@ -12,6 +12,11 @@ interface ObjectMappingInterface
     public function getClass(): string;
 
     /**
+     * @return string
+     */
+    public function getName(): string;
+
+    /**
      * @return FieldMappingInterface[]
      */
     public function getFieldMappings(): array;

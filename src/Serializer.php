@@ -58,11 +58,16 @@ final class Serializer implements SerializerInterface
         $links = $this->serializeLinks($request, $objectMapping, $object, $fields, $path);
 
         $data = $fields;
+
         if ([] !== $embeddedFields) {
             $data['_embedded'] = $embeddedFields;
         }
         if ([] !== $links) {
             $data['_links'] = $links;
+        }
+
+        if ('' === $path) {
+            return [$objectMapping->getName() => $data];
         }
 
         return $data;

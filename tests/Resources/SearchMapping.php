@@ -26,6 +26,14 @@ final class SearchMapping implements ObjectMappingInterface
     }
 
     /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return 'search';
+    }
+
+    /**
      * @return FieldMappingInterface[]
      */
     public function getFieldMappings(): array
