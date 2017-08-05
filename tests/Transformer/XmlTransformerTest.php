@@ -54,7 +54,7 @@ class XmlTransformerTest extends AbstractTransformerTest
       <item>
         <id type="string"><![CDATA[id2]]></id>
         <name type="string"><![CDATA[B fancy Name]]></name>
-        <progress type="float">24</progress>
+        <progress type="float">24.7</progress>
         <active type="boolean">true</active>
         <_links>
           <read>

@@ -33,7 +33,7 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
 
         $search->setItems([
             (new Item('id1'))->setName('A fancy Name')->setProgress(76.8)->setActive(true),
-            (new Item('id2'))->setName('B fancy Name')->setProgress(24, 7)->setActive(true),
+            (new Item('id2'))->setName('B fancy Name')->setProgress(24.7)->setActive(true),
             (new Item('id3'))->setName('C fancy Name')->setProgress(100)->setActive(false),
         ]);
 
@@ -70,7 +70,7 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
                     [
                         'id' => 'id2',
                         'name' => 'B fancy Name',
-                        'progress' => 24.0,
+                        'progress' => 24.7,
                         'active' => true,
                         '_links' => [
                             'read' => [

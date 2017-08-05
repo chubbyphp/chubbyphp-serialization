@@ -29,7 +29,7 @@ class UrlEncodedTransformerTest extends AbstractTransformerTest
             .'%2Fid1&_embedded%5Bitems%5D%5B0%5D%5B_links%5D%5Bupdate%5D%5Bmethod%5D=PUT&_embedded%5Bitems%5D'
             .'%5B0%5D%5B_links%5D%5Bdelete%5D%5Bhref%5D=http%3A%2F%2Ftest.com%2Fitems%2Fid1&_embedded%5Bitems'
             .'%5D%5B0%5D%5B_links%5D%5Bdelete%5D%5Bmethod%5D=DELETE&_embedded%5Bitems%5D%5B1%5D%5Bid%5D=id2&'
-            .'_embedded%5Bitems%5D%5B1%5D%5Bname%5D=B+fancy+Name&_embedded%5Bitems%5D%5B1%5D%5Bprogress%5D=24&'
+            .'_embedded%5Bitems%5D%5B1%5D%5Bname%5D=B+fancy+Name&_embedded%5Bitems%5D%5B1%5D%5Bprogress%5D=24.7&'
             .'_embedded%5Bitems%5D%5B1%5D%5Bactive%5D=1&_embedded%5Bitems%5D%5B1%5D%5B_links%5D%5Bread%5D%5B'
             .'href%5D=http%3A%2F%2Ftest.com%2Fitems%2Fid2&_embedded%5Bitems%5D%5B1%5D%5B_links%5D%5Bread%5D'
             .'%5Bmethod%5D=GET&_embedded%5Bitems%5D%5B1%5D%5B_links%5D%5Bupdate%5D%5Bhref%5D=http%3A%2F%2Ftest'

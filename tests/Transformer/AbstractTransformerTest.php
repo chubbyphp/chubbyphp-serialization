@@ -51,7 +51,7 @@ abstract class AbstractTransformerTest extends \PHPUnit_Framework_TestCase
                             [
                                 'id' => 'id2',
                                 'name' => 'B fancy Name',
-                                'progress' => 24.0,
+                                'progress' => 24.7,
                                 'active' => true,
                                 '_links' => [
                                     'read' => [

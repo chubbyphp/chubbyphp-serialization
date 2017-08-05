@@ -54,7 +54,7 @@ class JsonTransformerTest extends AbstractTransformerTest
             {
                 "id": "id2",
                 "name": "B fancy Name",
-                "progress": 24,
+                "progress": 24.7,
                 "active": true,
                 "_links": {
                     "read": {
