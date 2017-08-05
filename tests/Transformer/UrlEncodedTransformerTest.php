@@ -45,10 +45,10 @@ class UrlEncodedTransformerTest extends AbstractTransformerTest
             . '_links%5D%5Bupdate%5D%5Bhref%5D=http%3A%2F%2Ftest.com%2Fitems%2Fid3&search%5B_embedded%5D%5Bitems%5D%5B2'
             . '%5D%5B_links%5D%5Bupdate%5D%5Bmethod%5D=PUT&search%5B_embedded%5D%5Bitems%5D%5B2%5D%5B_links%5D%5Bdelete'
             . '%5D%5Bhref%5D=http%3A%2F%2Ftest.com%2Fitems%2Fid3&search%5B_embedded%5D%5Bitems%5D%5B2%5D%5B_links%5D%5B'
-            . 'delete%5D%5Bmethod%5D=DELETE&search%5B_links%5D%5Bsearch%5D%5Bhref%5D=http%3A%2F%2Ftest.com%2Fitems%2F%3F'
-            . 'page%3D1%26perPage%3D10%26sort%3Dname%26order%3Dasc&search%5B_links%5D%5Bsearch%5D%5Bmethod%5D=GET&search'
-            . '%5B_links%5D%5Bcreate%5D%5Bhref%5D=http%3A%2F%2Ftest.com%2Fitems%2F&search%5B_links%5D%5Bcreate%5D%5B'
-            . 'method%5D=POST';
+            . 'delete%5D%5Bmethod%5D=DELETE&search%5B_links%5D%5Bsearch%5D%5Bhref%5D=http%3A%2F%2Ftest.com%2Fitems%2F'
+            . '%3Fpage%3D1%26perPage%3D10%26sort%3Dname%26order%3Dasc&search%5B_links%5D%5Bsearch%5D%5Bmethod%5D=GET&'
+            . 'search%5B_links%5D%5Bcreate%5D%5Bhref%5D=http%3A%2F%2Ftest.com%2Fitems%2F&search%5B_links%5D%5Bcreate%5D'
+            . '%5Bmethod%5D=POST';
 
         self::assertEquals($expectedUrlEncoded, $urlEncoded);
     }
