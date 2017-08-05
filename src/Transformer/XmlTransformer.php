@@ -60,8 +60,12 @@ final class XmlTransformer implements TransformerInterface
                 $this->dataToNodes($document, $childNode, $value);
             } else {
                 if (is_string($value)) {
-                    $childNode = $document->createElement($key);
-                    $childNode->appendChild($document->createCDATASection($value));
+                    if (strpos($value, '<') !== false || strpos($value, '&') !== false) {
+                        $childNode = $document->createElement($key);
+                        $childNode->appendChild($document->createCDATASection($value));
+                    } else {
+                        $childNode = $document->createElement($key, $value);
+                    }
                     $childNode->setAttribute('type', 'string');
                 } elseif (null === $value) {
                     $childNode = $document->createElement($key);

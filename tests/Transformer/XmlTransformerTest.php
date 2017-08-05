@@ -27,67 +27,67 @@ class XmlTransformerTest extends AbstractTransformerTest
   <page type="integer">1</page>
   <perPage type="integer">10</perPage>
   <search></search>
-  <sort type="string"><![CDATA[name]]></sort>
-  <order type="string"><![CDATA[asc]]></order>
+  <sort type="string">name</sort>
+  <order type="string">asc</order>
   <_embedded>
     <items>
       <item>
-        <id type="string"><![CDATA[id1]]></id>
-        <name type="string"><![CDATA[A fancy Name]]></name>
+        <id type="string">id1</id>
+        <name type="string">A fancy Name</name>
         <progress type="float">76.8</progress>
         <active type="boolean">true</active>
         <_links>
           <read>
-            <href type="string"><![CDATA[http://test.com/items/id1]]></href>
-            <method type="string"><![CDATA[GET]]></method>
+            <href type="string">http://test.com/items/id1</href>
+            <method type="string">GET</method>
           </read>
           <update>
-            <href type="string"><![CDATA[http://test.com/items/id1]]></href>
-            <method type="string"><![CDATA[PUT]]></method>
+            <href type="string">http://test.com/items/id1</href>
+            <method type="string">PUT</method>
           </update>
           <delete>
-            <href type="string"><![CDATA[http://test.com/items/id1]]></href>
-            <method type="string"><![CDATA[DELETE]]></method>
+            <href type="string">http://test.com/items/id1</href>
+            <method type="string">DELETE</method>
           </delete>
         </_links>
       </item>
       <item>
-        <id type="string"><![CDATA[id2]]></id>
-        <name type="string"><![CDATA[B fancy Name]]></name>
+        <id type="string">id2</id>
+        <name type="string">B fancy Name</name>
         <progress type="float">24.7</progress>
         <active type="boolean">true</active>
         <_links>
           <read>
-            <href type="string"><![CDATA[http://test.com/items/id2]]></href>
-            <method type="string"><![CDATA[GET]]></method>
+            <href type="string">http://test.com/items/id2</href>
+            <method type="string">GET</method>
           </read>
           <update>
-            <href type="string"><![CDATA[http://test.com/items/id2]]></href>
-            <method type="string"><![CDATA[PUT]]></method>
+            <href type="string">http://test.com/items/id2</href>
+            <method type="string">PUT</method>
           </update>
           <delete>
-            <href type="string"><![CDATA[http://test.com/items/id2]]></href>
-            <method type="string"><![CDATA[DELETE]]></method>
+            <href type="string">http://test.com/items/id2</href>
+            <method type="string">DELETE</method>
           </delete>
         </_links>
       </item>
       <item>
-        <id type="string"><![CDATA[id3]]></id>
-        <name type="string"><![CDATA[C fancy Name]]></name>
+        <id type="string">id3</id>
+        <name type="string">C fancy Name</name>
         <progress type="float">100</progress>
         <active type="boolean">false</active>
         <_links>
           <read>
-            <href type="string"><![CDATA[http://test.com/items/id3]]></href>
-            <method type="string"><![CDATA[GET]]></method>
+            <href type="string">http://test.com/items/id3</href>
+            <method type="string">GET</method>
           </read>
           <update>
-            <href type="string"><![CDATA[http://test.com/items/id3]]></href>
-            <method type="string"><![CDATA[PUT]]></method>
+            <href type="string">http://test.com/items/id3</href>
+            <method type="string">PUT</method>
           </update>
           <delete>
-            <href type="string"><![CDATA[http://test.com/items/id3]]></href>
-            <method type="string"><![CDATA[DELETE]]></method>
+            <href type="string">http://test.com/items/id3</href>
+            <method type="string">DELETE</method>
           </delete>
         </_links>
       </item>
@@ -96,11 +96,11 @@ class XmlTransformerTest extends AbstractTransformerTest
   <_links>
     <self>
       <href type="string"><![CDATA[http://test.com/items/?page=1&perPage=10&sort=name&order=asc]]></href>
-      <method type="string"><![CDATA[GET]]></method>
+      <method type="string">GET</method>
     </self>
     <create>
-      <href type="string"><![CDATA[http://test.com/items/]]></href>
-      <method type="string"><![CDATA[POST]]></method>
+      <href type="string">http://test.com/items/</href>
+      <method type="string">POST</method>
     </create>
   </_links>
 </response>
