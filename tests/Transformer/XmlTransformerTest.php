@@ -94,10 +94,10 @@ class XmlTransformerTest extends AbstractTransformerTest
     </items>
   </_embedded>
   <_links>
-    <self>
+    <search>
       <href type="string"><![CDATA[http://test.com/items/?page=1&perPage=10&sort=name&order=asc]]></href>
       <method type="string">GET</method>
-    </self>
+    </search>
     <create>
       <href type="string">http://test.com/items/</href>
       <method type="string">POST</method>

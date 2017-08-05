@@ -77,7 +77,7 @@ search:
                         href: 'http://test.com/items/id3'
                         method: DELETE
     _links:
-        self:
+        search:
             href: 'http://test.com/items/?page=1&perPage=10&sort=name&order=asc'
             method: GET
         create:
