@@ -33,7 +33,7 @@ final class XmlFormatter implements FormatterInterface
 
         $this->dataToNodes($document, $document, $data);
 
-        return $document->saveXML();
+        return trim($document->saveXML());
     }
 
     /**
@@ -48,8 +48,16 @@ final class XmlFormatter implements FormatterInterface
                 $childNode = $document->createElement(is_int($key) ? Inflector::singularize($listNode->nodeName) : $key);
                 $this->dataToNodes($document, $childNode, $value);
             } else {
-                $childNode = $document->createElement($key, $this->getValueAsString($value));
-                $childNode->setAttribute('type', gettype($value));
+                if (is_string($value)) {
+                    $childNode = $document->createElement($key);
+                    $childNode->appendChild($document->createCDATASection($value));
+                    $childNode->setAttribute('type', 'string');
+                } elseif (null === $value) {
+                    $childNode = $document->createElement($key);
+                } else {
+                    $childNode = $document->createElement($key, $this->getValueAsString($value));
+                    $childNode->setAttribute('type', $this->getType($value));
+                }
             }
 
             $listNode->appendChild($childNode);
@@ -57,17 +65,45 @@ final class XmlFormatter implements FormatterInterface
     }
 
     /**
-     * @param bool|float|int|string $value
-     * @return string
+     * @param bool|float|int $value
+     * @return string|null
+     * @throws \InvalidArgumentException
      */
     private function getValueAsString($value): string
     {
-        $type = gettype($value);
-
-        if ('boolean' === $type) {
+        if (is_bool($value)) {
             return $value ? 'true' : 'false';
         }
 
-        return (string) $value;
+        if (is_float($value) || is_int($value)) {
+            return (string) $value;
+        }
+
+        throw new \InvalidArgumentException(sprintf('Unsupported data type: %s', gettype($value)));
+    }
+
+    /**
+     * @param bool|float|int|string $value
+     * @return null|string
+     */
+    private function getType($value): string
+    {
+        if (is_bool($value)) {
+            return 'boolean';
+        }
+
+        if (is_float($value)) {
+            return 'float';
+        }
+
+        if (is_int($value)) {
+            return 'integer';
+        }
+
+        if (is_string($value)) {
+            return 'string';
+        }
+
+        throw new \InvalidArgumentException(sprintf('Unsupported data type: %s', gettype($value)));
     }
 }

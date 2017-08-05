@@ -30,7 +30,7 @@ final class YamlFormatter implements FormatterInterface
      * @param int $indent
      * @param int $flags
      */
-    public function __construct(int $inline = 2, int $indent = 4, int $flags = 0)
+    public function __construct(int $inline = 10, int $indent = 4, int $flags = 0)
     {
         $this->inline = $inline;
         $this->indent = $indent;
@@ -44,6 +44,6 @@ final class YamlFormatter implements FormatterInterface
      */
     public function format(array $data): string
     {
-        return Yaml::dump($data, $this->inline, $this->indent, $this->flags);
+        return trim(Yaml::dump($data, $this->inline, $this->indent, $this->flags));
     }
 }

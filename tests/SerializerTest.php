@@ -6,10 +6,10 @@ namespace Chubbyphp\Tests\Serialization;
 
 use Chubbyphp\Serialization\Registry\ObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;
-use Chubbyphp\Tests\Serialization\Resources\EmbeddedModel;
-use Chubbyphp\Tests\Serialization\Resources\EmbeddedModelMapping;
-use Chubbyphp\Tests\Serialization\Resources\Model;
-use Chubbyphp\Tests\Serialization\Resources\ModelMapping;
+use Chubbyphp\Tests\Serialization\Resources\Item;
+use Chubbyphp\Tests\Serialization\Resources\ItemMapping;
+use Chubbyphp\Tests\Serialization\Resources\Search;
+use Chubbyphp\Tests\Serialization\Resources\SearchMapping;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class SerializerTest extends \PHPUnit_Framework_TestCase
@@ -17,56 +17,106 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
     public function testSerialize()
     {
         $registry = new ObjectMappingRegistry([
-            new ModelMapping(),
-            new EmbeddedModelMapping(),
+            new SearchMapping(),
+            new ItemMapping(),
         ]);
 
         $serializer = new Serializer($registry);
 
         $request = $this->getRequest();
 
-        $model = new Model('id1');
-        $model->setName('name1');
-        $model->setEmbeddedModel((new EmbeddedModel())->setName('embedded1'));
-        $model->setEmbeddedModels([
-            (new EmbeddedModel())->setName('embedded2'),
-            (new EmbeddedModel())->setName('embedded3'),
-            (new EmbeddedModel())->setName('embedded4'),
+        $search = new Search();
+        $search->setPage(1);
+        $search->setPerPage(10);
+        $search->setSort('name');
+        $search->setOrder('asc');
+
+        $search->setItems([
+            (new Item('id1'))->setName('A fancy Name')->setProgress(76.8)->setActive(true),
+            (new Item('id2'))->setName('B fancy Name')->setProgress(24, 7)->setActive(true),
+            (new Item('id3'))->setName('C fancy Name')->setProgress(100)->setActive(false),
         ]);
 
-        $data = $serializer->serialize($request, $model);
+        $data = $serializer->serialize($request, $search);
 
         self::assertEquals([
-            'name' => 'name1',
-            'active' => false,
+            'page' => 1,
+            'perPage' => 10,
+            'search' => NULL,
+            'sort' => 'name',
+            'order' => 'asc',
             '_embedded' => [
-                'embeddedModel' => [
-                    'name' => 'embedded1',
-                ],
-                'embeddedModels' => [
+                'items' => [
                     [
-                        'name' => 'embedded2',
+                        'id' => 'id1',
+                        'name' => 'A fancy Name',
+                        'progress' => 76.8,
+                        'active' => true,
+                        '_links' => [
+                            'item:read' => [
+                                'href' => 'http://test.com/items/id1',
+                                'method' => 'GET',
+                            ],
+                            'item:update' => [
+                                'href' => 'http://test.com/items/id1',
+                                'method' => 'PUT',
+                            ],
+                            'item:delete' => [
+                                'href' => 'http://test.com/items/id1',
+                                'method' => 'DELETE',
+                            ],
+                        ],
                     ],
                     [
-                        'name' => 'embedded3',
+                        'id' => 'id2',
+                        'name' => 'B fancy Name',
+                        'progress' => 24.0,
+                        'active' => true,
+                        '_links' => [
+                            'item:read' => [
+                                'href' => 'http://test.com/items/id2',
+                                'method' => 'GET',
+                            ],
+                            'item:update' => [
+                                'href' => 'http://test.com/items/id2',
+                                'method' => 'PUT',
+                            ],
+                            'item:delete' => [
+                                'href' => 'http://test.com/items/id2',
+                                'method' => 'DELETE',
+                            ],
+                        ],
                     ],
-                                       [
-                        'name' => 'embedded4',
+                    [
+                        'id' => 'id3',
+                        'name' => 'C fancy Name',
+                        'progress' => 100.0,
+                        'active' => false,
+                        '_links' => [
+                            'item:read' => [
+                                'href' => 'http://test.com/items/id3',
+                                'method' => 'GET',
+                            ],
+                            'item:update' => [
+                                'href' => 'http://test.com/items/id3',
+                                'method' => 'PUT',
+                            ],
+                            'item:delete' => [
+                                'href' => 'http://test.com/items/id3',
+                                'method' => 'DELETE',
+                            ],
+                        ],
                     ],
                 ],
             ],
             '_links' => [
-                'name:read' => [
-                    'href' => 'http://test.com/models/id1',
+                'self' => [
+                    'href' => 'http://test.com/items/?page=1&perPage=10&sort=name&order=asc',
                     'method' => 'GET',
                 ],
-                'name:update' => [
-                    'href' => 'http://test.com/models/id1',
-                    'method' => 'PUT',
-                ],
-                'name:delete' => [
-                    'href' => 'http://test.com/models/id1',
-                    'method' => 'DELETE',
+                'item:create' => [
+                    'href' => 'http://test.com/items/',
+                    'method' => 'POST',
                 ],
             ],
         ], $data);

@@ -23,36 +23,83 @@ class JsonFormatterTest extends AbstractFormatterTest
 
         $expectedJson = <<<EOD
 {
-    "name": "name1",
-    "active": false,
+    "page": 1,
+    "perPage": 10,
+    "search": null,
+    "sort": "name",
+    "order": "asc",
     "_embedded": {
-        "embeddedModel": {
-            "name": "embedded1"
-        },
-        "embeddedModels": [
+        "items": [
             {
-                "name": "embedded2"
+                "id": "id1",
+                "name": "A fancy Name",
+                "progress": 76.8,
+                "active": true,
+                "_links": {
+                    "item:read": {
+                        "href": "http://test.com/items/id1",
+                        "method": "GET"
+                    },
+                    "item:update": {
+                        "href": "http://test.com/items/id1",
+                        "method": "PUT"
+                    },
+                    "item:delete": {
+                        "href": "http://test.com/items/id1",
+                        "method": "DELETE"
+                    }
+                }
             },
             {
-                "name": "embedded3"
+                "id": "id2",
+                "name": "B fancy Name",
+                "progress": 24,
+                "active": true,
+                "_links": {
+                    "item:read": {
+                        "href": "http://test.com/items/id2",
+                        "method": "GET"
+                    },
+                    "item:update": {
+                        "href": "http://test.com/items/id2",
+                        "method": "PUT"
+                    },
+                    "item:delete": {
+                        "href": "http://test.com/items/id2",
+                        "method": "DELETE"
+                    }
+                }
             },
             {
-                "name": "embedded4"
+                "id": "id3",
+                "name": "C fancy Name",
+                "progress": 100,
+                "active": false,
+                "_links": {
+                    "item:read": {
+                        "href": "http://test.com/items/id3",
+                        "method": "GET"
+                    },
+                    "item:update": {
+                        "href": "http://test.com/items/id3",
+                        "method": "PUT"
+                    },
+                    "item:delete": {
+                        "href": "http://test.com/items/id3",
+                        "method": "DELETE"
+                    }
+                }
             }
         ]
     },
     "_links": {
-        "name:read": {
-            "href": "http://test.com/models/id1",
+        "self": {
+            "href": "http://test.com/items/?page=1&perPage=10&sort=name&order=asc",
             "method": "GET"
         },
-        "name:update": {
-            "href": "http://test.com/models/id1",
-            "method": "PUT"
-        },
-        "name:delete": {
-            "href": "http://test.com/models/id1",
-            "method": "DELETE"
+        "item:create": {
+            "href": "http://test.com/items/",
+            "method": "POST"
         }
     }
 }
