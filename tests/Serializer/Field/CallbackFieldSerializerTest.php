@@ -8,6 +8,9 @@ use Chubbyphp\Serialization\Serializer\Field\CallbackFieldSerializer;
 use Chubbyphp\Serialization\SerializerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+/**
+ * @covers \Chubbyphp\Serialization\Serializer\Field\CallbackFieldSerializer
+ */
 class CallbackFieldSerializerTest extends \PHPUnit_Framework_TestCase
 {
     public function testSerializeField()

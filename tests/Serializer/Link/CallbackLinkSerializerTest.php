@@ -8,6 +8,9 @@ use Chubbyphp\Serialization\Link\LinkInterface;
 use Chubbyphp\Serialization\Serializer\Link\CallbackLinkSerializer;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+/**
+ * @covers \Chubbyphp\Serialization\Serializer\Link\CallbackLinkSerializer
+ */
 class CallbackLinkSerializerTest extends \PHPUnit_Framework_TestCase
 {
     public function testSerializeLink()
