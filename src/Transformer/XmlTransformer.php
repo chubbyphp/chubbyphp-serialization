@@ -52,27 +52,74 @@ final class XmlTransformer implements TransformerInterface
     {
         foreach ($data as $key => $value) {
             if (is_array($value)) {
+                $this->updateKeyValueForChildRoot($key, $value);
                 $childNode = $document->createElement(is_int($key) ? Inflector::singularize($listNode->nodeName) : $key);
                 $this->dataToNodes($document, $childNode, $value);
             } else {
-                if (is_string($value)) {
-                    if (strpos($value, '<') !== false || strpos($value, '&') !== false) {
-                        $childNode = $document->createElement($key);
-                        $childNode->appendChild($document->createCDATASection($value));
-                    } else {
-                        $childNode = $document->createElement($key, $value);
-                    }
-                    $childNode->setAttribute('type', 'string');
-                } elseif (null === $value) {
-                    $childNode = $document->createElement($key);
-                } else {
-                    $childNode = $document->createElement($key, $this->getValueAsString($value));
-                    $childNode->setAttribute('type', $this->getType($value));
-                }
+                $childNode = $this->dataToScalarNode($document, $listNode, $key, $value);
+            }
+
+            if (is_int($key)) {
+                $childNode->setAttribute('key', (string) $key);
             }
 
             $listNode->appendChild($childNode);
         }
+    }
+
+    private function updateKeyValueForChildRoot(&$key, &$value)
+    {
+        if (!is_int($key)) {
+            return;
+        }
+
+        if (count($value) !== 1) {
+            return;
+        }
+
+        $subValue = reset($value);
+
+        if (!is_array($subValue)) {
+            return;
+        }
+
+        $key = key($value);
+        $value = $subValue;
+    }
+
+    /**
+     * @param \DOMDocument               $document
+     * @param \DOMNode                   $listNode
+     * @param string|int                 $key
+     * @param string|null|bool|float|int $value
+     *
+     * @return \DOMNode
+     */
+    private function dataToScalarNode(\DOMDocument $document, \DOMNode $listNode, $key, $value): \DOMNode
+    {
+        $stringKey = is_int($key) ? Inflector::singularize($listNode->nodeName) : $key;
+
+        if (is_string($value)) {
+            if (strpos($value, '<') !== false || strpos($value, '&') !== false) {
+                $childNode = $document->createElement($stringKey);
+                $childNode->appendChild($document->createCDATASection($value));
+            } else {
+                $childNode = $document->createElement($stringKey, $value);
+            }
+
+            $childNode->setAttribute('type', 'string');
+
+            return $childNode;
+        }
+
+        if (null === $value) {
+            return $document->createElement($stringKey);
+        }
+
+        $childNode = $document->createElement($stringKey, $this->getValueAsString($value));
+        $childNode->setAttribute('type', $this->getType($value));
+
+        return $childNode;
     }
 
     /**

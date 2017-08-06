@@ -137,6 +137,18 @@ final class Search
     }
 
     /**
+     * @return Item|null
+     */
+    public function getMainItem()
+    {
+        if ([] === $this) {
+            return null;
+        }
+
+        return reset($this->items);
+    }
+
+    /**
      * @return Item[]
      */
     public function getItems(): array

@@ -30,10 +30,42 @@ class XmlTransformerTest extends AbstractTransformerTest
   <sort type="string">name</sort>
   <order type="string">asc</order>
   <_embedded>
+    <mainItem>
+      <item>
+        <id type="string">id1</id>
+        <name type="string">A fancy Name</name>
+        <treeValues>
+          <treeValue key="1">
+            <treeValue type="integer" key="2">3</treeValue>
+          </treeValue>
+        </treeValues>
+        <progress type="float">76.8</progress>
+        <active type="boolean">true</active>
+        <_links>
+          <read>
+            <href type="string">http://test.com/items/id1</href>
+            <method type="string">GET</method>
+          </read>
+          <update>
+            <href type="string">http://test.com/items/id1</href>
+            <method type="string">PUT</method>
+          </update>
+          <delete>
+            <href type="string">http://test.com/items/id1</href>
+            <method type="string">DELETE</method>
+          </delete>
+        </_links>
+      </item>
+    </mainItem>
     <items>
       <item>
         <id type="string">id1</id>
         <name type="string">A fancy Name</name>
+        <treeValues>
+          <treeValue key="1">
+            <treeValue type="integer" key="2">3</treeValue>
+          </treeValue>
+        </treeValues>
         <progress type="float">76.8</progress>
         <active type="boolean">true</active>
         <_links>
@@ -54,6 +86,12 @@ class XmlTransformerTest extends AbstractTransformerTest
       <item>
         <id type="string">id2</id>
         <name type="string">B fancy Name</name>
+        <treeValues>
+          <treeValue key="1">
+            <treeValue type="integer" key="2">3</treeValue>
+            <treeValue type="integer" key="3">4</treeValue>
+          </treeValue>
+        </treeValues>
         <progress type="float">24.7</progress>
         <active type="boolean">true</active>
         <_links>
@@ -74,6 +112,13 @@ class XmlTransformerTest extends AbstractTransformerTest
       <item>
         <id type="string">id3</id>
         <name type="string">C fancy Name</name>
+        <treeValues>
+          <treeValue key="1">
+            <treeValue type="integer" key="2">3</treeValue>
+            <treeValue type="integer" key="3">4</treeValue>
+            <treeValue type="integer" key="6">7</treeValue>
+          </treeValue>
+        </treeValues>
         <progress type="float">100</progress>
         <active type="boolean">false</active>
         <_links>

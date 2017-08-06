@@ -28,10 +28,15 @@ abstract class AbstractTransformerTest extends \PHPUnit_Framework_TestCase
                         'sort' => 'name',
                         'order' => 'asc',
                         '_embedded' => [
-                            'items' => [
-                                [
+                            'mainItem' => [
+                                'item' => [
                                     'id' => 'id1',
                                     'name' => 'A fancy Name',
+                                    'treeValues' => [
+                                        1 => [
+                                            2 => 3,
+                                        ],
+                                    ],
                                     'progress' => 76.8,
                                     'active' => true,
                                     '_links' => [
@@ -49,43 +54,89 @@ abstract class AbstractTransformerTest extends \PHPUnit_Framework_TestCase
                                         ],
                                     ],
                                 ],
+                            ],
+                            'items' => [
                                 [
-                                    'id' => 'id2',
-                                    'name' => 'B fancy Name',
-                                    'progress' => 24.7,
-                                    'active' => true,
-                                    '_links' => [
-                                        'read' => [
-                                            'href' => 'http://test.com/items/id2',
-                                            'method' => 'GET',
+                                    'item' => [
+                                        'id' => 'id1',
+                                        'name' => 'A fancy Name',
+                                        'treeValues' => [
+                                            1 => [
+                                                2 => 3,
+                                            ],
                                         ],
-                                        'update' => [
-                                            'href' => 'http://test.com/items/id2',
-                                            'method' => 'PUT',
-                                        ],
-                                        'delete' => [
-                                            'href' => 'http://test.com/items/id2',
-                                            'method' => 'DELETE',
+                                        'progress' => 76.8,
+                                        'active' => true,
+                                        '_links' => [
+                                            'read' => [
+                                                'href' => 'http://test.com/items/id1',
+                                                'method' => 'GET',
+                                            ],
+                                            'update' => [
+                                                'href' => 'http://test.com/items/id1',
+                                                'method' => 'PUT',
+                                            ],
+                                            'delete' => [
+                                                'href' => 'http://test.com/items/id1',
+                                                'method' => 'DELETE',
+                                            ],
                                         ],
                                     ],
                                 ],
                                 [
-                                    'id' => 'id3',
-                                    'name' => 'C fancy Name',
-                                    'progress' => 100.0,
-                                    'active' => false,
-                                    '_links' => [
-                                        'read' => [
-                                            'href' => 'http://test.com/items/id3',
-                                            'method' => 'GET',
+                                    'item' => [
+                                        'id' => 'id2',
+                                        'name' => 'B fancy Name',
+                                        'treeValues' => [
+                                            1 => [
+                                                2 => 3,
+                                                3 => 4,
+                                            ],
                                         ],
-                                        'update' => [
-                                            'href' => 'http://test.com/items/id3',
-                                            'method' => 'PUT',
+                                        'progress' => 24.7,
+                                        'active' => true,
+                                        '_links' => [
+                                            'read' => [
+                                                'href' => 'http://test.com/items/id2',
+                                                'method' => 'GET',
+                                            ],
+                                            'update' => [
+                                                'href' => 'http://test.com/items/id2',
+                                                'method' => 'PUT',
+                                            ],
+                                            'delete' => [
+                                                'href' => 'http://test.com/items/id2',
+                                                'method' => 'DELETE',
+                                            ],
                                         ],
-                                        'delete' => [
-                                            'href' => 'http://test.com/items/id3',
-                                            'method' => 'DELETE',
+                                    ],
+                                ],
+                                [
+                                    'item' => [
+                                        'id' => 'id3',
+                                        'name' => 'C fancy Name',
+                                        'treeValues' => [
+                                            1 => [
+                                                2 => 3,
+                                                3 => 4,
+                                                6 => 7,
+                                            ],
+                                        ],
+                                        'progress' => 100.0,
+                                        'active' => false,
+                                        '_links' => [
+                                            'read' => [
+                                                'href' => 'http://test.com/items/id3',
+                                                'method' => 'GET',
+                                            ],
+                                            'update' => [
+                                                'href' => 'http://test.com/items/id3',
+                                                'method' => 'PUT',
+                                            ],
+                                            'delete' => [
+                                                'href' => 'http://test.com/items/id3',
+                                                'method' => 'DELETE',
+                                            ],
                                         ],
                                     ],
                                 ],

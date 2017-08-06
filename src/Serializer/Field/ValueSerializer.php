@@ -53,18 +53,34 @@ final class ValueSerializer implements FieldSerializerInterface
      */
     public function serializeField(string $path, Request $request, $object, SerializerInterface $serializer = null)
     {
-        $value = $this->accessor->getValue($object);
+        return $this->castValue($this->accessor->getValue($object));
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    private function castValue($value)
+    {
+        if (is_array($value)) {
+            $castedValue = [];
+            foreach ($value as $key => $subValue) {
+                $castedValue[$key] = $this->castValue($subValue);
+            }
+
+            return $castedValue;
+        }
 
         if (null !== $value && null !== $this->cast) {
             switch ($this->cast) {
                 case self::CAST_BOOL:
-                    $value = (bool) $value;
-                    break;
+                    return (bool) $value;
                 case self::CAST_FLOAT:
-                    $value = (float) $value;
+                    return (float) $value;
                     break;
                 case self::CAST_INT:
-                    $value = (int) $value;
+                    return (int) $value;
                     break;
             }
         }

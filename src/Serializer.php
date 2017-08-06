@@ -66,11 +66,7 @@ final class Serializer implements SerializerInterface
             $data['_links'] = $links;
         }
 
-        if ('' === $path) {
-            return [$objectMapping->getName() => $data];
-        }
-
-        return $data;
+        return [$objectMapping->getName() => $data];
     }
 
     /**

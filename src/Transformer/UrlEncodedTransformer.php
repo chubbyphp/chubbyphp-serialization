@@ -17,23 +17,15 @@ final class UrlEncodedTransformer implements TransformerInterface
     private $argSeperator;
 
     /**
-     * @var int
-     */
-    private $encType;
-
-    /**
      * @param string $numericPrefix
      * @param string $argSeperator
-     * @param int    $encType
      */
     public function __construct(
         string $numericPrefix = '',
-        string $argSeperator = '&',
-        int $encType = PHP_QUERY_RFC1738
+        string $argSeperator = '&'
     ) {
         $this->numericPrefix = $numericPrefix;
         $this->argSeperator = $argSeperator;
-        $this->encType = $encType;
     }
 
     /**
@@ -43,6 +35,35 @@ final class UrlEncodedTransformer implements TransformerInterface
      */
     public function transform(array $data): string
     {
-        return http_build_query($data, $this->numericPrefix, $this->argSeperator, $this->encType);
+        $query = $this->buildQuery($data);
+
+        return $query;
+    }
+
+    /**
+     * @param array  $data
+     * @param string $path
+     *
+     * @return string
+     */
+    private function buildQuery(array $data, string $path = ''): string
+    {
+        $query = '';
+        foreach ($data as $key => $value) {
+            $subPathKey = !is_int($key) ? $key : $this->numericPrefix.$key;
+            $subPath = '' !== $path ? $path.'['.$subPathKey.']' : $subPathKey;
+
+            if (is_array($value)) {
+                $query .= $this->buildQuery($value, $subPath);
+            } else {
+                $query .= $subPath.'='.urlencode((string) $value);
+            }
+
+            $query .= $this->argSeperator;
+        }
+
+        $query = substr($query, 0, -strlen($this->argSeperator));
+
+        return $query;
     }
 }

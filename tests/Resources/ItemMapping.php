@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Resources;
 
+use Chubbyphp\Serialization\Accessor\PropertyAccessor;
 use Chubbyphp\Serialization\Link\Link;
 use Chubbyphp\Serialization\Mapping\FieldMapping;
 use Chubbyphp\Serialization\Mapping\FieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\LinkMapping;
 use Chubbyphp\Serialization\Mapping\LinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\ObjectMappingInterface;
+use Chubbyphp\Serialization\Serializer\Field\ValueSerializer;
 use Chubbyphp\Serialization\Serializer\Link\CallbackLinkSerializer;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -39,6 +41,10 @@ final class ItemMapping implements ObjectMappingInterface
         return [
             new FieldMapping('id'),
             new FieldMapping('name'),
+            new FieldMapping('treeValues', new ValueSerializer(
+                new PropertyAccessor('treeValues'),
+                ValueSerializer::CAST_INT
+            )),
             new FieldMapping('progress'),
             new FieldMapping('active'),
         ];

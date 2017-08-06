@@ -18,7 +18,7 @@ class YamlTransformerTest extends AbstractTransformerTest
      */
     public function testFormat(array $data)
     {
-        $yamlTransformer = new YamlTransformer(10);
+        $yamlTransformer = new YamlTransformer();
 
         $yaml = $yamlTransformer->transform($data);
 
@@ -30,10 +30,13 @@ search:
     sort: name
     order: asc
     _embedded:
-        items:
-            -
+        mainItem:
+            item:
                 id: id1
                 name: 'A fancy Name'
+                treeValues:
+                    1:
+                        2: 3
                 progress: 76.8
                 active: true
                 _links:
@@ -46,36 +49,67 @@ search:
                     delete:
                         href: 'http://test.com/items/id1'
                         method: DELETE
+        items:
             -
-                id: id2
-                name: 'B fancy Name'
-                progress: 24.7
-                active: true
-                _links:
-                    read:
-                        href: 'http://test.com/items/id2'
-                        method: GET
-                    update:
-                        href: 'http://test.com/items/id2'
-                        method: PUT
-                    delete:
-                        href: 'http://test.com/items/id2'
-                        method: DELETE
+                item:
+                    id: id1
+                    name: 'A fancy Name'
+                    treeValues:
+                        1:
+                            2: 3
+                    progress: 76.8
+                    active: true
+                    _links:
+                        read:
+                            href: 'http://test.com/items/id1'
+                            method: GET
+                        update:
+                            href: 'http://test.com/items/id1'
+                            method: PUT
+                        delete:
+                            href: 'http://test.com/items/id1'
+                            method: DELETE
             -
-                id: id3
-                name: 'C fancy Name'
-                progress: !!float 100
-                active: false
-                _links:
-                    read:
-                        href: 'http://test.com/items/id3'
-                        method: GET
-                    update:
-                        href: 'http://test.com/items/id3'
-                        method: PUT
-                    delete:
-                        href: 'http://test.com/items/id3'
-                        method: DELETE
+                item:
+                    id: id2
+                    name: 'B fancy Name'
+                    treeValues:
+                        1:
+                            2: 3
+                            3: 4
+                    progress: 24.7
+                    active: true
+                    _links:
+                        read:
+                            href: 'http://test.com/items/id2'
+                            method: GET
+                        update:
+                            href: 'http://test.com/items/id2'
+                            method: PUT
+                        delete:
+                            href: 'http://test.com/items/id2'
+                            method: DELETE
+            -
+                item:
+                    id: id3
+                    name: 'C fancy Name'
+                    treeValues:
+                        1:
+                            2: 3
+                            3: 4
+                            6: 7
+                    progress: !!float 100
+                    active: false
+                    _links:
+                        read:
+                            href: 'http://test.com/items/id3'
+                            method: GET
+                        update:
+                            href: 'http://test.com/items/id3'
+                            method: PUT
+                        delete:
+                            href: 'http://test.com/items/id3'
+                            method: DELETE
     _links:
         search:
             href: 'http://test.com/items/?page=1&perPage=10&sort=name&order=asc'

@@ -17,6 +17,11 @@ final class Item
     private $name;
 
     /**
+     * @var array[]
+     */
+    private $treeValues = [];
+
+    /**
      * @var float
      */
     private $progress;
@@ -24,7 +29,7 @@ final class Item
     /**
      * @var bool
      */
-    private $active;
+    private $active = false;
 
     /**
      * @param string $id
@@ -32,7 +37,6 @@ final class Item
     public function __construct($id)
     {
         $this->id = $id;
-        $this->active = false;
     }
 
     /**
@@ -59,6 +63,26 @@ final class Item
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getTreeValues(): array
+    {
+        return $this->treeValues;
+    }
+
+    /**
+     * @param array[] $treeValues
+     *
+     * @return self
+     */
+    public function setTreeValues(array $treeValues): self
+    {
+        $this->treeValues = $treeValues;
 
         return $this;
     }
