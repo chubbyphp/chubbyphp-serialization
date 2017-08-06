@@ -7,7 +7,7 @@ namespace Chubbyphp\Serialization\Serializer\Field;
 use Chubbyphp\Serialization\SerializerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-final class CallbackSerializer implements FieldSerializerInterface
+final class CallbackFieldSerializer implements FieldSerializerInterface
 {
     /**
      * @var callable
@@ -15,17 +15,9 @@ final class CallbackSerializer implements FieldSerializerInterface
     private $callback;
 
     /**
-     * @return callable
-     */
-    public function getCallback(): callable
-    {
-        return $this->callback;
-    }
-
-    /**
      * @param callable $callback
      */
-    public function setCallback(callable $callback)
+    public function __construct(callable $callback)
     {
         $this->callback = $callback;
     }

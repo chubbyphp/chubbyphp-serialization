@@ -8,7 +8,7 @@ use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\SerializerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-final class CollectionSerializer implements FieldSerializerInterface
+final class ObjectFieldSerializer implements FieldSerializerInterface
 {
     /**
      * @var AccessorInterface
@@ -33,12 +33,20 @@ final class CollectionSerializer implements FieldSerializerInterface
      */
     public function serializeField(string $path, Request $request, $object, SerializerInterface $serializer = null)
     {
-        $collection = [];
-        foreach ($this->accessor->getValue($object) as $i => $childObject) {
-            $subPath = $path.'.['.$i.']';
-            $collection[$i] = $serializer->serialize($request, $childObject, $subPath);
-        }
+        $this->serializerOrException($serializer);
 
-        return $collection;
+        return $serializer->serialize($request, $this->accessor->getValue($object), $path);
+    }
+
+    /**
+     * @param SerializerInterface|null $serializer
+     *
+     * @throws \RuntimeException
+     */
+    private function serializerOrException(SerializerInterface $serializer = null)
+    {
+        if (null === $serializer) {
+            throw new \RuntimeException(sprintf('Serializer needed: %s', SerializerInterface::class));
+        }
     }
 }

@@ -12,8 +12,8 @@ use Chubbyphp\Serialization\Mapping\FieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\LinkMapping;
 use Chubbyphp\Serialization\Mapping\LinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\ObjectMappingInterface;
-use Chubbyphp\Serialization\Serializer\Field\CollectionSerializer;
-use Chubbyphp\Serialization\Serializer\Field\ObjectSerializer;
+use Chubbyphp\Serialization\Serializer\Field\CollectionFieldSerializer;
+use Chubbyphp\Serialization\Serializer\Field\ObjectFieldSerializer;
 use Chubbyphp\Serialization\Serializer\Link\CallbackLinkSerializer;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -55,8 +55,8 @@ final class SearchMapping implements ObjectMappingInterface
     public function getEmbeddedFieldMappings(): array
     {
         return [
-            new FieldMapping('mainItem', new ObjectSerializer(new MethodAccessor('getMainItem'))),
-            new FieldMapping('items', new CollectionSerializer(new PropertyAccessor('items'))),
+            new FieldMapping('mainItem', new ObjectFieldSerializer(new MethodAccessor('getMainItem'))),
+            new FieldMapping('items', new CollectionFieldSerializer(new PropertyAccessor('items'))),
         ];
     }
 

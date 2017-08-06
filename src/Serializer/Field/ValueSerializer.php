@@ -78,10 +78,8 @@ final class ValueSerializer implements FieldSerializerInterface
                     return (bool) $value;
                 case self::CAST_FLOAT:
                     return (float) $value;
-                    break;
                 case self::CAST_INT:
                     return (int) $value;
-                    break;
             }
         }
 
