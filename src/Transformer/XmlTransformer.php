@@ -42,7 +42,7 @@ final class XmlTransformer implements TransformerInterface
         $document = new \DOMDocument('1.0', 'UTF-8');
         $document->formatOutput = $this->formatOutput;
 
-        $listNode = $document->createElement($this->getMetaPrefix('type', $data['_type']));
+        $listNode = $this->createMetadataNode($document, 'type', $data['_type']);
         $document->appendChild($listNode);
 
         unset($data['_type']);
@@ -53,18 +53,30 @@ final class XmlTransformer implements TransformerInterface
     }
 
     /**
-     * @param string      $name
-     * @param string|null $value
+     * @param \DOMDocument $document
+     * @param string       $name
+     * @param string|null  $value
+     *
+     * @return \DOMNode
+     */
+    private function createMetadataNode(\DOMDocument $document, string $name, string $value = null): \DOMNode
+    {
+        $node = $document->createElement($this->getMetaPrefix($name));
+        if (null !== $value) {
+            $node->setAttribute('value', $value);
+        }
+
+        return $node;
+    }
+
+    /**
+     * @param string $name
      *
      * @return string
      */
-    private function getMetaPrefix(string $name, string $value = null)
+    private function getMetaPrefix(string $name)
     {
-        if (null === $value) {
-            return 'meta-'.$name;
-        }
-
-        return 'meta-'.$name.'--'.$value;
+        return 'meta-'.$name;
     }
 
     /**
@@ -80,16 +92,7 @@ final class XmlTransformer implements TransformerInterface
             }
 
             if (is_array($value)) {
-                if (isset($value['_type'])) {
-                    $childNode = $document->createElement($this->getMetaPrefix('type', $value['_type']));
-                    unset($value['_type']);
-                } else {
-                    $childNode = $document->createElement(
-                        is_int($key) ? Inflector::singularize($listNode->nodeName) : $key
-                    );
-                }
-
-                $this->dataToNodes($document, $childNode, $value);
+                $childNode = $this->dataToArrayNode($document, $listNode, $key, $value);
             } else {
                 $childNode = $this->dataToScalarNode($document, $listNode, $key, $value);
             }
@@ -100,6 +103,45 @@ final class XmlTransformer implements TransformerInterface
 
             $listNode->appendChild($childNode);
         }
+    }
+
+    /**
+     * @param \DOMDocument $document
+     * @param \DOMNode     $listNode
+     * @param string|int   $key
+     * @param array        $value
+     *
+     * @return \DOMElement|\DOMNode
+     */
+    private function dataToArrayNode(\DOMDocument $document, \DOMNode $listNode, $key, array $value)
+    {
+        if (!isset($value['_type'])) {
+            $childNode = $document->createElement(is_int($key) ? Inflector::singularize($listNode->nodeName) : $key);
+            $this->dataToNodes($document, $childNode, $value);
+
+            return $childNode;
+        }
+
+        if (is_int($key)) {
+            $childNode = $this->createMetadataNode($document, 'type', $value['_type']);
+
+            unset($value['_type']);
+
+            $this->dataToNodes($document, $childNode, $value);
+
+            return $childNode;
+        }
+
+        $subChildNode = $this->createMetadataNode($document, 'type', $value['_type']);
+
+        unset($value['_type']);
+
+        $childNode = $document->createElement($key);
+        $childNode->appendChild($subChildNode);
+
+        $this->dataToNodes($document, $subChildNode, $value);
+
+        return $childNode;
     }
 
     /**
