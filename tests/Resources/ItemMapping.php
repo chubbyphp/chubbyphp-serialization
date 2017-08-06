@@ -11,7 +11,7 @@ use Chubbyphp\Serialization\Mapping\FieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\LinkMapping;
 use Chubbyphp\Serialization\Mapping\LinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\ObjectMappingInterface;
-use Chubbyphp\Serialization\Serializer\Field\ValueSerializer;
+use Chubbyphp\Serialization\Serializer\Field\ValueFieldSerializer;
 use Chubbyphp\Serialization\Serializer\Link\CallbackLinkSerializer;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -41,9 +41,9 @@ final class ItemMapping implements ObjectMappingInterface
         return [
             new FieldMapping('id'),
             new FieldMapping('name'),
-            new FieldMapping('treeValues', new ValueSerializer(
+            new FieldMapping('treeValues', new ValueFieldSerializer(
                 new PropertyAccessor('treeValues'),
-                ValueSerializer::CAST_INT
+                ValueFieldSerializer::CAST_INT
             )),
             new FieldMapping('progress'),
             new FieldMapping('active'),

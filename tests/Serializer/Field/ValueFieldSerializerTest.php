@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Chubbyphp\Tests\Serialization\Serializer\Field;
 
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
-use Chubbyphp\Serialization\Serializer\Field\ValueSerializer;
+use Chubbyphp\Serialization\Serializer\Field\ValueFieldSerializer;
 use Chubbyphp\Serialization\SerializerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -19,7 +19,7 @@ class ValueFieldSerializerTest extends \PHPUnit_Framework_TestCase
         $expectedSerializer = $this->getSerializer();
         $expectedValue = true;
 
-        $serializer = new ValueSerializer($this->getAccessor((string) $expectedValue), ValueSerializer::CAST_BOOL);
+        $serializer = new ValueFieldSerializer($this->getAccessor((string) $expectedValue), ValueFieldSerializer::CAST_BOOL);
 
         self::assertSame(
             $expectedValue,
@@ -35,7 +35,7 @@ class ValueFieldSerializerTest extends \PHPUnit_Framework_TestCase
         $expectedSerializer = $this->getSerializer();
         $expectedValue = 1.3;
 
-        $serializer = new ValueSerializer($this->getAccessor((string) $expectedValue), ValueSerializer::CAST_FLOAT);
+        $serializer = new ValueFieldSerializer($this->getAccessor((string) $expectedValue), ValueFieldSerializer::CAST_FLOAT);
 
         self::assertSame(
             $expectedValue,
@@ -51,7 +51,7 @@ class ValueFieldSerializerTest extends \PHPUnit_Framework_TestCase
         $expectedSerializer = $this->getSerializer();
         $expectedValue = 1;
 
-        $serializer = new ValueSerializer($this->getAccessor((string) $expectedValue), ValueSerializer::CAST_INT);
+        $serializer = new ValueFieldSerializer($this->getAccessor((string) $expectedValue), ValueFieldSerializer::CAST_INT);
 
         self::assertSame(
             $expectedValue,
@@ -67,7 +67,7 @@ class ValueFieldSerializerTest extends \PHPUnit_Framework_TestCase
         $expectedSerializer = $this->getSerializer();
         $expectedValue = 'value';
 
-        $serializer = new ValueSerializer($this->getAccessor($expectedValue));
+        $serializer = new ValueFieldSerializer($this->getAccessor($expectedValue));
 
         self::assertSame(
             $expectedValue,
@@ -83,7 +83,7 @@ class ValueFieldSerializerTest extends \PHPUnit_Framework_TestCase
         $expectedSerializer = $this->getSerializer();
         $expectedValue = ['key' => 'value'];
 
-        $serializer = new ValueSerializer($this->getAccessor($expectedValue));
+        $serializer = new ValueFieldSerializer($this->getAccessor($expectedValue));
 
         self::assertSame(
             $expectedValue,
@@ -101,7 +101,7 @@ class ValueFieldSerializerTest extends \PHPUnit_Framework_TestCase
         $expectedObject = new \stdClass();
         $expectedSerializer = $this->getSerializer();
 
-        $serializer = new ValueSerializer($this->getAccessor('value'), 'test');
+        $serializer = new ValueFieldSerializer($this->getAccessor('value'), 'test');
 
         $serializer->serializeField($expectedPath, $expectedRequest, $expectedObject, $expectedSerializer);
     }

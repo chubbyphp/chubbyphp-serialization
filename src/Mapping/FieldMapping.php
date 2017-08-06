@@ -6,7 +6,7 @@ namespace Chubbyphp\Serialization\Mapping;
 
 use Chubbyphp\Serialization\Accessor\PropertyAccessor;
 use Chubbyphp\Serialization\Serializer\Field\FieldSerializerInterface;
-use Chubbyphp\Serialization\Serializer\Field\ValueSerializer;
+use Chubbyphp\Serialization\Serializer\Field\ValueFieldSerializer;
 
 final class FieldMapping implements FieldMappingInterface
 {
@@ -27,7 +27,7 @@ final class FieldMapping implements FieldMappingInterface
     public function __construct(string $name, FieldSerializerInterface $fieldSerializer = null)
     {
         $this->name = $name;
-        $this->fieldSerializer = $fieldSerializer ?? new ValueSerializer(new PropertyAccessor($name));
+        $this->fieldSerializer = $fieldSerializer ?? new ValueFieldSerializer(new PropertyAccessor($name));
     }
 
     /**

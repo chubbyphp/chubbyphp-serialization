@@ -8,7 +8,7 @@ use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\SerializerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-final class ValueSerializer implements FieldSerializerInterface
+final class ValueFieldSerializer implements FieldSerializerInterface
 {
     /**
      * @var AccessorInterface
