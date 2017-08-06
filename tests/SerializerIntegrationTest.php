@@ -12,7 +12,11 @@ use Chubbyphp\Tests\Serialization\Resources\Search;
 use Chubbyphp\Tests\Serialization\Resources\SearchMapping;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class SerializerTest extends \PHPUnit_Framework_TestCase
+/**
+ * @coversNothing
+ * @group integration
+ */
+class SerializerIntegrationTest extends \PHPUnit_Framework_TestCase
 {
     public function testSerialize()
     {

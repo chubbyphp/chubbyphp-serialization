@@ -214,14 +214,6 @@ final class XmlTransformer implements TransformerInterface
             return 'float';
         }
 
-        if (is_int($value)) {
-            return 'integer';
-        }
-
-        if (is_string($value)) {
-            return 'string';
-        }
-
-        throw new \InvalidArgumentException(sprintf('Unsupported data type: %s', gettype($value)));
+        return 'integer';
     }
 }

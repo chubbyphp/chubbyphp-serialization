@@ -153,4 +153,22 @@ EOD;
 
         self::assertEquals($expectedXml, $xml);
     }
+
+    public function testFormatFormatWithoutType()
+    {
+        self::expectException(\InvalidArgumentException::class);
+        self::expectExceptionMessage('Data missing _type');
+
+        $xmlTransformer = new XmlTransformer(true);
+        $xmlTransformer->transform([]);
+    }
+
+    public function testInvalidValueAsString()
+    {
+        self::expectException(\InvalidArgumentException::class);
+        self::expectExceptionMessage('Unsupported data type: object');
+
+        $xmlTransformer = new XmlTransformer(true);
+        $xmlTransformer->transform(['key' => new \stdClass(), '_type' => 'test']);
+    }
 }
