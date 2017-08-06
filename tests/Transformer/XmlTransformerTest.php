@@ -23,42 +23,40 @@ class XmlTransformerTest extends AbstractTransformerTest
 
         $expectedXml = <<<EOD
 <?xml version="1.0" encoding="UTF-8"?>
-<search>
+<meta-type--search>
   <page type="integer">1</page>
   <perPage type="integer">10</perPage>
   <search></search>
   <sort type="string">name</sort>
   <order type="string">asc</order>
-  <_embedded>
-    <mainItem>
-      <item>
-        <id type="string">id1</id>
-        <name type="string">A fancy Name</name>
-        <treeValues>
-          <treeValue key="1">
-            <treeValue type="integer" key="2">3</treeValue>
-          </treeValue>
-        </treeValues>
-        <progress type="float">76.8</progress>
-        <active type="boolean">true</active>
-        <_links>
-          <read>
-            <href type="string">http://test.com/items/id1</href>
-            <method type="string">GET</method>
-          </read>
-          <update>
-            <href type="string">http://test.com/items/id1</href>
-            <method type="string">PUT</method>
-          </update>
-          <delete>
-            <href type="string">http://test.com/items/id1</href>
-            <method type="string">DELETE</method>
-          </delete>
-        </_links>
-      </item>
-    </mainItem>
+  <meta-embedded>
+    <meta-type--item>
+      <id type="string">id1</id>
+      <name type="string">A fancy Name</name>
+      <treeValues>
+        <treeValue key="1">
+          <treeValue type="integer" key="2">3</treeValue>
+        </treeValue>
+      </treeValues>
+      <progress type="float">76.8</progress>
+      <active type="boolean">true</active>
+      <meta-links>
+        <read>
+          <href type="string">http://test.com/items/id1</href>
+          <method type="string">GET</method>
+        </read>
+        <update>
+          <href type="string">http://test.com/items/id1</href>
+          <method type="string">PUT</method>
+        </update>
+        <delete>
+          <href type="string">http://test.com/items/id1</href>
+          <method type="string">DELETE</method>
+        </delete>
+      </meta-links>
+    </meta-type--item>
     <items>
-      <item>
+      <meta-type--item key="0">
         <id type="string">id1</id>
         <name type="string">A fancy Name</name>
         <treeValues>
@@ -68,7 +66,7 @@ class XmlTransformerTest extends AbstractTransformerTest
         </treeValues>
         <progress type="float">76.8</progress>
         <active type="boolean">true</active>
-        <_links>
+        <meta-links>
           <read>
             <href type="string">http://test.com/items/id1</href>
             <method type="string">GET</method>
@@ -81,9 +79,9 @@ class XmlTransformerTest extends AbstractTransformerTest
             <href type="string">http://test.com/items/id1</href>
             <method type="string">DELETE</method>
           </delete>
-        </_links>
-      </item>
-      <item>
+        </meta-links>
+      </meta-type--item>
+      <meta-type--item key="1">
         <id type="string">id2</id>
         <name type="string">B fancy Name</name>
         <treeValues>
@@ -94,7 +92,7 @@ class XmlTransformerTest extends AbstractTransformerTest
         </treeValues>
         <progress type="float">24.7</progress>
         <active type="boolean">true</active>
-        <_links>
+        <meta-links>
           <read>
             <href type="string">http://test.com/items/id2</href>
             <method type="string">GET</method>
@@ -107,9 +105,9 @@ class XmlTransformerTest extends AbstractTransformerTest
             <href type="string">http://test.com/items/id2</href>
             <method type="string">DELETE</method>
           </delete>
-        </_links>
-      </item>
-      <item>
+        </meta-links>
+      </meta-type--item>
+      <meta-type--item key="2">
         <id type="string">id3</id>
         <name type="string">C fancy Name</name>
         <treeValues>
@@ -121,7 +119,7 @@ class XmlTransformerTest extends AbstractTransformerTest
         </treeValues>
         <progress type="float">100</progress>
         <active type="boolean">false</active>
-        <_links>
+        <meta-links>
           <read>
             <href type="string">http://test.com/items/id3</href>
             <method type="string">GET</method>
@@ -134,11 +132,11 @@ class XmlTransformerTest extends AbstractTransformerTest
             <href type="string">http://test.com/items/id3</href>
             <method type="string">DELETE</method>
           </delete>
-        </_links>
-      </item>
+        </meta-links>
+      </meta-type--item>
     </items>
-  </_embedded>
-  <_links>
+  </meta-embedded>
+  <meta-links>
     <search>
       <href type="string"><![CDATA[http://test.com/items/?page=1&perPage=10&sort=name&order=asc]]></href>
       <method type="string">GET</method>
@@ -147,8 +145,8 @@ class XmlTransformerTest extends AbstractTransformerTest
       <href type="string">http://test.com/items/</href>
       <method type="string">POST</method>
     </create>
-  </_links>
-</search>
+  </meta-links>
+</meta-type--search>
 EOD;
 
         self::assertEquals($expectedXml, $xml);

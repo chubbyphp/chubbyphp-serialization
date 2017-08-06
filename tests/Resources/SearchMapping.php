@@ -30,7 +30,7 @@ final class SearchMapping implements ObjectMappingInterface
     /**
      * @return string
      */
-    public function getName(): string
+    public function getType(): string
     {
         return 'search';
     }

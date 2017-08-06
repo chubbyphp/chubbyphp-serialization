@@ -28,7 +28,7 @@ final class ItemMapping implements ObjectMappingInterface
     /**
      * @return string
      */
-    public function getName(): string
+    public function getType(): string
     {
         return 'item';
     }

@@ -14,7 +14,7 @@ interface ObjectMappingInterface
     /**
      * @return string
      */
-    public function getName(): string;
+    public function getType(): string;
 
     /**
      * @return FieldMappingInterface[]

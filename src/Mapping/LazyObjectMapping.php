@@ -46,9 +46,9 @@ final class LazyObjectMapping implements ObjectMappingInterface
     /**
      * @return string
      */
-    public function getName(): string
+    public function getType(): string
     {
-        return $this->container->get($this->serviceId)->getName();
+        return $this->container->get($this->serviceId)->getType();
     }
 
     /**
