@@ -37,7 +37,7 @@ final class CollectionFieldSerializer implements FieldSerializerInterface
 
         $collection = [];
         foreach ($this->accessor->getValue($object) as $i => $childObject) {
-            $subPath = $path.'.['.$i.']';
+            $subPath = $path.'['.$i.']';
             $collection[$i] = $serializer->serialize($request, $childObject, $subPath);
         }
 

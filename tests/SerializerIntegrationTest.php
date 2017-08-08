@@ -30,27 +30,27 @@ class SerializerIntegrationTest extends \PHPUnit_Framework_TestCase
         $request = $this->getRequest();
 
         $search = new Search();
-        $search->setPage(1);
-        $search->setPerPage(10);
-        $search->setSort('name');
-        $search->setOrder('asc');
-
-        $search->setItems([
-            (new Item('id1'))
-                ->setName('A fancy Name')
-                ->setTreeValues([1 => [2 => '3']])
-                ->setProgress(76.8)->setActive(true),
-            (new Item('id2'))
-                ->setName('B fancy Name')
-                ->setTreeValues([1 => [2 => '3', 3 => '4']])
-                ->setProgress(24.7)
-                ->setActive(true),
-            (new Item('id3'))
-                ->setName('C fancy Name')
-                ->setTreeValues([1 => [2 => '3', 3 => '4', 6 => '7']])
-                ->setProgress(100)
-                ->setActive(false),
-        ]);
+        $search
+            ->setPage(1)
+            ->setPerPage(10)
+            ->setSort('name')
+            ->setOrder('asc')
+            ->setItems([
+                (new Item('id1'))
+                    ->setName('A fancy Name')
+                    ->setTreeValues([1 => [2 => '3']])
+                    ->setProgress(76.8)->setActive(true),
+                (new Item('id2'))
+                    ->setName('B fancy Name')
+                    ->setTreeValues([1 => [2 => '3', 3 => '4']])
+                    ->setProgress(24.7)
+                    ->setActive(true),
+                (new Item('id3'))
+                    ->setName('C fancy Name')
+                    ->setTreeValues([1 => [2 => '3', 3 => '4', 6 => '7']])
+                    ->setProgress(100)
+                    ->setActive(false),
+            ]);
 
         $data = $serializer->serialize($request, $search);
 
@@ -173,7 +173,7 @@ class SerializerIntegrationTest extends \PHPUnit_Framework_TestCase
                 ],
             ],
             '_links' => [
-                'search' => [
+                'self' => [
                     'href' => 'http://test.com/items/?page=1&perPage=10&sort=name&order=asc',
                     'method' => 'GET',
                 ],

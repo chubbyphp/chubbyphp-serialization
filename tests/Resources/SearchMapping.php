@@ -66,7 +66,7 @@ final class SearchMapping implements ObjectMappingInterface
     public function getLinkMappings(): array
     {
         return [
-            new LinkMapping('search', new CallbackLinkSerializer(
+            new LinkMapping('self', new CallbackLinkSerializer(
                 function (Request $request, Search $search, array $fields) {
                     return new Link('http://test.com/items/?'.http_build_query($fields), Link::METHOD_GET);
                 }

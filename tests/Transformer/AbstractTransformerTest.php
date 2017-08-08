@@ -139,7 +139,7 @@ abstract class AbstractTransformerTest extends \PHPUnit_Framework_TestCase
                         ],
                     ],
                     '_links' => [
-                        'search' => [
+                        'self' => [
                             'href' => 'http://test.com/items/?page=1&perPage=10&sort=name&order=asc',
                             'method' => 'GET',
                         ],
