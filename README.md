@@ -90,8 +90,8 @@ class ModelMapping implements ObjectMappingInterface
     public function getFieldMappings(): array
     {
         return [
-            new FieldMapping('user', new ObjectFieldSerializer(new MethodAccessor('getUser'))),
-            new FieldMapping('posts', new CollectionFieldSerializer(new PropertyAccessor('getPosts'))),
+            new FieldMapping('reference', new ObjectFieldSerializer(new MethodAccessor('getReference'))),
+            new FieldMapping('collection', new CollectionFieldSerializer(new PropertyAccessor('getCollection'))),
         ];
     }
 
@@ -140,31 +140,16 @@ use MyProject\Serialization\ModelMapping;
 
 $request = ...; // PSR7 Request
 
-$search = new Search();
-$search
-    ->setPage(1)
-    ->setPerPage(10)
-    ->setSort('name')
-    ->setOrder('asc')
-    ->setItems([
-        (new Item('id1'))
-            ->setName('A fancy Name')
-            ->setTreeValues([1 => [2 => 3]])
-            ->setProgress(76.8)->setActive(true),
-        (new Item('id2'))
-            ->setName('B fancy Name')
-            ->setTreeValues([1 => [2 => 3, 3 => 4]])
-            ->setProgress(24.7)
-            ->setActive(true),
-        (new Item('id3'))
-            ->setName('C fancy Name')
-            ->setTreeValues([1 => [2 => 3, 3 => 4, 6 => 7]])
-            ->setProgress(100)
-            ->setActive(false),
+$model = new Model();
+$model
+    ->setName('name')
+    ->setReference(...)
+    ->setCollection([
+        ...
     ]);
 
 $serializer = new Serializer(new ObjectMappingRegistry([new ModelMapping()]));
-$data = $serializer->serialize($request, $search);
+$data = $serializer->serialize($request, $model);
 
 $transformer = new JsonTransformer();
 $json = $transformer->transform($data);
