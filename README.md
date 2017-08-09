@@ -211,7 +211,7 @@ Dominik Zogg 2017
 [11]: doc/Serializer/Field/CollectionFieldSerializer.md
 [12]: doc/Serializer/Field/ObjectFieldSerializer.md
 [13]: doc/Serializer/Field/ValueFieldSerializer.md
-[14]: doc/Serializer/Field/CallbackLinkSerializer.md
+[14]: doc/Serializer/Link/CallbackLinkSerializer.md
 
 [15]: doc/Transformer/JsonTransformer.md
 [16]: doc/Transformer/UrlEncodedTransformer.md
