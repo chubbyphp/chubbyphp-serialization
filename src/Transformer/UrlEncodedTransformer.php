@@ -20,10 +20,8 @@ final class UrlEncodedTransformer implements TransformerInterface
      * @param string $numericPrefix
      * @param string $argSeperator
      */
-    public function __construct(
-        string $numericPrefix = '',
-        string $argSeperator = '&'
-    ) {
+    public function __construct(string $numericPrefix = '', string $argSeperator = '&')
+    {
         $this->numericPrefix = $numericPrefix;
         $this->argSeperator = $argSeperator;
     }
