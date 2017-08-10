@@ -14,18 +14,18 @@ final class JsonTransformer implements TransformerInterface
     /**
      * @var int
      */
-    private $level;
+    private $depth;
 
     /**
      * JsonTransformer constructor.
      *
      * @param int $options
-     * @param int $level
+     * @param int $depth
      */
-    public function __construct(int $options = JSON_UNESCAPED_SLASHES, int $level = 512)
+    public function __construct(int $options = JSON_UNESCAPED_SLASHES, int $depth = 512)
     {
         $this->options = $options;
-        $this->level = $level;
+        $this->depth = $depth;
     }
 
     /**
@@ -35,6 +35,6 @@ final class JsonTransformer implements TransformerInterface
      */
     public function transform(array $data): string
     {
-        return json_encode($data, $this->options, $this->level);
+        return json_encode($data, $this->options, $this->depth);
     }
 }
