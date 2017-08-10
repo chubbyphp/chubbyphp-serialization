@@ -24,8 +24,6 @@ final class YamlTransformer implements TransformerInterface
     private $flags;
 
     /**
-     * YamlTransformer constructor.
-     *
      * @param int $inline
      * @param int $indent
      * @param int $flags
