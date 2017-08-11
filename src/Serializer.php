@@ -59,8 +59,6 @@ final class Serializer implements SerializerInterface
 
         $data = $fields;
 
-        $data['_type'] = $objectMapping->getType();
-
         if ([] !== $embeddedFields) {
             $data['_embedded'] = $embeddedFields;
         }
@@ -68,6 +66,8 @@ final class Serializer implements SerializerInterface
         if ([] !== $links) {
             $data['_links'] = $links;
         }
+
+        $data['_type'] = $objectMapping->getType();
 
         return $data;
     }

@@ -28,7 +28,6 @@ perPage: 10
 search: null
 sort: name
 order: asc
-_type: search
 _embedded:
     mainItem:
         id: id1
@@ -117,6 +116,7 @@ _links:
     create:
         href: 'http://test.com/items/'
         method: POST
+_type: search
 EOD;
 
         self::assertEquals($expectedYaml, $yaml);

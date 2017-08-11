@@ -60,7 +60,6 @@ class SerializerIntegrationTest extends \PHPUnit_Framework_TestCase
             'search' => null,
             'sort' => 'name',
             'order' => 'asc',
-            '_type' => 'search',
             '_embedded' => [
                 'mainItem' => [
                     'id' => 'id1',
@@ -182,6 +181,7 @@ class SerializerIntegrationTest extends \PHPUnit_Framework_TestCase
                     'method' => 'POST',
                 ],
             ],
+            '_type' => 'search',
         ], $data);
     }
 
