@@ -29,6 +29,14 @@ final class XmlTransformer implements TransformerInterface
     }
 
     /**
+     * @return string
+     */
+    public function getContentType(): string
+    {
+        return 'application/xml';
+    }
+
+    /**
      * @param array $data
      *
      * @return string

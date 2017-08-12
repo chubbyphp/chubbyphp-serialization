@@ -5,6 +5,7 @@ namespace Chubbyphp\Tests\Serialization\Provider;
 use Chubbyphp\Serialization\Registry\ObjectMappingRegistry;
 use Chubbyphp\Serialization\Provider\SerializationProvider;
 use Chubbyphp\Serialization\Serializer;
+use Chubbyphp\Serialization\Transformer;
 use Chubbyphp\Serialization\Transformer\JsonTransformer;
 use Chubbyphp\Serialization\Transformer\UrlEncodedTransformer;
 use Chubbyphp\Serialization\Transformer\XmlTransformer;
@@ -25,6 +26,7 @@ final class SerializationProviderTest extends \PHPUnit_Framework_TestCase
         self::assertTrue(isset($container['serializer.objectmappingregistry']));
         self::assertTrue(isset($container['serializer']));
 
+        self::assertTrue(isset($container['serializer.transformer']));
         self::assertTrue(isset($container['serializer.transformer.json']));
         self::assertTrue(isset($container['serializer.transformer.urlencoded']));
         self::assertTrue(isset($container['serializer.transformer.xml']));
@@ -34,6 +36,7 @@ final class SerializationProviderTest extends \PHPUnit_Framework_TestCase
         self::assertInstanceOf(ObjectMappingRegistry::class, $container['serializer.objectmappingregistry']);
         self::assertInstanceOf(Serializer::class, $container['serializer']);
 
+        self::assertInstanceOf(Transformer::class, $container['serializer.transformer']);
         self::assertInstanceOf(JsonTransformer::class, $container['serializer.transformer.json']);
         self::assertInstanceOf(UrlEncodedTransformer::class, $container['serializer.transformer.urlencoded']);
         self::assertInstanceOf(XmlTransformer::class, $container['serializer.transformer.xml']);

@@ -11,6 +11,13 @@ use Chubbyphp\Serialization\Transformer\YamlTransformer;
  */
 class YamlTransformerTest extends AbstractTransformerTest
 {
+    public function testContentType()
+    {
+        $transformer = new YamlTransformer();
+
+        self::assertSame('application/x-yaml', $transformer->getContentType());
+    }
+
     /**
      * @dataProvider dataProvider
      *

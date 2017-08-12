@@ -11,6 +11,13 @@ use Chubbyphp\Serialization\Transformer\XmlTransformer;
  */
 class XmlTransformerTest extends AbstractTransformerTest
 {
+    public function testContentType()
+    {
+        $transformer = new XmlTransformer();
+
+        self::assertSame('application/xml', $transformer->getContentType());
+    }
+
     /**
      * @dataProvider dataProvider
      *

@@ -168,6 +168,27 @@ $json = $transformer->transform($data);
 
 ### Transformer
 
+```php
+<?php
+
+use Chubbyphp\Serialization\Transformer;
+use Chubbyphp\Serialization\Transformer\JsonTransformer;
+use Chubbyphp\Serialization\Transformer\UrlEncodedTransformer;
+use Chubbyphp\Serialization\Transformer\XmlTransformer;
+use Chubbyphp\Serialization\Transformer\YamlTransformer;
+
+$transformer = new Transformer([
+    new JsonTransformer(),
+    new UrlEncodedTransformer(),
+    new XmlTransformer(),
+    new YamlTransformer(),
+]);
+
+$contentTypes = $transformer->getContentTypes();
+
+$data = $transformer->transform(['key' => 'value'], 'application/json');
+```
+
 * [JsonTransformer][15]
 * [UrlEncodedTransformer][16]
 * [XmlTransformer][17]

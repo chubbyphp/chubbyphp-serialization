@@ -7,6 +7,11 @@ namespace Chubbyphp\Serialization\Transformer;
 interface TransformerInterface
 {
     /**
+     * @return string
+     */
+    public function getContentType(): string;
+
+    /**
      * @param array $data
      *
      * @return string

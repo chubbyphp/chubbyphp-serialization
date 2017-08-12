@@ -6,6 +6,7 @@ namespace Chubbyphp\Serialization\Provider;
 
 use Chubbyphp\Serialization\Registry\ObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;
+use Chubbyphp\Serialization\Transformer;
 use Chubbyphp\Serialization\Transformer\JsonTransformer;
 use Chubbyphp\Serialization\Transformer\UrlEncodedTransformer;
 use Chubbyphp\Serialization\Transformer\XmlTransformer;
@@ -33,6 +34,15 @@ final class SerializationProvider implements ServiceProviderInterface
                 $container['serializer.objectmappingregistry'],
                 $container['logger'] ?? null
             );
+        };
+
+        $container['serializer.transformer'] = function () use ($container) {
+            return new Transformer([
+                $container['serializer.transformer.json'],
+                $container['serializer.transformer.urlencoded'],
+                $container['serializer.transformer.xml'],
+                $container['serializer.transformer.yaml'],
+            ]);
         };
 
         $container['serializer.transformer.json'] = function () {

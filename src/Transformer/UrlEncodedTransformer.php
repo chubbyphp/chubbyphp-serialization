@@ -27,6 +27,14 @@ final class UrlEncodedTransformer implements TransformerInterface
     }
 
     /**
+     * @return string
+     */
+    public function getContentType(): string
+    {
+        return 'application/x-www-form-urlencoded';
+    }
+
+    /**
      * @param array $data
      *
      * @return string

@@ -29,6 +29,14 @@ final class JsonTransformer implements TransformerInterface
     }
 
     /**
+     * @return string
+     */
+    public function getContentType(): string
+    {
+        return 'application/json';
+    }
+
+    /**
      * @param array $data
      *
      * @return string

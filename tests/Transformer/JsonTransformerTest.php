@@ -11,6 +11,13 @@ use Chubbyphp\Serialization\Transformer\JsonTransformer;
  */
 class JsonTransformerTest extends AbstractTransformerTest
 {
+    public function testContentType()
+    {
+        $transformer = new JsonTransformer();
+
+        self::assertSame('application/json', $transformer->getContentType());
+    }
+
     /**
      * @dataProvider dataProvider
      *

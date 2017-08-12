@@ -11,6 +11,13 @@ use Chubbyphp\Serialization\Transformer\UrlEncodedTransformer;
  */
 class UrlEncodedTransformerTest extends AbstractTransformerTest
 {
+    public function testContentType()
+    {
+        $transformer = new UrlEncodedTransformer();
+
+        self::assertSame('application/x-www-form-urlencoded', $transformer->getContentType());
+    }
+
     /**
      * @dataProvider dataProvider
      *
