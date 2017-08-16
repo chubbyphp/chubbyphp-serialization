@@ -60,6 +60,7 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
                 ],
                 [
                     $this->getLinkMapping('self', $this->getLinkSerializer('http://test.com/items/', 'GET')),
+                    $this->getLinkMapping('prev', $this->getLinkNullSerializer()),
                     $this->getLinkMapping('create', $this->getLinkSerializer('http://test.com/items/', 'POST')),
                 ]
             ),
@@ -763,6 +764,26 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @return LinkSerializerInterface
+     */
+    private function getLinkNullSerializer(): LinkSerializerInterface
+    {
+        /** @var LinkSerializerInterface|\PHPUnit_Framework_MockObject_MockObject $linkSerializer */
+        $linkSerializer = $this
+            ->getMockBuilder(LinkSerializerInterface::class)
+            ->setMethods(['serializeLink'])
+            ->getMockForAbstractClass();
+
+        $linkSerializer->expects(self::any())->method('serializeLink')->willReturnCallback(
+            function (string $path, Request $request, $object, array $fields) {
+                return $this->getNullLink();
+            }
+        );
+
+        return $linkSerializer;
+    }
+
+    /**
      * @param string $href
      * @param string $method
      *
@@ -782,6 +803,26 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
                     'href' => $href,
                     'method' => $method,
                 ];
+            }
+        );
+
+        return $link;
+    }
+
+    /**
+     * @return LinkInterface
+     */
+    private function getNullLink(): LinkInterface
+    {
+        /** @var LinkInterface|\PHPUnit_Framework_MockObject_MockObject $link */
+        $link = $this
+            ->getMockBuilder(LinkInterface::class)
+            ->setMethods(['jsonSerialize'])
+            ->getMockForAbstractClass();
+
+        $link->expects(self::any())->method('jsonSerialize')->willReturnCallback(
+            function () {
+                return [];
             }
         );
 

@@ -151,12 +151,16 @@ final class Serializer implements SerializerInterface
             $name = $linkMapping->getName();
             $subPath = '' !== $path ? $path.'._links.'.$name : '_links.'.$name;
 
-            $this->logger->info('deserialize: path {path}', ['path' => $subPath]);
-
-            $data[$linkMapping->getName()] = $linkMapping
+            $link = $linkMapping
                 ->getLinkSerializer()
                 ->serializeLink($subPath, $request, $object, $fields)
                 ->jsonSerialize();
+
+            if ([] !== $link) {
+                $this->logger->info('deserialize: path {path}', ['path' => $subPath]);
+
+                $data[$linkMapping->getName()] = $link;
+            }
         }
 
         return $data;

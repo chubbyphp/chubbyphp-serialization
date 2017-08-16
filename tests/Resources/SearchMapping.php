@@ -7,6 +7,7 @@ namespace Chubbyphp\Tests\Serialization\Resources;
 use Chubbyphp\Serialization\Accessor\MethodAccessor;
 use Chubbyphp\Serialization\Accessor\PropertyAccessor;
 use Chubbyphp\Serialization\Link\Link;
+use Chubbyphp\Serialization\Link\NullLink;
 use Chubbyphp\Serialization\Mapping\FieldMapping;
 use Chubbyphp\Serialization\Mapping\FieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\LinkMapping;
@@ -69,6 +70,17 @@ final class SearchMapping implements ObjectMappingInterface
             new LinkMapping('self', new CallbackLinkSerializer(
                 function (Request $request, Search $search, array $fields) {
                     return new Link('http://test.com/items/?'.http_build_query($fields), Link::METHOD_GET);
+                }
+            )),
+            new LinkMapping('prev', new CallbackLinkSerializer(
+                function (Request $request, Search $search, array $fields) {
+                    if ($fields['page'] > 1) {
+                        $fields['page'] -= 1;
+
+                        return new Link('http://test.com/items/?'.http_build_query($fields), Link::METHOD_GET);
+                    }
+
+                    return new NullLink();
                 }
             )),
             new LinkMapping('create', new CallbackLinkSerializer(function () {

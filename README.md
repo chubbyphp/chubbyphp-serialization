@@ -39,6 +39,7 @@ composer require chubbyphp/chubbyphp-serialization "~1.0"
 ### Link
 
  * [Link][4]
+ * [NullLink][5]
 
 ### Mapping
 
@@ -115,17 +116,17 @@ class ModelMapping implements ObjectMappingInterface
 }
 ```
 
- * [FieldMapping][5]
- * [LazyObjectMapping][6]
- * [LinkMapping][7]
+ * [FieldMapping][6]
+ * [LazyObjectMapping][7]
+ * [LinkMapping][8]
 
 ### Provider
 
- * [SerializationProvider][8]
+ * [SerializationProvider][9]
 
 ### Registry
 
- * [ObjectMappingRegistry][9]
+ * [ObjectMappingRegistry][10]
 
 ### Serializer
 
@@ -157,14 +158,14 @@ $json = $transformer->transform($data);
 
 #### Field
 
-* [CallbackFieldSerializer][10]
-* [CollectionFieldSerializer][11]
-* [ObjectFieldSerializer][12]
-* [ValueFieldSerializer][13]
+* [CallbackFieldSerializer][11]
+* [CollectionFieldSerializer][12]
+* [ObjectFieldSerializer][13]
+* [ValueFieldSerializer][14]
 
 #### Link
 
-* [CallbackLinkSerializer][14]
+* [CallbackLinkSerializer][15]
 
 ### Transformer
 
@@ -189,10 +190,10 @@ $contentTypes = $transformer->getContentTypes();
 $data = $transformer->transform(['key' => 'value'], 'application/json');
 ```
 
-* [JsonTransformer][15]
-* [UrlEncodedTransformer][16]
-* [XmlTransformer][17]
-* [YamlTransformer][18]
+* [JsonTransformer][16]
+* [UrlEncodedTransformer][17]
+* [XmlTransformer][18]
+* [YamlTransformer][19]
 
 ## Copyright
 
@@ -204,22 +205,23 @@ Dominik Zogg 2017
 [3]: doc/Accessor/PropertyAccessor.md
 
 [4]: doc/Link/Link.md
+[5]: doc/Link/NullLink.md
 
-[5]: doc/Mapping/FieldMapping.md
-[6]: doc/Mapping/LazyObjectMapping.md
-[7]: doc/Mapping/LinkMapping.md
+[6]: doc/Mapping/FieldMapping.md
+[7]: doc/Mapping/LazyObjectMapping.md
+[8]: doc/Mapping/LinkMapping.md
 
-[8]: doc/Provider/SerializationProvider.md
+[9]: doc/Provider/SerializationProvider.md
 
-[9]: doc/Registry/ObjectMappingRegistry.md
+[10]: doc/Registry/ObjectMappingRegistry.md
 
-[10]: doc/Serializer/Field/CallbackFieldSerializer.md
-[11]: doc/Serializer/Field/CollectionFieldSerializer.md
-[12]: doc/Serializer/Field/ObjectFieldSerializer.md
-[13]: doc/Serializer/Field/ValueFieldSerializer.md
-[14]: doc/Serializer/Link/CallbackLinkSerializer.md
+[11]: doc/Serializer/Field/CallbackFieldSerializer.md
+[12]: doc/Serializer/Field/CollectionFieldSerializer.md
+[13]: doc/Serializer/Field/ObjectFieldSerializer.md
+[14]: doc/Serializer/Field/ValueFieldSerializer.md
+[15]: doc/Serializer/Link/CallbackLinkSerializer.md
 
-[15]: doc/Transformer/JsonTransformer.md
-[16]: doc/Transformer/UrlEncodedTransformer.md
-[17]: doc/Transformer/XmlTransformer.md
-[18]: doc/Transformer/YamlTransformer.md
+[16]: doc/Transformer/JsonTransformer.md
+[17]: doc/Transformer/UrlEncodedTransformer.md
+[18]: doc/Transformer/XmlTransformer.md
+[19]: doc/Transformer/YamlTransformer.md
