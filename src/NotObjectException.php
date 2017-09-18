@@ -10,6 +10,8 @@ final class NotObjectException extends \InvalidArgumentException
      * @param string $type
      *
      * @return self
+     *
+     * @deprecated use createByTypeAndPath
      */
     public static function createByType(string $type): self
     {
