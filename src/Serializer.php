@@ -46,7 +46,7 @@ final class Serializer implements SerializerInterface
         if (!is_object($object)) {
             $this->logger->error('serialize: object without an object given {type}', ['type' => gettype($object)]);
 
-            throw NotObjectException::createByType(gettype($object));
+            throw NotObjectException::createByTypeAndPath(gettype($object), $path);
         }
 
         $objectClass = get_class($object);

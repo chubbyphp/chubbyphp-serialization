@@ -15,4 +15,15 @@ final class NotObjectException extends \InvalidArgumentException
     {
         return new self(sprintf('Input is not an object, type %s given', $type));
     }
+
+    /**
+     * @param string $type
+     * @param string $path
+     *
+     * @return self
+     */
+    public static function createByTypeAndPath(string $type, string $path): self
+    {
+        return new self(sprintf('Input is not an object, type %s given at path %s', $type, $path));
+    }
 }
