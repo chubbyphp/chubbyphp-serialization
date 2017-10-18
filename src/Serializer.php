@@ -34,11 +34,51 @@ final class Serializer implements SerializerInterface
      * @param object                     $object
      * @param string                     $contentType
      * @param NormalizerContextInterface $context
+     * @param string $path
      *
      * @return string
      */
-    public function serialize($object, string $contentType, NormalizerContextInterface $context = null): string
+    public function serialize(
+        $object,
+        string $contentType,
+        NormalizerContextInterface $context = null,
+        $path = ''
+    ): string {
+        return $this->encoder->encode($this->normalizer->normalize($object, $context, $path), $contentType);
+    }
+
+    /**
+     * @param object                          $object
+     * @param NormalizerContextInterface|null $context
+     * @param string                          $path
+     *
+     * @return array
+     *
+     * @throws SerializerLogicException
+     */
+    public function normalize($object, NormalizerContextInterface $context = null, string $path = ''): array
     {
-        return $this->encoder->encode($this->normalizer->normalize($object, $context));
+        return $this->normalizer->normalize($object, $context, $path);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getContentTypes(): array
+    {
+        return $this->encoder->getContentTypes();
+    }
+
+    /**
+     * @param array  $data
+     * @param string $contentType
+     *
+     * @return string
+     *
+     * @throws SerializerLogicException
+     */
+    public function encode(array $data, string $contentType): string
+    {
+        return $this->encoder->encode($data, $contentType);
     }
 }

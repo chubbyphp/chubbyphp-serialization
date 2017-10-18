@@ -39,89 +39,34 @@ composer require chubbyphp/chubbyphp-serialization "~2.0@alpha"
 
 ### Encoder
 
-```php
-<?php
-
-use Chubbyphp\Serialization\Encoder\Encoder;
-use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
-use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
-use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
-use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
-
-$encoder = new Encoder([
-    new JsonTypeEncoder(),
-    new UrlEncodedTypeEncoder(),
-    new XmlTypeEncoder(),
-    new YamlTypeEncoder()
-]);
-
-print_r($encoder->getContentTypes());
-//[
-//    'application/json',
-//    'application/x-www-form-urlencoded',
-//    'application/xml',
-//    'application/x-yaml'
-//]
-
-echo $encoder->encode(
-    ['name' => 'php'],
-    'application/json'
-);
-// '{"name": "php"}',
-```
+ * [Encoder][4]
 
 #### Type Encoder
 
- * [JsonTypeEncoder][4]
- * [UrlEncodedTypeEncoder][5]
- * [XmlTypeEncoder][6]
- * [YamlTypeEncoder][7]
+ * [JsonTypeEncoder][5]
+ * [UrlEncodedTypeEncoder][6]
+ * [XmlTypeEncoder][7]
+ * [YamlTypeEncoder][8]
 
 ### Normalizer
 
-```php
-<?php
-
-use Chubbyphp\Serialization\Normalizer\Normalizer;
-use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
-use MyProject\Serialization\ModelMapping;
-use MyProject\Model\Model;
-
-$logger = ...;
-
-$normalizer = new Normalizer(
-    new NormalizerObjectMappingRegistry([
-        new ModelMapping()
-    ]),
-    $logger
-);
-
-$model = new Model;
-$model->setName('php');
-
-$data = $normalizer->normalize(
-    $model
-);
-
-print_r($data);
-// ['name' => 'php']
-```
+ * [Normalizer][9]
 
 #### Field Normalizer
 
- * [CallbackFieldNormalizer][8]
- * [CollectionFieldNormalizer][9]
- * [DateFieldNormalizer][10]
- * [FieldNormalizer][11]
+ * [CallbackFieldNormalizer][10]
+ * [CollectionFieldNormalizer][11]
+ * [DateFieldNormalizer][12]
+ * [FieldNormalizer][13]
 
 #### Normalizer Context
 
- * [NormalizerContext][12]
- * [NormalizerContextBuilder][13]
+ * [NormalizerContext][14]
+ * [NormalizerContextBuilder][15]
 
 ### NormalizerObjectMappingRegistry
 
-* [NormalizerObjectMappingRegistry][14]
+* [NormalizerObjectMappingRegistry][16]
 
 ### Serializer
 
@@ -166,27 +111,51 @@ $json = $serializer->serialize(
 
 echo $json;
 // '{"name": "php"}'
+
+$model = new Model;
+$model->setName('php');
+
+$data = $serializer->normalize(
+    $model
+);
+
+print_r($data);
+// ['name' => 'php']
+
+print_r($serializer->getContentTypes());
+//[
+//    'application/json',
+//    'application/x-www-form-urlencoded',
+//    'application/xml',
+//    'application/x-yaml'
+//]
+
+echo $serializer->encode(
+    ['name' => 'php'],
+    'application/json'
+);
+// '{"name": "php"}'
 ```
 
 ### Mapping
 
 #### NormalizationFieldMapping
 
- * [NormalizationFieldMapping][15]
- * [NormalizationFieldMappingBuilder][16]
+ * [NormalizationFieldMapping][17]
+ * [NormalizationFieldMappingBuilder][18]
 
 #### NormalizationObjectMapping
 
- * [AdvancedNormalizationObjectMapping][17]
- * [SimpleNormalizationObjectMapping][18]
+ * [AdvancedNormalizationObjectMapping][19]
+ * [SimpleNormalizationObjectMapping][20]
 
 #### LazyNormalizationObjectMapping
 
- * [LazyNormalizationObjectMapping][19]
+ * [LazyNormalizationObjectMapping][21]
 
 ### Provider
 
-* [SerializationProvider][20]
+* [SerializationProvider][22]
 
 ## Copyright
 
@@ -198,27 +167,31 @@ Dominik Zogg 2017
 [2]: doc/Accessor/MethodAccessor.md
 [3]: doc/Accessor/PropertyAccessor.md
 
-[4]: doc/Encoder/JsonTypeEncoder.md
-[5]: doc/Encoder/UrlEncodedTypeEncoder.md
-[6]: doc/Encoder/XmlTypeEncoder.md
-[7]: doc/Encoder/YamlTypeEncoder.md
+[4]: doc/Encoder/Encoder.md
 
-[8]: doc/Normalizer/CallbackFieldNormalizer.md
-[9]: doc/Normalizer/CollectionFieldNormalizer.md
-[10]: doc/Normalizer/DateFieldNormalizer.md
-[11]: doc/Normalizer/FieldNormalizer.md
+[5]: doc/Encoder/JsonTypeEncoder.md
+[6]: doc/Encoder/UrlEncodedTypeEncoder.md
+[7]: doc/Encoder/XmlTypeEncoder.md
+[8]: doc/Encoder/YamlTypeEncoder.md
 
-[12]: doc/Normalizer/NormalizerContext.md
-[13]: doc/Normalizer/NormalizerContextBuilder.md
+[9]: doc/Normalizer/Normalizer.md
 
-[14]: doc/Normalizer/NormalizerObjectMappingRegistry.md
+[10]: doc/Normalizer/CallbackFieldNormalizer.md
+[11]: doc/Normalizer/CollectionFieldNormalizer.md
+[12]: doc/Normalizer/DateFieldNormalizer.md
+[13]: doc/Normalizer/FieldNormalizer.md
 
-[15]: doc/Mapping/NormalizationFieldMapping.md
-[16]: doc/Mapping/NormalizationFieldMappingBuilder.md
+[14]: doc/Normalizer/NormalizerContext.md
+[15]: doc/Normalizer/NormalizerContextBuilder.md
 
-[17]: doc/Mapping/AdvancedNormalizationObjectMapping.md
-[18]: doc/Mapping/SimpleNormalizationObjectMapping.md
+[16]: doc/Normalizer/NormalizerObjectMappingRegistry.md
 
-[19]: doc/Mapping/LazyNormalizationObjectMapping.md
+[17]: doc/Mapping/NormalizationFieldMapping.md
+[18]: doc/Mapping/NormalizationFieldMappingBuilder.md
 
-[20]: doc/Provider/SerializationProvider.md
+[19]: doc/Mapping/AdvancedNormalizationObjectMapping.md
+[20]: doc/Mapping/SimpleNormalizationObjectMapping.md
+
+[21]: doc/Mapping/LazyNormalizationObjectMapping.md
+
+[22]: doc/Provider/SerializationProvider.md
