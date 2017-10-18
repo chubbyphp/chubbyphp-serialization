@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Normalizer;
 
+use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
+use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
+use Chubbyphp\Serialization\SerializerLogicException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -31,8 +34,142 @@ final class Normalizer implements NormalizerInterface
         $this->logger = $logger ?? new NullLogger();
     }
 
+    /**
+     * @param object $object
+     * @param NormalizerContextInterface|null $context
+     * @param string $path
+     * @return array
+     */
     public function normalize($object, NormalizerContextInterface $context = null, string $path = ''): array
     {
-        return [];
+        $this->validateDataType($object, $path);
+
+        $context = $context ?? NormalizerContextBuilder::create()->getContext();
+
+        $class = is_object($object) ? get_class($object) : $object;
+        $objectMapping = $this->getObjectMapping($class);
+
+        $fields = [];
+        foreach ($objectMapping->getNormalizationFieldMappings($path) as $normalizationFieldMapping) {
+            $this->normalizeField($context, $normalizationFieldMapping, $path, $fields, $object);
+        }
+
+        $embeddedFields = [];
+        foreach ($objectMapping->getNormalizationEmbeddedFieldMappings($path) as $normalizationFieldMapping) {
+            $this->normalizeField($context, $normalizationFieldMapping, $path, $embeddedFields, $object);
+        }
+
+        $links = [];
+
+        $data = $fields;
+
+        if ([] === $embeddedFields) {
+            $data['_embedded'] = $embeddedFields;
+        }
+
+        if ([] === $links) {
+            $data['_links'] = $links;
+        }
+
+        $data['_type'] = $objectMapping->getNormalizationType();
+
+        return $data;
+    }
+
+    /**
+     * @param object $object
+     * @param string $path
+     * @throws SerializerLogicException
+     */
+    private function validateDataType($object, string $path)
+    {
+        if (!is_object($object)) {
+            $exception = SerializerLogicException::createWrongDataType(gettype($object), $path);
+
+            $this->logger->error('serialize: {exception}', ['exception' => $exception->getMessage()]);
+
+            throw $exception;
+        }
+    }
+
+    /**
+     * @param string $class
+     *
+     * @return NormalizationObjectMappingInterface
+     *
+     * @throws SerializerLogicException
+     */
+    private function getObjectMapping(string $class): NormalizationObjectMappingInterface
+    {
+        try {
+            return $this->normalizerObjectMappingRegistry->getObjectMapping($class);
+        } catch (SerializerLogicException $exception) {
+            $this->logger->error('serialize: {exception}', ['exception' => $exception->getMessage()]);
+
+            throw $exception;
+        }
+    }
+
+    /**
+     * @param NormalizerContextInterface $context
+     * @param NormalizationFieldMappingInterface $normalizationFieldMapping
+     * @param string $path
+     * @param array $data
+     * @param $object
+     */
+    private function normalizeField(
+        NormalizerContextInterface $context,
+        NormalizationFieldMappingInterface $normalizationFieldMapping,
+        string $path,
+        array &$data,
+        $object
+    ) {
+        $fieldNormalizer = $normalizationFieldMapping->getFieldNormalizer();
+
+        if (!$this->isWithinGroup($context, $normalizationFieldMapping)) {
+            return;
+        }
+
+        $name = $normalizationFieldMapping->getName();
+
+        $subPath = $this->getSubPathByName($path, $name);
+
+        $this->logger->info('serialize: path {path}', ['path' => $subPath]);
+
+        $data[$name] = $fieldNormalizer->normalizeField($subPath, $object, $context, $this);
+    }
+
+    /**
+     * @param NormalizerContextInterface         $context
+     * @param NormalizationFieldMappingInterface $fieldMapping
+     *
+     * @return bool
+     */
+    private function isWithinGroup(
+        NormalizerContextInterface $context,
+        NormalizationFieldMappingInterface $fieldMapping
+    ): bool {
+        if ([] === $groups = $context->getGroups()) {
+            return true;
+        }
+
+        foreach ($fieldMapping->getGroups() as $group) {
+            if (in_array($group, $groups, true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $path
+     * @param string $name
+     *
+     * @return string
+     */
+    private function getSubPathByName(string $path, string $name): string
+    {
+        return '' === $path ? $name : $path.'.'.$name;
     }
 }

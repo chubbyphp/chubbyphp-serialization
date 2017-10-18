@@ -18,6 +18,16 @@ final class SerializerLogicException extends \LogicException
 
     /**
      * @param string $path
+     * @param string $type
+     * @return SerializerLogicException
+     */
+    public static function createWrongDataType(string $path, string $type): self
+    {
+        return new self(sprintf('Wrong data type "%s" at path : "%s"', $type, $path));
+    }
+
+    /**
+     * @param string $path
      *
      * @return self
      */
