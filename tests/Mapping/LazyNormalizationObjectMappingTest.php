@@ -63,9 +63,10 @@ class LazyNormalizationObjectMappingTest extends TestCase
 
     /**
      * @param string $normalizationType
-     * @param array $normalizationFieldMappings
-     * @param array $normalizationEmbeddedFieldMappings
-     * @param array $normalizationLinkMappings
+     * @param array  $normalizationFieldMappings
+     * @param array  $normalizationEmbeddedFieldMappings
+     * @param array  $normalizationLinkMappings
+     *
      * @return NormalizationObjectMappingInterface
      */
     private function getNormalizationObjectMapping(
@@ -81,7 +82,7 @@ class LazyNormalizationObjectMappingTest extends TestCase
                 'getNormalizationType',
                 'getNormalizationFieldMappings',
                 'getNormalizationEmbeddedFieldMappings',
-                'getNormalizationLinkMappings'
+                'getNormalizationLinkMappings',
             ])
             ->getMockForAbstractClass()
         ;

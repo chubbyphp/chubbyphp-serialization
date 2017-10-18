@@ -19,6 +19,7 @@ final class SerializerLogicException extends \LogicException
     /**
      * @param string $path
      * @param string $type
+     *
      * @return SerializerLogicException
      */
     public static function createWrongDataType(string $path, string $type): self

@@ -34,7 +34,7 @@ final class Serializer implements SerializerInterface
      * @param object                     $object
      * @param string                     $contentType
      * @param NormalizerContextInterface $context
-     * @param string $path
+     * @param string                     $path
      *
      * @return string
      */

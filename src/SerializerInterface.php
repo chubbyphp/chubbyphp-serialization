@@ -11,10 +11,10 @@ use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 interface SerializerInterface extends NormalizerInterface, EncoderInterface
 {
     /**
-     * @param object                     $object
-     * @param string                     $contentType
+     * @param object                          $object
+     * @param string                          $contentType
      * @param NormalizerContextInterface|null $context
-     * @param string                  $path
+     * @param string                          $path
      *
      * @return string
      */
