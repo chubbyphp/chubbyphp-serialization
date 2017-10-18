@@ -35,9 +35,10 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @param object $object
+     * @param object                          $object
      * @param NormalizerContextInterface|null $context
-     * @param string $path
+     * @param string                          $path
+     *
      * @return array
      */
     public function normalize($object, NormalizerContextInterface $context = null, string $path = ''): array
@@ -49,15 +50,19 @@ final class Normalizer implements NormalizerInterface
         $class = is_object($object) ? get_class($object) : $object;
         $objectMapping = $this->getObjectMapping($class);
 
-        $fields = [];
-        foreach ($objectMapping->getNormalizationFieldMappings($path) as $normalizationFieldMapping) {
-            $this->normalizeField($context, $normalizationFieldMapping, $path, $fields, $object);
-        }
+        $fields = $this->getDataByFieldNormalizationMappings(
+            $context,
+            $objectMapping->getNormalizationFieldMappings($path),
+            $path,
+            $object
+        );
 
-        $embeddedFields = [];
-        foreach ($objectMapping->getNormalizationEmbeddedFieldMappings($path) as $normalizationFieldMapping) {
-            $this->normalizeField($context, $normalizationFieldMapping, $path, $embeddedFields, $object);
-        }
+        $embeddedFields = $this->getDataByFieldNormalizationMappings(
+            $context,
+            $objectMapping->getNormalizationEmbeddedFieldMappings($path),
+            $path,
+            $object
+        );
 
         $links = [];
 
@@ -79,6 +84,7 @@ final class Normalizer implements NormalizerInterface
     /**
      * @param object $object
      * @param string $path
+     *
      * @throws SerializerLogicException
      */
     private function validateDataType($object, string $path)
@@ -111,32 +117,37 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @param NormalizerContextInterface $context
-     * @param NormalizationFieldMappingInterface $normalizationFieldMapping
-     * @param string $path
-     * @param array $data
+     * @param NormalizerContextInterface           $context
+     * @param NormalizationFieldMappingInterface[] $normalizationFieldMappings
+     * @param string                               $path
      * @param $object
+     *
+     * @return array
      */
-    private function normalizeField(
+    private function getDataByFieldNormalizationMappings(
         NormalizerContextInterface $context,
-        NormalizationFieldMappingInterface $normalizationFieldMapping,
+        array $normalizationFieldMappings,
         string $path,
-        array &$data,
         $object
-    ) {
-        $fieldNormalizer = $normalizationFieldMapping->getFieldNormalizer();
+    ): array {
+        $data = [];
+        foreach ($normalizationFieldMappings as $normalizationFieldMapping) {
+            $fieldNormalizer = $normalizationFieldMapping->getFieldNormalizer();
 
-        if (!$this->isWithinGroup($context, $normalizationFieldMapping)) {
-            return;
+            if (!$this->isWithinGroup($context, $normalizationFieldMapping)) {
+                continue;
+            }
+
+            $name = $normalizationFieldMapping->getName();
+
+            $subPath = $this->getSubPathByName($path, $name);
+
+            $this->logger->info('serialize: path {path}', ['path' => $subPath]);
+
+            $data[$name] = $fieldNormalizer->normalizeField($subPath, $object, $context, $this);
         }
 
-        $name = $normalizationFieldMapping->getName();
-
-        $subPath = $this->getSubPathByName($path, $name);
-
-        $this->logger->info('serialize: path {path}', ['path' => $subPath]);
-
-        $data[$name] = $fieldNormalizer->normalizeField($subPath, $object, $context, $this);
+        return $data;
     }
 
     /**
