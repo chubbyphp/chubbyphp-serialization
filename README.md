@@ -13,20 +13,21 @@ A simple serialization.
 ## Requirements
 
  * php: ~7.0
+ * psr/link: ~1.0
  * psr/log: ~1.0
- * psr/http-message: ~1.0
 
 ## Suggest
 
  * container-interop/container-interop: ~1.0
  * pimple/pimple: ~3.0
+ * symfony/yaml: ~2.7|~3.0 (application/x-yaml support)
 
 ## Installation
 
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-serialization][1].
 
 ```sh
-composer require chubbyphp/chubbyphp-serialization "~1.1"
+composer require chubbyphp/chubbyphp-serialization "~2.0@alpha"
 ```
 
 ## Usage
@@ -36,192 +37,188 @@ composer require chubbyphp/chubbyphp-serialization "~1.1"
  * [MethodAccessor][2]
  * [PropertyAccessor][3]
 
-### Link
-
- * [Link][4]
- * [NullLink][5]
-
-### Mapping
+### Encoder
 
 ```php
 <?php
 
-namespace MyProject\Serialization;
+use Chubbyphp\Serialization\Encoder\Encoder;
+use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
+use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
+use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
+use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
 
-use Chubbyphp\Serialization\Mapping\ObjectMappingInterface;
-use Chubbyphp\Serialization\Mapping\Field\FieldMapping;
-use Chubbyphp\Serialization\Mapping\Field\FieldMappingInterface;
-use Chubbyphp\Serialization\Mapping\Link\LinkMapping;
-use Chubbyphp\Serialization\Mapping\Link\LinkMappingInterface;
-use Chubbyphp\Serialization\Serializer\Field\CollectionFieldSerializer;
-use Chubbyphp\Serialization\Serializer\Field\ObjectFieldSerializer;
-use MyProject\Model\Model;
+$encoder = new Encoder([
+    new JsonTypeEncoder(),
+    new UrlEncodedTypeEncoder(),
+    new XmlTypeEncoder(),
+    new YamlTypeEncoder()
+]);
 
-class ModelMapping implements ObjectMappingInterface
-{
-    /**
-     * @return string
-     */
-    public function getClass(): string
-    {
-        return Model::class;
-    }
+print_r($encoder->getContentTypes());
+//[
+//    'application/json',
+//    'application/x-www-form-urlencoded',
+//    'application/xml',
+//    'application/x-yaml'
+//]
 
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return 'model';
-    }
-
-    /**
-     * @return FieldMappingInterface[]
-     */
-    public function getFieldMappings(): array
-    {
-        return [
-            new FieldMapping('name'),
-        ];
-    }
-
-    /**
-     * @return getEmbeddedFieldMappings[]
-     */
-    public function getFieldMappings(): array
-    {
-        return [
-            new FieldMapping('reference', new ObjectFieldSerializer(new MethodAccessor('getReference'))),
-            new FieldMapping('collection', new CollectionFieldSerializer(new PropertyAccessor('getCollection'))),
-        ];
-    }
-
-    /**
-     * @return LinkMappingInterface[]
-     */
-    public function getLinkMappings(): array
-    {
-        return [
-            new LinkMapping('read', new CallbackLinkSerializer(function (Request $request, Model $model) {
-                return new Link('http://test.com/models/'.$model->getId(), Link::METHOD_GET);
-            })),
-            new LinkMapping('update', new CallbackLinkSerializer(function (Request $request, Model $model) {
-                return new Link('http://test.com/models/'.$model->getId(), Link::METHOD_PUT);
-            })),
-            new LinkMapping('update', new CallbackLinkSerializer(function (Request $request, Model $model) {
-                return new Link('http://test.com/models/'.$model->getId(), Link::METHOD_DELETE);
-            })),
-        ];
-    }
-}
+echo $encoder->encode(
+    ['name' => 'php'],
+    'application/json'
+);
+// '{"name": "php"}',
 ```
 
- * [FieldMapping][6]
- * [LazyObjectMapping][7]
- * [LinkMapping][8]
+#### Type Encoder
 
-### Provider
+ * [JsonTypeEncoder][4]
+ * [UrlEncodedTypeEncoder][5]
+ * [XmlTypeEncoder][6]
+ * [YamlTypeEncoder][7]
 
- * [SerializationProvider][9]
+### Normalizer
 
-### Registry
+```php
+<?php
 
- * [ObjectMappingRegistry][10]
+use Chubbyphp\Serialization\Normalizer\Normalizer;
+use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
+use MyProject\Serialization\ModelMapping;
+use MyProject\Model\Model;
+
+$logger = ...;
+
+$normalizer = new Normalizer(
+    new NormalizerObjectMappingRegistry([
+        new ModelMapping()
+    ]),
+    $logger
+);
+
+$model = new Model;
+$model->setName('php');
+
+$data = $normalizer->normalize(
+    $model
+);
+
+print_r($data);
+// ['name' => 'php']
+```
+
+#### Field Normalizer
+
+ * [CallbackFieldNormalizer][8]
+ * [CollectionFieldNormalizer][9]
+ * [DateFieldNormalizer][10]
+ * [FieldNormalizer][11]
+
+#### Normalizer Context
+
+ * [NormalizerContext][12]
+ * [NormalizerContextBuilder][13]
+
+### NormalizerObjectMappingRegistry
+
+* [NormalizerObjectMappingRegistry][14]
 
 ### Serializer
 
 ```php
 <?php
 
-use Chubbyphp\Serialization\Registry\ObjectMappingRegistry;
+use Chubbyphp\Serialization\Encoder\Encoder;
+use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
+use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
+use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
+use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
+use Chubbyphp\Serialization\Normalizer\Normalizer;
+use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;
-use Chubbyphp\Serialization\Transformer\JsonTransformer;
-use MyProject\Model\Model;
 use MyProject\Serialization\ModelMapping;
+use MyProject\Model\Model;
 
-$request = ...; // PSR7 Request
+$logger = ...;
 
-$model = new Model();
-$model
-    ->setName('name')
-    ->setReference(...)
-    ->setCollection([
-        ...
-    ]);
+$serializer = new Serializer(
+    new Normalizer(
+        new NormalizerObjectMappingRegistry([
+            new ModelMapping()
+        ]),
+        $logger
+    ),
+    new Encoder([
+        new JsonTypeEncoder(),
+        new UrlEncodedTypeEncoder(),
+        new XmlTypeEncoder(),
+        new YamlTypeEncoder()
+    ]),
+);
 
-$serializer = new Serializer(new ObjectMappingRegistry([new ModelMapping()]));
-$data = $serializer->serialize($request, $model);
+$model = new Model;
+$model->setName('php');
 
-$transformer = new JsonTransformer();
-$json = $transformer->transform($data);
+$json = $serializer->serialize(
+    $model,
+    'application/json'
+);
+
+echo $json;
+// '{"name": "php"}'
 ```
 
-#### Field
+### Mapping
 
-* [CallbackFieldSerializer][11]
-* [CollectionFieldSerializer][12]
-* [ObjectFieldSerializer][13]
-* [ValueFieldSerializer][14]
+#### NormalizationFieldMapping
 
-#### Link
+ * [NormalizationFieldMapping][15]
+ * [NormalizationFieldMappingBuilder][16]
 
-* [CallbackLinkSerializer][15]
+#### NormalizationObjectMapping
 
-### Transformer
+ * [AdvancedNormalizationObjectMapping][17]
+ * [SimpleNormalizationObjectMapping][18]
 
-```php
-<?php
+#### LazyNormalizationObjectMapping
 
-use Chubbyphp\Serialization\Transformer;
-use Chubbyphp\Serialization\Transformer\JsonTransformer;
-use Chubbyphp\Serialization\Transformer\UrlEncodedTransformer;
-use Chubbyphp\Serialization\Transformer\XmlTransformer;
-use Chubbyphp\Serialization\Transformer\YamlTransformer;
+ * [LazyNormalizationObjectMapping][19]
 
-$transformer = new Transformer([
-    new JsonTransformer(),
-    new UrlEncodedTransformer(),
-    new XmlTransformer(),
-    new YamlTransformer(),
-]);
+### Provider
 
-$contentTypes = $transformer->getContentTypes();
-
-$data = $transformer->transform(['key' => 'value'], 'application/json');
-```
-
-* [JsonTransformer][16]
-* [UrlEncodedTransformer][17]
-* [XmlTransformer][18]
-* [YamlTransformer][19]
+* [SerializationProvider][20]
 
 ## Copyright
 
 Dominik Zogg 2017
+
 
 [1]: https://packagist.org/packages/chubbyphp/chubbyphp-serialization
 
 [2]: doc/Accessor/MethodAccessor.md
 [3]: doc/Accessor/PropertyAccessor.md
 
-[4]: doc/Link/Link.md
-[5]: doc/Link/NullLink.md
+[4]: doc/Encoder/JsonTypeEncoder.md
+[5]: doc/Encoder/UrlEncodedTypeEncoder.md
+[6]: doc/Encoder/XmlTypeEncoder.md
+[7]: doc/Encoder/YamlTypeEncoder.md
 
-[6]: doc/Mapping/FieldMapping.md
-[7]: doc/Mapping/LazyObjectMapping.md
-[8]: doc/Mapping/LinkMapping.md
+[8]: doc/Normalizer/CallbackFieldNormalizer.md
+[9]: doc/Normalizer/CollectionFieldNormalizer.md
+[10]: doc/Normalizer/DateFieldNormalizer.md
+[11]: doc/Normalizer/FieldNormalizer.md
 
-[9]: doc/Provider/SerializationProvider.md
+[12]: doc/Normalizer/NormalizerContext.md
+[13]: doc/Normalizer/NormalizerContextBuilder.md
 
-[10]: doc/Registry/ObjectMappingRegistry.md
+[14]: doc/Normalizer/NormalizerObjectMappingRegistry.md
 
-[11]: doc/Serializer/Field/CallbackFieldSerializer.md
-[12]: doc/Serializer/Field/CollectionFieldSerializer.md
-[13]: doc/Serializer/Field/ObjectFieldSerializer.md
-[14]: doc/Serializer/Field/ValueFieldSerializer.md
-[15]: doc/Serializer/Link/CallbackLinkSerializer.md
+[15]: doc/Mapping/NormalizationFieldMapping.md
+[16]: doc/Mapping/NormalizationFieldMappingBuilder.md
 
-[16]: doc/Transformer/JsonTransformer.md
-[17]: doc/Transformer/UrlEncodedTransformer.md
-[18]: doc/Transformer/XmlTransformer.md
-[19]: doc/Transformer/YamlTransformer.md
+[17]: doc/Mapping/AdvancedNormalizationObjectMapping.md
+[18]: doc/Mapping/SimpleNormalizationObjectMapping.md
+
+[19]: doc/Mapping/LazyNormalizationObjectMapping.md
+
+[20]: doc/Provider/SerializationProvider.md

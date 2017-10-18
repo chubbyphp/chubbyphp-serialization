@@ -5,20 +5,160 @@ declare(strict_types=1);
 namespace Chubbyphp\Tests\Serialization\Accessor;
 
 use Chubbyphp\Serialization\Accessor\MethodAccessor;
-use Chubbyphp\Tests\Serialization\Resources\Item;
+use Chubbyphp\Serialization\SerializerLogicException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Accessor\MethodAccessor
  */
-class MethodAccessorTest extends \PHPUnit_Framework_TestCase
+class MethodAccessorTest extends TestCase
 {
+    public function testSetValue()
+    {
+        $object = new class() {
+            /**
+             * @var string
+             */
+            private $name;
+
+            /**
+             * @return string
+             */
+            public function getName(): string
+            {
+                return $this->name;
+            }
+
+            /**
+             * @param string $name
+             */
+            public function setName(string $name)
+            {
+                $this->name = $name;
+            }
+        };
+
+        $accessor = new MethodAccessor('name');
+        $accessor->setValue($object, 'Name');
+
+        self::assertSame('Name', $object->getName());
+    }
+
+    public function testMissingSet()
+    {
+        self::expectException(SerializerLogicException::class);
+
+        $object = new class() {
+        };
+
+        $accessor = new MethodAccessor('name');
+        $accessor->setValue($object, 'Name');
+    }
+
     public function testGetValue()
     {
-        $item = new Item('id1');
-        $item->setName('name1');
+        $object = new class() {
+            /**
+             * @var string
+             */
+            private $name;
 
-        $accessor = new MethodAccessor('getName');
+            /**
+             * @return string
+             */
+            public function getName(): string
+            {
+                return $this->name;
+            }
 
-        self::assertSame('name1', $accessor->getValue($item));
+            /**
+             * @param string $name
+             */
+            public function setName(string $name)
+            {
+                $this->name = $name;
+            }
+        };
+
+        $object->setName('Name');
+
+        $accessor = new MethodAccessor('name');
+
+        self::assertSame('Name', $accessor->getValue($object));
+    }
+
+    public function testHasValue()
+    {
+        $object = new class() {
+            /**
+             * @var string
+             */
+            private $name;
+
+            /**
+             * @return bool
+             */
+            public function hasName(): bool
+            {
+                return (bool) $this->name;
+            }
+
+            /**
+             * @param string $name
+             */
+            public function setName(string $name)
+            {
+                $this->name = $name;
+            }
+        };
+
+        $object->setName('Name');
+
+        $accessor = new MethodAccessor('name');
+
+        self::assertTrue($accessor->getValue($object));
+    }
+
+    public function testIsValue()
+    {
+        $object = new class() {
+            /**
+             * @var string
+             */
+            private $name;
+
+            /**
+             * @return bool
+             */
+            public function isName(): bool
+            {
+                return (bool) $this->name;
+            }
+
+            /**
+             * @param string $name
+             */
+            public function setName(string $name)
+            {
+                $this->name = $name;
+            }
+        };
+
+        $object->setName('Name');
+
+        $accessor = new MethodAccessor('name');
+
+        self::assertTrue($accessor->getValue($object));
+    }
+
+    public function testMissingGet()
+    {
+        self::expectException(SerializerLogicException::class);
+
+        $object = new class() {
+        };
+
+        $accessor = new MethodAccessor('name');
+        $accessor->getValue($object);
     }
 }

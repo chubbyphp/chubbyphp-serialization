@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Accessor;
 
+use Chubbyphp\Serialization\SerializerLogicException;
+
 final class PropertyAccessor implements AccessorInterface
 {
     /**
@@ -14,7 +16,7 @@ final class PropertyAccessor implements AccessorInterface
     /**
      * @param string $property
      */
-    public function __construct($property)
+    public function __construct(string $property)
     {
         $this->property = $property;
     }
@@ -26,7 +28,14 @@ final class PropertyAccessor implements AccessorInterface
      */
     public function getValue($object)
     {
-        $reflectionProperty = new \ReflectionProperty(get_class($object), $this->property);
+        $class = get_class($object);
+
+        try {
+            $reflectionProperty = new \ReflectionProperty($class, $this->property);
+        } catch (\ReflectionException $e) {
+            throw SerializerLogicException::createMissingProperty($class, $this->property);
+        }
+
         $reflectionProperty->setAccessible(true);
 
         return $reflectionProperty->getValue($object);

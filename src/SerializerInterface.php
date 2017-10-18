@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization;
 
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 
 interface SerializerInterface
 {
     /**
-     * @param Request $request
-     * @param object  $object
-     * @param string  $path
+     * @param object                     $object
+     * @param string                     $contentType
+     * @param NormalizerContextInterface $context
      *
-     * @return array
-     *
-     * @throws NotObjectException
+     * @return string
      */
-    public function serialize(Request $request, $object, string $path = ''): array;
+    public function serialize($object, string $contentType, NormalizerContextInterface $context = null): string;
 }

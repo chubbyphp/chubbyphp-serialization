@@ -1,0 +1,39 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Chubbyphp\Serialization\Encoder;
+
+final class JsonTypeEncoder implements TypeEncoderInterface
+{
+    /**
+     * @var bool
+     */
+    private $prettyPrint;
+
+    /**
+     * @param bool $prettyPrint
+     */
+    public function __construct(bool $prettyPrint = false)
+    {
+        $this->prettyPrint = $prettyPrint;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContentType(): string
+    {
+        return 'application/json';
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return string
+     */
+    public function encode(array $data): string
+    {
+        return json_encode($data, !$this->prettyPrint ? 0 : JSON_PRETTY_PRINT);
+    }
+}

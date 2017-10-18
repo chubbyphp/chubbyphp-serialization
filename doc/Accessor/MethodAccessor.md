@@ -4,7 +4,13 @@
 <?php
 
 use Chubbyphp\Serialization\Accessor\MethodAccessor;
+use MyProject\Model;
 
-$accessor = new MethodAccessor('getterName');
-$accessor->getValue($object); // the value returned by getterName on $object
+$object = new Model;
+$object->setName('php');
+
+$accessor = new MethodAccessor('name');
+
+echo $accessor->getValue($object);
+// 'php'
 ```

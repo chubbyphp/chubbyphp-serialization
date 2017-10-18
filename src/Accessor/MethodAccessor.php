@@ -4,30 +4,48 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Accessor;
 
+use Chubbyphp\Serialization\SerializerLogicException;
+
 final class MethodAccessor implements AccessorInterface
 {
     /**
      * @var string
      */
-    private $method;
+    private $property;
 
     /**
-     * @param string $method
+     * @param string $property
      */
-    public function __construct($method)
+    public function __construct(string $property)
     {
-        $this->method = $method;
+        $this->property = $property;
     }
 
     /**
      * @param object $object
      *
      * @return mixed
+     *
+     * @throws SerializerLogicException
      */
     public function getValue($object)
     {
-        $method = $this->method;
+        $get = 'get'.ucfirst($this->property);
+        $has = 'has'.ucfirst($this->property);
+        $is = 'is'.ucfirst($this->property);
 
-        return $object->$method();
+        if (method_exists($object, $get)) {
+            return $object->$get();
+        }
+
+        if (method_exists($object, $has)) {
+            return $object->$has();
+        }
+
+        if (method_exists($object, $is)) {
+            return $object->$is();
+        }
+
+        throw SerializerLogicException::createMissingMethod(get_class($object), [$get, $has, $is]);
     }
 }

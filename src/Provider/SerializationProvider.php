@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Provider;
 
-use Chubbyphp\Serialization\Registry\ObjectMappingRegistry;
+use Chubbyphp\Serialization\Encoder\Encoder;
+use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
+use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
+use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
+use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
+use Chubbyphp\Serialization\Normalizer\Normalizer;
+use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;
-use Chubbyphp\Serialization\Transformer;
-use Chubbyphp\Serialization\Transformer\JsonTransformer;
-use Chubbyphp\Serialization\Transformer\UrlEncodedTransformer;
-use Chubbyphp\Serialization\Transformer\XmlTransformer;
-use Chubbyphp\Serialization\Transformer\YamlTransformer;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Symfony\Component\Yaml\Yaml;
 
 final class SerializationProvider implements ServiceProviderInterface
 {
@@ -21,44 +23,41 @@ final class SerializationProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['serializer.objectmappings'] = function () {
-            return [];
-        };
-
-        $container['serializer.objectmappingregistry'] = function () use ($container) {
-            return new ObjectMappingRegistry($container['serializer.objectmappings']);
-        };
-
         $container['serializer'] = function () use ($container) {
-            return new Serializer(
-                $container['serializer.objectmappingregistry'],
+            return new Serializer($container['serializer.normalizer'], $container['serializer.encoder']);
+        };
+
+        $container['serializer.normalizer'] = function () use ($container) {
+            return new Normalizer(
+                $container['serializer.normalizer.objectmappingregistry'],
                 $container['logger'] ?? null
             );
         };
 
-        $container['serializer.transformer'] = function () use ($container) {
-            return new Transformer([
-                $container['serializer.transformer.json'],
-                $container['serializer.transformer.urlencoded'],
-                $container['serializer.transformer.xml'],
-                $container['serializer.transformer.yaml'],
-            ]);
+        $container['serializer.normalizer.objectmappingregistry'] = function () use ($container) {
+            return new NormalizerObjectMappingRegistry($container['serializer.normalizer.objectmappings']);
         };
 
-        $container['serializer.transformer.json'] = function () {
-            return new JsonTransformer();
+        $container['serializer.normalizer.objectmappings'] = function () {
+            return [];
         };
 
-        $container['serializer.transformer.urlencoded'] = function () {
-            return new UrlEncodedTransformer();
+        $container['serializer.encoder'] = function () use ($container) {
+            return new Encoder($container['serializer.encodertypes']);
         };
 
-        $container['serializer.transformer.xml'] = function () {
-            return new XmlTransformer();
-        };
+        $container['serializer.encodertypes'] = function () {
+            $encoderTypes = [];
 
-        $container['serializer.transformer.yaml'] = function () {
-            return new YamlTransformer();
+            $encoderTypes[] = new JsonTypeEncoder();
+            $encoderTypes[] = new UrlEncodedTypeEncoder();
+            $encoderTypes[] = new XmlTypeEncoder();
+
+            if (class_exists(Yaml::class)) {
+                $encoderTypes[] = new YamlTypeEncoder();
+            }
+
+            return $encoderTypes;
         };
     }
 }
