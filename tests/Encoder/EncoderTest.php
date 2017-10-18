@@ -21,11 +21,11 @@ class EncoderTest extends TestCase
         self::assertSame(['application/json'], $encoder->getContentTypes());
     }
 
-    public function testDecode()
+    public function testEncode()
     {
         $encoder = new Encoder([$this->getTypeEncoder()]);
 
-        self::assertSame(['key' => 'value'], $encoder->encode('{"key": "value"}', 'application/json'));
+        self::assertSame('{"key":"value"}', $encoder->encode(['key' => 'value'], 'application/json'));
     }
 
     public function testDecodeWithMissingType()
@@ -35,7 +35,7 @@ class EncoderTest extends TestCase
 
         $encoder = new Encoder([$this->getTypeEncoder()]);
 
-        $encoder->encode('<key>value</key>', 'application/xml');
+        $encoder->encode(['key' => 'value'], 'application/xml');
     }
 
     /**
@@ -49,8 +49,8 @@ class EncoderTest extends TestCase
             ->getMockForAbstractClass();
 
         $encoderType->expects(self::any())->method('getContentType')->willReturn('application/json');
-        $encoderType->expects(self::any())->method('encode')->willReturnCallback(function (string $data) {
-            return json_encode($data, true);
+        $encoderType->expects(self::any())->method('encode')->willReturnCallback(function (array $data) {
+            return json_encode($data);
         });
 
         return $encoderType;

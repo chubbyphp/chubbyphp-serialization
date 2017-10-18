@@ -5,28 +5,31 @@ declare(strict_types=1);
 namespace Chubbyphp\Tests\Serialization\Encoder;
 
 use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
-use Chubbyphp\Serialization\SerializerRuntimeException;
 
 /**
  * @covers \Chubbyphp\Serialization\Encoder\JsonTypeEncoder
  */
 class JsonTypeEncoderTest extends AbstractTypeEncoderTest
 {
-    public function testGetContentType()
+    public function testContentType()
     {
-        $encoder = new JsonTypeEncoder();
+        $transformer = new JsonTypeEncoder();
 
-        self::assertSame('application/json', $encoder->getContentType());
+        self::assertSame('application/json', $transformer->getContentType());
     }
 
     /**
-     * @dataProvider getExpectedData
+     * @dataProvider dataProvider
      *
-     * @param array $expectedData
+     * @param array $data
      */
-    public function testDecode(array $expectedData)
+    public function testFormat(array $data)
     {
-        $json = <<<EOD
+        $jsonTransformer = new JsonTypeEncoder(true);
+
+        $json = $jsonTransformer->encode($data);
+
+        $expectedJson = <<<EOD
 {
     "page": 1,
     "perPage": 10,
@@ -157,44 +160,6 @@ class JsonTypeEncoderTest extends AbstractTypeEncoderTest
     "_type": "search"
 }
 EOD;
-
-        $encoder = new JsonTypeEncoder();
-
-        self::assertEquals($expectedData, $encoder->encode($json));
-    }
-
-    public function testTypes()
-    {
-        $json = <<<EOD
-{
-    "id": "id1",
-    "name": "A fancy Name",
-    "treeValues": {
-        "1": {
-            "2": 3
-        }
-    },
-    "progress": 76.8,
-    "active": true
-}
-EOD;
-
-        $encoder = new JsonTypeEncoder();
-
-        $data = $encoder->encode($json);
-
-        self::assertSame('id1', $data['id']);
-        self::assertSame('A fancy Name', $data['name']);
-        self::assertSame([1 => [2 => 3]], $data['treeValues']);
-        self::assertSame(76.8, $data['progress']);
-        self::assertSame(true, $data['active']);
-    }
-
-    public function testInvalidDecode()
-    {
-        self::expectException(SerializerRuntimeException::class);
-        self::expectExceptionMessage('Data is not parsable with content-type: "application/json"');
-        $encoderType = new JsonTypeEncoder();
-        $encoderType->encode('====');
+        self::assertEquals($expectedJson, $json);
     }
 }

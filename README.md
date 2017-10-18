@@ -13,6 +13,7 @@ A simple serialization.
 ## Requirements
 
  * php: ~7.0
+ * doctrine/inflector: ~1.0
  * psr/link: ~1.0
  * psr/log: ~1.0
 

@@ -13,48 +13,6 @@ use PHPUnit\Framework\TestCase;
  */
 class MethodAccessorTest extends TestCase
 {
-    public function testSetValue()
-    {
-        $object = new class() {
-            /**
-             * @var string
-             */
-            private $name;
-
-            /**
-             * @return string
-             */
-            public function getName(): string
-            {
-                return $this->name;
-            }
-
-            /**
-             * @param string $name
-             */
-            public function setName(string $name)
-            {
-                $this->name = $name;
-            }
-        };
-
-        $accessor = new MethodAccessor('name');
-        $accessor->setValue($object, 'Name');
-
-        self::assertSame('Name', $object->getName());
-    }
-
-    public function testMissingSet()
-    {
-        self::expectException(SerializerLogicException::class);
-
-        $object = new class() {
-        };
-
-        $accessor = new MethodAccessor('name');
-        $accessor->setValue($object, 'Name');
-    }
-
     public function testGetValue()
     {
         $object = new class() {

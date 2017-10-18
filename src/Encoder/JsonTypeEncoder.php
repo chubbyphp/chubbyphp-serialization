@@ -34,6 +34,11 @@ final class JsonTypeEncoder implements TypeEncoderInterface
      */
     public function encode(array $data): string
     {
-        return json_encode($data, !$this->prettyPrint ? 0 : JSON_PRETTY_PRINT);
+        $options = JSON_UNESCAPED_SLASHES;
+        if ($this->prettyPrint) {
+            $options = $options | JSON_PRETTY_PRINT;
+        }
+
+        return json_encode($data, $options);
     }
 }

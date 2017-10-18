@@ -5,28 +5,31 @@ declare(strict_types=1);
 namespace Chubbyphp\Tests\Serialization\Encoder;
 
 use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
-use Chubbyphp\Serialization\SerializerRuntimeException;
 
 /**
  * @covers \Chubbyphp\Serialization\Encoder\YamlTypeEncoder
  */
 class YamlTypeEncoderTest extends AbstractTypeEncoderTest
 {
-    public function testGetContentType()
+    public function testContentType()
     {
-        $encoder = new YamlTypeEncoder();
+        $transformer = new YamlTypeEncoder();
 
-        self::assertSame('application/x-yaml', $encoder->getContentType());
+        self::assertSame('application/x-yaml', $transformer->getContentType());
     }
 
     /**
-     * @dataProvider getExpectedData
+     * @dataProvider dataProvider
      *
-     * @param array $expectedData
+     * @param array $data
      */
-    public function testDecode(array $expectedData)
+    public function testFormat(array $data)
     {
-        $yaml = <<<EOD
+        $yamlTransformer = new YamlTypeEncoder();
+
+        $yaml = $yamlTransformer->encode($data);
+
+        $expectedYaml = <<<EOD
 page: 1
 perPage: 10
 search: null
@@ -123,39 +126,6 @@ _links:
 _type: search
 EOD;
 
-        $encoder = new YamlTypeEncoder();
-
-        self::assertEquals($expectedData, $encoder->encode($yaml));
-    }
-
-    public function testTypes()
-    {
-        $yaml = <<<EOD
-id: id1
-name: 'A fancy Name'
-treeValues:
-    1:
-        2: 3
-progress: 76.8
-active: true
-EOD;
-
-        $encoder = new YamlTypeEncoder();
-
-        $data = $encoder->encode($yaml);
-
-        self::assertSame('id1', $data['id']);
-        self::assertSame('A fancy Name', $data['name']);
-        self::assertSame([1 => [2 => 3]], $data['treeValues']);
-        self::assertSame(76.8, $data['progress']);
-        self::assertSame(true, $data['active']);
-    }
-
-    public function testInvalidDecode()
-    {
-        self::expectException(SerializerRuntimeException::class);
-        self::expectExceptionMessage('Data is not parsable with content-type: "application/x-yaml"');
-        $encoderType = new YamlTypeEncoder();
-        $encoderType->encode('====');
+        self::assertEquals($expectedYaml, $yaml);
     }
 }

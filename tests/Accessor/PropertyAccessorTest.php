@@ -13,40 +13,6 @@ use PHPUnit\Framework\TestCase;
  */
 class PropertyAccessorTest extends TestCase
 {
-    public function testSetValue()
-    {
-        $object = new class() {
-            /**
-             * @var string
-             */
-            private $name;
-
-            /**
-             * @return string
-             */
-            public function getName(): string
-            {
-                return $this->name;
-            }
-        };
-
-        $accessor = new PropertyAccessor('name');
-        $accessor->setValue($object, 'Name');
-
-        self::assertSame('Name', $object->getName());
-    }
-
-    public function testMissingSet()
-    {
-        self::expectException(SerializerLogicException::class);
-
-        $object = new class() {
-        };
-
-        $accessor = new PropertyAccessor('name');
-        $accessor->setValue($object, 'Name');
-    }
-
     public function testGetValue()
     {
         $object = new class() {
