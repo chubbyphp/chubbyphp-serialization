@@ -17,6 +17,9 @@ use Chubbyphp\Tests\Serialization\Resources\Model\ChildModel;
 use Chubbyphp\Tests\Serialization\Resources\Model\ParentModel;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversNothing
+ */
 class SerializerIntegrationTest extends TestCase
 {
     public function testSerialize()
