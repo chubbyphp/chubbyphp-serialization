@@ -18,10 +18,12 @@ final class DateFieldNormalizer implements FieldNormalizerInterface
 
     /**
      * @param FieldNormalizerInterface $fieldNormalizer
+     * @param string                   $format
      */
-    public function __construct(FieldNormalizerInterface $fieldNormalizer)
+    public function __construct(FieldNormalizerInterface $fieldNormalizer, string $format = 'c')
     {
         $this->fieldNormalizer = $fieldNormalizer;
+        $this->format = $format;
     }
 
     /**
@@ -40,6 +42,13 @@ final class DateFieldNormalizer implements FieldNormalizerInterface
         NormalizerInterface $normalizer = null
     ) {
         $value = $this->fieldNormalizer->normalizeField($path, $object, $context, $normalizer);
+
+        if (is_string($value)) {
+            try {
+                $value = new \DateTime($value);
+            } catch (\Exception $exception) {
+            }
+        }
 
         if (!$value instanceof \DateTimeInterface) {
             return $value;
