@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 class FieldNormalizerTest extends TestCase
 {
-    public function testDenormalizeField()
+    public function testNormalizeField()
     {
         $object = new class() {
             /**

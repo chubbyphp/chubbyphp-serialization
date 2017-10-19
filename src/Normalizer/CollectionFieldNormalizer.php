@@ -10,22 +10,15 @@ use Chubbyphp\Serialization\SerializerLogicException;
 final class CollectionFieldNormalizer implements FieldNormalizerInterface
 {
     /**
-     * @var string
-     */
-    private $class;
-
-    /**
      * @var AccessorInterface
      */
     private $accessor;
 
     /**
-     * @param string            $class
      * @param AccessorInterface $accessor
      */
-    public function __construct(string $class, AccessorInterface $accessor)
+    public function __construct(AccessorInterface $accessor)
     {
-        $this->class = $class;
         $this->accessor = $accessor;
     }
 

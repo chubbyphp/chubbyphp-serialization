@@ -10,7 +10,6 @@ use Chubbyphp\Serialization\Normalizer\CollectionFieldNormalizer;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
-use Chubbyphp\Tests\Serialization\Resources\Model\AbstractChildModel;
 use Chubbyphp\Tests\Serialization\Resources\Model\ParentModel;
 
 final class ParentModelMapping implements NormalizationObjectMappingInterface
@@ -42,7 +41,7 @@ final class ParentModelMapping implements NormalizationObjectMappingInterface
         return [
             NormalizationFieldMappingBuilder::create('name')->getMapping(),
             NormalizationFieldMappingBuilder::create('children')->setFieldNormalizer(
-                new CollectionFieldNormalizer(AbstractChildModel::class, new PropertyAccessor('children'))
+                new CollectionFieldNormalizer(new PropertyAccessor('children'))
             )->getMapping(),
         ];
     }
@@ -56,7 +55,7 @@ final class ParentModelMapping implements NormalizationObjectMappingInterface
     {
         return [
             NormalizationFieldMappingBuilder::create('relatedChildren')->setGroups(['related'])->setFieldNormalizer(
-                new CollectionFieldNormalizer(AbstractChildModel::class, new PropertyAccessor('children'))
+                new CollectionFieldNormalizer(new PropertyAccessor('children'))
             )->getMapping(),
         ];
     }

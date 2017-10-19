@@ -19,20 +19,17 @@ class NormalizerContextBuilderTest extends TestCase
 
         self::assertInstanceOf(NormalizerContextInterface::class, $context);
 
-        self::assertSame(false, $context->isAllowedAdditionalFields());
         self::assertSame([], $context->getGroups());
     }
 
     public function testCreateWithOverridenSettings()
     {
         $context = NormalizerContextBuilder::create()
-            ->setAllowedAdditionalFields(true)
             ->setGroups(['group1'])
             ->getContext();
 
         self::assertInstanceOf(NormalizerContextInterface::class, $context);
 
-        self::assertSame(true, $context->isAllowedAdditionalFields());
         self::assertSame(['group1'], $context->getGroups());
     }
 }

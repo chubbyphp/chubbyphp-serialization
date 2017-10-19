@@ -9,7 +9,6 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\CollectionFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
-use Chubbyphp\Serialization\SerializerRuntimeException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,82 +16,42 @@ use PHPUnit\Framework\TestCase;
  */
 class CollectionFieldNormalizerTest extends TestCase
 {
-    public function testDenormalizeFieldWithMissingNormalizer()
+    public function testNormalizeMissingNormalizer()
     {
         self::expectException(SerializerLogicException::class);
         self::expectExceptionMessage('There is no normalizer at path: "children"');
 
-        $parent = $this->getParent();
+        $fieldNormalizer = new CollectionFieldNormalizer($this->getAccessor());
 
-        $fieldNormalizer = new CollectionFieldNormalizer(get_class($this->getChild()), $this->getAccessor());
-        $fieldNormalizer->normalizeField('children', $parent, [['name' => 'name']], $this->getNormalizerContext());
+        $fieldNormalizer->normalizeField('children', new \stdClass(), $this->getNormalizerContext());
     }
 
-    public function testDenormalizeFieldWithoutArrayNormalizer()
+    public function testNormalize()
     {
-        self::expectException(SerializerRuntimeException::class);
-        self::expectExceptionMessage('There is an invalid data type "NULL", needed "array" at path: "children"');
-
         $parent = $this->getParent();
+        $parent->setChildren([
+            $this->getChild()->setName('name1'),
+            $this->getChild()->setName('name2'),
+        ]);
 
-        $fieldNormalizer = new CollectionFieldNormalizer(get_class($this->getChild()), $this->getAccessor());
-        $fieldNormalizer->normalizeField(
-            'children',
-            $parent,
-            null,
-            $this->getNormalizerContext(),
-            $this->getNormalizer()
+        $fieldNormalizer = new CollectionFieldNormalizer($this->getAccessor());
+
+        self::assertSame(
+            [['name' => 'name1'], ['name' => 'name2']],
+            $fieldNormalizer->normalizeField('children', $parent, $this->getNormalizerContext(), $this->getNormalizer())
         );
     }
 
-    public function testDenormalizeFieldWithArrayButNullChildNormalizer()
-    {
-        self::expectException(SerializerRuntimeException::class);
-        self::expectExceptionMessage('There is an invalid data type "array", needed "object" at path: "children[0]"');
-
-        $parent = $this->getParent();
-
-        $fieldNormalizer = new CollectionFieldNormalizer(get_class($this->getChild()), $this->getAccessor());
-        $fieldNormalizer->normalizeField(
-            'children',
-            $parent,
-            [null],
-            $this->getNormalizerContext(),
-            $this->getNormalizer()
-        );
-    }
-
-    public function testDenormalizeFieldWithNewChild()
+    public function testNormalizeEmpty()
     {
         $parent = $this->getParent();
 
-        $fieldNormalizer = new CollectionFieldNormalizer(get_class($this->getChild()), $this->getAccessor());
-        $fieldNormalizer->normalizeField(
-            'children',
-            $parent,
-            [['name' => 'name']],
-            $this->getNormalizerContext(),
-            $this->getNormalizer()
+        $fieldNormalizer = new CollectionFieldNormalizer($this->getAccessor());
+
+        self::assertSame(
+            [],
+            $fieldNormalizer->normalizeField('children', $parent, $this->getNormalizerContext(), $this->getNormalizer())
         );
-
-        self::assertSame('name', $parent->getChildren()[0]->getName());
-    }
-
-    public function testDenormalizeFieldWithExistingChild()
-    {
-        $parent = $this->getParent();
-        $parent->setChildren([$this->getChild()]);
-
-        $fieldNormalizer = new CollectionFieldNormalizer(get_class($this->getChild()), $this->getAccessor());
-        $fieldNormalizer->normalizeField(
-            'children',
-            $parent,
-            [['name' => 'name']],
-            $this->getNormalizerContext(),
-            $this->getNormalizer()
-        );
-
-        self::assertSame('name', $parent->getChildren()[0]->getName());
     }
 
     /**
@@ -169,10 +128,6 @@ class CollectionFieldNormalizerTest extends TestCase
         /** @var AccessorInterface|\PHPUnit_Framework_MockObject_MockObject $accessor */
         $accessor = $this->getMockBuilder(AccessorInterface::class)->getMockForAbstractClass();
 
-        $accessor->expects(self::any())->method('setValue')->willReturnCallback(function ($object, $value) {
-            $object->setChildren($value);
-        });
-
         $accessor->expects(self::any())->method('getValue')->willReturnCallback(function ($object) {
             return $object->getChildren();
         });
@@ -200,14 +155,8 @@ class CollectionFieldNormalizerTest extends TestCase
         $normalizer = $this->getMockBuilder(NormalizerInterface::class)->getMockForAbstractClass();
 
         $normalizer->expects(self::any())->method('normalize')->willReturnCallback(
-            function ($object, array $data, NormalizerContextInterface $context = null, string $path = '') {
-                if (is_string($object)) {
-                    $object = $this->getChild();
-                }
-
-                $object->setName($data['name']);
-
-                return $object;
+            function ($object, NormalizerContextInterface $context = null, string $path = '') {
+                return ['name' => $object->getName()];
             }
         );
 

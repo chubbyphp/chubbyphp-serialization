@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 class DateFieldNormalizerTest extends TestCase
 {
-    public function testDenormalizeField()
+    public function testNormalizeField()
     {
         $object = $this->getObject();
         $object->setDate(new \DateTime('2017-01-01 22:00:00', new \DateTimeZone('UTC')));
@@ -27,7 +27,7 @@ class DateFieldNormalizerTest extends TestCase
         );
     }
 
-    public function testDenormalizeWithValidDateString()
+    public function testNormalizeWithValidDateString()
     {
         $object = $this->getObject();
         $object->setDate('2017-01-01 22:00:00');
@@ -40,7 +40,7 @@ class DateFieldNormalizerTest extends TestCase
         );
     }
 
-    public function testDenormalizeWithInvalidDateString()
+    public function testNormalizeWithInvalidDateString()
     {
         $object = $this->getObject();
         $object->setDate('2017-01-01 25:00:00');
@@ -53,7 +53,7 @@ class DateFieldNormalizerTest extends TestCase
         );
     }
 
-    public function testDenormalizeWithNull()
+    public function testNormalizeWithNull()
     {
         $object = $this->getObject();
 

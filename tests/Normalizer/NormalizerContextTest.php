@@ -16,15 +16,13 @@ class NormalizerContextTest extends TestCase
     {
         $context = new NormalizerContext();
 
-        self::assertSame(false, $context->isAllowedAdditionalFields());
         self::assertSame([], $context->getGroups());
     }
 
     public function testCreateWithOverridenSettings()
     {
-        $context = new NormalizerContext(true, ['group1']);
+        $context = new NormalizerContext(['group1']);
 
-        self::assertSame(true, $context->isAllowedAdditionalFields());
         self::assertSame(['group1'], $context->getGroups());
     }
 }
