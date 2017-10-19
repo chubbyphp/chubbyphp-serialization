@@ -43,20 +43,20 @@ class CallbackFieldNormalizerTest extends TestCase
             }
         };
 
+        $object->setName('name');
+
         $fieldNormalizer = new CallbackFieldNormalizer(
             function (
                 string $path,
                 $object,
-                $value,
                 NormalizerContextInterface $context,
                 NormalizerInterface $normalizer = null
             ) {
-                $object->setName($value);
+                return $object->getName();
             }
         );
-        $fieldNormalizer->normalizeField('name', $object, 'name', $this->getNormalizerContext());
 
-        self::assertSame('name', $object->getName());
+        self::assertSame('name', $fieldNormalizer->normalizeField('name', $object, $this->getNormalizerContext()));
     }
 
     /**

@@ -17,21 +17,49 @@ class DateFieldNormalizerTest extends TestCase
     public function testDenormalizeField()
     {
         $object = $this->getObject();
+        $object->setDate(new \DateTime('2017-01-01 22:00:00', new \DateTimeZone('UTC')));
 
         $fieldNormalizer = new DateFieldNormalizer($this->getFieldNormalizer());
-        $fieldNormalizer->normalizeField('date', $object, '2017-01-01', $this->getNormalizerContext());
 
-        self::assertSame('2017-01-01', $object->getDate()->format('Y-m-d'));
+        self::assertSame(
+            '2017-01-01T22:00:00+01:00',
+            $fieldNormalizer->normalizeField('date', $object, $this->getNormalizerContext())
+        );
     }
 
-    public function testDenormalizeInvalidField()
+    public function testDenormalizeWithValidDateString()
+    {
+        $object = $this->getObject();
+        $object->setDate('2017-01-01 22:00:00');
+
+        $fieldNormalizer = new DateFieldNormalizer($this->getFieldNormalizer());
+
+        self::assertSame(
+            '2017-01-01T22:00:00+01:00',
+            $fieldNormalizer->normalizeField('date', $object, $this->getNormalizerContext())
+        );
+    }
+
+    public function testDenormalizeWithInvalidDateString()
+    {
+        $object = $this->getObject();
+        $object->setDate('2017-01-01 25:00:00');
+
+        $fieldNormalizer = new DateFieldNormalizer($this->getFieldNormalizer());
+
+        self::assertSame(
+            '2017-01-01 25:00:00',
+            $fieldNormalizer->normalizeField('date', $object, $this->getNormalizerContext())
+        );
+    }
+
+    public function testDenormalizeWithNull()
     {
         $object = $this->getObject();
 
         $fieldNormalizer = new DateFieldNormalizer($this->getFieldNormalizer());
-        $fieldNormalizer->normalizeField('date', $object, '2017-13-01', $this->getNormalizerContext());
 
-        self::assertSame('2017-13-01', $object->getDate());
+        self::assertNull($fieldNormalizer->normalizeField('date', $object, $this->getNormalizerContext()));
     }
 
     private function getObject()
@@ -73,8 +101,8 @@ class DateFieldNormalizerTest extends TestCase
         $fieldNormalizer = $this->getMockBuilder(FieldNormalizerInterface::class)->getMockForAbstractClass();
 
         $fieldNormalizer->expects(self::any())->method('normalizeField')->willReturnCallback(
-            function (string $path, $object, $value) {
-                $object->setDate($value);
+            function (string $path, $object) {
+                return $object->getDate();
             }
         );
 

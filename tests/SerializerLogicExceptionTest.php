@@ -19,6 +19,13 @@ class SerializerLogicExceptionTest extends TestCase
         self::assertSame('There is no encoder for content-type: "application/json"', $exception->getMessage());
     }
 
+    public function testCreateWrongDataType()
+    {
+        $exception = SerializerLogicException::createWrongDataType('path1', 'string');
+
+        self::assertSame('Wrong data type "string" at path : "path1"', $exception->getMessage());
+    }
+
     public function testCreateMissingNormalizer()
     {
         $exception = SerializerLogicException::createMissingNormalizer('path1');

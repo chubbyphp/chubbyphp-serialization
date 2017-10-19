@@ -43,10 +43,11 @@ class FieldNormalizerTest extends TestCase
             }
         };
 
-        $fieldNormalizer = new FieldNormalizer($this->getAccessor());
-        $fieldNormalizer->normalizeField('name', $object, 'name', $this->getNormalizerContext());
+        $object->setName('name');
 
-        self::assertSame('name', $object->getName());
+        $fieldNormalizer = new FieldNormalizer($this->getAccessor());
+
+        self::assertSame('name', $fieldNormalizer->normalizeField('name', $object, $this->getNormalizerContext()));
     }
 
     /**
@@ -56,10 +57,6 @@ class FieldNormalizerTest extends TestCase
     {
         /** @var AccessorInterface|\PHPUnit_Framework_MockObject_MockObject $accessor */
         $accessor = $this->getMockBuilder(AccessorInterface::class)->getMockForAbstractClass();
-
-        $accessor->expects(self::any())->method('setValue')->willReturnCallback(function ($object, $value) {
-            $object->setName($value);
-        });
 
         $accessor->expects(self::any())->method('getValue')->willReturnCallback(function ($object) {
             return $object->getName();
