@@ -50,29 +50,21 @@ final class Normalizer implements NormalizerInterface
         $class = is_object($object) ? get_class($object) : $object;
         $objectMapping = $this->getObjectMapping($class);
 
-        $fields = $this->getDataByFieldNormalizationMappings(
-            $context,
-            $objectMapping->getNormalizationFieldMappings($path),
-            $path,
-            $object
-        );
+        $fieldMappings = $objectMapping->getNormalizationFieldMappings($path);
+        $fields = $this->getDataByFieldNormalizationMappings($context, $fieldMappings, $path, $object);
 
-        $embeddedFields = $this->getDataByFieldNormalizationMappings(
-            $context,
-            $objectMapping->getNormalizationEmbeddedFieldMappings($path),
-            $path,
-            $object
-        );
+        $embeddedFieldMappings = $objectMapping->getNormalizationEmbeddedFieldMappings($path);
+        $embeddedFields = $this->getDataByFieldNormalizationMappings($context, $embeddedFieldMappings, $path, $object);
 
         $links = [];
 
         $data = $fields;
 
-        if ([] === $embeddedFields) {
+        if ([] !== $embeddedFields) {
             $data['_embedded'] = $embeddedFields;
         }
 
-        if ([] === $links) {
+        if ([] !== $links) {
             $data['_links'] = $links;
         }
 

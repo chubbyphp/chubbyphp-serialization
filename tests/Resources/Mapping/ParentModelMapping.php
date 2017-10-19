@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Chubbyphp\Tests\Serialization\Resources\Mapping;
 
 use Chubbyphp\Serialization\Accessor\PropertyAccessor;
+use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Normalizer\CollectionFieldNormalizer;
-use Chubbyphp\Serialization\SerializerRuntimeException;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
@@ -24,18 +24,11 @@ final class ParentModelMapping implements NormalizationObjectMappingInterface
     }
 
     /**
-     * @param string      $path
-     * @param string|null $type
-     *
-     * @return callable
-     *
-     * @throws SerializerRuntimeException
+     * @return string
      */
-    public function getNormalizationFactory(string $path, string $type = null): callable
+    public function getNormalizationType(): string
     {
-        return function () {
-            return new ParentModel();
-        };
+        return 'parent-model';
     }
 
     /**
@@ -43,8 +36,6 @@ final class ParentModelMapping implements NormalizationObjectMappingInterface
      * @param string|null $type
      *
      * @return NormalizationFieldMappingInterface[]
-     *
-     * @throws SerializerRuntimeException
      */
     public function getNormalizationFieldMappings(string $path, string $type = null): array
     {
@@ -54,5 +45,29 @@ final class ParentModelMapping implements NormalizationObjectMappingInterface
                 new CollectionFieldNormalizer(AbstractChildModel::class, new PropertyAccessor('children'))
             )->getMapping(),
         ];
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return NormalizationFieldMappingInterface[]
+     */
+    public function getNormalizationEmbeddedFieldMappings(string $path): array
+    {
+        return [
+            NormalizationFieldMappingBuilder::create('relatedChildren')->setGroups(['related'])->setFieldNormalizer(
+                new CollectionFieldNormalizer(AbstractChildModel::class, new PropertyAccessor('children'))
+            )->getMapping(),
+        ];
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return NormalizationLinkMappingInterface[]
+     */
+    public function getNormalizationLinkMappings(string $path): array
+    {
+        return [];
     }
 }
