@@ -17,12 +17,12 @@ $objectMapping = new LazyNormalizationObjectMapping(
 echo $objectMapping->getClass();
 // 'MyProject\Model\Model'
 
-$callable = $objectMapping->getFactory('');
-$model = $callable();
-
-echo get_class($model);
-// 'MyProject\Model\Model'
+echo $objectMapping->getNormalizationType();
+// 'model'
 
 $objectMapping->getNormalizationFieldMappings('');
+// NormalizationFieldMappingInterface[]
+
+$objectMapping->getNormalizationEmbeddedFieldMappings('');
 // NormalizationFieldMappingInterface[]
 ```
