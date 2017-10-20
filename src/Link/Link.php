@@ -14,11 +14,6 @@ final class Link implements LinkInterface
     private $href;
 
     /**
-     * @var bool
-     */
-    private $templated;
-
-    /**
      * @var string[]
      */
     private $rels;
@@ -30,14 +25,12 @@ final class Link implements LinkInterface
 
     /**
      * @param string   $href
-     * @param bool     $templated
      * @param string[] $rels
      * @param array    $attributes
      */
-    public function __construct(string $href, bool $templated, array $rels, array $attributes)
+    public function __construct(string $href, array $rels, array $attributes)
     {
         $this->href = $href;
-        $this->templated = $templated;
         $this->rels = $rels;
         $this->attributes = $attributes;
     }
@@ -55,7 +48,7 @@ final class Link implements LinkInterface
      */
     public function isTemplated(): bool
     {
-        return $this->templated;
+        return false !== strpos($this->href, '{');
     }
 
     /**
