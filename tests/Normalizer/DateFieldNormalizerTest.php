@@ -8,6 +8,7 @@ use Chubbyphp\Serialization\Normalizer\DateFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\DateFieldNormalizer
@@ -23,7 +24,12 @@ class DateFieldNormalizerTest extends TestCase
 
         self::assertSame(
             '2017-01-01T22:00:00+01:00',
-            $fieldNormalizer->normalizeField('date', $object, $this->getNormalizerContext())
+            $fieldNormalizer->normalizeField(
+                'date',
+                $this->getRequest(),
+                $object,
+                $this->getNormalizerContext()
+            )
         );
     }
 
@@ -36,7 +42,12 @@ class DateFieldNormalizerTest extends TestCase
 
         self::assertSame(
             '2017-01-01T22:00:00+01:00',
-            $fieldNormalizer->normalizeField('date', $object, $this->getNormalizerContext())
+            $fieldNormalizer->normalizeField(
+                'date',
+                $this->getRequest(),
+                $object,
+                $this->getNormalizerContext()
+            )
         );
     }
 
@@ -49,7 +60,12 @@ class DateFieldNormalizerTest extends TestCase
 
         self::assertSame(
             '2017-01-01 25:00:00',
-            $fieldNormalizer->normalizeField('date', $object, $this->getNormalizerContext())
+            $fieldNormalizer->normalizeField(
+                'date',
+                $this->getRequest(),
+                $object,
+                $this->getNormalizerContext()
+            )
         );
     }
 
@@ -59,7 +75,9 @@ class DateFieldNormalizerTest extends TestCase
 
         $fieldNormalizer = new DateFieldNormalizer($this->getFieldNormalizer());
 
-        self::assertNull($fieldNormalizer->normalizeField('date', $object, $this->getNormalizerContext()));
+        self::assertNull(
+            $fieldNormalizer->normalizeField('date', $this->getRequest(), $object, $this->getNormalizerContext())
+        );
     }
 
     private function getObject()
@@ -93,6 +111,17 @@ class DateFieldNormalizerTest extends TestCase
     }
 
     /**
+     * @return Request
+     */
+    private function getRequest(): Request
+    {
+        /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
+        $request = $this->getMockBuilder(Request::class)->getMockForAbstractClass();
+
+        return $request;
+    }
+
+    /**
      * @return FieldNormalizerInterface
      */
     private function getFieldNormalizer(): FieldNormalizerInterface
@@ -101,7 +130,7 @@ class DateFieldNormalizerTest extends TestCase
         $fieldNormalizer = $this->getMockBuilder(FieldNormalizerInterface::class)->getMockForAbstractClass();
 
         $fieldNormalizer->expects(self::any())->method('normalizeField')->willReturnCallback(
-            function (string $path, $object) {
+            function (string $path, Request $request, $object) {
                 return $object->getDate();
             }
         );

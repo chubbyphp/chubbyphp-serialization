@@ -84,6 +84,7 @@ use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;
 use MyProject\Serialization\ModelMapping;
 use MyProject\Model\Model;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 $logger = ...;
 
@@ -102,10 +103,13 @@ $serializer = new Serializer(
     ]),
 );
 
+$request = ...;
+
 $model = new Model;
 $model->setName('php');
 
 $json = $serializer->serialize(
+    $request,
     $model,
     'application/json'
 );
@@ -117,6 +121,7 @@ $model = new Model;
 $model->setName('php');
 
 $data = $serializer->normalize(
+    $request,
     $model
 );
 

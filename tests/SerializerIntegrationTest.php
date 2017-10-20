@@ -16,6 +16,7 @@ use Chubbyphp\Tests\Serialization\Resources\Mapping\ParentModelMapping;
 use Chubbyphp\Tests\Serialization\Resources\Model\ChildModel;
 use Chubbyphp\Tests\Serialization\Resources\Model\ParentModel;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * @coversNothing
@@ -61,7 +62,7 @@ class SerializerIntegrationTest extends TestCase
 }
 EOD;
 
-        self::assertSame($expectedJson, $serializer->serialize($parentModel, 'application/json'));
+        self::assertSame($expectedJson, $serializer->serialize($this->getRequest(), $parentModel, 'application/json'));
     }
 
     public function testSerializeWithGroup()
@@ -97,7 +98,10 @@ EOD;
 
         $context = NormalizerContextBuilder::create()->setGroups(['related'])->getContext();
 
-        self::assertSame($expectedJson, $serializer->serialize($parentModel, 'application/json', $context));
+        self::assertSame(
+            $expectedJson,
+            $serializer->serialize($this->getRequest(), $parentModel, 'application/json', $context)
+        );
     }
 
     public function testSerializeWithoutObject()
@@ -115,7 +119,7 @@ EOD;
             new Encoder([new JsonTypeEncoder(true)])
         );
 
-        $serializer->serialize('test', 'application/json');
+        $serializer->serialize($this->getRequest(), 'test', 'application/json');
     }
 
     public function testSerializeWithoutObjectMapping()
@@ -133,6 +137,17 @@ EOD;
             new Encoder([new JsonTypeEncoder(true)])
         );
 
-        $serializer->serialize(new \stdClass(), 'application/json');
+        $serializer->serialize($this->getRequest(), new \stdClass(), 'application/json');
+    }
+
+    /**
+     * @return Request
+     */
+    private function getRequest(): Request
+    {
+        /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
+        $request = $this->getMockBuilder(Request::class)->getMockForAbstractClass();
+
+        return $request;
     }
 }

@@ -7,6 +7,7 @@ use Chubbyphp\Serialization\Normalizer\Normalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use MyProject\Serialization\ModelMapping;
 use MyProject\Model\Model;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 $logger = ...;
 
@@ -20,7 +21,10 @@ $normalizer = new Normalizer(
 $model = new Model;
 $model->setName('php');
 
+$request = ...;
+
 $data = $normalizer->normalize(
+    $request,
     $model
 );
 

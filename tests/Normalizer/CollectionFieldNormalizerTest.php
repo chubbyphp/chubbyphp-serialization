@@ -10,6 +10,7 @@ use Chubbyphp\Serialization\Normalizer\CollectionFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\CollectionFieldNormalizer
@@ -23,7 +24,12 @@ class CollectionFieldNormalizerTest extends TestCase
 
         $fieldNormalizer = new CollectionFieldNormalizer($this->getAccessor());
 
-        $fieldNormalizer->normalizeField('children', new \stdClass(), $this->getNormalizerContext());
+        $fieldNormalizer->normalizeField(
+            'children',
+            $this->getRequest(),
+            new \stdClass(),
+            $this->getNormalizerContext()
+        );
     }
 
     public function testNormalize()
@@ -38,7 +44,13 @@ class CollectionFieldNormalizerTest extends TestCase
 
         self::assertSame(
             [['name' => 'name1'], ['name' => 'name2']],
-            $fieldNormalizer->normalizeField('children', $parent, $this->getNormalizerContext(), $this->getNormalizer())
+            $fieldNormalizer->normalizeField(
+                'children',
+                $this->getRequest(),
+                $parent,
+                $this->getNormalizerContext(),
+                $this->getNormalizer()
+            )
         );
     }
 
@@ -50,7 +62,13 @@ class CollectionFieldNormalizerTest extends TestCase
 
         self::assertSame(
             [],
-            $fieldNormalizer->normalizeField('children', $parent, $this->getNormalizerContext(), $this->getNormalizer())
+            $fieldNormalizer->normalizeField(
+                'children',
+                $this->getRequest(),
+                $parent,
+                $this->getNormalizerContext(),
+                $this->getNormalizer()
+            )
         );
     }
 
@@ -121,6 +139,17 @@ class CollectionFieldNormalizerTest extends TestCase
     }
 
     /**
+     * @return Request
+     */
+    private function getRequest(): Request
+    {
+        /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
+        $request = $this->getMockBuilder(Request::class)->getMockForAbstractClass();
+
+        return $request;
+    }
+
+    /**
      * @return AccessorInterface
      */
     private function getAccessor(): AccessorInterface
@@ -155,7 +184,7 @@ class CollectionFieldNormalizerTest extends TestCase
         $normalizer = $this->getMockBuilder(NormalizerInterface::class)->getMockForAbstractClass();
 
         $normalizer->expects(self::any())->method('normalize')->willReturnCallback(
-            function ($object, NormalizerContextInterface $context = null, string $path = '') {
+            function (Request $request, $object, NormalizerContextInterface $context = null, string $path = '') {
                 return ['name' => $object->getName()];
             }
         );

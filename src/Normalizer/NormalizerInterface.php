@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 interface NormalizerInterface
 {
     /**
-     * @param Request $request
+     * @param Request                         $request
      * @param object                          $object
      * @param NormalizerContextInterface|null $context
      * @param string                          $path
@@ -19,5 +19,10 @@ interface NormalizerInterface
      *
      * @throws SerializerLogicException
      */
-    public function normalize(Request $request, $object, NormalizerContextInterface $context = null, string $path = ''): array;
+    public function normalize(
+        Request $request,
+        $object,
+        NormalizerContextInterface $context = null,
+        string $path = ''
+    ): array;
 }

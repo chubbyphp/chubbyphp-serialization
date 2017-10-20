@@ -6,6 +6,7 @@ namespace Chubbyphp\Serialization\Normalizer;
 
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class ReferenceFieldNormalizer implements FieldNormalizerInterface
 {
@@ -24,12 +25,16 @@ final class ReferenceFieldNormalizer implements FieldNormalizerInterface
 
     /**
      * @param string                     $path
+     * @param Request                    $request
      * @param object                     $object
      * @param NormalizerContextInterface $context
      * @param NormalizerInterface|null   $normalizer
+     *
+     * @return array
      */
     public function normalizeField(
         string $path,
+        Request $request,
         $object,
         NormalizerContextInterface $context,
         NormalizerInterface $normalizer = null
@@ -42,6 +47,6 @@ final class ReferenceFieldNormalizer implements FieldNormalizerInterface
             return null;
         }
 
-        return $normalizer->normalize($value, $context, $path);
+        return $normalizer->normalize($request, $value, $context, $path);
     }
 }

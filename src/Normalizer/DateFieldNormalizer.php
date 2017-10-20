@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Normalizer;
 
+use Psr\Http\Message\ServerRequestInterface as Request;
+
 final class DateFieldNormalizer implements FieldNormalizerInterface
 {
     /**
@@ -28,8 +30,8 @@ final class DateFieldNormalizer implements FieldNormalizerInterface
 
     /**
      * @param string                     $path
+     * @param Request                    $request
      * @param object                     $object
-     * @param mixed                      $value
      * @param NormalizerContextInterface $context
      * @param NormalizerInterface|null   $normalizer
      *
@@ -37,11 +39,12 @@ final class DateFieldNormalizer implements FieldNormalizerInterface
      */
     public function normalizeField(
         string $path,
+        Request $request,
         $object,
         NormalizerContextInterface $context,
         NormalizerInterface $normalizer = null
     ) {
-        $value = $this->fieldNormalizer->normalizeField($path, $object, $context, $normalizer);
+        $value = $this->fieldNormalizer->normalizeField($path, $request, $object, $context, $normalizer);
 
         if (is_string($value)) {
             try {

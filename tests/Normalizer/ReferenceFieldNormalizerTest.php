@@ -10,6 +10,7 @@ use Chubbyphp\Serialization\Normalizer\ReferenceFieldNormalizer;
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\ReferenceFieldNormalizer
@@ -27,6 +28,7 @@ class ReferenceFieldNormalizerTest extends TestCase
 
         $fieldNormalizer->normalizeField(
             'reference',
+            $this->getRequest(),
             $object,
             $this->getNormalizerContext()
         );
@@ -40,6 +42,7 @@ class ReferenceFieldNormalizerTest extends TestCase
 
         $data = $fieldNormalizer->normalizeField(
             'reference',
+            $this->getRequest(),
             $object,
             $this->getNormalizerContext(),
             $this->getNormalizer()
@@ -57,6 +60,7 @@ class ReferenceFieldNormalizerTest extends TestCase
 
         $data = $fieldNormalizer->normalizeField(
             'reference',
+            $this->getRequest(),
             $object,
             $this->getNormalizerContext(),
             $this->getNormalizer()
@@ -89,7 +93,7 @@ class ReferenceFieldNormalizerTest extends TestCase
         $normalizer = $this->getMockBuilder(NormalizerInterface::class)->getMockForAbstractClass();
 
         $normalizer->expects(self::any())->method('normalize')->willReturnCallback(
-            function ($object, NormalizerContextInterface $context = null, string $path = '') {
+            function (Request $request, $object, NormalizerContextInterface $context = null, string $path = '') {
                 return ['name' => $object->getName()];
             }
         );
@@ -172,5 +176,16 @@ class ReferenceFieldNormalizerTest extends TestCase
                 return $this;
             }
         };
+    }
+
+    /**
+     * @return Request
+     */
+    private function getRequest(): Request
+    {
+        /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
+        $request = $this->getMockBuilder(Request::class)->getMockForAbstractClass();
+
+        return $request;
     }
 }

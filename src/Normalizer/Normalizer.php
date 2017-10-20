@@ -44,8 +44,12 @@ final class Normalizer implements NormalizerInterface
      *
      * @return array
      */
-    public function normalize(Request $request, $object, NormalizerContextInterface $context = null, string $path = ''): array
-    {
+    public function normalize(
+        Request $request,
+        $object,
+        NormalizerContextInterface $context = null,
+        string $path = ''
+    ): array {
         $this->validateDataType($object, $path);
 
         $context = $context ?? NormalizerContextBuilder::create()->getContext();
@@ -54,18 +58,17 @@ final class Normalizer implements NormalizerInterface
         $objectMapping = $this->getObjectMapping($class);
 
         $fieldMappings = $objectMapping->getNormalizationFieldMappings($path);
-        $fields = $this->getDataByFieldNormalizationMappings($context, $fieldMappings, $path, $object);
 
-        $embeddedFieldMappings = $objectMapping->getNormalizationEmbeddedFieldMappings($path);
-        $embeddedFields = $this->getDataByFieldNormalizationMappings($context, $embeddedFieldMappings, $path, $object);
+        $data = $this->getFieldsByFieldNormalizationMappings($context, $fieldMappings, $path, $request, $object);
+
+        $embeddedMappings = $objectMapping->getNormalizationEmbeddedFieldMappings($path);
+        $embedded = $this->getFieldsByFieldNormalizationMappings($context, $embeddedMappings, $path, $request, $object);
 
         $linkMappings = $objectMapping->getNormalizationLinkMappings($path);
-        $links = $this->getLinksByLinkNormalizationMappings($context, $linkMappings, $path, $object);
+        $links = $this->getLinksByLinkNormalizationMappings($context, $linkMappings, $path, $request, $object);
 
-        $data = $fields;
-
-        if ([] !== $embeddedFields) {
-            $data['_embedded'] = $embeddedFields;
+        if ([] !== $embedded) {
+            $data['_embedded'] = $embedded;
         }
 
         if ([] !== $links) {
@@ -116,14 +119,16 @@ final class Normalizer implements NormalizerInterface
      * @param NormalizerContextInterface           $context
      * @param NormalizationFieldMappingInterface[] $normalizationFieldMappings
      * @param string                               $path
+     * @param Request                              $request
      * @param $object
      *
      * @return array
      */
-    private function getDataByFieldNormalizationMappings(
+    private function getFieldsByFieldNormalizationMappings(
         NormalizerContextInterface $context,
         array $normalizationFieldMappings,
         string $path,
+        Request $request,
         $object
     ): array {
         $data = [];
@@ -140,22 +145,26 @@ final class Normalizer implements NormalizerInterface
 
             $this->logger->info('serialize: path {path}', ['path' => $subPath]);
 
-            $data[$name] = $fieldNormalizer->normalizeField($subPath, $object, $context, $this);
+            $data[$name] = $fieldNormalizer->normalizeField($subPath, $request, $object, $context, $this);
         }
 
         return $data;
     }
 
     /**
-     * @param NormalizerContextInterface $context
-     * @param NormalizationLinkMappingInterface[]                      $normalizationLinkMappings
-     * @param string                     $path
+     * @param NormalizerContextInterface          $context
+     * @param NormalizationLinkMappingInterface[] $normalizationLinkMappings
+     * @param string                              $path
+     * @param Request                             $request
+     * @param object                              $object
+     *
      * @return array
      */
     private function getLinksByLinkNormalizationMappings(
         NormalizerContextInterface $context,
         array $normalizationLinkMappings,
         string $path,
+        Request $request,
         $object
     ): array {
         $links = [];
@@ -166,7 +175,7 @@ final class Normalizer implements NormalizerInterface
 
             $linkNormalizer = $normalizationLinkMapping->getLinkNormalizer();
 
-            if (null === $link = $linkNormalizer->normalizeLink($path, $object, $context)) {
+            if (null === $link = $linkNormalizer->normalizeLink($path, $request, $object, $context)) {
                 continue;
             }
 
@@ -177,12 +186,13 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @param NormalizerContextInterface         $context
+     * @param NormalizerContextInterface                                           $context
      * @param NormalizationFieldMappingInterface|NormalizationLinkMappingInterface $mapping
      *
      * @return bool
      */
-    private function isWithinGroup(NormalizerContextInterface $context, $mapping): bool {
+    private function isWithinGroup(NormalizerContextInterface $context, $mapping): bool
+    {
         if ([] === $groups = $context->getGroups()) {
             return true;
         }

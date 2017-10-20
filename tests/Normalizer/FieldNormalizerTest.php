@@ -8,6 +8,7 @@ use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizer;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\FieldNormalizer
@@ -47,7 +48,10 @@ class FieldNormalizerTest extends TestCase
 
         $fieldNormalizer = new FieldNormalizer($this->getAccessor());
 
-        self::assertSame('name', $fieldNormalizer->normalizeField('name', $object, $this->getNormalizerContext()));
+        self::assertSame(
+            'name',
+            $fieldNormalizer->normalizeField('name', $this->getRequest(), $object, $this->getNormalizerContext())
+        );
     }
 
     /**
@@ -74,5 +78,16 @@ class FieldNormalizerTest extends TestCase
         $context = $this->getMockBuilder(NormalizerContextInterface::class)->getMockForAbstractClass();
 
         return $context;
+    }
+
+    /**
+     * @return Request
+     */
+    private function getRequest(): Request
+    {
+        /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
+        $request = $this->getMockBuilder(Request::class)->getMockForAbstractClass();
+
+        return $request;
     }
 }

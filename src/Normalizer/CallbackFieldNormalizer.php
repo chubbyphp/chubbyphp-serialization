@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Normalizer;
 
+use Psr\Http\Message\ServerRequestInterface as Request;
+
 final class CallbackFieldNormalizer implements FieldNormalizerInterface
 {
     /**
@@ -21,6 +23,7 @@ final class CallbackFieldNormalizer implements FieldNormalizerInterface
 
     /**
      * @param string                     $path
+     * @param Request                    $request
      * @param object                     $object
      * @param NormalizerContextInterface $context
      * @param NormalizerInterface|null   $normalizer
@@ -29,12 +32,13 @@ final class CallbackFieldNormalizer implements FieldNormalizerInterface
      */
     public function normalizeField(
         string $path,
+        Request $request,
         $object,
         NormalizerContextInterface $context,
         NormalizerInterface $normalizer = null
     ) {
         $callback = $this->callback;
 
-        return $callback($path, $object, $context, $normalizer);
+        return $callback($path, $request, $object, $context, $normalizer);
     }
 }

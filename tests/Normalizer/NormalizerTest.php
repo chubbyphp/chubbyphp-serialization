@@ -13,6 +13,7 @@ use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistryInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\Normalizer
@@ -36,7 +37,7 @@ class NormalizerTest extends TestCase
                 'name' => 'php',
             ],
             '_type' => 'object',
-        ], $normalizer->normalize($object));
+        ], $normalizer->normalize($this->getRequest(), $object));
     }
 
     public function testNormalizeWithoutObject()
@@ -46,7 +47,7 @@ class NormalizerTest extends TestCase
 
         $normalizer = new Normalizer($this->getNormalizerObjectMappingRegistry([]));
 
-        $normalizer->normalize('test');
+        $normalizer->normalize($this->getRequest(), 'test');
     }
 
     public function testNormalizeMissingMapping()
@@ -60,7 +61,7 @@ class NormalizerTest extends TestCase
             ])
         );
 
-        $normalizer->normalize(new \stdClass());
+        $normalizer->normalize($this->getRequest(), new \stdClass());
     }
 
     public function testNormalizeWithGroup()
@@ -77,7 +78,7 @@ class NormalizerTest extends TestCase
         self::assertEquals([
             'name' => 'php',
             '_type' => 'object',
-        ], $normalizer->normalize($object, $this->getNormalizerContext(['group1'])));
+        ], $normalizer->normalize($this->getRequest(), $object, $this->getNormalizerContext(['group1'])));
     }
 
     /**
@@ -178,6 +179,7 @@ class NormalizerTest extends TestCase
 
         $fieldNormalizer->expects(self::any())->method('normalizeField')->willReturnCallback(function (
             string $path,
+            Request $request,
             $object,
             NormalizerContextInterface $context,
             NormalizerInterface $normalizer = null
@@ -236,5 +238,16 @@ class NormalizerTest extends TestCase
                 return $this;
             }
         };
+    }
+
+    /**
+     * @return Request
+     */
+    private function getRequest(): Request
+    {
+        /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
+        $request = $this->getMockBuilder(Request::class)->getMockForAbstractClass();
+
+        return $request;
     }
 }
