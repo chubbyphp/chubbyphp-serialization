@@ -8,6 +8,7 @@ use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -36,13 +37,14 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
+     * @param Request                         $request
      * @param object                          $object
      * @param NormalizerContextInterface|null $context
      * @param string                          $path
      *
      * @return array
      */
-    public function normalize($object, NormalizerContextInterface $context = null, string $path = ''): array
+    public function normalize(Request $request, $object, NormalizerContextInterface $context = null, string $path = ''): array
     {
         $this->validateDataType($object, $path);
 
