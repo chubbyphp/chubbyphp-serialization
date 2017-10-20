@@ -56,16 +56,10 @@ final class Normalizer implements NormalizerInterface
         $embeddedFieldMappings = $objectMapping->getNormalizationEmbeddedFieldMappings($path);
         $embeddedFields = $this->getDataByFieldNormalizationMappings($context, $embeddedFieldMappings, $path, $object);
 
-        $links = [];
-
         $data = $fields;
 
         if ([] !== $embeddedFields) {
             $data['_embedded'] = $embeddedFields;
-        }
-
-        if ([] !== $links) {
-            $data['_links'] = $links;
         }
 
         $data['_type'] = $objectMapping->getNormalizationType();
