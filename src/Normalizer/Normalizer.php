@@ -126,11 +126,11 @@ final class Normalizer implements NormalizerInterface
     ): array {
         $data = [];
         foreach ($normalizationFieldMappings as $normalizationFieldMapping) {
-            $fieldNormalizer = $normalizationFieldMapping->getFieldNormalizer();
-
             if (!$this->isWithinGroup($context, $normalizationFieldMapping)) {
                 continue;
             }
+
+            $fieldNormalizer = $normalizationFieldMapping->getFieldNormalizer();
 
             $name = $normalizationFieldMapping->getName();
 
@@ -146,23 +146,29 @@ final class Normalizer implements NormalizerInterface
 
     /**
      * @param NormalizerContextInterface $context
-     * @param NormalizationLinkMappingInterface[]                      $linkMappings
+     * @param NormalizationLinkMappingInterface[]                      $normalizationLinkMappings
      * @param string                     $path
      * @return array
      */
     private function getLinksByLinkNormalizationMappings(
         NormalizerContextInterface $context,
-        array $linkMappings,
+        array $normalizationLinkMappings,
         string $path,
         $object
     ): array {
         $links = [];
-        foreach ($linkMappings as $linkMapping) {
-            if (null !== $link = $linkMapping->getLinkNormalizer()->normalizeLink($path, $object, $context)) {
+        foreach ($normalizationLinkMappings as $normalizationLinkMapping) {
+            if (!$this->isWithinGroup($context, $normalizationLinkMapping)) {
                 continue;
             }
 
-            $links[$linkMapping->getName()] = $link;
+            $linkNormalizer = $normalizationLinkMapping->getLinkNormalizer();
+
+            if (null === $link = $linkNormalizer->normalizeLink($path, $object, $context)) {
+                continue;
+            }
+
+            $links[$normalizationLinkMapping->getName()] = $link;
         }
 
         return $links;
@@ -170,19 +176,16 @@ final class Normalizer implements NormalizerInterface
 
     /**
      * @param NormalizerContextInterface         $context
-     * @param NormalizationFieldMappingInterface $fieldMapping
+     * @param NormalizationFieldMappingInterface|NormalizationLinkMappingInterface $mapping
      *
      * @return bool
      */
-    private function isWithinGroup(
-        NormalizerContextInterface $context,
-        NormalizationFieldMappingInterface $fieldMapping
-    ): bool {
+    private function isWithinGroup(NormalizerContextInterface $context, $mapping): bool {
         if ([] === $groups = $context->getGroups()) {
             return true;
         }
 
-        foreach ($fieldMapping->getGroups() as $group) {
+        foreach ($mapping->getGroups() as $group) {
             if (in_array($group, $groups, true)) {
                 return true;
             }
