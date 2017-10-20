@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Chubbyphp\Serialization\Normalizer;
 
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
+use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
 use Psr\Log\LoggerInterface;
@@ -56,10 +57,17 @@ final class Normalizer implements NormalizerInterface
         $embeddedFieldMappings = $objectMapping->getNormalizationEmbeddedFieldMappings($path);
         $embeddedFields = $this->getDataByFieldNormalizationMappings($context, $embeddedFieldMappings, $path, $object);
 
+        $linkMappings = $objectMapping->getNormalizationLinkMappings($path);
+        $links = $this->getLinksByLinkNormalizationMappings($context, $linkMappings, $path, $object);
+
         $data = $fields;
 
         if ([] !== $embeddedFields) {
             $data['_embedded'] = $embeddedFields;
+        }
+
+        if ([] !== $links) {
+            $data['_links'] = $links;
         }
 
         $data['_type'] = $objectMapping->getNormalizationType();
@@ -134,6 +142,30 @@ final class Normalizer implements NormalizerInterface
         }
 
         return $data;
+    }
+
+    /**
+     * @param NormalizerContextInterface $context
+     * @param NormalizationLinkMappingInterface[]                      $linkMappings
+     * @param string                     $path
+     * @return array
+     */
+    private function getLinksByLinkNormalizationMappings(
+        NormalizerContextInterface $context,
+        array $linkMappings,
+        string $path,
+        $object
+    ): array {
+        $links = [];
+        foreach ($linkMappings as $linkMapping) {
+            if (null !== $link = $linkMapping->getLinkNormalizer()->normalizeLink($path, $object, $context)) {
+                continue;
+            }
+
+            $links[$linkMapping->getName()] = $link;
+        }
+
+        return $links;
     }
 
     /**
