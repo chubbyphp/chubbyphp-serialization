@@ -14,7 +14,7 @@ interface NormalizationFieldMappingInterface
     public function getName(): string;
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getGroups(): array;
 

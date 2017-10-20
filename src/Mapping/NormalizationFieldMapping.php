@@ -44,7 +44,7 @@ final class NormalizationFieldMapping implements NormalizationFieldMappingInterf
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getGroups(): array
     {
