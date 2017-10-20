@@ -14,13 +14,10 @@ $fieldNormalizer = new FieldNormalizer(
     new PropertyAccessor('name')
 )
 
-$fieldNormalizer->normalize(
+echo $fieldNormalizer->normalize(
     'name',
     $model,
-    'php',
     $context
 )
-
-echo $model->getName();
 // 'php'
 ```

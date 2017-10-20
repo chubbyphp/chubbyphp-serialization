@@ -14,17 +14,14 @@ $context = ...;
 $fieldNormalizer = new DateFieldNormalizer(
     new FieldNormalizer(
         new PropertyAccessor('at')
-    )
+    ),
+    'Y-m-d H:i:s'
 )
 
-$fieldNormalizer->normalize(
+echo $fieldNormalizer->normalize(
     'at',
     $model,
-    new \DateTime('2017-01-01 22:00:00'),
     $context
 )
-
-echo $model->getAt()
-    ->format('Y-m-d H:i:s');
 // '2017-01-01 22:00:00'
 ```

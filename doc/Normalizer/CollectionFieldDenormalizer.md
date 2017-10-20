@@ -13,20 +13,18 @@ $context = ...;
 $normalizer = ...;
 
 $fieldNormalizer = new CollectionFieldNormalizer(
-    ChildModel::class
     new PropertyAccessor('children')
 )
 
-$fieldNormalizer->normalize(
+$data = $fieldNormalizer->normalize(
     'children',
     $parentModel,
-    [['name' => 'php'],
     $context,
     $normalizer
 )
 
-echo $parentModel
-    ->getChildren()[0]
-    ->getName();
-// 'php'
+print_r(
+    $data
+);
+// [['name' => 'php']]
 ```

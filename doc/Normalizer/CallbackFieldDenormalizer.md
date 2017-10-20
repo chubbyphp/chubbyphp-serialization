@@ -13,21 +13,18 @@ $fieldNormalizer = new CallbackFieldNormalizer(
     function (
         string $path,
         $object,
-        $value,
         NormalizerContextInterface $context,
         NormalizerInterface $normalizer = null
     ) {
-        $object->setName($value);
+        return $object->getName();
     }
 )
 
-$fieldNormalizer->normalize(
+echo $fieldNormalizer->normalize(
     'name',
     $model,
     'php',
     $context
 )
-
-echo $model->getName();
 // 'php'
 ```
