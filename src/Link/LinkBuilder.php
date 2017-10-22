@@ -34,7 +34,7 @@ final class LinkBuilder implements LinkBuilderInterface
      */
     public static function create(string $href): LinkBuilderInterface
     {
-        $self = new self;
+        $self = new self();
         $self->href = $href;
         $self->rels = [];
         $self->attributes = [];
@@ -44,6 +44,7 @@ final class LinkBuilder implements LinkBuilderInterface
 
     /**
      * @param string[] $rels
+     *
      * @return LinkBuilderInterface
      */
     public function setRels(array $rels): LinkBuilderInterface
@@ -55,6 +56,7 @@ final class LinkBuilder implements LinkBuilderInterface
 
     /**
      * @param array $attributes
+     *
      * @return LinkBuilderInterface
      */
     public function setAttributes(array $attributes): LinkBuilderInterface

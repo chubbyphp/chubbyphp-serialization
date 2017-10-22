@@ -17,12 +17,14 @@ interface LinkBuilderInterface
 
     /**
      * @param string[] $rels
+     *
      * @return self
      */
     public function setRels(array $rels): self;
 
     /**
      * @param array $attributes
+     *
      * @return self
      */
     public function setAttributes(array $attributes): self;
