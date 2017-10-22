@@ -28,7 +28,7 @@ final class NormalizationFieldMapping implements NormalizationFieldMappingInterf
      * @param array                    $groups
      * @param FieldNormalizerInterface $fieldNormalizer
      */
-    public function __construct($name, array $groups = [], FieldNormalizerInterface $fieldNormalizer)
+    public function __construct($name, array $groups, FieldNormalizerInterface $fieldNormalizer)
     {
         $this->name = $name;
         $this->groups = $groups;
