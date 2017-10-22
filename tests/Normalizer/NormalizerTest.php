@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Chubbyphp\Tests\Serialization\Normalizer;
 
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
+use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
+use Chubbyphp\Serialization\Normalizer\LinkNormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\Normalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
@@ -35,6 +37,11 @@ class NormalizerTest extends TestCase
             'name' => 'php',
             '_embedded' => [
                 'name' => 'php',
+            ],
+            '_links' => [
+                'name' => [
+                    'href' => '/api/model/id1',
+                ],
             ],
             '_type' => 'object',
         ], $normalizer->normalize($this->getRequest(), $object));
@@ -71,7 +78,7 @@ class NormalizerTest extends TestCase
 
         $normalizer = new Normalizer(
             $this->getNormalizerObjectMappingRegistry([
-                $this->getNormalizationObjectMapping(['group1'], ['group2']),
+                $this->getNormalizationObjectMapping(['group1'], ['group2'], ['group2']),
             ])
         );
 
@@ -79,6 +86,26 @@ class NormalizerTest extends TestCase
             'name' => 'php',
             '_type' => 'object',
         ], $normalizer->normalize($this->getRequest(), $object, $this->getNormalizerContext(['group1'])));
+    }
+
+    public function testNormalizeWithNullLink()
+    {
+        $object = $this->getObject();
+        $object->setName('php');
+
+        $normalizer = new Normalizer(
+            $this->getNormalizerObjectMappingRegistry([
+                $this->getNormalizationObjectMapping([], [], [], true),
+            ])
+        );
+
+        self::assertEquals([
+            'name' => 'php',
+            '_embedded' => [
+                'name' => 'php',
+            ],
+            '_type' => 'object',
+        ], $normalizer->normalize($this->getRequest(), $object));
     }
 
     /**
@@ -115,12 +142,16 @@ class NormalizerTest extends TestCase
     /**
      * @param array $groupFields
      * @param array $groupEmbeddedFields
+     * @param array $groupLinks
+     * @param bool  $nullLink
      *
      * @return NormalizationObjectMappingInterface
      */
     private function getNormalizationObjectMapping(
         array $groupFields = [],
-        array $groupEmbeddedFields = []
+        array $groupEmbeddedFields = [],
+        array $groupLinks = [],
+        bool $nullLink = false
     ): NormalizationObjectMappingInterface {
         /** @var NormalizationObjectMappingInterface|\PHPUnit_Framework_MockObject_MockObject $objectMapping */
         $objectMapping = $this->getMockBuilder(NormalizationObjectMappingInterface::class)
@@ -143,6 +174,10 @@ class NormalizerTest extends TestCase
 
         $objectMapping->expects(self::any())->method('getNormalizationEmbeddedFieldMappings')->willReturn([
             $this->getNormalizationFieldMapping($groupEmbeddedFields),
+        ]);
+
+        $objectMapping->expects(self::any())->method('getNormalizationLinkMappings')->willReturn([
+            $this->getNormalizationLinkMapping($nullLink, $groupLinks),
         ]);
 
         return $objectMapping;
@@ -168,6 +203,26 @@ class NormalizerTest extends TestCase
     }
 
     /**
+     * @param bool  $nullLink
+     * @param array $groups
+     *
+     * @return NormalizationLinkMappingInterface
+     */
+    private function getNormalizationLinkMapping(bool $nullLink, array $groups = []): NormalizationLinkMappingInterface
+    {
+        /** @var NormalizationLinkMappingInterface|\PHPUnit_Framework_MockObject_MockObject $linkMapping */
+        $linkMapping = $this->getMockBuilder(NormalizationLinkMappingInterface::class)
+            ->setMethods([])
+            ->getMockForAbstractClass();
+
+        $linkMapping->expects(self::any())->method('getName')->willReturn('name');
+        $linkMapping->expects(self::any())->method('getGroups')->willReturn($groups);
+        $linkMapping->expects(self::any())->method('getLinkNormalizer')->willReturn($this->getLinkNormalizer($nullLink));
+
+        return $linkMapping;
+    }
+
+    /**
      * @return FieldNormalizerInterface
      */
     private function getFieldNormalizer(): FieldNormalizerInterface
@@ -188,6 +243,34 @@ class NormalizerTest extends TestCase
         });
 
         return $fieldNormalizer;
+    }
+
+    /**
+     * @param bool $nullLink
+     *
+     * @return LinkNormalizerInterface
+     */
+    private function getLinkNormalizer(bool $nullLink): LinkNormalizerInterface
+    {
+        /** @var LinkNormalizerInterface|\PHPUnit_Framework_MockObject_MockObject $linkNormalizer */
+        $linkNormalizer = $this->getMockBuilder(LinkNormalizerInterface::class)
+            ->setMethods([])
+            ->getMockForAbstractClass();
+
+        $linkNormalizer->expects(self::any())->method('normalizeLink')->willReturnCallback(function (
+            string $path,
+            Request $request,
+            $object,
+            NormalizerContextInterface $context
+        ) use ($nullLink) {
+            if ($nullLink) {
+                return null;
+            }
+
+            return ['href' => '/api/model/'.$object->getId()];
+        });
+
+        return $linkNormalizer;
     }
 
     /**
@@ -216,7 +299,20 @@ class NormalizerTest extends TestCase
             /**
              * @var string
              */
+            private $id = 'id1';
+
+            /**
+             * @var string
+             */
             private $name;
+
+            /**
+             * @return string
+             */
+            public function getId(): string
+            {
+                return $this->id;
+            }
 
             /**
              * @return string|null
