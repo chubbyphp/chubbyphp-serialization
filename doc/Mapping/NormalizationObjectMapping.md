@@ -62,13 +62,19 @@ final class ModelMapping implements NormalizationObjectMappingInterface
      */
     public function getNormalizationLinkMappings(string $path): array {
         return [
-            new NormalizationLinkMapping('self', [], new CallbackLinkNormalizer(
-                function (string $path, $object) {
-                    return LinkBuilder::create('/api/model/' . $object->getId())
-                        ->setAttributes(['methods' => ['GET', 'PUT', 'DELETE']])
-                        ->getLink();
-                }
-            )),
+            new NormalizationLinkMapping(
+                'self',
+                [],
+                new CallbackLinkNormalizer(
+                    function (string $path, $object) {
+                        return LinkBuilder::create('/api/model/' . $object->getId())
+                            ->setAttributes([
+                                'methods' => ['GET', 'PUT', 'DELETE']
+                            ])
+                            ->getLink();
+                    }
+                )
+            ),
         ];
     }
 }

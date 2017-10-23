@@ -7,7 +7,7 @@ use Chubbyphp\Serialization\Accessor\PropertyAccessor;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizer;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder;
 
-$fieldMapping = new NormalizationFieldMappingBuilder('name')
+$fieldMapping = NormalizationFieldMappingBuilder::create('name')
     ->setGroups(['group1'])
     ->setFieldNormalizer(
         new FieldNormalizer(
@@ -22,5 +22,7 @@ echo $fieldMapping->getName();
 print_r($fieldMapping->getGroups());
 // ['group1']
 
-$fieldMapping->getFieldNormalizer()->normalizeField(...);
+$fieldMapping
+    ->getFieldNormalizer()
+    ->normalizeField(...);
 ```
