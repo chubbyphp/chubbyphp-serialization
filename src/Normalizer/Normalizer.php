@@ -8,7 +8,6 @@ use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -37,7 +36,6 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @param Request                         $request
      * @param object                          $object
      * @param NormalizerContextInterface|null $context
      * @param string                          $path
@@ -45,7 +43,6 @@ final class Normalizer implements NormalizerInterface
      * @return array
      */
     public function normalize(
-        Request $request,
         $object,
         NormalizerContextInterface $context = null,
         string $path = ''
@@ -59,13 +56,13 @@ final class Normalizer implements NormalizerInterface
 
         $fieldMappings = $objectMapping->getNormalizationFieldMappings($path);
 
-        $data = $this->getFieldsByFieldNormalizationMappings($context, $fieldMappings, $path, $request, $object);
+        $data = $this->getFieldsByFieldNormalizationMappings($context, $fieldMappings, $path, $object);
 
         $embeddedMappings = $objectMapping->getNormalizationEmbeddedFieldMappings($path);
-        $embedded = $this->getFieldsByFieldNormalizationMappings($context, $embeddedMappings, $path, $request, $object);
+        $embedded = $this->getFieldsByFieldNormalizationMappings($context, $embeddedMappings, $path, $object);
 
         $linkMappings = $objectMapping->getNormalizationLinkMappings($path);
-        $links = $this->getLinksByLinkNormalizationMappings($context, $linkMappings, $path, $request, $object);
+        $links = $this->getLinksByLinkNormalizationMappings($context, $linkMappings, $path, $object);
 
         if ([] !== $embedded) {
             $data['_embedded'] = $embedded;
@@ -119,8 +116,7 @@ final class Normalizer implements NormalizerInterface
      * @param NormalizerContextInterface           $context
      * @param NormalizationFieldMappingInterface[] $normalizationFieldMappings
      * @param string                               $path
-     * @param Request                              $request
-     * @param $object
+     * @param object                               $object
      *
      * @return array
      */
@@ -128,7 +124,6 @@ final class Normalizer implements NormalizerInterface
         NormalizerContextInterface $context,
         array $normalizationFieldMappings,
         string $path,
-        Request $request,
         $object
     ): array {
         $data = [];
@@ -145,7 +140,7 @@ final class Normalizer implements NormalizerInterface
 
             $this->logger->info('serialize: path {path}', ['path' => $subPath]);
 
-            $data[$name] = $fieldNormalizer->normalizeField($subPath, $request, $object, $context, $this);
+            $data[$name] = $fieldNormalizer->normalizeField($subPath, $object, $context, $this);
         }
 
         return $data;
@@ -155,7 +150,6 @@ final class Normalizer implements NormalizerInterface
      * @param NormalizerContextInterface          $context
      * @param NormalizationLinkMappingInterface[] $normalizationLinkMappings
      * @param string                              $path
-     * @param Request                             $request
      * @param object                              $object
      *
      * @return array
@@ -164,7 +158,6 @@ final class Normalizer implements NormalizerInterface
         NormalizerContextInterface $context,
         array $normalizationLinkMappings,
         string $path,
-        Request $request,
         $object
     ): array {
         $links = [];
@@ -175,7 +168,7 @@ final class Normalizer implements NormalizerInterface
 
             $linkNormalizer = $normalizationLinkMapping->getLinkNormalizer();
 
-            if (null === $link = $linkNormalizer->normalizeLink($path, $request, $object, $context)) {
+            if (null === $link = $linkNormalizer->normalizeLink($path, $object, $context)) {
                 continue;
             }
 

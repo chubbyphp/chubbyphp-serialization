@@ -9,7 +9,6 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\Serializer;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * @covers \Chubbyphp\Serialization\Serializer
@@ -23,12 +22,7 @@ class SerializerTest extends TestCase
         $object = new \stdClass();
         $object->name = 'Name';
 
-        $data = $serializer->serialize(
-            $this->getRequest(),
-            $object,
-            'application/json',
-            $this->getNormalizerContext()
-        );
+        $data = $serializer->serialize($object, 'application/json', $this->getNormalizerContext());
 
         self::assertSame(json_encode(['name' => 'Name']), $data);
     }
@@ -40,11 +34,7 @@ class SerializerTest extends TestCase
         $object = new \stdClass();
         $object->name = 'Name';
 
-        $data = $serializer->normalize(
-            $this->getRequest(),
-            $object,
-            $this->getNormalizerContext()
-        );
+        $data = $serializer->normalize($object, $this->getNormalizerContext());
 
         self::assertSame(['name' => 'Name'], $data);
     }
@@ -77,7 +67,7 @@ class SerializerTest extends TestCase
         $encoder = $this->getMockBuilder(NormalizerInterface::class)->getMockForAbstractClass();
 
         $encoder->expects(self::any())->method('normalize')->willReturnCallback(
-            function (Request $request, $object, NormalizerContextInterface $context = null, string $path = '') {
+            function ($object, NormalizerContextInterface $context = null, string $path = '') {
                 self::assertNotNull($context);
                 self::assertSame('', $path);
 
@@ -121,16 +111,5 @@ class SerializerTest extends TestCase
         );
 
         return $encoder;
-    }
-
-    /**
-     * @return Request
-     */
-    private function getRequest(): Request
-    {
-        /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
-        $request = $this->getMockBuilder(Request::class)->getMockForAbstractClass();
-
-        return $request;
     }
 }

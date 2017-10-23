@@ -15,7 +15,6 @@ use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistryInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\Normalizer
@@ -44,7 +43,7 @@ class NormalizerTest extends TestCase
                 ],
             ],
             '_type' => 'object',
-        ], $normalizer->normalize($this->getRequest(), $object));
+        ], $normalizer->normalize($object));
     }
 
     public function testNormalizeWithoutObject()
@@ -54,7 +53,7 @@ class NormalizerTest extends TestCase
 
         $normalizer = new Normalizer($this->getNormalizerObjectMappingRegistry([]));
 
-        $normalizer->normalize($this->getRequest(), 'test');
+        $normalizer->normalize('test');
     }
 
     public function testNormalizeMissingMapping()
@@ -68,7 +67,7 @@ class NormalizerTest extends TestCase
             ])
         );
 
-        $normalizer->normalize($this->getRequest(), new \stdClass());
+        $normalizer->normalize(new \stdClass());
     }
 
     public function testNormalizeWithGroup()
@@ -85,7 +84,7 @@ class NormalizerTest extends TestCase
         self::assertEquals([
             'name' => 'php',
             '_type' => 'object',
-        ], $normalizer->normalize($this->getRequest(), $object, $this->getNormalizerContext(['group1'])));
+        ], $normalizer->normalize($object, $this->getNormalizerContext(['group1'])));
     }
 
     public function testNormalizeWithNullLink()
@@ -105,7 +104,7 @@ class NormalizerTest extends TestCase
                 'name' => 'php',
             ],
             '_type' => 'object',
-        ], $normalizer->normalize($this->getRequest(), $object));
+        ], $normalizer->normalize($object));
     }
 
     /**
@@ -234,7 +233,6 @@ class NormalizerTest extends TestCase
 
         $fieldNormalizer->expects(self::any())->method('normalizeField')->willReturnCallback(function (
             string $path,
-            Request $request,
             $object,
             NormalizerContextInterface $context,
             NormalizerInterface $normalizer = null
@@ -259,7 +257,6 @@ class NormalizerTest extends TestCase
 
         $linkNormalizer->expects(self::any())->method('normalizeLink')->willReturnCallback(function (
             string $path,
-            Request $request,
             $object,
             NormalizerContextInterface $context
         ) use ($nullLink) {
@@ -334,16 +331,5 @@ class NormalizerTest extends TestCase
                 return $this;
             }
         };
-    }
-
-    /**
-     * @return Request
-     */
-    private function getRequest(): Request
-    {
-        /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
-        $request = $this->getMockBuilder(Request::class)->getMockForAbstractClass();
-
-        return $request;
     }
 }

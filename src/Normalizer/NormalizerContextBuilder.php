@@ -4,12 +4,19 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Normalizer;
 
+use Psr\Http\Message\ServerRequestInterface;
+
 final class NormalizerContextBuilder implements NormalizerContextBuilderInterface
 {
     /**
      * @var string[]
      */
     private $groups;
+
+    /**
+     * @var ServerRequestInterface
+     */
+    private $request;
 
     private function __construct()
     {
@@ -39,10 +46,22 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
     }
 
     /**
+     * @param ServerRequestInterface $request
+     *
+     * @return NormalizerContextBuilderInterface
+     */
+    public function setRequest(ServerRequestInterface $request): NormalizerContextBuilderInterface
+    {
+        $this->request = $request;
+
+        return $this;
+    }
+
+    /**
      * @return NormalizerContextInterface
      */
     public function getContext(): NormalizerContextInterface
     {
-        return new NormalizerContext($this->groups);
+        return new NormalizerContext($this->groups, $this->request);
     }
 }

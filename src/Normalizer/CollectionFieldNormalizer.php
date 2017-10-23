@@ -6,7 +6,6 @@ namespace Chubbyphp\Serialization\Normalizer;
 
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class CollectionFieldNormalizer implements FieldNormalizerInterface
 {
@@ -25,7 +24,6 @@ final class CollectionFieldNormalizer implements FieldNormalizerInterface
 
     /**
      * @param string                     $path
-     * @param Request                    $request
      * @param object                     $object
      * @param NormalizerContextInterface $context
      * @param NormalizerInterface|null   $normalizer
@@ -36,7 +34,6 @@ final class CollectionFieldNormalizer implements FieldNormalizerInterface
      */
     public function normalizeField(
         string $path,
-        Request $request,
         $object,
         NormalizerContextInterface $context,
         NormalizerInterface $normalizer = null
@@ -48,7 +45,7 @@ final class CollectionFieldNormalizer implements FieldNormalizerInterface
         $data = [];
         foreach ($this->accessor->getValue($object) as $i => $childObject) {
             $subPath = $path.'['.$i.']';
-            $data[$i] = $normalizer->normalize($request, $childObject, $context, $subPath);
+            $data[$i] = $normalizer->normalize($childObject, $context, $subPath);
         }
 
         return $data;

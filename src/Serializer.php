@@ -7,7 +7,6 @@ namespace Chubbyphp\Serialization;
 use Chubbyphp\Serialization\Encoder\EncoderInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class Serializer implements SerializerInterface
 {
@@ -32,7 +31,6 @@ final class Serializer implements SerializerInterface
     }
 
     /**
-     * @param Request                    $request
      * @param object                     $object
      * @param string                     $contentType
      * @param NormalizerContextInterface $context
@@ -41,17 +39,15 @@ final class Serializer implements SerializerInterface
      * @return string
      */
     public function serialize(
-        Request $request,
         $object,
         string $contentType,
         NormalizerContextInterface $context = null,
         $path = ''
     ): string {
-        return $this->encoder->encode($this->normalizer->normalize($request, $object, $context, $path), $contentType);
+        return $this->encoder->encode($this->normalizer->normalize($object, $context, $path), $contentType);
     }
 
     /**
-     * @param Request                         $request
      * @param object                          $object
      * @param NormalizerContextInterface|null $context
      * @param string                          $path
@@ -60,9 +56,9 @@ final class Serializer implements SerializerInterface
      *
      * @throws SerializerLogicException
      */
-    public function normalize(Request $request, $object, NormalizerContextInterface $context = null, string $path = ''): array
+    public function normalize($object, NormalizerContextInterface $context = null, string $path = ''): array
     {
-        return $this->normalizer->normalize($request, $object, $context, $path);
+        return $this->normalizer->normalize($object, $context, $path);
     }
 
     /**

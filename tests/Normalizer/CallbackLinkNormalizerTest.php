@@ -7,7 +7,6 @@ namespace Chubbyphp\Tests\Serialization\Normalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Link\LinkInterface;
 
 /**
@@ -35,7 +34,6 @@ class CallbackLinkNormalizerTest extends TestCase
         $linkNormalizer = new CallbackLinkNormalizer(
             function (
                 string $path,
-                Request $request,
                 $object,
                 NormalizerContextInterface $context
             ) {
@@ -54,12 +52,7 @@ class CallbackLinkNormalizerTest extends TestCase
                     'method' => 'GET',
                 ],
             ],
-            $linkNormalizer->normalizeLink(
-                'name',
-                $this->getRequest(),
-                $object,
-                $this->getNormalizerContext()
-            )
+            $linkNormalizer->normalizeLink('name', $object, $this->getNormalizerContext())
         );
     }
 
@@ -71,7 +64,6 @@ class CallbackLinkNormalizerTest extends TestCase
         $linkNormalizer = new CallbackLinkNormalizer(
             function (
                 string $path,
-                Request $request,
                 $object,
                 NormalizerContextInterface $context
             ) {
@@ -79,12 +71,7 @@ class CallbackLinkNormalizerTest extends TestCase
         );
 
         self::assertNull(
-            $linkNormalizer->normalizeLink(
-                'name',
-                $this->getRequest(),
-                $object,
-                $this->getNormalizerContext()
-            )
+            $linkNormalizer->normalizeLink('name', $object, $this->getNormalizerContext())
         );
     }
 
@@ -97,17 +84,6 @@ class CallbackLinkNormalizerTest extends TestCase
         $context = $this->getMockBuilder(NormalizerContextInterface::class)->getMockForAbstractClass();
 
         return $context;
-    }
-
-    /**
-     * @return Request
-     */
-    private function getRequest(): Request
-    {
-        /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
-        $request = $this->getMockBuilder(Request::class)->getMockForAbstractClass();
-
-        return $request;
     }
 
     /**
