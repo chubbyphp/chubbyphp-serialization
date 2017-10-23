@@ -65,43 +65,44 @@ composer require chubbyphp/chubbyphp-serialization "~2.0@alpha"
  * [CollectionFieldNormalizer][13]
  * [DateFieldNormalizer][14]
  * [FieldNormalizer][15]
+ * [ReferenceFieldNormalizer][16]
 
 #### Link Normalizer
 
- * [CallbackLinkNormalizer][16]
+ * [CallbackLinkNormalizer][17]
 
 #### Normalizer Context
 
- * [NormalizerContext][17]
- * [NormalizerContextBuilder][18]
+ * [NormalizerContext][18]
+ * [NormalizerContextBuilder][19]
 
 ### NormalizerObjectMappingRegistry
 
-* [NormalizerObjectMappingRegistry][19]
+* [NormalizerObjectMappingRegistry][20]
 
 ### Mapping
 
 #### NormalizationFieldMapping
 
- * [NormalizationFieldMapping][20]
- * [NormalizationFieldMappingBuilder][21]
+ * [NormalizationFieldMapping][21]
+ * [NormalizationFieldMappingBuilder][22]
  
 #### NormalizationLinkMapping
 
- * [NormalizationLinkMapping][22]
- * [NormalizationLinkMappingBuilder][23]
+ * [NormalizationLinkMapping][23]
+ * [NormalizationLinkMappingBuilder][24]
 
 #### NormalizationObjectMapping
 
- * [NormalizationObjectMapping][24]
+ * [NormalizationObjectMapping][25]
 
 #### LazyNormalizationObjectMapping
 
- * [LazyNormalizationObjectMapping][25]
+ * [LazyNormalizationObjectMapping][26]
 
 ### Provider
 
-* [SerializationProvider][26]
+* [SerializationProvider][27]
 
 ### Serializer
 
@@ -199,22 +200,23 @@ Dominik Zogg 2017
 [13]: doc/Normalizer/CollectionFieldNormalizer.md
 [14]: doc/Normalizer/DateFieldNormalizer.md
 [15]: doc/Normalizer/FieldNormalizer.md
+[16]: doc/Normalizer/ReferenceFieldNormalizer.md
 
-[16]: doc/Normalizer/CallbackLinkNormalizer.md
+[17]: doc/Normalizer/CallbackLinkNormalizer.md
 
-[17]: doc/Normalizer/NormalizerContext.md
-[18]: doc/Normalizer/NormalizerContextBuilder.md
+[18]: doc/Normalizer/NormalizerContext.md
+[19]: doc/Normalizer/NormalizerContextBuilder.md
 
-[19]: doc/Normalizer/NormalizerObjectMappingRegistry.md
+[20]: doc/Normalizer/NormalizerObjectMappingRegistry.md
 
-[20]: doc/Mapping/NormalizationFieldMapping.md
-[21]: doc/Mapping/NormalizationFieldMappingBuilder.md
+[21]: doc/Mapping/NormalizationFieldMapping.md
+[22]: doc/Mapping/NormalizationFieldMappingBuilder.md
 
-[22]: doc/Mapping/NormalizationLinkMapping.md
-[23]: doc/Mapping/NormalizationLinkMappingBuilder.md
+[23]: doc/Mapping/NormalizationLinkMapping.md
+[24]: doc/Mapping/NormalizationLinkMappingBuilder.md
 
-[24]: doc/Mapping/NormalizationObjectMapping.md
+[25]: doc/Mapping/NormalizationObjectMapping.md
 
-[25]: doc/Mapping/LazyNormalizationObjectMapping.md
+[26]: doc/Mapping/LazyNormalizationObjectMapping.md
 
-[26]: doc/Provider/SerializationProvider.md
+[27]: doc/Provider/SerializationProvider.md
