@@ -100,16 +100,13 @@ $serializer = new Serializer(
         new UrlEncodedTypeEncoder(),
         new XmlTypeEncoder(),
         new YamlTypeEncoder()
-    ]),
+    ])
 );
-
-$request = ...;
 
 $model = new Model;
 $model->setName('php');
 
 $json = $serializer->serialize(
-    $request,
     $model,
     'application/json'
 );
@@ -121,7 +118,6 @@ $model = new Model;
 $model->setName('php');
 
 $data = $serializer->normalize(
-    $request,
     $model
 );
 
