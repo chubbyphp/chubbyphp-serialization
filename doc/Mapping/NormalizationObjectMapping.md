@@ -69,7 +69,7 @@ final class ModelMapping implements NormalizationObjectMappingInterface
                     function (string $path, $object) {
                         return LinkBuilder::create('/api/model/' . $object->getId())
                             ->setAttributes([
-                                'methods' => ['GET', 'PUT', 'DELETE']
+                                'method' => 'GET'
                             ])
                             ->getLink();
                     }
