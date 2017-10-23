@@ -4,6 +4,8 @@
 <?php
 
 use Chubbyphp\Serialization\Normalizer\CallbackFieldNormalizer;
+use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
+use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use MyProject\Model\Model;
 
 $model = new Model;
@@ -20,10 +22,9 @@ $fieldNormalizer = new CallbackFieldNormalizer(
     }
 );
 
-echo $fieldNormalizer->normalize(
+echo $fieldNormalizer->normalizeField(
     'name',
     $model,
-    'php',
     $context
 );
 // 'php'
