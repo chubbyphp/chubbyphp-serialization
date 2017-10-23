@@ -148,8 +148,7 @@ echo $serializer->encode(
 
 #### NormalizationObjectMapping
 
- * [AdvancedNormalizationObjectMapping][19]
- * [SimpleNormalizationObjectMapping][20]
+ * [NormalizationObjectMapping][19]
 
 #### LazyNormalizationObjectMapping
 
@@ -191,7 +190,7 @@ Dominik Zogg 2017
 [17]: doc/Mapping/NormalizationFieldMapping.md
 [18]: doc/Mapping/NormalizationFieldMappingBuilder.md
 
-[19]: doc/Mapping/AdvancedNormalizationObjectMapping.md
+[19]: doc/Mapping/NormalizationObjectMapping.md
 [20]: doc/Mapping/SimpleNormalizationObjectMapping.md
 
 [21]: doc/Mapping/LazyNormalizationObjectMapping.md
