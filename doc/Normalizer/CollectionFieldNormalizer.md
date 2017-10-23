@@ -9,6 +9,7 @@ use MyProject\Model\ParentModel;
 use MyProject\Model\ChildModel;
 
 $parentModel = new ParentModel;
+$parentModel->setChildren([new ChildModel]);
 $context = ...;
 $normalizer = ...;
 
@@ -16,7 +17,7 @@ $fieldNormalizer = new CollectionFieldNormalizer(
     new PropertyAccessor('children')
 );
 
-$data = $fieldNormalizer->normalize(
+$data = $fieldNormalizer->normalizeField(
     'children',
     $parentModel,
     $context,

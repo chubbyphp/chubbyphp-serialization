@@ -18,7 +18,7 @@ $fieldNormalizer = new DateFieldNormalizer(
     'Y-m-d H:i:s'
 );
 
-echo $fieldNormalizer->normalize(
+echo $fieldNormalizer->normalizeField(
     'at',
     $model,
     $context

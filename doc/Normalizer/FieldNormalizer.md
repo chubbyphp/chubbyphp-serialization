@@ -14,7 +14,7 @@ $fieldNormalizer = new FieldNormalizer(
     new PropertyAccessor('name')
 );
 
-echo $fieldNormalizer->normalize(
+echo $fieldNormalizer->normalizeField(
     'name',
     $model,
     $context
