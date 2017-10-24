@@ -21,10 +21,11 @@ interface NormalizerContextBuilderInterface
     public function setGroups(array $groups): self;
 
     /**
-     * @param ServerRequestInterface $request
+     * @param ServerRequestInterface|null $request
+     *
      * @return NormalizerContextBuilderInterface
      */
-    public function setRequest(ServerRequestInterface $request): self;
+    public function setRequest(ServerRequestInterface $request = null): self;
 
     /**
      * @return NormalizerContextInterface

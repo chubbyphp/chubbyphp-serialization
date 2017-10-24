@@ -19,7 +19,7 @@ final class NormalizerContext implements NormalizerContextInterface
     private $request;
 
     /**
-     * @param string[] $groups
+     * @param string[]                    $groups
      * @param ServerRequestInterface|null $request
      */
     public function __construct(array $groups = [], ServerRequestInterface $request = null)

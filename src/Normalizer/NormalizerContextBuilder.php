@@ -14,7 +14,7 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
     private $groups;
 
     /**
-     * @var ServerRequestInterface
+     * @var ServerRequestInterface|null
      */
     private $request;
 
@@ -46,11 +46,11 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
     }
 
     /**
-     * @param ServerRequestInterface $request
+     * @param ServerRequestInterface|null $request
      *
      * @return NormalizerContextBuilderInterface
      */
-    public function setRequest(ServerRequestInterface $request): NormalizerContextBuilderInterface
+    public function setRequest(ServerRequestInterface $request = null): NormalizerContextBuilderInterface
     {
         $this->request = $request;
 

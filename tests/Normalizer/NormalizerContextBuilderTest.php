@@ -39,6 +39,17 @@ class NormalizerContextBuilderTest extends TestCase
         self::assertSame($request, $context->getRequest());
     }
 
+    public function testCreateSetNullRequest()
+    {
+        $context = NormalizerContextBuilder::create()
+            ->setRequest()
+            ->getContext();
+
+        self::assertInstanceOf(NormalizerContextInterface::class, $context);
+
+        self::assertNull($context->getRequest());
+    }
+
     /**
      * @return ServerRequestInterface
      */
