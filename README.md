@@ -29,7 +29,7 @@ A simple serialization.
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-serialization][1].
 
 ```sh
-composer require chubbyphp/chubbyphp-serialization "~2.0@alpha"
+composer require chubbyphp/chubbyphp-serialization "~2.0@beta"
 ```
 
 ## Usage
