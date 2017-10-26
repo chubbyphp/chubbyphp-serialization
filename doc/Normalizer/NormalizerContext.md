@@ -4,7 +4,7 @@
 <?php
 
 use Chubbyphp\Serialization\Normalizer\NormalizerContext;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ServerRequestInterface;
 
 $request = ...;
 

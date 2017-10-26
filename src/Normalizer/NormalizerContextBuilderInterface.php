@@ -9,7 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 interface NormalizerContextBuilderInterface
 {
     /**
-     * @return NormalizerContextBuilderInterface
+     * @return self
      */
     public static function create(): NormalizerContextBuilderInterface;
 
@@ -23,7 +23,7 @@ interface NormalizerContextBuilderInterface
     /**
      * @param ServerRequestInterface|null $request
      *
-     * @return NormalizerContextBuilderInterface
+     * @return self
      */
     public function setRequest(ServerRequestInterface $request = null): self;
 

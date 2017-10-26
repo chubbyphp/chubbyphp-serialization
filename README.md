@@ -119,7 +119,7 @@ use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;
 use MyProject\Serialization\ModelMapping;
 use MyProject\Model\Model;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ServerRequestInterface;
 
 $logger = ...;
 
