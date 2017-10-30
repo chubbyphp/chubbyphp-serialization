@@ -6,33 +6,20 @@ namespace Chubbyphp\Tests\Serialization\Normalizer;
 
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
-use Chubbyphp\Serialization\Normalizer\Relation\EmbedOneFieldNormalizer;
+use Chubbyphp\Serialization\Normalizer\Relation\ReferenceOneFieldNormalizer;
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
-use Chubbyphp\Serialization\SerializerLogicException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Chubbyphp\Serialization\Normalizer\Relation\EmbedOneFieldNormalizer
+ * @covers \Chubbyphp\Serialization\Normalizer\Relation\ReferenceOneFieldNormalizer
  */
-class EmbedOneFieldNormalizerTest extends TestCase
+class ReferenceOneFieldNormalizerTest extends TestCase
 {
-    public function testNormalizeFieldWithMissingNormalizer()
-    {
-        self::expectException(SerializerLogicException::class);
-        self::expectExceptionMessage('There is no normalizer at path: "relation"');
-
-        $object = $this->getObject();
-
-        $fieldNormalizer = new EmbedOneFieldNormalizer($this->getAccessor());
-
-        $fieldNormalizer->normalizeField('relation', $object, $this->getNormalizerContext());
-    }
-
     public function testNormalizeFieldWithNull()
     {
         $object = $this->getObject();
 
-        $fieldNormalizer = new EmbedOneFieldNormalizer($this->getAccessor());
+        $fieldNormalizer = new ReferenceOneFieldNormalizer($this->getIdentifierAccessor(), $this->getAccessor());
 
         $data = $fieldNormalizer->normalizeField(
             'relation',
@@ -47,9 +34,9 @@ class EmbedOneFieldNormalizerTest extends TestCase
     public function testNormalizeFieldWithObject()
     {
         $object = $this->getObject();
-        $object->setRelation($this->getRelation()->setName('php'));
+        $object->setRelation($this->getRelation('id1'));
 
-        $fieldNormalizer = new EmbedOneFieldNormalizer($this->getAccessor());
+        $fieldNormalizer = new ReferenceOneFieldNormalizer($this->getIdentifierAccessor(), $this->getAccessor());
 
         $data = $fieldNormalizer->normalizeField(
             'relation',
@@ -58,7 +45,7 @@ class EmbedOneFieldNormalizerTest extends TestCase
             $this->getNormalizer()
         );
 
-        self::assertSame(['name' => 'php'], $data);
+        self::assertSame('id1', $data);
     }
 
     /**
@@ -71,6 +58,21 @@ class EmbedOneFieldNormalizerTest extends TestCase
 
         $accessor->expects(self::any())->method('getValue')->willReturnCallback(function ($object) {
             return $object->getRelation();
+        });
+
+        return $accessor;
+    }
+
+    /**
+     * @return AccessorInterface
+     */
+    private function getIdentifierAccessor(): AccessorInterface
+    {
+        /** @var AccessorInterface|\PHPUnit_Framework_MockObject_MockObject $accessor */
+        $accessor = $this->getMockBuilder(AccessorInterface::class)->getMockForAbstractClass();
+
+        $accessor->expects(self::any())->method('getValue')->willReturnCallback(function ($object) {
+            return $object->getId();
         });
 
         return $accessor;
@@ -138,34 +140,32 @@ class EmbedOneFieldNormalizerTest extends TestCase
     }
 
     /**
+     * @param string|null $id
+     *
      * @return object
      */
-    private function getRelation()
+    private function getRelation(string $id)
     {
-        return new class() {
+        return new class($id ?? uniqid()) {
             /**
              * @var string
              */
-            private $name;
+            private $id;
+
+            /**
+             * @param string $id
+             */
+            public function __construct(string $id)
+            {
+                $this->id = $id;
+            }
 
             /**
              * @return string
              */
-            public function getName(): string
+            public function getId(): string
             {
-                return $this->name;
-            }
-
-            /**
-             * @param string $name
-             *
-             * @return self
-             */
-            public function setName(string $name): self
-            {
-                $this->name = $name;
-
-                return $this;
+                return $this->id;
             }
         };
     }

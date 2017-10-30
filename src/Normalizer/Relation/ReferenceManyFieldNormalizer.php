@@ -15,7 +15,7 @@ final class ReferenceManyFieldNormalizer implements FieldNormalizerInterface
     /**
      * @var AccessorInterface
      */
-    private $childAccessor;
+    private $identifierAccessor;
 
     /**
      * @var AccessorInterface
@@ -23,12 +23,12 @@ final class ReferenceManyFieldNormalizer implements FieldNormalizerInterface
     private $accessor;
 
     /**
-     * @param AccessorInterface $childAccessor
+     * @param AccessorInterface $identifierAccessor
      * @param AccessorInterface $accessor
      */
-    public function __construct(AccessorInterface $childAccessor, AccessorInterface $accessor)
+    public function __construct(AccessorInterface $identifierAccessor, AccessorInterface $accessor)
     {
-        $this->childAccessor = $childAccessor;
+        $this->identifierAccessor = $identifierAccessor;
         $this->accessor = $accessor;
     }
 
@@ -54,7 +54,7 @@ final class ReferenceManyFieldNormalizer implements FieldNormalizerInterface
 
         $values = [];
         foreach ($childObjects as $i => $childObject) {
-            $values[$i] = $this->childAccessor->getValue($childObject);
+            $values[$i] = $this->identifierAccessor->getValue($childObject);
         }
 
         return $values;
