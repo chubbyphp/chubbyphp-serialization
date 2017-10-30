@@ -62,47 +62,52 @@ composer require chubbyphp/chubbyphp-serialization "~2.0@beta"
 #### Field Normalizer
 
  * [CallbackFieldNormalizer][12]
- * [CollectionFieldNormalizer][13]
- * [DateFieldNormalizer][14]
- * [FieldNormalizer][15]
- * [ReferenceFieldNormalizer][16]
+ * [DateFieldNormalizer][13]
+ * [FieldNormalizer][14]
+
+##### Relation Field Normalizer
+
+ * [EmbedManyFieldNormalizer][15]
+ * [EmbedOneFieldNormalizer][16]
+ * [ReferenceManyFieldNormalizer][17]
+ * [ReferenceOneFieldNormalizer][18]
 
 #### Link Normalizer
 
- * [CallbackLinkNormalizer][17]
+ * [CallbackLinkNormalizer][19]
 
 #### Normalizer Context
 
- * [NormalizerContext][18]
- * [NormalizerContextBuilder][19]
+ * [NormalizerContext][20]
+ * [NormalizerContextBuilder][21]
 
 ### NormalizerObjectMappingRegistry
 
-* [NormalizerObjectMappingRegistry][20]
+* [NormalizerObjectMappingRegistry][22]
 
 ### Mapping
 
 #### NormalizationFieldMapping
 
- * [NormalizationFieldMapping][21]
- * [NormalizationFieldMappingBuilder][22]
+ * [NormalizationFieldMapping][23]
+ * [NormalizationFieldMappingBuilder][24]
  
 #### NormalizationLinkMapping
 
- * [NormalizationLinkMapping][23]
- * [NormalizationLinkMappingBuilder][24]
+ * [NormalizationLinkMapping][25]
+ * [NormalizationLinkMappingBuilder][26]
 
 #### NormalizationObjectMapping
 
- * [NormalizationObjectMapping][25]
+ * [NormalizationObjectMapping][27]
 
 #### LazyNormalizationObjectMapping
 
- * [LazyNormalizationObjectMapping][26]
+ * [LazyNormalizationObjectMapping][28]
 
 ### Provider
 
-* [SerializationProvider][27]
+* [SerializationProvider][29]
 
 ### Serializer
 
@@ -197,26 +202,29 @@ Dominik Zogg 2017
 [11]: doc/Normalizer/Normalizer.md
 
 [12]: doc/Normalizer/CallbackFieldNormalizer.md
-[13]: doc/Normalizer/CollectionFieldNormalizer.md
-[14]: doc/Normalizer/DateFieldNormalizer.md
-[15]: doc/Normalizer/FieldNormalizer.md
-[16]: doc/Normalizer/ReferenceFieldNormalizer.md
+[13]: doc/Normalizer/DateFieldNormalizer.md
+[14]: doc/Normalizer/FieldNormalizer.md
 
-[17]: doc/Normalizer/CallbackLinkNormalizer.md
+[15]: doc/Normalizer/Relation/EmbedManyFieldNormalizer.md
+[16]: doc/Normalizer/Relation/EmbedOneFieldNormalizer.md
+[17]: doc/Normalizer/Relation/ReferenceManyFieldNormalizer.md
+[18]: doc/Normalizer/Relation/ReferenceOneFieldNormalizer.md
 
-[18]: doc/Normalizer/NormalizerContext.md
-[19]: doc/Normalizer/NormalizerContextBuilder.md
+[19]: doc/Normalizer/CallbackLinkNormalizer.md
 
-[20]: doc/Normalizer/NormalizerObjectMappingRegistry.md
+[20]: doc/Normalizer/NormalizerContext.md
+[21]: doc/Normalizer/NormalizerContextBuilder.md
 
-[21]: doc/Mapping/NormalizationFieldMapping.md
-[22]: doc/Mapping/NormalizationFieldMappingBuilder.md
+[22]: doc/Normalizer/NormalizerObjectMappingRegistry.md
 
-[23]: doc/Mapping/NormalizationLinkMapping.md
-[24]: doc/Mapping/NormalizationLinkMappingBuilder.md
+[23]: doc/Mapping/NormalizationFieldMapping.md
+[24]: doc/Mapping/NormalizationFieldMappingBuilder.md
 
-[25]: doc/Mapping/NormalizationObjectMapping.md
+[25]: doc/Mapping/NormalizationLinkMapping.md
+[26]: doc/Mapping/NormalizationLinkMappingBuilder.md
 
-[26]: doc/Mapping/LazyNormalizationObjectMapping.md
+[27]: doc/Mapping/NormalizationObjectMapping.md
 
-[27]: doc/Provider/SerializationProvider.md
+[28]: doc/Mapping/LazyNormalizationObjectMapping.md
+
+[29]: doc/Provider/SerializationProvider.md
