@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Serialization\Normalizer;
+namespace Chubbyphp\Serialization\Normalizer\Relation;
 
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
+use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
+use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
+use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
 
-/**
- * @deprecated 2.0-beta use EmbedManyFieldNormalizer or ReferenceManyFieldNormalizer
- */
-final class CollectionFieldNormalizer implements FieldNormalizerInterface
+final class EmbedManyFieldNormalizer implements FieldNormalizerInterface
 {
     /**
      * @var AccessorInterface
@@ -45,12 +45,16 @@ final class CollectionFieldNormalizer implements FieldNormalizerInterface
             throw SerializerLogicException::createMissingNormalizer($path);
         }
 
-        $data = [];
-        foreach ($this->accessor->getValue($object) as $i => $childObject) {
-            $subPath = $path.'['.$i.']';
-            $data[$i] = $normalizer->normalize($childObject, $context, $subPath);
+        if (null === $childObjects = $this->accessor->getValue($object)) {
+            return null;
         }
 
-        return $data;
+        $values = [];
+        foreach ($childObjects as $i => $childObject) {
+            $subPath = $path.'['.$i.']';
+            $values[$i] = $normalizer->normalize($childObject, $context, $subPath);
+        }
+
+        return $values;
     }
 }

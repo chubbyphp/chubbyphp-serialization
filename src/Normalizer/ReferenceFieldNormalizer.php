@@ -7,6 +7,9 @@ namespace Chubbyphp\Serialization\Normalizer;
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
 
+/**
+ * @deprecated 2.0-beta use EmbedOneFieldNormalizer or ReferenceOneFieldNormalizer
+ */
 final class ReferenceFieldNormalizer implements FieldNormalizerInterface
 {
     /**
