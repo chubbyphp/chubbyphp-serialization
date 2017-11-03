@@ -36,8 +36,8 @@ final class ManyModelMapping implements NormalizationObjectMappingInterface
     public function getNormalizationFieldMappings(string $path): array
     {
         return [
-            NormalizationFieldMappingBuilder::create('name')->setGroups(['related'])->getMapping(),
-            NormalizationFieldMappingBuilder::create('value')->setGroups(['related'])->getMapping(),
+            NormalizationFieldMappingBuilder::create('name')->getMapping(),
+            NormalizationFieldMappingBuilder::create('value')->getMapping(),
         ];
     }
 
