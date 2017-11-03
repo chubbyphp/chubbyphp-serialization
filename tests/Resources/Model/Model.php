@@ -9,6 +9,11 @@ final class Model
     /**
      * @var string
      */
+    private $id;
+
+    /**
+     * @var string
+     */
     private $name;
 
     /**
@@ -20,6 +25,19 @@ final class Model
      * @var AbstractManyModel[]
      */
     private $manies;
+
+    public function __construct()
+    {
+        $this->id = 'ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a';
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
 
     /**
      * @return string

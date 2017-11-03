@@ -26,7 +26,7 @@ final class ModelMapping implements NormalizationObjectMappingInterface
     {
         return Model::class;
     }
-    
+
     /**
      * @return string
      */
@@ -36,38 +36,43 @@ final class ModelMapping implements NormalizationObjectMappingInterface
     }
 
     /**
-     * @param string $path
+     * @param string      $path
+     * @param string|null $type
      *
      * @return NormalizationFieldMappingInterface[]
      */
-    public function getNormalizationFieldMappings(string $path): array {
+    public function getNormalizationFieldMappings(string $path, string $type = null): array
+    {
         return [
-            NormalizationFieldMappingBuilder::create('name')
-                ->getMapping(),
+            NormalizationFieldMappingBuilder::create('id')->getMapping(),
+            NormalizationFieldMappingBuilder::create('name')->getMapping(),
         ];
     }
-    
-    /**
-     * @param string $path
-     * @return NormalizationFieldMappingInterface[]
-     */
-    public function getNormalizationEmbeddedFieldMappings(string $path): array {
-        return [];
-    }
-    
+
     /**
      * @param string $path
      *
      * @return NormalizationFieldMappingInterface[]
      */
-    public function getNormalizationLinkMappings(string $path): array {
+    public function getNormalizationEmbeddedFieldMappings(string $path): array
+    {
+        return [];
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return NormalizationLinkMappingInterface[]
+     */
+    public function getNormalizationLinkMappings(string $path): array
+    {
         return [
             new NormalizationLinkMapping(
                 'self',
                 [],
                 new CallbackLinkNormalizer(
-                    function (string $path, $object) {
-                        return LinkBuilder::create('/api/model/' . $object->getId())
+                    function (string $path, Model $model) {
+                        return LinkBuilder::create('/api/model/' . $model->getId())
                             ->setAttributes([
                                 'method' => 'GET'
                             ])

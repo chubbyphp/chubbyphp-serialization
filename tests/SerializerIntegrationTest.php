@@ -48,6 +48,7 @@ class SerializerIntegrationTest extends TestCase
 
         $expectedJson = <<<EOD
 {
+    "id": "ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a",
     "name": "Name",
     "one": {
         "name": "Name",
@@ -61,6 +62,16 @@ class SerializerIntegrationTest extends TestCase
             "_type": "many-model"
         }
     ],
+    "_links": {
+        "self": {
+            "href": "/api/model/ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a",
+            "templated": false,
+            "rel": [],
+            "attributes": {
+                "method": "GET"
+            }
+        }
+    },
     "_type": "model"
 }
 EOD;
@@ -69,6 +80,13 @@ EOD;
 
         self::assertEquals(
             [
+                [
+                    'level' => 'info',
+                    'message' => 'serialize: path {path}',
+                    'context' => [
+                        'path' => 'id',
+                    ],
+                ],
                 [
                     'level' => 'info',
                     'message' => 'serialize: path {path}',
@@ -146,6 +164,7 @@ EOD;
 
         $expectedJson = <<<EOD
 {
+    "id": "ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a",
     "name": "Name",
     "_type": "model"
 }
@@ -164,6 +183,13 @@ EOD;
                     'level' => 'info',
                     'message' => 'serialize: path {path}',
                     'context' => [
+                        'path' => 'id',
+                    ],
+                ],
+                [
+                    'level' => 'info',
+                    'message' => 'serialize: path {path}',
+                    'context' => [
                         'path' => 'name',
                     ],
                 ],
@@ -177,12 +203,15 @@ EOD;
         self::expectException(SerializerLogicException::class);
         self::expectExceptionMessage('Wrong data type "" at path : "string"');
 
+        $logger = $this->getLogger();
+
         $serializer = new Serializer(
             new Normalizer(
                 new NormalizerObjectMappingRegistry([
                     new ManyModelMapping(),
                     new ModelMapping(),
-                ])
+                ]),
+                $logger
             ),
             new Encoder([new JsonTypeEncoder(true)])
         );
