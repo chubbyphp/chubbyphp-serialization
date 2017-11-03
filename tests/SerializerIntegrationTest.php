@@ -18,6 +18,7 @@ use Chubbyphp\Tests\Serialization\Resources\Model\ManyModel;
 use Chubbyphp\Tests\Serialization\Resources\Model\Model;
 use Chubbyphp\Tests\Serialization\Resources\Model\OneModel;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\AbstractLogger;
 
 /**
  * @coversNothing
@@ -26,13 +27,16 @@ class SerializerIntegrationTest extends TestCase
 {
     public function testSerialize()
     {
+        $logger = $this->getLogger();
+
         $serializer = new Serializer(
             new Normalizer(
                 new NormalizerObjectMappingRegistry([
                     new ManyModelMapping(),
                     new ModelMapping(),
                     new OneModelMapping(),
-                ])
+                ]),
+                $logger
             ),
             new Encoder([new JsonTypeEncoder(true)])
         );
@@ -62,17 +66,75 @@ class SerializerIntegrationTest extends TestCase
 EOD;
 
         self::assertSame($expectedJson, $serializer->serialize($model, 'application/json'));
+
+        self::assertEquals(
+            [
+                [
+                    'level' => 'info',
+                    'message' => 'serialize: path {path}',
+                    'context' => [
+                        'path' => 'name',
+                    ],
+                ],
+                [
+                    'level' => 'info',
+                    'message' => 'serialize: path {path}',
+                    'context' => [
+                        'path' => 'one',
+                    ],
+                ],
+                [
+                    'level' => 'info',
+                    'message' => 'serialize: path {path}',
+                    'context' => [
+                        'path' => 'one.name',
+                    ],
+                ],
+                [
+                    'level' => 'info',
+                    'message' => 'serialize: path {path}',
+                    'context' => [
+                        'path' => 'one.value',
+                    ],
+                ],
+                [
+                    'level' => 'info',
+                    'message' => 'serialize: path {path}',
+                    'context' => [
+                        'path' => 'manies',
+                    ],
+                ],
+                [
+                    'level' => 'info',
+                    'message' => 'serialize: path {path}',
+                    'context' => [
+                        'path' => 'manies[0].name',
+                    ],
+                ],
+                [
+                    'level' => 'info',
+                    'message' => 'serialize: path {path}',
+                    'context' => [
+                        'path' => 'manies[0].value',
+                    ],
+                ],
+            ],
+            $logger->getEntries()
+        );
     }
 
     public function testSerializeWithGroup()
     {
+        $logger = $this->getLogger();
+
         $serializer = new Serializer(
             new Normalizer(
                 new NormalizerObjectMappingRegistry([
                     new ManyModelMapping(),
                     new ModelMapping(),
                     new OneModelMapping(),
-                ])
+                ]),
+                $logger
             ),
             new Encoder([new JsonTypeEncoder(true)])
         );
@@ -94,6 +156,19 @@ EOD;
         self::assertSame(
             $expectedJson,
             $serializer->serialize($model, 'application/json', $context)
+        );
+
+        self::assertEquals(
+            [
+                [
+                    'level' => 'info',
+                    'message' => 'serialize: path {path}',
+                    'context' => [
+                        'path' => 'name',
+                    ],
+                ],
+            ],
+            $logger->getEntries()
         );
     }
 
@@ -131,5 +206,31 @@ EOD;
         );
 
         $serializer->serialize(new \stdClass(), 'application/json');
+    }
+
+    /**
+     * @return AbstractLogger
+     */
+    private function getLogger()
+    {
+        return new class() extends AbstractLogger {
+            /**
+             * @var array
+             */
+            private $entries = [];
+
+            public function log($level, $message, array $context = [])
+            {
+                $this->entries[] = ['level' => $level, 'message' => $message, 'context' => $context];
+            }
+
+            /**
+             * @return array
+             */
+            public function getEntries(): array
+            {
+                return $this->entries;
+            }
+        };
     }
 }
