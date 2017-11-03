@@ -224,8 +224,8 @@ Dominik Zogg 2017
 [25]: doc/Mapping/NormalizationLinkMapping.md
 [26]: doc/Mapping/NormalizationLinkMappingBuilder.md
 
-[28]: doc/Mapping/AdvancedNormalizationObjectMapping.md
-[27]: doc/Mapping/SimpleNormalizationObjectMapping.md
+[27]: doc/Mapping/AdvancedNormalizationObjectMapping.md
+[28]: doc/Mapping/SimpleNormalizationObjectMapping.md
 
 [29]: doc/Mapping/LazyNormalizationObjectMapping.md
 
