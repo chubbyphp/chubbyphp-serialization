@@ -4,29 +4,29 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Resources\Model;
 
-abstract class AbstractChildModel
+final class ManyModel extends AbstractManyModel
 {
     /**
      * @var string
      */
-    protected $name;
+    private $value;
 
     /**
      * @return string
      */
-    public function getName(): string
+    public function getValue(): string
     {
-        return $this->name;
+        return $this->value;
     }
 
     /**
-     * @param string $name
+     * @param string $value
      *
      * @return self
      */
-    public function setName(string $name): self
+    public function setValue(string $value): self
     {
-        $this->name = $name;
+        $this->value = $value;
 
         return $this;
     }

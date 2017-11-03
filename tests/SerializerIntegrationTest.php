@@ -11,10 +11,12 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextBuilder;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;
 use Chubbyphp\Serialization\SerializerLogicException;
-use Chubbyphp\Tests\Serialization\Resources\Mapping\ChildModelMapping;
-use Chubbyphp\Tests\Serialization\Resources\Mapping\ParentModelMapping;
-use Chubbyphp\Tests\Serialization\Resources\Model\ChildModel;
-use Chubbyphp\Tests\Serialization\Resources\Model\ParentModel;
+use Chubbyphp\Tests\Serialization\Resources\Mapping\ManyModelMapping;
+use Chubbyphp\Tests\Serialization\Resources\Mapping\ModelMapping;
+use Chubbyphp\Tests\Serialization\Resources\Mapping\OneModelMapping;
+use Chubbyphp\Tests\Serialization\Resources\Model\ManyModel;
+use Chubbyphp\Tests\Serialization\Resources\Model\Model;
+use Chubbyphp\Tests\Serialization\Resources\Model\OneModel;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,41 +29,39 @@ class SerializerIntegrationTest extends TestCase
         $serializer = new Serializer(
             new Normalizer(
                 new NormalizerObjectMappingRegistry([
-                    new ChildModelMapping(),
-                    new ParentModelMapping(),
+                    new ManyModelMapping(),
+                    new ModelMapping(),
+                    new OneModelMapping(),
                 ])
             ),
             new Encoder([new JsonTypeEncoder(true)])
         );
 
-        $parentModel = new ParentModel();
-        $parentModel->setName('Name');
-        $parentModel->setChildren([(new ChildModel())->setName('Name')->setValue('Value')]);
+        $model = new Model();
+        $model->setName('Name');
+        $model->setOne((new OneModel())->setName('Name')->setValue('Value'));
+        $model->setManies([(new ManyModel())->setName('Name')->setValue('Value')]);
 
         $expectedJson = <<<EOD
 {
     "name": "Name",
-    "children": [
+    "one": {
+        "name": "Name",
+        "value": "Value",
+        "_type": "one-model"
+    },
+    "manies": [
         {
             "name": "Name",
             "value": "Value",
-            "_type": "child-model"
+            "_type": "many-model"
         }
     ],
-    "_embedded": {
-        "relatedChildren": [
-            {
-                "name": "Name",
-                "value": "Value",
-                "_type": "child-model"
-            }
-        ]
-    },
-    "_type": "parent-model"
+    "_type": "model"
 }
 EOD;
 
-        self::assertSame($expectedJson, $serializer->serialize($parentModel, 'application/json'));
+        self::assertSame($expectedJson, $serializer->serialize($model, 'application/json'));
     }
 
     public function testSerializeWithGroup()
@@ -69,37 +69,31 @@ EOD;
         $serializer = new Serializer(
             new Normalizer(
                 new NormalizerObjectMappingRegistry([
-                    new ChildModelMapping(),
-                    new ParentModelMapping(),
+                    new ManyModelMapping(),
+                    new ModelMapping(),
+                    new OneModelMapping(),
                 ])
             ),
             new Encoder([new JsonTypeEncoder(true)])
         );
 
-        $parentModel = new ParentModel();
-        $parentModel->setName('Name');
-        $parentModel->setChildren([(new ChildModel())->setName('Name')->setValue('Value')]);
+        $model = new Model();
+        $model->setName('Name');
+        $model->setOne((new OneModel())->setName('Name')->setValue('Value'));
+        $model->setManies([(new ManyModel())->setName('Name')->setValue('Value')]);
 
         $expectedJson = <<<EOD
 {
-    "_embedded": {
-        "relatedChildren": [
-            {
-                "name": "Name",
-                "value": "Value",
-                "_type": "child-model"
-            }
-        ]
-    },
-    "_type": "parent-model"
+    "name": "Name",
+    "_type": "model"
 }
 EOD;
 
-        $context = NormalizerContextBuilder::create()->setGroups(['related'])->getContext();
+        $context = NormalizerContextBuilder::create()->setGroups(['baseInformation'])->getContext();
 
         self::assertSame(
             $expectedJson,
-            $serializer->serialize($parentModel, 'application/json', $context)
+            $serializer->serialize($model, 'application/json', $context)
         );
     }
 
@@ -111,8 +105,8 @@ EOD;
         $serializer = new Serializer(
             new Normalizer(
                 new NormalizerObjectMappingRegistry([
-                    new ChildModelMapping(),
-                    new ParentModelMapping(),
+                    new ManyModelMapping(),
+                    new ModelMapping(),
                 ])
             ),
             new Encoder([new JsonTypeEncoder(true)])
@@ -129,8 +123,8 @@ EOD;
         $serializer = new Serializer(
             new Normalizer(
                 new NormalizerObjectMappingRegistry([
-                    new ChildModelMapping(),
-                    new ParentModelMapping(),
+                    new ManyModelMapping(),
+                    new ModelMapping(),
                 ])
             ),
             new Encoder([new JsonTypeEncoder(true)])

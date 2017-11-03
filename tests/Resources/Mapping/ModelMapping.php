@@ -6,20 +6,21 @@ namespace Chubbyphp\Tests\Serialization\Resources\Mapping;
 
 use Chubbyphp\Serialization\Accessor\PropertyAccessor;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
-use Chubbyphp\Serialization\Normalizer\CollectionFieldNormalizer;
+use Chubbyphp\Serialization\Normalizer\Relation\EmbedManyFieldNormalizer;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
-use Chubbyphp\Tests\Serialization\Resources\Model\ParentModel;
+use Chubbyphp\Serialization\Normalizer\Relation\EmbedOneFieldNormalizer;
+use Chubbyphp\Tests\Serialization\Resources\Model\Model;
 
-final class ParentModelMapping implements NormalizationObjectMappingInterface
+final class ModelMapping implements NormalizationObjectMappingInterface
 {
     /**
      * @return string
      */
     public function getClass(): string
     {
-        return ParentModel::class;
+        return Model::class;
     }
 
     /**
@@ -27,7 +28,7 @@ final class ParentModelMapping implements NormalizationObjectMappingInterface
      */
     public function getNormalizationType(): string
     {
-        return 'parent-model';
+        return 'model';
     }
 
     /**
@@ -39,9 +40,12 @@ final class ParentModelMapping implements NormalizationObjectMappingInterface
     public function getNormalizationFieldMappings(string $path, string $type = null): array
     {
         return [
-            NormalizationFieldMappingBuilder::create('name')->getMapping(),
-            NormalizationFieldMappingBuilder::create('children')->setFieldNormalizer(
-                new CollectionFieldNormalizer(new PropertyAccessor('children'))
+            NormalizationFieldMappingBuilder::create('name')->setGroups(['baseInformation'])->getMapping(),
+            NormalizationFieldMappingBuilder::create('one')->setFieldNormalizer(
+                new EmbedOneFieldNormalizer(new PropertyAccessor('one'))
+            )->getMapping(),
+            NormalizationFieldMappingBuilder::create('manies')->setFieldNormalizer(
+                new EmbedManyFieldNormalizer(new PropertyAccessor('manies'))
             )->getMapping(),
         ];
     }
@@ -53,11 +57,7 @@ final class ParentModelMapping implements NormalizationObjectMappingInterface
      */
     public function getNormalizationEmbeddedFieldMappings(string $path): array
     {
-        return [
-            NormalizationFieldMappingBuilder::create('relatedChildren')->setGroups(['related'])->setFieldNormalizer(
-                new CollectionFieldNormalizer(new PropertyAccessor('children'))
-            )->getMapping(),
-        ];
+        return [];
     }
 
     /**

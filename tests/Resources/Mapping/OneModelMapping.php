@@ -8,16 +8,16 @@ use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
-use Chubbyphp\Tests\Serialization\Resources\Model\ChildModel;
+use Chubbyphp\Tests\Serialization\Resources\Model\OneModel;
 
-final class ChildModelMapping implements NormalizationObjectMappingInterface
+final class OneModelMapping implements NormalizationObjectMappingInterface
 {
     /**
      * @return string
      */
     public function getClass(): string
     {
-        return ChildModel::class;
+        return OneModel::class;
     }
 
     /**
@@ -25,7 +25,7 @@ final class ChildModelMapping implements NormalizationObjectMappingInterface
      */
     public function getNormalizationType(): string
     {
-        return 'child-model';
+        return 'one-model';
     }
 
     /**
@@ -36,8 +36,8 @@ final class ChildModelMapping implements NormalizationObjectMappingInterface
     public function getNormalizationFieldMappings(string $path): array
     {
         return [
-            NormalizationFieldMappingBuilder::create('name')->setGroups(['related'])->getMapping(),
-            NormalizationFieldMappingBuilder::create('value')->setGroups(['related'])->getMapping(),
+            NormalizationFieldMappingBuilder::create('name')->getMapping(),
+            NormalizationFieldMappingBuilder::create('value')->getMapping(),
         ];
     }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Resources\Model;
 
-final class ParentModel
+final class OneModel
 {
     /**
      * @var string
@@ -12,9 +12,9 @@ final class ParentModel
     private $name;
 
     /**
-     * @var ChildModel[]
+     * @var string
      */
-    private $children;
+    private $value;
 
     /**
      * @return string
@@ -37,21 +37,21 @@ final class ParentModel
     }
 
     /**
-     * @return ChildModel[]
+     * @return string
      */
-    public function getChildren(): array
+    public function getValue(): string
     {
-        return $this->children;
+        return $this->value;
     }
 
     /**
-     * @param ChildModel[] $children
+     * @param string $value
      *
      * @return self
      */
-    public function setChildren(array $children): self
+    public function setValue(string $value): self
     {
-        $this->children = $children;
+        $this->value = $value;
 
         return $this;
     }
