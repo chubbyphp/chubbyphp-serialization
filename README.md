@@ -99,15 +99,16 @@ composer require chubbyphp/chubbyphp-serialization "~2.0@beta"
 
 #### NormalizationObjectMapping
 
- * [NormalizationObjectMapping][27]
+ * [AdvancecNormalizationObjectMapping][27]
+ * [SimpleNormalizationObjectMapping][28]
 
 #### LazyNormalizationObjectMapping
 
- * [LazyNormalizationObjectMapping][28]
+ * [LazyNormalizationObjectMapping][29]
 
 ### Provider
 
-* [SerializationProvider][29]
+* [SerializationProvider][30]
 
 ### Serializer
 
@@ -223,8 +224,9 @@ Dominik Zogg 2017
 [25]: doc/Mapping/NormalizationLinkMapping.md
 [26]: doc/Mapping/NormalizationLinkMappingBuilder.md
 
-[27]: doc/Mapping/NormalizationObjectMapping.md
+[28]: doc/Mapping/AdvancedNormalizationObjectMapping.md
+[27]: doc/Mapping/SimpleNormalizationObjectMapping.md
 
-[28]: doc/Mapping/LazyNormalizationObjectMapping.md
+[29]: doc/Mapping/LazyNormalizationObjectMapping.md
 
-[29]: doc/Provider/SerializationProvider.md
+[30]: doc/Provider/SerializationProvider.md
