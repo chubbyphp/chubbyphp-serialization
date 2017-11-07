@@ -30,6 +30,19 @@ class ObjectFieldSerializerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testSerializeFieldWithNull()
+    {
+        $expectedPath = 'path';
+        $expectedRequest = $this->getRequest();
+        $expectedObject = new \stdClass();
+        $expectedSerializer = $this->getSerializer();
+        $serializer = new ObjectFieldSerializer($this->getAccessor(null));
+
+        self::assertNull(
+            $serializer->serializeField($expectedPath, $expectedRequest, $expectedObject, $expectedSerializer)
+        );
+    }
+
     public function testSerializeFieldWithoutSerializer()
     {
         self::expectException(\RuntimeException::class);

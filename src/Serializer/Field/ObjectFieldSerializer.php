@@ -35,7 +35,11 @@ final class ObjectFieldSerializer implements FieldSerializerInterface
     {
         $this->serializerOrException($serializer);
 
-        return $serializer->serialize($request, $this->accessor->getValue($object), $path);
+        if (null === $value = $this->accessor->getValue($object)) {
+            return null;
+        }
+
+        return $serializer->serialize($request, $value, $path);
     }
 
     /**
