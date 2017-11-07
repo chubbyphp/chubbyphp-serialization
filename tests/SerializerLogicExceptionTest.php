@@ -56,4 +56,14 @@ class SerializerLogicExceptionTest extends TestCase
 
         self::assertSame('There is no property "name" within class: "stdClass"', $exception->getMessage());
     }
+
+    public function testCreateInvalidLinkTypeReturned()
+    {
+        $exception = SerializerLogicException::createInvalidLinkTypeReturned('path1', 'string');
+
+        self::assertSame(
+            'The link normalizer callback needs to return a Psr\Link\LinkInterface|null, "string" given at path: "path1"',
+            $exception->getMessage()
+        );
+    }
 }

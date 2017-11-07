@@ -6,6 +6,7 @@ namespace Chubbyphp\Tests\Serialization\Normalizer;
 
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
+use Chubbyphp\Serialization\SerializerLogicException;
 use PHPUnit\Framework\TestCase;
 use Psr\Link\LinkInterface;
 
@@ -73,6 +74,39 @@ class CallbackLinkNormalizerTest extends TestCase
         self::assertNull(
             $linkNormalizer->normalizeLink('name', $object, $this->getNormalizerContext())
         );
+    }
+
+    public function testNormalizeLinkWithWrongDataType()
+    {
+        self::expectException(SerializerLogicException::class);
+        self::expectExceptionMessage('The link normalizer callback needs to return a Psr\Link\LinkInterface|null, "string" given at path: "name"');
+
+        $object = new class() {
+            /**
+             * @var string
+             */
+            private $id = 'id1';
+
+            /**
+             * @return string
+             */
+            public function getId(): string
+            {
+                return $this->id;
+            }
+        };
+
+        $linkNormalizer = new CallbackLinkNormalizer(
+            function (
+                string $path,
+                $object,
+                NormalizerContextInterface $context
+            ) {
+                return 'test';
+            }
+        );
+
+        $linkNormalizer->normalizeLink('name', $object, $this->getNormalizerContext());
     }
 
     /**

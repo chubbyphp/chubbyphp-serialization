@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Normalizer;
 
+use Chubbyphp\Serialization\SerializerLogicException;
 use Psr\Link\LinkInterface;
 
 final class CallbackLinkNormalizer implements LinkNormalizerInterface
@@ -27,6 +28,8 @@ final class CallbackLinkNormalizer implements LinkNormalizerInterface
      * @param NormalizerContextInterface $context
      *
      * @return array|null
+     *
+     * @throws SerializerLogicException
      */
     public function normalizeLink(string $path, $object, NormalizerContextInterface $context)
     {
@@ -39,7 +42,9 @@ final class CallbackLinkNormalizer implements LinkNormalizerInterface
         }
 
         if (!$link instanceof LinkInterface) {
-            // todo: exception
+            $type = is_object($link) ? get_class($link) : gettype($link);
+
+            throw SerializerLogicException::createInvalidLinkTypeReturned($path, $type);
         }
 
         return [

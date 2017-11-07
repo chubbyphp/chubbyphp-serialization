@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Normalizer;
 
+use Chubbyphp\Serialization\SerializerLogicException;
+
 interface LinkNormalizerInterface
 {
     /**
@@ -12,6 +14,8 @@ interface LinkNormalizerInterface
      * @param NormalizerContextInterface $context
      *
      * @return array|null
+     *
+     * @throws SerializerLogicException
      */
     public function normalizeLink(string $path, $object, NormalizerContextInterface $context);
 }

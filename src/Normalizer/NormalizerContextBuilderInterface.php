@@ -11,7 +11,7 @@ interface NormalizerContextBuilderInterface
     /**
      * @return self
      */
-    public static function create(): NormalizerContextBuilderInterface;
+    public static function create(): self;
 
     /**
      * @param string[] $groups

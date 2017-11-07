@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization;
 
+use Psr\Link\LinkInterface;
+
 final class SerializerLogicException extends \LogicException
 {
     /**
@@ -69,5 +71,23 @@ final class SerializerLogicException extends \LogicException
     public static function createMissingProperty(string $class, string $property): self
     {
         return new self(sprintf('There is no property "%s" within class: "%s"', $property, $class));
+    }
+
+    /**
+     * @param string $path
+     * @param string $type
+     *
+     * @return self
+     */
+    public static function createInvalidLinkTypeReturned(string $path, string $type): self
+    {
+        return new self(
+            sprintf(
+                'The link normalizer callback needs to return a %s|null, "%s" given at path: "%s"',
+                LinkInterface::class,
+                $type,
+                $path
+            )
+        );
     }
 }
