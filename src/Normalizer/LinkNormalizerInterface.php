@@ -11,7 +11,7 @@ interface LinkNormalizerInterface
      * @param object                     $object
      * @param NormalizerContextInterface $context
      *
-     * @return array
+     * @return array|null
      */
     public function normalizeLink(string $path, $object, NormalizerContextInterface $context);
 }
