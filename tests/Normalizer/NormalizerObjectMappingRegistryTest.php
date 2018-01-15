@@ -8,7 +8,6 @@ use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\SerializerLogicException;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
 use Chubbyphp\Tests\Serialization\Resources\Model\AbstractManyModel;
-use Chubbyphp\Tests\Serialization\Resources\Model\Model;
 use Doctrine\Common\Persistence\Proxy;
 use PHPUnit\Framework\TestCase;
 
@@ -138,8 +137,6 @@ class NormalizerObjectMappingRegistryTest extends TestCase
              * Initializes this proxy if its not yet initialized.
              *
              * Acts as a no-op if already initialized.
-             *
-             * @return void
              */
             public function __load()
             {

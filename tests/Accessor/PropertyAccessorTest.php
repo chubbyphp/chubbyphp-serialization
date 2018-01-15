@@ -42,13 +42,10 @@ class PropertyAccessorTest extends TestCase
     public function testGetValueCanAccessPrivatePropertyThroughDoctrineProxyClass()
     {
         $object = new class() extends AbstractManyModel implements Proxy {
-
             /**
              * Initializes this proxy if its not yet initialized.
              *
              * Acts as a no-op if already initialized.
-             *
-             * @return void
              */
             public function __load()
             {
