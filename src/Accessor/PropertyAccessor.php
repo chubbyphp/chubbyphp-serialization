@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Chubbyphp\Serialization\Accessor;
 
 use Chubbyphp\Serialization\SerializerLogicException;
+use Doctrine\Common\Persistence\Proxy;
 
 final class PropertyAccessor implements AccessorInterface
 {
@@ -28,7 +29,11 @@ final class PropertyAccessor implements AccessorInterface
      */
     public function getValue($object)
     {
-        $class = get_class($object);
+        if (interface_exists('Doctrine\Common\Persistence\Proxy') && $object instanceof Proxy) {
+            $class = (new \ReflectionClass($object))->getParentClass()->name;
+        } else {
+            $class = get_class($object);
+        }
 
         try {
             $reflectionProperty = new \ReflectionProperty($class, $this->property);
