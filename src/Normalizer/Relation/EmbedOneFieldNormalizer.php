@@ -9,6 +9,7 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
+use Doctrine\Common\Persistence\Proxy;
 
 final class EmbedOneFieldNormalizer implements FieldNormalizerInterface
 {
@@ -47,6 +48,12 @@ final class EmbedOneFieldNormalizer implements FieldNormalizerInterface
 
         if (null === $childObject = $this->accessor->getValue($object)) {
             return null;
+        }
+
+        if (true === class_exists('Doctrine\Common\Persistence\Proxy')
+            && $childObject instanceof Proxy && !$childObject->__isInitialized()
+        ) {
+            $childObject->__load();
         }
 
         return $normalizer->normalize($childObject, $context, $path);
