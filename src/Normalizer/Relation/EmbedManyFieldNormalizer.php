@@ -52,7 +52,7 @@ final class EmbedManyFieldNormalizer implements FieldNormalizerInterface
 
         $values = [];
         foreach ($childObjects as $i => $childObject) {
-            if (true === interface_exists('Doctrine\Common\Persistence\Proxy')
+            if (interface_exists('Doctrine\Common\Persistence\Proxy')
                 && $childObject instanceof Proxy && !$childObject->__isInitialized()
             ) {
                 $childObject->__load();
