@@ -42,6 +42,12 @@ final class NormalizerObjectMappingRegistry implements NormalizerObjectMappingRe
      */
     public function getObjectMapping(string $class): NormalizationObjectMappingInterface
     {
+        $ref = new \ReflectionClass($class);
+
+        if (true === in_array('Doctrine\Common\Persistence\Proxy', $ref->getInterfaceNames(), true)) {
+            $class = $ref->getParentClass()->name;
+        }
+
         if (isset($this->objectMappings[$class])) {
             return $this->objectMappings[$class];
         }
