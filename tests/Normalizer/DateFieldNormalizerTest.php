@@ -17,7 +17,7 @@ class DateFieldNormalizerTest extends TestCase
     public function testNormalizeField()
     {
         $object = $this->getObject();
-        $object->setDate(new \DateTime('2017-01-01 22:00:00'));
+        $object->setDate(new \DateTime('2017-01-01 22:00:00+01:00'));
 
         $fieldNormalizer = new DateFieldNormalizer($this->getFieldNormalizer());
 
@@ -34,7 +34,7 @@ class DateFieldNormalizerTest extends TestCase
     public function testNormalizeWithValidDateString()
     {
         $object = $this->getObject();
-        $object->setDate('2017-01-01 22:00:00');
+        $object->setDate('2017-01-01 22:00:00+01:00');
 
         $fieldNormalizer = new DateFieldNormalizer($this->getFieldNormalizer());
 
