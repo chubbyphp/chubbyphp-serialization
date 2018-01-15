@@ -29,7 +29,7 @@ final class PropertyAccessor implements AccessorInterface
      */
     public function getValue($object)
     {
-        if (true === class_exists('Doctrine\Common\Persistence\Proxy') && true === $object instanceof Proxy) {
+        if (true === interface_exists('Doctrine\Common\Persistence\Proxy') && true === $object instanceof Proxy) {
             $class = (new \ReflectionClass($object))->getParentClass()->name;
         } else {
             $class = get_class($object);

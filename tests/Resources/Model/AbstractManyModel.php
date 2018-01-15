@@ -12,6 +12,11 @@ abstract class AbstractManyModel
     protected $name;
 
     /**
+     * @var string
+     */
+    private $address;
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -29,5 +34,21 @@ abstract class AbstractManyModel
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddress(): string
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param string $address
+     */
+    public function setAddress(string $address)
+    {
+        $this->address = $address;
     }
 }

@@ -50,7 +50,7 @@ final class EmbedOneFieldNormalizer implements FieldNormalizerInterface
             return null;
         }
 
-        if (true === class_exists('Doctrine\Common\Persistence\Proxy')
+        if (true === interface_exists('Doctrine\Common\Persistence\Proxy')
             && $childObject instanceof Proxy && !$childObject->__isInitialized()
         ) {
             $childObject->__load();
