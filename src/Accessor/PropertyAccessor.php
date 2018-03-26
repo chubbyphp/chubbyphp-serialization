@@ -29,20 +29,37 @@ final class PropertyAccessor implements AccessorInterface
      */
     public function getValue($object)
     {
-        if (interface_exists('Doctrine\Common\Persistence\Proxy') && $object instanceof Proxy) {
-            $class = (new \ReflectionClass($object))->getParentClass()->name;
-        } else {
-            $class = get_class($object);
-        }
-
-        try {
-            $reflectionProperty = new \ReflectionProperty($class, $this->property);
-        } catch (\ReflectionException $e) {
-            throw SerializerLogicException::createMissingProperty($class, $this->property);
-        }
-
+        $reflectionProperty = $this->getReflectionProperty($this->getClass($object));
         $reflectionProperty->setAccessible(true);
 
         return $reflectionProperty->getValue($object);
+    }
+
+    /**
+     * @param object $object
+     *
+     * @return string
+     */
+    private function getClass($object): string
+    {
+        if (interface_exists('Doctrine\Common\Persistence\Proxy') && $object instanceof Proxy) {
+            return (new \ReflectionClass($object))->getParentClass()->name;
+        }
+
+        return get_class($object);
+    }
+
+    /**
+     * @param string $class
+     *
+     * @return \ReflectionProperty
+     */
+    private function getReflectionProperty(string $class): \ReflectionProperty
+    {
+        try {
+            return new \ReflectionProperty($class, $this->property);
+        } catch (\ReflectionException $e) {
+            throw SerializerLogicException::createMissingProperty($class, $this->property);
+        }
     }
 }
