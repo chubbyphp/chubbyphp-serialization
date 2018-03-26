@@ -65,7 +65,7 @@ class EmbedOneFieldNormalizerTest extends TestCase
     public function testNormalizeDoctrineProxyCallsLoad()
     {
         $object = $this->getObject();
-        $object->setRelation($this->getDoctrineProxyChild());
+        $object->setRelation($this->getDoctrineProxyRelation());
 
         $fieldNormalizer = new EmbedOneFieldNormalizer($this->getAccessor());
 
@@ -156,7 +156,7 @@ class EmbedOneFieldNormalizerTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|object
      */
-    private function getDoctrineProxyChild()
+    private function getDoctrineProxyRelation()
     {
         $child = $this->getMockBuilder(Proxy::class)
             ->setMethods(['__load', '__isInitialized', 'getName', 'setName'])

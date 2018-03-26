@@ -8,6 +8,7 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\Relation\ReferenceOneFieldNormalizer;
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
+use Doctrine\Common\Persistence\Proxy;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -46,6 +47,21 @@ class ReferenceOneFieldNormalizerTest extends TestCase
         );
 
         self::assertSame('id1', $data);
+    }
+
+    public function testNormalizeDoctrineProxyCallsLoad()
+    {
+        $object = $this->getObject();
+        $object->setRelation($this->getDoctrineProxyRelation());
+
+        $fieldNormalizer = new ReferenceOneFieldNormalizer($this->getIdentifierAccessor(), $this->getAccessor());
+
+        $fieldNormalizer->normalizeField(
+            'relation',
+            $object,
+            $this->getNormalizerContext(),
+            $this->getNormalizer()
+        );
     }
 
     /**
@@ -168,5 +184,25 @@ class ReferenceOneFieldNormalizerTest extends TestCase
                 return $this->id;
             }
         };
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|object
+     */
+    private function getDoctrineProxyRelation()
+    {
+        $child = $this->getMockBuilder(Proxy::class)
+            ->setMethods(['__load', '__isInitialized', 'getId'])
+            ->getMockForAbstractClass();
+
+        $child
+            ->expects(self::once())
+            ->method('__isInitialized');
+
+        $child
+            ->expects(self::once())
+            ->method('__load');
+
+        return $child;
     }
 }

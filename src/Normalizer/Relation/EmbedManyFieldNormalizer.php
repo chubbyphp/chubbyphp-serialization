@@ -46,22 +46,27 @@ final class EmbedManyFieldNormalizer implements FieldNormalizerInterface
             throw SerializerLogicException::createMissingNormalizer($path);
         }
 
-        if (null === $childObjects = $this->accessor->getValue($object)) {
+        if (null === $relatedObjects = $this->accessor->getValue($object)) {
             return null;
         }
 
         $values = [];
-        foreach ($childObjects as $i => $childObject) {
-            if (interface_exists('Doctrine\Common\Persistence\Proxy')
-                && $childObject instanceof Proxy && !$childObject->__isInitialized()
-            ) {
-                $childObject->__load();
-            }
+        foreach ($relatedObjects as $i => $relatedObject) {
+            $this->resolveProxy($relatedObject);
 
             $subPath = $path.'['.$i.']';
-            $values[$i] = $normalizer->normalize($childObject, $context, $subPath);
+            $values[$i] = $normalizer->normalize($relatedObject, $context, $subPath);
         }
 
         return $values;
+    }
+
+    private function resolveProxy($relatedObject)
+    {
+        if (null !== $relatedObject && interface_exists('Doctrine\Common\Persistence\Proxy')
+            && $relatedObject instanceof Proxy && !$relatedObject->__isInitialized()
+        ) {
+            $relatedObject->__load();
+        }
     }
 }

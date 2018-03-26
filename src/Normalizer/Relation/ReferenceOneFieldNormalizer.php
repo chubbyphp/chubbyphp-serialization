@@ -9,6 +9,7 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
+use Doctrine\Common\Persistence\Proxy;
 
 final class ReferenceOneFieldNormalizer implements FieldNormalizerInterface
 {
@@ -48,10 +49,21 @@ final class ReferenceOneFieldNormalizer implements FieldNormalizerInterface
         NormalizerContextInterface $context,
         NormalizerInterface $normalizer = null
     ) {
-        if (null === $childObject = $this->accessor->getValue($object)) {
+        if (null === $relatedObject = $this->accessor->getValue($object)) {
             return null;
         }
 
-        return $this->identifierAccessor->getValue($childObject);
+        $this->resolveProxy($relatedObject);
+
+        return $this->identifierAccessor->getValue($relatedObject);
+    }
+
+    private function resolveProxy($relatedObject)
+    {
+        if (null !== $relatedObject && interface_exists('Doctrine\Common\Persistence\Proxy')
+            && $relatedObject instanceof Proxy && !$relatedObject->__isInitialized()
+        ) {
+            $relatedObject->__load();
+        }
     }
 }

@@ -46,16 +46,21 @@ final class EmbedOneFieldNormalizer implements FieldNormalizerInterface
             throw SerializerLogicException::createMissingNormalizer($path);
         }
 
-        if (null === $childObject = $this->accessor->getValue($object)) {
+        if (null === $relatedObject = $this->accessor->getValue($object)) {
             return null;
         }
 
-        if (interface_exists('Doctrine\Common\Persistence\Proxy')
-            && $childObject instanceof Proxy && !$childObject->__isInitialized()
-        ) {
-            $childObject->__load();
-        }
+        $this->resolveProxy($relatedObject);
 
-        return $normalizer->normalize($childObject, $context, $path);
+        return $normalizer->normalize($relatedObject, $context, $path);
+    }
+
+    private function resolveProxy($relatedObject)
+    {
+        if (null !== $relatedObject && interface_exists('Doctrine\Common\Persistence\Proxy')
+            && $relatedObject instanceof Proxy && !$relatedObject->__isInitialized()
+        ) {
+            $relatedObject->__load();
+        }
     }
 }
