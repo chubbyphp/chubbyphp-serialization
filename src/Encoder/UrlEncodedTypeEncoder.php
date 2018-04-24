@@ -39,7 +39,7 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
             if (is_array($value)) {
                 $query .= $this->buildQuery($value, $subPath);
             } else {
-                $query .= $subPath.'='.urlencode($this->covertData($value));
+                $query .= $subPath.'='.urlencode($this->convertValueToString($value));
             }
             $query .= '&';
         }
@@ -52,7 +52,7 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
      * @param null|bool|int|string $value
      * @return string
      */
-    private function covertData($value): string
+    private function convertValueToString($value): string
     {
         if (true === $value) {
             return 'true';
