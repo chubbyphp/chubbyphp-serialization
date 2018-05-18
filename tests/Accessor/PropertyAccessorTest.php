@@ -6,7 +6,6 @@ namespace Chubbyphp\Tests\Serialization\Accessor;
 
 use Chubbyphp\Serialization\Accessor\PropertyAccessor;
 use Chubbyphp\Serialization\SerializerLogicException;
-use Chubbyphp\Tests\Serialization\Resources\Model\AbstractManyModel;
 use Doctrine\Common\Persistence\Proxy;
 use PHPUnit\Framework\TestCase;
 
@@ -17,20 +16,7 @@ class PropertyAccessorTest extends TestCase
 {
     public function testGetValue()
     {
-        $object = new class() {
-            /**
-             * @var string
-             */
-            private $name;
-
-            /**
-             * @param string $name
-             */
-            public function setName(string $name)
-            {
-                $this->name = $name;
-            }
-        };
+        $object = new Model();
 
         $object->setName('Name');
 
@@ -41,7 +27,7 @@ class PropertyAccessorTest extends TestCase
 
     public function testGetValueCanAccessPrivatePropertyThroughDoctrineProxyClass()
     {
-        $object = new class() extends AbstractManyModel implements Proxy {
+        $object = new class() extends Model implements Proxy {
             public function __load()
             {
             }
@@ -55,11 +41,11 @@ class PropertyAccessorTest extends TestCase
             }
         };
 
-        $object->setAddress('Address');
+        $object->setName('Name');
 
-        $accessor = new PropertyAccessor('address');
+        $accessor = new PropertyAccessor('name');
 
-        self::assertSame('Address', $accessor->getValue($object));
+        self::assertSame('Name', $accessor->getValue($object));
     }
 
     public function testMissingGet()
@@ -71,5 +57,18 @@ class PropertyAccessorTest extends TestCase
 
         $accessor = new PropertyAccessor('name');
         $accessor->getValue($object);
+    }
+}
+
+class Model
+{
+    /**
+     * @var string
+     */
+    protected $name;
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
     }
 }
