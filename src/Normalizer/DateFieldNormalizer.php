@@ -34,6 +34,8 @@ final class DateFieldNormalizer implements FieldNormalizerInterface
         NormalizerContextInterface $context,
         NormalizerInterface $normalizer = null
     ) {
+        @trigger_error(sprintf('Use %s instead', DateTimeFieldNormalizer::class), E_USER_DEPRECATED);
+
         return $this->fieldNormalizer->normalizeField($path, $object, $context, $normalizer);
     }
 }

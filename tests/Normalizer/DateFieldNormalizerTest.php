@@ -29,6 +29,13 @@ class DateFieldNormalizerTest extends TestCase
                 $this->getNormalizerContext()
             )
         );
+
+        $error = error_get_last();
+
+        error_clear_last();
+
+        self::assertEquals(E_USER_DEPRECATED, $error['type']);
+        self::assertEquals('Use Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer instead', $error['message']);
     }
 
     public function testNormalizeWithValidDateString()
@@ -46,6 +53,8 @@ class DateFieldNormalizerTest extends TestCase
                 $this->getNormalizerContext()
             )
         );
+
+        error_clear_last();
     }
 
     public function testNormalizeWithInvalidDateString()
@@ -63,6 +72,8 @@ class DateFieldNormalizerTest extends TestCase
                 $this->getNormalizerContext()
             )
         );
+
+        error_clear_last();
     }
 
     public function testNormalizeWithNull()
@@ -74,6 +85,8 @@ class DateFieldNormalizerTest extends TestCase
         self::assertNull(
             $fieldNormalizer->normalizeField('date', $object, $this->getNormalizerContext())
         );
+
+        error_clear_last();
     }
 
     private function getObject()
