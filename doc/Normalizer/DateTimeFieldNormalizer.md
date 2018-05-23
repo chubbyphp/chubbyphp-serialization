@@ -1,17 +1,17 @@
-# DateFieldNormalizer
+# DateTimeFieldNormalizer
 
 ```php
 <?php
 
 use Chubbyphp\Serialization\Accessor\PropertyAccessor;
-use Chubbyphp\Serialization\Normalizer\DateFieldNormalizer;
+use Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizer;
 use MyProject\Model\Model;
 
 $model = new Model;
 $context = ...;
 
-$fieldNormalizer = new DateFieldNormalizer(
+$fieldNormalizer = new DateTimeFieldNormalizer(
     new FieldNormalizer(
         new PropertyAccessor('at')
     ),

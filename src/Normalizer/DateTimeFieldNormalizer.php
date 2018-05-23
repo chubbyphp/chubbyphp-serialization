@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Normalizer;
 
-final class DateFieldNormalizer implements FieldNormalizerInterface
+final class DateTimeFieldNormalizer implements FieldNormalizerInterface
 {
     /**
      * @var FieldNormalizerInterface
@@ -12,12 +12,18 @@ final class DateFieldNormalizer implements FieldNormalizerInterface
     private $fieldNormalizer;
 
     /**
+     * @var string
+     */
+    private $format;
+
+    /**
      * @param FieldNormalizerInterface $fieldNormalizer
      * @param string                   $format
      */
     public function __construct(FieldNormalizerInterface $fieldNormalizer, string $format = 'c')
     {
-        $this->fieldNormalizer = new DateTimeFieldNormalizer($fieldNormalizer, $format);
+        $this->fieldNormalizer = $fieldNormalizer;
+        $this->format = $format;
     }
 
     /**
@@ -34,6 +40,19 @@ final class DateFieldNormalizer implements FieldNormalizerInterface
         NormalizerContextInterface $context,
         NormalizerInterface $normalizer = null
     ) {
-        return $this->fieldNormalizer->normalizeField($path, $object, $context, $normalizer);
+        $value = $this->fieldNormalizer->normalizeField($path, $object, $context, $normalizer);
+
+        if (is_string($value)) {
+            try {
+                $value = new \DateTime($value);
+            } catch (\Exception $exception) {
+            }
+        }
+
+        if (!$value instanceof \DateTimeInterface) {
+            return $value;
+        }
+
+        return $value->format($this->format);
     }
 }

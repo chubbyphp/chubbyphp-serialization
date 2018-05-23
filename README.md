@@ -31,7 +31,7 @@ A simple serialization.
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-serialization][1].
 
 ```sh
-composer require chubbyphp/chubbyphp-serialization "~2.0"
+composer require chubbyphp/chubbyphp-serialization "~2.1"
 ```
 
 ## Usage
@@ -64,7 +64,7 @@ composer require chubbyphp/chubbyphp-serialization "~2.0"
 #### Field Normalizer
 
  * [CallbackFieldNormalizer][12]
- * [DateFieldNormalizer][13]
+ * [DateTimeFieldNormalizer][13]
  * [FieldNormalizer][14]
 
 ##### Relation Field Normalizer
@@ -205,7 +205,7 @@ Dominik Zogg 2017
 [11]: doc/Normalizer/Normalizer.md
 
 [12]: doc/Normalizer/CallbackFieldNormalizer.md
-[13]: doc/Normalizer/DateFieldNormalizer.md
+[13]: doc/Normalizer/DateTimeFieldNormalizer.md
 [14]: doc/Normalizer/FieldNormalizer.md
 
 [15]: doc/Normalizer/Relation/EmbedManyFieldNormalizer.md
