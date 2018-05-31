@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Normalizer;
 
+/**
+ * @deprecated use Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer
+ */
 final class DateFieldNormalizer implements FieldNormalizerInterface
 {
     /**
