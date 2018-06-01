@@ -182,7 +182,7 @@ final class XmlTypeEncoder implements TypeEncoderInterface
     /**
      * @param bool|float|int $value
      *
-     * @return string|null
+     * @return string
      *
      * @throws \InvalidArgumentException
      */
@@ -202,7 +202,7 @@ final class XmlTypeEncoder implements TypeEncoderInterface
     /**
      * @param bool|float|int|string $value
      *
-     * @return null|string
+     * @return string
      */
     private function getType($value): string
     {
