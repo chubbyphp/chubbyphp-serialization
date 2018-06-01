@@ -18,7 +18,6 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5.8",
-        "phan/phan": "^0.12.11",
         "doctrine/common": "^2.2",
         "pimple/pimple": "~3.0",
         "psr/container": "~1.0",
