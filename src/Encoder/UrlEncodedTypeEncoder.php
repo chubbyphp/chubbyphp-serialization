@@ -32,6 +32,10 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
      */
     private function buildQuery(array $data, string $path = ''): string
     {
+        if ([] === $data) {
+            return '';
+        }
+
         $query = '';
         foreach ($data as $key => $value) {
             $subPath = '' !== $path ? $path.'['.$key.']' : $key;
@@ -42,6 +46,7 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
             }
             $query .= '&';
         }
+
         $query = substr($query, 0, -strlen('&'));
 
         return $query;
