@@ -43,15 +43,27 @@ abstract class AbstractTypeEncoderTest extends TestCase
                             '_links' => [
                                 'read' => [
                                     'href' => 'http://test.com/items/id1',
-                                    'method' => 'GET',
+                                    'templated' => false,
+                                    'rels' => [],
+                                    'attributes' => [
+                                        'method' => 'GET',
+                                    ],
                                 ],
                                 'update' => [
                                     'href' => 'http://test.com/items/id1',
-                                    'method' => 'PUT',
+                                    'templated' => false,
+                                    'rels' => [],
+                                    'attributes' => [
+                                        'method' => 'PUT',
+                                    ],
                                 ],
                                 'delete' => [
                                     'href' => 'http://test.com/items/id1',
-                                    'method' => 'DELETE',
+                                    'templated' => false,
+                                    'rels' => [],
+                                    'attributes' => [
+                                        'method' => 'DELETE',
+                                    ],
                                 ],
                             ],
                         ],
@@ -70,15 +82,27 @@ abstract class AbstractTypeEncoderTest extends TestCase
                                 '_links' => [
                                     'read' => [
                                         'href' => 'http://test.com/items/id1',
-                                        'method' => 'GET',
+                                        'templated' => false,
+                                        'rels' => [],
+                                        'attributes' => [
+                                            'method' => 'GET',
+                                        ],
                                     ],
                                     'update' => [
                                         'href' => 'http://test.com/items/id1',
-                                        'method' => 'PUT',
+                                        'templated' => false,
+                                        'rels' => [],
+                                        'attributes' => [
+                                            'method' => 'PUT',
+                                        ],
                                     ],
                                     'delete' => [
                                         'href' => 'http://test.com/items/id1',
-                                        'method' => 'DELETE',
+                                        'templated' => false,
+                                        'rels' => [],
+                                        'attributes' => [
+                                            'method' => 'DELETE',
+                                        ],
                                     ],
                                 ],
                             ],
@@ -97,15 +121,27 @@ abstract class AbstractTypeEncoderTest extends TestCase
                                 '_links' => [
                                     'read' => [
                                         'href' => 'http://test.com/items/id2',
-                                        'method' => 'GET',
+                                        'templated' => false,
+                                        'rels' => [],
+                                        'attributes' => [
+                                            'method' => 'GET',
+                                        ],
                                     ],
                                     'update' => [
                                         'href' => 'http://test.com/items/id2',
-                                        'method' => 'PUT',
+                                        'templated' => false,
+                                        'rels' => [],
+                                        'attributes' => [
+                                            'method' => 'PUT',
+                                        ],
                                     ],
                                     'delete' => [
                                         'href' => 'http://test.com/items/id2',
-                                        'method' => 'DELETE',
+                                        'templated' => false,
+                                        'rels' => [],
+                                        'attributes' => [
+                                            'method' => 'DELETE',
+                                        ],
                                     ],
                                 ],
                             ],
@@ -125,15 +161,27 @@ abstract class AbstractTypeEncoderTest extends TestCase
                                 '_links' => [
                                     'read' => [
                                         'href' => 'http://test.com/items/id3',
-                                        'method' => 'GET',
+                                        'templated' => false,
+                                        'rels' => [],
+                                        'attributes' => [
+                                            'method' => 'GET',
+                                        ],
                                     ],
                                     'update' => [
                                         'href' => 'http://test.com/items/id3',
-                                        'method' => 'PUT',
+                                        'templated' => false,
+                                        'rels' => [],
+                                        'attributes' => [
+                                            'method' => 'PUT',
+                                        ],
                                     ],
                                     'delete' => [
                                         'href' => 'http://test.com/items/id3',
-                                        'method' => 'DELETE',
+                                        'templated' => false,
+                                        'rels' => [],
+                                        'attributes' => [
+                                            'method' => 'DELETE',
+                                        ],
                                     ],
                                 ],
                             ],

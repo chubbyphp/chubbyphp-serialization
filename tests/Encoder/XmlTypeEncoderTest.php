@@ -51,15 +51,27 @@ class XmlTypeEncoderTest extends AbstractTypeEncoderTest
         <meta-links>
           <read>
             <href type="string">http://test.com/items/id1</href>
-            <method type="string">GET</method>
+            <templated type="boolean">false</templated>
+            <rels></rels>
+            <attributes>
+              <method type="string">GET</method>
+            </attributes>
           </read>
           <update>
             <href type="string">http://test.com/items/id1</href>
-            <method type="string">PUT</method>
+            <templated type="boolean">false</templated>
+            <rels></rels>
+            <attributes>
+              <method type="string">PUT</method>
+            </attributes>
           </update>
           <delete>
             <href type="string">http://test.com/items/id1</href>
-            <method type="string">DELETE</method>
+            <templated type="boolean">false</templated>
+            <rels></rels>
+            <attributes>
+              <method type="string">DELETE</method>
+            </attributes>
           </delete>
         </meta-links>
       </object>
@@ -78,15 +90,27 @@ class XmlTypeEncoderTest extends AbstractTypeEncoderTest
         <meta-links>
           <read>
             <href type="string">http://test.com/items/id1</href>
-            <method type="string">GET</method>
+            <templated type="boolean">false</templated>
+            <rels></rels>
+            <attributes>
+              <method type="string">GET</method>
+            </attributes>
           </read>
           <update>
             <href type="string">http://test.com/items/id1</href>
-            <method type="string">PUT</method>
+            <templated type="boolean">false</templated>
+            <rels></rels>
+            <attributes>
+              <method type="string">PUT</method>
+            </attributes>
           </update>
           <delete>
             <href type="string">http://test.com/items/id1</href>
-            <method type="string">DELETE</method>
+            <templated type="boolean">false</templated>
+            <rels></rels>
+            <attributes>
+              <method type="string">DELETE</method>
+            </attributes>
           </delete>
         </meta-links>
       </object>
@@ -104,15 +128,27 @@ class XmlTypeEncoderTest extends AbstractTypeEncoderTest
         <meta-links>
           <read>
             <href type="string">http://test.com/items/id2</href>
-            <method type="string">GET</method>
+            <templated type="boolean">false</templated>
+            <rels></rels>
+            <attributes>
+              <method type="string">GET</method>
+            </attributes>
           </read>
           <update>
             <href type="string">http://test.com/items/id2</href>
-            <method type="string">PUT</method>
+            <templated type="boolean">false</templated>
+            <rels></rels>
+            <attributes>
+              <method type="string">PUT</method>
+            </attributes>
           </update>
           <delete>
             <href type="string">http://test.com/items/id2</href>
-            <method type="string">DELETE</method>
+            <templated type="boolean">false</templated>
+            <rels></rels>
+            <attributes>
+              <method type="string">DELETE</method>
+            </attributes>
           </delete>
         </meta-links>
       </object>
@@ -131,15 +167,27 @@ class XmlTypeEncoderTest extends AbstractTypeEncoderTest
         <meta-links>
           <read>
             <href type="string">http://test.com/items/id3</href>
-            <method type="string">GET</method>
+            <templated type="boolean">false</templated>
+            <rels></rels>
+            <attributes>
+              <method type="string">GET</method>
+            </attributes>
           </read>
           <update>
             <href type="string">http://test.com/items/id3</href>
-            <method type="string">PUT</method>
+            <templated type="boolean">false</templated>
+            <rels></rels>
+            <attributes>
+              <method type="string">PUT</method>
+            </attributes>
           </update>
           <delete>
             <href type="string">http://test.com/items/id3</href>
-            <method type="string">DELETE</method>
+            <templated type="boolean">false</templated>
+            <rels></rels>
+            <attributes>
+              <method type="string">DELETE</method>
+            </attributes>
           </delete>
         </meta-links>
       </object>
