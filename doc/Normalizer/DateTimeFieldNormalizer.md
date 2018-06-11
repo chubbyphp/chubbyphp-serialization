@@ -12,9 +12,7 @@ $model = new Model;
 $context = ...;
 
 $fieldNormalizer = new DateTimeFieldNormalizer(
-    new FieldNormalizer(
-        new PropertyAccessor('at')
-    ),
+    new PropertyAccessor('at'),
     'Y-m-d H:i:s'
 );
 

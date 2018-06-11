@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Normalizer;
 
+use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
@@ -14,12 +15,37 @@ use PHPUnit\Framework\TestCase;
  */
 class DateTimeFieldNormalizerTest extends TestCase
 {
-    public function testNormalizeField()
+    public function testNormalizeFieldWithInvalidConstructArgument()
+    {
+        self::expectException(\TypeError::class);
+        self::expectExceptionMessage('Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer::__construct() expects parameter 1 to be Chubbyphp\Serialization\Accessor\AccessorInterface|Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface, DateTime given');
+
+        new DateTimeFieldNormalizer(new \DateTime());
+    }
+    
+    public function testNormalizeFieldWithFieldNormalizer()
     {
         $object = $this->getObject();
         $object->setDate(new \DateTime('2017-01-01 22:00:00+01:00'));
 
         $fieldNormalizer = new DateTimeFieldNormalizer($this->getFieldNormalizer());
+
+        self::assertSame(
+            '2017-01-01T22:00:00+01:00',
+            $fieldNormalizer->normalizeField(
+                'date',
+                $object,
+                $this->getNormalizerContext()
+            )
+        );
+    }
+    
+    public function testNormalizeField()
+    {
+        $object = $this->getObject();
+        $object->setDate(new \DateTime('2017-01-01 22:00:00+01:00'));
+
+        $fieldNormalizer = new DateTimeFieldNormalizer($this->getAccessor());
 
         self::assertSame(
             '2017-01-01T22:00:00+01:00',
@@ -36,7 +62,7 @@ class DateTimeFieldNormalizerTest extends TestCase
         $object = $this->getObject();
         $object->setDate('2017-01-01 22:00:00+01:00');
 
-        $fieldNormalizer = new DateTimeFieldNormalizer($this->getFieldNormalizer());
+        $fieldNormalizer = new DateTimeFieldNormalizer($this->getAccessor());
 
         self::assertSame(
             '2017-01-01T22:00:00+01:00',
@@ -53,7 +79,7 @@ class DateTimeFieldNormalizerTest extends TestCase
         $object = $this->getObject();
         $object->setDate('2017-01-01 25:00:00');
 
-        $fieldNormalizer = new DateTimeFieldNormalizer($this->getFieldNormalizer());
+        $fieldNormalizer = new DateTimeFieldNormalizer($this->getAccessor());
 
         self::assertSame(
             '2017-01-01 25:00:00',
@@ -69,7 +95,7 @@ class DateTimeFieldNormalizerTest extends TestCase
     {
         $object = $this->getObject();
 
-        $fieldNormalizer = new DateTimeFieldNormalizer($this->getFieldNormalizer());
+        $fieldNormalizer = new DateTimeFieldNormalizer($this->getAccessor());
 
         self::assertNull(
             $fieldNormalizer->normalizeField('date', $object, $this->getNormalizerContext())
@@ -104,6 +130,23 @@ class DateTimeFieldNormalizerTest extends TestCase
                 return $this;
             }
         };
+    }
+    
+    /**
+     * @return AccessorInterface
+     */
+    private function getAccessor(): AccessorInterface
+    {
+        /** @var AccessorInterface|\PHPUnit_Framework_MockObject_MockObject $accessor */
+        $accessor = $this->getMockBuilder(AccessorInterface::class)->getMockForAbstractClass();
+
+        $accessor->expects(self::any())->method('getValue')->willReturnCallback(
+            function ($object) {
+                return $object->getDate();
+            }
+        );
+
+        return $accessor;
     }
 
     /**
