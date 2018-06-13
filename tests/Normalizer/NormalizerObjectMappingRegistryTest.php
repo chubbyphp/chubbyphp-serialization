@@ -31,8 +31,8 @@ class NormalizerObjectMappingRegistryTest extends TestCase
 
     public function testGetMissingObjectMapping()
     {
-        self::expectException(SerializerLogicException::class);
-        self::expectExceptionMessage('There is no mapping for class: "stdClass"');
+        $this->expectException(SerializerLogicException::class);
+        $this->expectExceptionMessage('There is no mapping for class: "stdClass"');
 
         $registry = new NormalizerObjectMappingRegistry([]);
 

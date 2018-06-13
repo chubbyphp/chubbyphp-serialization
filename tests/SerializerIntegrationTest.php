@@ -200,8 +200,8 @@ EOD;
 
     public function testSerializeWithoutObject()
     {
-        self::expectException(SerializerLogicException::class);
-        self::expectExceptionMessage('Wrong data type "" at path : "string"');
+        $this->expectException(SerializerLogicException::class);
+        $this->expectExceptionMessage('Wrong data type "" at path : "string"');
 
         $logger = $this->getLogger();
 
@@ -221,8 +221,8 @@ EOD;
 
     public function testSerializeWithoutObjectMapping()
     {
-        self::expectException(SerializerLogicException::class);
-        self::expectExceptionMessage('There is no mapping for class: "stdClass"');
+        $this->expectException(SerializerLogicException::class);
+        $this->expectExceptionMessage('There is no mapping for class: "stdClass"');
 
         $serializer = new Serializer(
             new Normalizer(

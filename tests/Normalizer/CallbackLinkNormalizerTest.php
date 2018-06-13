@@ -78,8 +78,8 @@ class CallbackLinkNormalizerTest extends TestCase
 
     public function testNormalizeLinkWithWrongDataType()
     {
-        self::expectException(SerializerLogicException::class);
-        self::expectExceptionMessage('The link normalizer callback needs to return a Psr\Link\LinkInterface|null, "string" given at path: "name"');
+        $this->expectException(SerializerLogicException::class);
+        $this->expectExceptionMessage('The link normalizer callback needs to return a Psr\Link\LinkInterface|null, "string" given at path: "name"');
 
         $object = new class() {
             /**

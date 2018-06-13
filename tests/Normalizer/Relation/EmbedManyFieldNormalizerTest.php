@@ -18,8 +18,8 @@ class EmbedManyFieldNormalizerTest extends TestCase
 {
     public function testNormalizeMissingNormalizer()
     {
-        self::expectException(SerializerLogicException::class);
-        self::expectExceptionMessage('There is no normalizer at path: "children"');
+        $this->expectException(SerializerLogicException::class);
+        $this->expectExceptionMessage('There is no normalizer at path: "children"');
 
         $fieldNormalizer = new EmbedManyFieldNormalizer($this->getAccessor());
 

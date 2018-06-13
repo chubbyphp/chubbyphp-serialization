@@ -17,8 +17,8 @@ class DateTimeFieldNormalizerTest extends TestCase
 {
     public function testNormalizeFieldWithInvalidConstructArgument()
     {
-        self::expectException(\TypeError::class);
-        self::expectExceptionMessage('Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer::__construct() expects parameter 1 to be Chubbyphp\Serialization\Accessor\AccessorInterface|Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface, DateTime given');
+        $this->expectException(\TypeError::class);
+        $this->expectExceptionMessage('Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer::__construct() expects parameter 1 to be Chubbyphp\Serialization\Accessor\AccessorInterface|Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface, DateTime given');
 
         new DateTimeFieldNormalizer(new \DateTime());
     }

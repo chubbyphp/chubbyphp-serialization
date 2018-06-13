@@ -30,8 +30,8 @@ class EncoderTest extends TestCase
 
     public function testDecodeWithMissingType()
     {
-        self::expectException(SerializerLogicException::class);
-        self::expectExceptionMessage('There is no encoder for content-type: "application/xml"');
+        $this->expectException(SerializerLogicException::class);
+        $this->expectExceptionMessage('There is no encoder for content-type: "application/xml"');
 
         $encoder = new Encoder([$this->getTypeEncoder()]);
 

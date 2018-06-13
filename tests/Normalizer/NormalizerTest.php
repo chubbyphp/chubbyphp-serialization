@@ -48,8 +48,8 @@ class NormalizerTest extends TestCase
 
     public function testNormalizeWithoutObject()
     {
-        self::expectException(SerializerLogicException::class);
-        self::expectExceptionMessage('Wrong data type "" at path : "string"');
+        $this->expectException(SerializerLogicException::class);
+        $this->expectExceptionMessage('Wrong data type "" at path : "string"');
 
         $normalizer = new Normalizer($this->getNormalizerObjectMappingRegistry([]));
 
@@ -58,8 +58,8 @@ class NormalizerTest extends TestCase
 
     public function testNormalizeMissingMapping()
     {
-        self::expectException(SerializerLogicException::class);
-        self::expectExceptionMessage('There is no mapping for class: "stdClass"');
+        $this->expectException(SerializerLogicException::class);
+        $this->expectExceptionMessage('There is no mapping for class: "stdClass"');
 
         $normalizer = new Normalizer(
             $this->getNormalizerObjectMappingRegistry([

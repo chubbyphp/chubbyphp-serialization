@@ -18,8 +18,8 @@ class EmbedOneFieldNormalizerTest extends TestCase
 {
     public function testNormalizeFieldWithMissingNormalizer()
     {
-        self::expectException(SerializerLogicException::class);
-        self::expectExceptionMessage('There is no normalizer at path: "relation"');
+        $this->expectException(SerializerLogicException::class);
+        $this->expectExceptionMessage('There is no normalizer at path: "relation"');
 
         $object = $this->getObject();
 

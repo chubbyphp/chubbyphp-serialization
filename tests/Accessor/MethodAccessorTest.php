@@ -111,7 +111,7 @@ class MethodAccessorTest extends TestCase
 
     public function testMissingGet()
     {
-        self::expectException(SerializerLogicException::class);
+        $this->expectException(SerializerLogicException::class);
 
         $object = new class() {
         };
