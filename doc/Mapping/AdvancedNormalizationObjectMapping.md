@@ -50,12 +50,8 @@ final class ModelMapping implements NormalizationObjectMappingInterface
         return [
             NormalizationFieldMappingBuilder::create('id')->setGroups(['baseInformation'])->getMapping(),
             NormalizationFieldMappingBuilder::create('name')->setGroups(['baseInformation'])->getMapping(),
-            NormalizationFieldMappingBuilder::create('one')->setFieldNormalizer(
-                new EmbedOneFieldNormalizer(new PropertyAccessor('one'))
-            )->getMapping(),
-            NormalizationFieldMappingBuilder::create('manies')->setFieldNormalizer(
-                new EmbedManyFieldNormalizer(new PropertyAccessor('manies'))
-            )->getMapping(),
+            NormalizationFieldMappingBuilder::createEmbedOne('one')->getMapping(),
+            NormalizationFieldMappingBuilder::createEmbedMany('manies')->getMapping(),
         ];
     }
 
