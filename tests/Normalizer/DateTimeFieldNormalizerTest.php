@@ -22,7 +22,7 @@ class DateTimeFieldNormalizerTest extends TestCase
 
         new DateTimeFieldNormalizer(new \DateTime());
     }
-    
+
     public function testNormalizeFieldWithFieldNormalizer()
     {
         $object = $this->getObject();
@@ -39,7 +39,7 @@ class DateTimeFieldNormalizerTest extends TestCase
             )
         );
     }
-    
+
     public function testNormalizeField()
     {
         $object = $this->getObject();
@@ -131,7 +131,7 @@ class DateTimeFieldNormalizerTest extends TestCase
             }
         };
     }
-    
+
     /**
      * @return AccessorInterface
      */
