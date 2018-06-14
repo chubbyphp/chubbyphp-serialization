@@ -11,7 +11,7 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
     /**
      * @var string[]
      */
-    private $groups;
+    private $groups = [];
 
     /**
      * @var ServerRequestInterface|null
@@ -27,10 +27,7 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
      */
     public static function create(): NormalizerContextBuilderInterface
     {
-        $self = new self();
-        $self->groups = [];
-
-        return $self;
+        return new self();
     }
 
     /**

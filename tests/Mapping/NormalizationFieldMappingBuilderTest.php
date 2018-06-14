@@ -4,8 +4,14 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Mapping;
 
+use Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer;
+use Chubbyphp\Serialization\Normalizer\FieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder;
+use Chubbyphp\Serialization\Normalizer\Relation\EmbedManyFieldNormalizer;
+use Chubbyphp\Serialization\Normalizer\Relation\EmbedOneFieldNormalizer;
+use Chubbyphp\Serialization\Normalizer\Relation\ReferenceManyFieldNormalizer;
+use Chubbyphp\Serialization\Normalizer\Relation\ReferenceOneFieldNormalizer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -19,7 +25,52 @@ class NormalizationFieldMappingBuilderTest extends TestCase
 
         self::assertSame('name', $fieldMapping->getName());
         self::assertSame([], $fieldMapping->getGroups());
-        self::assertInstanceOf(FieldNormalizerInterface::class, $fieldMapping->getFieldNormalizer());
+        self::assertInstanceOf(FieldNormalizer::class, $fieldMapping->getFieldNormalizer());
+    }
+
+    public function testGetDefaultMappingForDateTime()
+    {
+        $fieldMapping = NormalizationFieldMappingBuilder::createDateTime('name')->getMapping();
+
+        self::assertSame('name', $fieldMapping->getName());
+        self::assertSame([], $fieldMapping->getGroups());
+        self::assertInstanceOf(DateTimeFieldNormalizer::class, $fieldMapping->getFieldNormalizer());
+    }
+
+    public function testGetDefaultMappingForEmbedMany()
+    {
+        $fieldMapping = NormalizationFieldMappingBuilder::createEmbedMany('name')->getMapping();
+
+        self::assertSame('name', $fieldMapping->getName());
+        self::assertSame([], $fieldMapping->getGroups());
+        self::assertInstanceOf(EmbedManyFieldNormalizer::class, $fieldMapping->getFieldNormalizer());
+    }
+
+    public function testGetDefaultMappingForEmbedOne()
+    {
+        $fieldMapping = NormalizationFieldMappingBuilder::createEmbedOne('name')->getMapping();
+
+        self::assertSame('name', $fieldMapping->getName());
+        self::assertSame([], $fieldMapping->getGroups());
+        self::assertInstanceOf(EmbedOneFieldNormalizer::class, $fieldMapping->getFieldNormalizer());
+    }
+
+    public function testGetDefaultMappingForReferenceMany()
+    {
+        $fieldMapping = NormalizationFieldMappingBuilder::createReferenceMany('name')->getMapping();
+
+        self::assertSame('name', $fieldMapping->getName());
+        self::assertSame([], $fieldMapping->getGroups());
+        self::assertInstanceOf(ReferenceManyFieldNormalizer::class, $fieldMapping->getFieldNormalizer());
+    }
+
+    public function testGetDefaultMappingForReferenceOne()
+    {
+        $fieldMapping = NormalizationFieldMappingBuilder::createReferenceOne('name')->getMapping();
+
+        self::assertSame('name', $fieldMapping->getName());
+        self::assertSame([], $fieldMapping->getGroups());
+        self::assertInstanceOf(ReferenceOneFieldNormalizer::class, $fieldMapping->getFieldNormalizer());
     }
 
     public function testGetMapping()

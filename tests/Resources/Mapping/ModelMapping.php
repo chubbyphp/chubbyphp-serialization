@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Resources\Mapping;
 
-use Chubbyphp\Serialization\Accessor\PropertyAccessor;
 use Chubbyphp\Serialization\Link\LinkBuilder;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMapping;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
-use Chubbyphp\Serialization\Normalizer\Relation\EmbedManyFieldNormalizer;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
-use Chubbyphp\Serialization\Normalizer\Relation\EmbedOneFieldNormalizer;
 use Chubbyphp\Tests\Serialization\Resources\Model\Model;
 
 final class ModelMapping implements NormalizationObjectMappingInterface
@@ -45,12 +42,8 @@ final class ModelMapping implements NormalizationObjectMappingInterface
         return [
             NormalizationFieldMappingBuilder::create('id')->setGroups(['baseInformation'])->getMapping(),
             NormalizationFieldMappingBuilder::create('name')->setGroups(['baseInformation'])->getMapping(),
-            NormalizationFieldMappingBuilder::create('one')->setFieldNormalizer(
-                new EmbedOneFieldNormalizer(new PropertyAccessor('one'))
-            )->getMapping(),
-            NormalizationFieldMappingBuilder::create('manies')->setFieldNormalizer(
-                new EmbedManyFieldNormalizer(new PropertyAccessor('manies'))
-            )->getMapping(),
+            NormalizationFieldMappingBuilder::createEmbedOne('one')->getMapping(),
+            NormalizationFieldMappingBuilder::createEmbedMany('manies')->getMapping(),
         ];
     }
 
