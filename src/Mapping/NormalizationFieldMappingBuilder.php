@@ -30,6 +30,9 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
      */
     private $fieldNormalizer;
 
+    /**
+     * @param string $name
+     */
     private function __construct(string $name)
     {
         $this->name = $name;
