@@ -47,13 +47,14 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
 
     /**
      * @param string $name
+     * @param string $format
      *
      * @return NormalizationFieldMappingBuilderInterface
      */
-    public static function createDateTime(string $name): NormalizationFieldMappingBuilderInterface
+    public static function createDateTime(string $name, string $format = 'c'): NormalizationFieldMappingBuilderInterface
     {
         $self = new self($name);
-        $self->fieldNormalizer = new DateTimeFieldNormalizer(new PropertyAccessor($name));
+        $self->fieldNormalizer = new DateTimeFieldNormalizer(new PropertyAccessor($name), $format);
 
         return $self;
     }

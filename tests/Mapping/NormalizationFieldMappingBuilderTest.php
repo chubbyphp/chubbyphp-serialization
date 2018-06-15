@@ -37,6 +37,23 @@ class NormalizationFieldMappingBuilderTest extends TestCase
         self::assertInstanceOf(DateTimeFieldNormalizer::class, $fieldMapping->getFieldNormalizer());
     }
 
+    public function testGetDefaultMappingForDateTimeWithFormat()
+    {
+        $fieldMapping = NormalizationFieldMappingBuilder::createDateTime('name', \DateTime::ATOM)->getMapping();
+
+        /** @var DateTimeFieldNormalizer $fieldNormalizer */
+        $fieldNormalizer = $fieldMapping->getFieldNormalizer();
+
+        self::assertSame('name', $fieldMapping->getName());
+        self::assertSame([], $fieldMapping->getGroups());
+        self::assertInstanceOf(DateTimeFieldNormalizer::class, $fieldNormalizer);
+
+        $reflection = new \ReflectionProperty($fieldNormalizer, 'format');
+        $reflection->setAccessible(true);
+
+        self::assertSame(\DateTime::ATOM, $reflection->getValue($fieldNormalizer));
+    }
+
     public function testGetDefaultMappingForEmbedMany()
     {
         $fieldMapping = NormalizationFieldMappingBuilder::createEmbedMany('name')->getMapping();
