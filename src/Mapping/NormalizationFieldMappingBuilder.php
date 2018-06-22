@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Chubbyphp\Serialization\Mapping;
 
 use Chubbyphp\Serialization\Accessor\PropertyAccessor;
+use Chubbyphp\Serialization\Normalizer\CallbackFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
@@ -46,6 +47,20 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
     public static function create(string $name): NormalizationFieldMappingBuilderInterface
     {
         return new self($name);
+    }
+
+    /**
+     * @param string   $name
+     * @param callable $callback
+     *
+     * @return NormalizationFieldMappingBuilderInterface
+     */
+    public static function createCallback(string $name, callable $callback): NormalizationFieldMappingBuilderInterface
+    {
+        $self = new self($name);
+        $self->fieldNormalizer = new CallbackFieldNormalizer($callback);
+
+        return $self;
     }
 
     /**

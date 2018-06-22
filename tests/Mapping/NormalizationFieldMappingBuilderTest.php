@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Mapping;
 
+use Chubbyphp\Serialization\Normalizer\CallbackFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
@@ -26,6 +27,15 @@ class NormalizationFieldMappingBuilderTest extends TestCase
         self::assertSame('name', $fieldMapping->getName());
         self::assertSame([], $fieldMapping->getGroups());
         self::assertInstanceOf(FieldNormalizer::class, $fieldMapping->getFieldNormalizer());
+    }
+
+    public function testGetDefaultMappingForCallback()
+    {
+        $fieldMapping = NormalizationFieldMappingBuilder::createCallback('name', function () {})->getMapping();
+
+        self::assertSame('name', $fieldMapping->getName());
+        self::assertSame([], $fieldMapping->getGroups());
+        self::assertInstanceOf(CallbackFieldNormalizer::class, $fieldMapping->getFieldNormalizer());
     }
 
     public function testGetDefaultMappingForDateTime()
