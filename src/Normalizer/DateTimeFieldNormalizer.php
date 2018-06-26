@@ -24,7 +24,7 @@ final class DateTimeFieldNormalizer implements FieldNormalizerInterface
     private $format;
 
     /**
-     * @param AccessorInterface|FieldNormalizerInterface $fieldNormalizer
+     * @param AccessorInterface|FieldNormalizerInterface $accessor
      * @param string                                     $format
      */
     public function __construct($accessor, string $format = 'c')
@@ -94,8 +94,8 @@ final class DateTimeFieldNormalizer implements FieldNormalizerInterface
     }
 
     /**
-     * @param string $path
-     * @param $object
+     * @param string                     $path
+     * @param object                     $object
      * @param NormalizerContextInterface $context
      * @param NormalizerInterface|null   $normalizer
      *

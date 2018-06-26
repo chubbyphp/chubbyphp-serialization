@@ -38,7 +38,7 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
 
         $query = '';
         foreach ($data as $key => $value) {
-            $subPath = '' !== $path ? $path.'['.$key.']' : $key;
+            $subPath = '' !== $path ? $path.'['.$key.']' : (string) $key;
             if (is_array($value)) {
                 $query .= $this->buildQuery($value, $subPath);
             } else {

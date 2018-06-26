@@ -50,7 +50,7 @@ final class XmlTypeEncoder implements TypeEncoderInterface
 
         $this->dataToNodes($document, $listNode, $data);
 
-        return trim($document->saveXML(null, LIBXML_NOEMPTYTAG));
+        return trim($document->saveXML($document, LIBXML_NOEMPTYTAG));
     }
 
     /**
