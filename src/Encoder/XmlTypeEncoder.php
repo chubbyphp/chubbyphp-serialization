@@ -192,7 +192,16 @@ final class XmlTypeEncoder implements TypeEncoderInterface
             return $value ? 'true' : 'false';
         }
 
-        if (is_float($value) || is_int($value)) {
+        if (is_float($value)) {
+            $value = (string) $value;
+            if (false === strpos($value, '.')) {
+                $value .= '.0';
+            }
+
+            return $value;
+        }
+
+        if (is_int($value)) {
             return (string) $value;
         }
 

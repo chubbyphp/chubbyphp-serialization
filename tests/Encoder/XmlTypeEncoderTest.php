@@ -162,7 +162,7 @@ class XmlTypeEncoderTest extends AbstractTypeEncoderTest
             <treeValue type="integer" key="6">7</treeValue>
           </treeValue>
         </treeValues>
-        <progress type="float">100</progress>
+        <progress type="float">100.0</progress>
         <active type="boolean">false</active>
         <meta-links>
           <read>

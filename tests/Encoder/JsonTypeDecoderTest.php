@@ -163,7 +163,7 @@ class JsonTypeEncoderTest extends AbstractTypeEncoderTest
                         "6": 7
                     }
                 },
-                "progress": 100,
+                "progress": 100.0,
                 "active": false,
                 "_type": "item",
                 "_links": {

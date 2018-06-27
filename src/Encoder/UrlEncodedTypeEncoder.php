@@ -38,11 +38,15 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
 
         $query = '';
         foreach ($data as $key => $value) {
+            if (null === $value) {
+                continue;
+            }
+
             $subPath = '' !== $path ? $path.'['.$key.']' : (string) $key;
             if (is_array($value)) {
                 $query .= $this->buildQuery($value, $subPath);
             } else {
-                $query .= $subPath.'='.urlencode($this->convertValueToString($value));
+                $query .= $subPath.'='.urlencode($this->getValueAsString($value));
             }
             $query .= '&';
         }
@@ -53,20 +57,35 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param null|bool|int|string $value
+     * @param bool|int|float|string $value
      *
      * @return string
+     *
+     * @throws \InvalidArgumentException
      */
-    private function convertValueToString($value): string
+    private function getValueAsString($value): string
     {
-        if (true === $value) {
-            return 'true';
+        if (is_string($value)) {
+            return $value;
         }
 
-        if (false === $value) {
-            return 'false';
+        if (is_bool($value)) {
+            return $value ? 'true' : 'false';
         }
 
-        return (string) $value;
+        if (is_float($value)) {
+            $value = (string) $value;
+            if (false === strpos($value, '.')) {
+                $value .= '.0';
+            }
+
+            return $value;
+        }
+
+        if (is_int($value)) {
+            return (string) $value;
+        }
+
+        throw new \InvalidArgumentException(sprintf('Unsupported data type: %s', gettype($value)));
     }
 }
