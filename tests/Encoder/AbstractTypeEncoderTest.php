@@ -31,7 +31,7 @@ abstract class AbstractTypeEncoderTest extends TestCase
                     '_embedded' => [
                         'mainItem' => [
                             'id' => 'id1',
-                            'name' => 'A fancy Name',
+                            'name' => 'A fäncy Name' . PHP_EOL,
                             'treeValues' => [
                                 1 => [
                                     2 => 3,
@@ -70,7 +70,7 @@ abstract class AbstractTypeEncoderTest extends TestCase
                         'items' => [
                             [
                                 'id' => 'id1',
-                                'name' => 'A fancy Name',
+                                'name' => 'A fäncy Name' . PHP_EOL,
                                 'treeValues' => [
                                     1 => [
                                         2 => 3,

@@ -29,7 +29,7 @@ class YamlTypeEncoderTest extends AbstractTypeEncoderTest
 
         $yaml = $yamlTransformer->encode($data);
 
-        $expectedYaml = <<<EOD
+        $expectedYaml = <<<'EOT'
 page: 1
 perPage: 10
 search: null
@@ -38,7 +38,7 @@ order: asc
 _embedded:
     mainItem:
         id: id1
-        name: 'A fancy Name'
+        name: "A fäncy Name\n"
         treeValues:
             1:
                 2: 3
@@ -67,7 +67,7 @@ _embedded:
     items:
         -
             id: id1
-            name: 'A fancy Name'
+            name: "A fäncy Name\n"
             treeValues:
                 1:
                     2: 3
@@ -160,7 +160,7 @@ _links:
         href: 'http://test.com/items/'
         method: POST
 _type: search
-EOD;
+EOT;
 
         self::assertEquals($expectedYaml, $yaml);
     }

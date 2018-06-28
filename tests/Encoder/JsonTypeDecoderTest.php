@@ -29,7 +29,7 @@ class JsonTypeEncoderTest extends AbstractTypeEncoderTest
 
         $json = $jsonTransformer->encode($data);
 
-        $expectedJson = <<<EOD
+        $expectedJson = <<<'EOT'
 {
     "page": 1,
     "perPage": 10,
@@ -39,7 +39,7 @@ class JsonTypeEncoderTest extends AbstractTypeEncoderTest
     "_embedded": {
         "mainItem": {
             "id": "id1",
-            "name": "A fancy Name",
+            "name": "A fäncy Name\n",
             "treeValues": {
                 "1": {
                     "2": 3
@@ -78,7 +78,7 @@ class JsonTypeEncoderTest extends AbstractTypeEncoderTest
         "items": [
             {
                 "id": "id1",
-                "name": "A fancy Name",
+                "name": "A fäncy Name\n",
                 "treeValues": {
                     "1": {
                         "2": 3
@@ -207,7 +207,7 @@ class JsonTypeEncoderTest extends AbstractTypeEncoderTest
     },
     "_type": "search"
 }
-EOD;
+EOT;
         self::assertEquals($expectedJson, $json);
     }
 }

@@ -28,7 +28,7 @@ class XmlTypeEncoderTest extends AbstractTypeEncoderTest
         $xmlTransformer = new XmlTypeEncoder(true);
         $xml = $xmlTransformer->encode($data);
 
-        $expectedXml = <<<EOD
+        $expectedXml = <<<'EOT'
 <?xml version="1.0" encoding="UTF-8"?>
 <object type="search">
   <page type="integer">1</page>
@@ -40,7 +40,8 @@ class XmlTypeEncoderTest extends AbstractTypeEncoderTest
     <mainItem>
       <object type="item">
         <id type="string">id1</id>
-        <name type="string">A fancy Name</name>
+        <name type="string">A fäncy Name
+</name>
         <treeValues>
           <treeValue key="1">
             <treeValue type="integer" key="2">3</treeValue>
@@ -79,7 +80,8 @@ class XmlTypeEncoderTest extends AbstractTypeEncoderTest
     <items>
       <object type="item" key="0">
         <id type="string">id1</id>
-        <name type="string">A fancy Name</name>
+        <name type="string">A fäncy Name
+</name>
         <treeValues>
           <treeValue key="1">
             <treeValue type="integer" key="2">3</treeValue>
@@ -204,7 +206,7 @@ class XmlTypeEncoderTest extends AbstractTypeEncoderTest
     </create>
   </meta-links>
 </object>
-EOD;
+EOT;
 
         self::assertEquals($expectedXml, $xml);
     }
