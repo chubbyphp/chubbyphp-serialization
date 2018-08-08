@@ -12,9 +12,9 @@ $container->register(new SerializationProvider);
 $container['serializer']
     ->serialize(...);
 
-$container['serializer.encoder']
-    ->encode(...);
-
 $container['serializer.normalizer']
     ->normalize(...);
+
+$container['serializer.encoder']
+    ->encode(...);
 ```
