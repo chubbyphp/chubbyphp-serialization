@@ -24,14 +24,15 @@ A simple serialization.
 
  * container-interop/container-interop: ~1.0
  * pimple/pimple: ~3.0
- * symfony/yaml: ~2.7|~3.0|~4.0 (application/x-yaml support)
+ * symfony/dependency-injection: ~2.8|~3.0|~4.0 (symfony integration)
+ * symfony/yaml: ~2.8|~3.0|~4.0 (application/x-yaml support)
 
 ## Installation
 
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-serialization][1].
 
 ```sh
-composer require chubbyphp/chubbyphp-serialization "~2.4"
+composer require chubbyphp/chubbyphp-serialization "~2.5"
 ```
 
 ## Usage
@@ -93,7 +94,7 @@ composer require chubbyphp/chubbyphp-serialization "~2.4"
 
  * [NormalizationFieldMapping][23]
  * [NormalizationFieldMappingBuilder][24]
- 
+
 #### NormalizationLinkMapping
 
  * [NormalizationLinkMapping][25]
