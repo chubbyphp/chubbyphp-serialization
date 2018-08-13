@@ -5,17 +5,15 @@ declare(strict_types=1);
 namespace Chubbyphp\Tests\Serialization\DependencyInjection;
 
 use Chubbyphp\Serialization\DependencyInjection\SerializationCompilerPass;
+use Chubbyphp\Serialization\Encoder\Encoder;
+use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
+use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
+use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
+use Chubbyphp\Serialization\Normalizer\Normalizer;
+use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
-use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
-use Chubbyphp\Serialization\Encoder\Encoder;
-use Chubbyphp\Serialization\Normalizer\Normalizer;
-use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
-use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
-use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
-use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 
 /**
  * @covers \Chubbyphp\Serialization\DependencyInjection\SerializationCompilerPass
@@ -33,14 +31,6 @@ class SerializationCompilerPassTest extends TestCase
         $container
             ->register('stdclass', $stdClassMappingClass)
             ->addTag('serializer.normalizer.objectmapping');
-
-        $container
-            ->register('json', JsonTypeEncoder::class)
-            ->addTag('chubbyphp.serializer.encoder.type');
-
-        $container
-            ->register('xml', XmlTypeEncoder::class)
-            ->addTag('chubbyphp.serializer.encoder.type');
 
         $container->compile();
 
@@ -67,6 +57,13 @@ class SerializationCompilerPassTest extends TestCase
         self::assertInstanceOf(Encoder::class, $encoder);
 
         self::assertSame('{"key":"value"}', $encoder->encode(['key' => 'value'], 'application/json'));
+        self::assertSame('key=value', $encoder->encode(['key' => 'value'], 'application/x-www-form-urlencoded'));
+        self::assertSame(
+            '<?xml version="1.0" encoding="UTF-8"?>'."\n"
+            .'<object type="object"><key type="string">value</key></object>',
+            $encoder->encode(['key' => 'value', '_type' => 'object'], 'application/xml')
+        );
+        self::assertSame('key: value', $encoder->encode(['key' => 'value'], 'application/x-yaml'));
 
         self::assertSame(['_type' => 'stdClass'], $normalizer->normalize(new \stdClass()));
     }
