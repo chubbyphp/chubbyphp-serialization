@@ -39,7 +39,7 @@ final class SerializationCompilerPass implements CompilerPassInterface
             ]);
 
         $normalizerObjectMappingReferences = [];
-        foreach ($container->findTaggedServiceIds('serializer.normalizer.objectmapping') as $id => $tags) {
+        foreach ($container->findTaggedServiceIds('chubbyphp.serializer.normalizer.objectmapping') as $id => $tags) {
             $normalizerObjectMappingReferences[] = new Reference($id);
         }
 

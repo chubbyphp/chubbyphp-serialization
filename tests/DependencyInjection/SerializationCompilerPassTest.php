@@ -30,7 +30,7 @@ class SerializationCompilerPassTest extends TestCase
 
         $container
             ->register('stdclass', $stdClassMappingClass)
-            ->addTag('serializer.normalizer.objectmapping');
+            ->addTag('chubbyphp.serializer.normalizer.objectmapping');
 
         $container->compile();
 
