@@ -36,17 +36,14 @@ final class XmlTypeEncoder implements TypeEncoderInterface
      */
     public function encode(array $data): string
     {
-        if (!isset($data['_type'])) {
-            throw new \InvalidArgumentException('Data missing _type');
-        }
-
         $document = new \DOMDocument('1.0', 'UTF-8');
         $document->formatOutput = $this->prettyPrint;
 
-        $listNode = $this->createMetadataNode($document, $data['_type']);
-        $document->appendChild($listNode);
+        $listNode = $this->createMetadataNode($document, $data['_type'] ?? null);
 
         unset($data['_type']);
+
+        $document->appendChild($listNode);
 
         $this->dataToNodes($document, $listNode, $data);
 
@@ -55,11 +52,11 @@ final class XmlTypeEncoder implements TypeEncoderInterface
 
     /**
      * @param \DOMDocument $document
-     * @param string       $type
+     * @param string|null  $type
      *
      * @return \DOMNode
      */
-    private function createMetadataNode(\DOMDocument $document, string $type): \DOMNode
+    private function createMetadataNode(\DOMDocument $document, string $type = null): \DOMNode
     {
         $node = $document->createElement('object');
         if (null !== $type) {

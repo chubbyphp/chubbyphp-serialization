@@ -60,8 +60,8 @@ class SerializationCompilerPassTest extends TestCase
         self::assertSame('key=value', $encoder->encode(['key' => 'value'], 'application/x-www-form-urlencoded'));
         self::assertSame(
             '<?xml version="1.0" encoding="UTF-8"?>'."\n"
-            .'<object type="object"><key type="string">value</key></object>',
-            $encoder->encode(['key' => 'value', '_type' => 'object'], 'application/xml')
+            .'<object><key type="string">value</key></object>',
+            $encoder->encode(['key' => 'value'], 'application/xml')
         );
         self::assertSame('key: value', $encoder->encode(['key' => 'value'], 'application/x-yaml'));
 

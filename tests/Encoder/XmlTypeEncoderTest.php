@@ -213,11 +213,16 @@ EOT;
 
     public function testFormatFormatWithoutType()
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Data missing _type');
+        $expectedXml = <<<'EOT'
+<?xml version="1.0" encoding="UTF-8"?>
+<object>
+  <key type="string">value</key>
+</object>
+EOT;
 
         $xmlTransformer = new XmlTypeEncoder(true);
-        $xmlTransformer->encode([]);
+
+        self::assertSame($expectedXml, $xmlTransformer->encode(['key' => 'value']));
     }
 
     public function testInvalidValueAsString()
@@ -226,6 +231,6 @@ EOT;
         $this->expectExceptionMessage('Unsupported data type: object');
 
         $xmlTransformer = new XmlTypeEncoder(true);
-        $xmlTransformer->encode(['key' => new \stdClass(), '_type' => 'test']);
+        $xmlTransformer->encode(['key' => new \stdClass()]);
     }
 }
