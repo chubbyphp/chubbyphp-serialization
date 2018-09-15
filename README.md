@@ -32,7 +32,7 @@ A simple serialization.
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-serialization][1].
 
 ```sh
-composer require chubbyphp/chubbyphp-serialization "~2.5"
+composer require chubbyphp/chubbyphp-serialization "~2.6"
 ```
 
 ## Usage
@@ -107,11 +107,12 @@ composer require chubbyphp/chubbyphp-serialization "~2.5"
 
 #### LazyNormalizationObjectMapping
 
- * [LazyNormalizationObjectMapping][29]
+ * [CallableNormalizationObjectMapping][29]
+ * [LazyNormalizationObjectMapping][30]
 
 ### Provider
 
-* [SerializationProvider][30]
+* [SerializationProvider][31]
 
 ### Serializer
 
@@ -230,6 +231,7 @@ Dominik Zogg 2017
 [27]: doc/Mapping/AdvancedNormalizationObjectMapping.md
 [28]: doc/Mapping/SimpleNormalizationObjectMapping.md
 
-[29]: doc/Mapping/LazyNormalizationObjectMapping.md
+[29]: doc/Mapping/CallableNormalizationObjectMapping.md
+[30]: doc/Mapping/LazyNormalizationObjectMapping.md
 
-[30]: doc/Provider/SerializationProvider.md
+[31]: doc/Provider/SerializationProvider.md
