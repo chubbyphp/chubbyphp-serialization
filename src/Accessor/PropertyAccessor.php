@@ -29,10 +29,21 @@ final class PropertyAccessor implements AccessorInterface
      */
     public function getValue($object)
     {
-        $reflectionProperty = $this->getReflectionProperty($this->getClass($object));
-        $reflectionProperty->setAccessible(true);
+        $class = $this->getClass($object);
 
-        return $reflectionProperty->getValue($object);
+        if (!property_exists($class, $this->property)) {
+            throw SerializerLogicException::createMissingProperty($class, $this->property);
+        }
+
+        $getter = \Closure::bind(
+            function ($property) {
+                return $this->$property;
+            },
+            $object,
+            $class
+        );
+
+        return $getter($this->property);
     }
 
     /**
@@ -51,19 +62,5 @@ final class PropertyAccessor implements AccessorInterface
         }
 
         return get_class($object);
-    }
-
-    /**
-     * @param string $class
-     *
-     * @return \ReflectionProperty
-     */
-    private function getReflectionProperty(string $class): \ReflectionProperty
-    {
-        try {
-            return new \ReflectionProperty($class, $this->property);
-        } catch (\ReflectionException $e) {
-            throw SerializerLogicException::createMissingProperty($class, $this->property);
-        }
     }
 }
