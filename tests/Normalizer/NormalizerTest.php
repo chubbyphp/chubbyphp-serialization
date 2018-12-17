@@ -6,7 +6,7 @@ namespace Chubbyphp\Tests\Serialization\Normalizer;
 
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
-use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
+use Chubbyphp\Serialization\Mapping\LegacyNormalizationObjectMappingInterface;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\LinkNormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\Normalizer;
@@ -144,16 +144,16 @@ class NormalizerTest extends TestCase
      * @param array $groupLinks
      * @param bool  $nullLink
      *
-     * @return NormalizationObjectMappingInterface
+     * @return LegacyNormalizationObjectMappingInterface
      */
     private function getNormalizationObjectMapping(
         array $groupFields = [],
         array $groupEmbeddedFields = [],
         array $groupLinks = [],
         bool $nullLink = false
-    ): NormalizationObjectMappingInterface {
+    ): LegacyNormalizationObjectMappingInterface {
         /** @var NormalizationObjectMappingInterface|\PHPUnit_Framework_MockObject_MockObject $objectMapping */
-        $objectMapping = $this->getMockBuilder(NormalizationObjectMappingInterface::class)
+        $objectMapping = $this->getMockBuilder(LegacyNormalizationObjectMappingInterface::class)
             ->setMethods([])
             ->getMockForAbstractClass();
 

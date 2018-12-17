@@ -6,7 +6,7 @@ namespace Chubbyphp\Tests\Serialization\Mapping;
 
 use Chubbyphp\Serialization\Mapping\CallableNormalizationObjectMapping;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
-use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
+use Chubbyphp\Serialization\Mapping\LegacyNormalizationObjectMappingInterface;
 use Chubbyphp\Mock\Call;
 use Chubbyphp\Mock\MockByCallsTrait;
 use PHPUnit\Framework\TestCase;
@@ -29,7 +29,7 @@ class CallableNormalizationObjectMappingTest extends TestCase
     public function testGetNormalizationType()
     {
         $mapping = new CallableNormalizationObjectMapping(\stdClass::class, function () {
-            return $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
+            return $this->getMockByCalls(LegacyNormalizationObjectMappingInterface::class, [
                 Call::create('getNormalizationType')->with()->willReturn('type'),
             ]);
         });
@@ -42,7 +42,7 @@ class CallableNormalizationObjectMappingTest extends TestCase
         $fieldMapping = $this->getMockByCalls(NormalizationFieldMappingInterface::class);
 
         $mapping = new CallableNormalizationObjectMapping(\stdClass::class, function () use ($fieldMapping) {
-            return $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
+            return $this->getMockByCalls(LegacyNormalizationObjectMappingInterface::class, [
                 Call::create('getNormalizationFieldMappings')->with('path')->willReturn([$fieldMapping]),
             ]);
         });
@@ -55,7 +55,7 @@ class CallableNormalizationObjectMappingTest extends TestCase
         $fieldMapping = $this->getMockByCalls(NormalizationFieldMappingInterface::class);
 
         $mapping = new CallableNormalizationObjectMapping(\stdClass::class, function () use ($fieldMapping) {
-            return $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
+            return $this->getMockByCalls(LegacyNormalizationObjectMappingInterface::class, [
                 Call::create('getNormalizationEmbeddedFieldMappings')->with('path')->willReturn([$fieldMapping]),
             ]);
         });
@@ -68,7 +68,7 @@ class CallableNormalizationObjectMappingTest extends TestCase
         $linkMapping = $this->getMockByCalls(NormalizationLinkMappingInterface::class);
 
         $mapping = new CallableNormalizationObjectMapping(\stdClass::class, function () use ($linkMapping) {
-            return $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
+            return $this->getMockByCalls(LegacyNormalizationObjectMappingInterface::class, [
                 Call::create('getNormalizationLinkMappings')->with('path')->willReturn([$linkMapping]),
             ]);
         });

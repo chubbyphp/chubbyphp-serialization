@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Chubbyphp\Tests\Serialization\Mapping;
 
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
-use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
+use Chubbyphp\Serialization\Mapping\LegacyNormalizationObjectMappingInterface;
 use Chubbyphp\Serialization\Mapping\LazyNormalizationObjectMapping;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -67,17 +67,17 @@ class LazyNormalizationObjectMappingTest extends TestCase
      * @param array  $normalizationEmbeddedFieldMappings
      * @param array  $normalizationLinkMappings
      *
-     * @return NormalizationObjectMappingInterface
+     * @return LegacyNormalizationObjectMappingInterface
      */
     private function getNormalizationObjectMapping(
         string $normalizationType,
         array $normalizationFieldMappings,
         array $normalizationEmbeddedFieldMappings,
         array $normalizationLinkMappings
-    ): NormalizationObjectMappingInterface {
-        /** @var NormalizationObjectMappingInterface|\PHPUnit_Framework_MockObject_MockObject $mapping */
+    ): LegacyNormalizationObjectMappingInterface {
+        /** @var LegacyNormalizationObjectMappingInterface|\PHPUnit_Framework_MockObject_MockObject $mapping */
         $mapping = $this
-            ->getMockBuilder(NormalizationObjectMappingInterface::class)
+            ->getMockBuilder(LegacyNormalizationObjectMappingInterface::class)
             ->setMethods([
                 'getNormalizationType',
                 'getNormalizationFieldMappings',

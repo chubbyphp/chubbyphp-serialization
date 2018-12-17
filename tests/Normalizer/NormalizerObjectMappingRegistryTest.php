@@ -6,7 +6,7 @@ namespace Chubbyphp\Tests\Serialization\Normalizer;
 
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\SerializerLogicException;
-use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
+use Chubbyphp\Serialization\Mapping\LegacyNormalizationObjectMappingInterface;
 use Chubbyphp\Tests\Serialization\Resources\Model\AbstractManyModel;
 use Doctrine\Common\Persistence\Proxy;
 use PHPUnit\Framework\TestCase;
@@ -26,7 +26,7 @@ class NormalizerObjectMappingRegistryTest extends TestCase
 
         $mapping = $registry->getObjectMapping(get_class($object));
 
-        self::assertInstanceOf(NormalizationObjectMappingInterface::class, $mapping);
+        self::assertInstanceOf(LegacyNormalizationObjectMappingInterface::class, $mapping);
     }
 
     public function testGetMissingObjectMapping()
@@ -49,16 +49,16 @@ class NormalizerObjectMappingRegistryTest extends TestCase
 
         $mapping = $registry->getObjectMapping(get_class($object));
 
-        self::assertInstanceOf(NormalizationObjectMappingInterface::class, $mapping);
+        self::assertInstanceOf(LegacyNormalizationObjectMappingInterface::class, $mapping);
     }
 
     /**
-     * @return NormalizationObjectMappingInterface
+     * @return LegacyNormalizationObjectMappingInterface
      */
-    private function getNormalizationObjectMapping(): NormalizationObjectMappingInterface
+    private function getNormalizationObjectMapping(): LegacyNormalizationObjectMappingInterface
     {
-        /** @var NormalizationObjectMappingInterface|\PHPUnit_Framework_MockObject_MockObject $objectMapping */
-        $objectMapping = $this->getMockBuilder(NormalizationObjectMappingInterface::class)
+        /** @var LegacyNormalizationObjectMappingInterface|\PHPUnit_Framework_MockObject_MockObject $objectMapping */
+        $objectMapping = $this->getMockBuilder(LegacyNormalizationObjectMappingInterface::class)
             ->setMethods([])
             ->getMockForAbstractClass();
 
@@ -74,12 +74,12 @@ class NormalizerObjectMappingRegistryTest extends TestCase
     }
 
     /**
-     * @return NormalizationObjectMappingInterface
+     * @return LegacyNormalizationObjectMappingInterface
      */
-    private function getNormalizationProxyObjectMapping(): NormalizationObjectMappingInterface
+    private function getNormalizationProxyObjectMapping(): LegacyNormalizationObjectMappingInterface
     {
-        /** @var NormalizationObjectMappingInterface|\PHPUnit_Framework_MockObject_MockObject $objectMapping */
-        $objectMapping = $this->getMockBuilder(NormalizationObjectMappingInterface::class)
+        /** @var LegacyNormalizationObjectMappingInterface|\PHPUnit_Framework_MockObject_MockObject $objectMapping */
+        $objectMapping = $this->getMockBuilder(LegacyNormalizationObjectMappingInterface::class)
             ->setMethods([])
             ->getMockForAbstractClass();
 

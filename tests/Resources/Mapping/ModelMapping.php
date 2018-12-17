@@ -10,10 +10,10 @@ use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
-use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
+use Chubbyphp\Serialization\Mapping\LegacyNormalizationObjectMappingInterface;
 use Chubbyphp\Tests\Serialization\Resources\Model\Model;
 
-final class ModelMapping implements NormalizationObjectMappingInterface
+final class ModelMapping implements LegacyNormalizationObjectMappingInterface
 {
     /**
      * @return string

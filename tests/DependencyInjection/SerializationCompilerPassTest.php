@@ -8,7 +8,7 @@ use Chubbyphp\Serialization\DependencyInjection\SerializationCompilerPass;
 use Chubbyphp\Serialization\Encoder\Encoder;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
-use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
+use Chubbyphp\Serialization\Mapping\LegacyNormalizationObjectMappingInterface;
 use Chubbyphp\Serialization\Normalizer\Normalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;
@@ -70,7 +70,7 @@ class SerializationCompilerPassTest extends TestCase
 
     private function getStdClassMapping()
     {
-        return new class() implements NormalizationObjectMappingInterface {
+        return new class() implements LegacyNormalizationObjectMappingInterface {
             /**
              * @return string
              */

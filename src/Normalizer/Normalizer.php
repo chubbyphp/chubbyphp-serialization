@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Normalizer;
 
+use Chubbyphp\Serialization\Mapping\EmbeddedNormalizationObjectMapping;
+use Chubbyphp\Serialization\Mapping\LinkNormalizationObjectMapping;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
+use Chubbyphp\Serialization\Mapping\TypeNormalizationObjectMapping;
 use Chubbyphp\Serialization\SerializerLogicException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -58,21 +61,27 @@ final class Normalizer implements NormalizerInterface
 
         $data = $this->getFieldsByFieldNormalizationMappings($context, $fieldMappings, $path, $object);
 
-        $embeddedMappings = $objectMapping->getNormalizationEmbeddedFieldMappings($path);
-        $embedded = $this->getFieldsByFieldNormalizationMappings($context, $embeddedMappings, $path, $object);
+        if ($objectMapping instanceof EmbeddedNormalizationObjectMapping) {
+            $embeddedMappings = $objectMapping->getNormalizationEmbeddedFieldMappings($path);
+            $embedded = $this->getFieldsByFieldNormalizationMappings($context, $embeddedMappings, $path, $object);
 
-        $linkMappings = $objectMapping->getNormalizationLinkMappings($path);
-        $links = $this->getLinksByLinkNormalizationMappings($context, $linkMappings, $path, $object);
-
-        if ([] !== $embedded) {
-            $data['_embedded'] = $embedded;
+            if ([] !== $embedded) {
+                $data['_embedded'] = $embedded;
+            }
         }
 
-        if ([] !== $links) {
-            $data['_links'] = $links;
+        if ($objectMapping instanceof LinkNormalizationObjectMapping) {
+            $linkMappings = $objectMapping->getNormalizationLinkMappings($path);
+            $links = $this->getLinksByLinkNormalizationMappings($context, $linkMappings, $path, $object);
+
+            if ([] !== $links) {
+                $data['_links'] = $links;
+            }
         }
 
-        $data['_type'] = $objectMapping->getNormalizationType();
+        if ($objectMapping instanceof TypeNormalizationObjectMapping) {
+            $data['_type'] = $objectMapping->getNormalizationType();
+        }
 
         return $data;
     }
