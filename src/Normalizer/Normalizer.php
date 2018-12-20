@@ -72,7 +72,9 @@ final class Normalizer implements NormalizerInterface
             $data['_links'] = $links;
         }
 
-        $data['_type'] = $objectMapping->getNormalizationType();
+        if (null !== $type = $objectMapping->getNormalizationType()) {
+            $data['_type'] = $type;
+        }
 
         return $data;
     }
