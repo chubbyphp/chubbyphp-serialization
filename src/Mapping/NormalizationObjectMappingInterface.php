@@ -12,9 +12,9 @@ interface NormalizationObjectMappingInterface
     public function getClass(): string;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getNormalizationType(): string;
+    public function getNormalizationType();
 
     /**
      * @param string $path
