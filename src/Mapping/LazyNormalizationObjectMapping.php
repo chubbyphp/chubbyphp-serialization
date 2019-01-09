@@ -44,9 +44,9 @@ final class LazyNormalizationObjectMapping implements NormalizationObjectMapping
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getNormalizationType(): string
+    public function getNormalizationType()
     {
         return $this->container->get($this->serviceId)->getNormalizationType();
     }
