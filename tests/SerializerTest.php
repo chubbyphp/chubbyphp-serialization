@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization;
 
+use Chubbyphp\Mock\Call;
+use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Encoder\EncoderInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\Serializer;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -15,101 +18,83 @@ use PHPUnit\Framework\TestCase;
  */
 class SerializerTest extends TestCase
 {
+    use MockByCallsTrait;
+
     public function testSerialize()
     {
-        $serializer = new Serializer($this->getNormalizer(), $this->getEncoder());
-
         $object = new \stdClass();
         $object->name = 'Name';
 
-        $data = $serializer->serialize($object, 'application/json', $this->getNormalizerContext());
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
-        self::assertSame(json_encode(['name' => 'Name']), $data);
+        /** @var NormalizerInterface|MockObject $normalizer */
+        $normalizer = $this->getMockByCalls(NormalizerInterface::class, [
+            Call::create('normalize')->with($object, $context, 'path')->willReturn(['name' => 'Name']),
+        ]);
+
+        /** @var EncoderInterface|MockObject $encoder */
+        $encoder = $this->getMockByCalls(EncoderInterface::class, [
+            Call::create('encode')->with(['name' => 'Name'], 'application/json')->willReturn('{"name":"Name"}'),
+        ]);
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $data = $serializer->serialize($object, 'application/json', $context, 'path');
+
+        self::assertSame('{"name":"Name"}', $data);
     }
 
     public function testNormalize()
     {
-        $serializer = new Serializer($this->getNormalizer(), $this->getEncoder());
-
         $object = new \stdClass();
         $object->name = 'Name';
 
-        $data = $serializer->normalize($object, $this->getNormalizerContext());
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+
+        /** @var NormalizerInterface|MockObject $normalizer */
+        $normalizer = $this->getMockByCalls(NormalizerInterface::class, [
+            Call::create('normalize')->with($object, $context, 'path')->willReturn(['name' => 'Name']),
+        ]);
+
+        /** @var EncoderInterface|MockObject $encoder */
+        $encoder = $this->getMockByCalls(EncoderInterface::class);
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $data = $serializer->normalize($object, $context, 'path');
 
         self::assertSame(['name' => 'Name'], $data);
     }
 
     public function testGetContentTypes()
     {
-        $serializer = new Serializer($this->getNormalizer(), $this->getEncoder());
+        /** @var NormalizerInterface|MockObject $normalizer */
+        $normalizer = $this->getMockByCalls(NormalizerInterface::class);
+
+        /** @var EncoderInterface|MockObject $encoder */
+        $encoder = $this->getMockByCalls(EncoderInterface::class, [
+            Call::create('getContentTypes')->with()->willReturn(['application/json']),
+        ]);
+
+        $serializer = new Serializer($normalizer, $encoder);
 
         self::assertSame(['application/json'], $serializer->getContentTypes());
     }
 
     public function testEncode()
     {
-        $serializer = new Serializer($this->getNormalizer(), $this->getEncoder());
+        /** @var NormalizerInterface|MockObject $normalizer */
+        $normalizer = $this->getMockByCalls(NormalizerInterface::class);
 
-        $json = $serializer->encode(
-            ['name' => 'Name'],
-            'application/json'
-        );
+        /** @var EncoderInterface|MockObject $encoder */
+        $encoder = $this->getMockByCalls(EncoderInterface::class, [
+            Call::create('encode')->with(['name' => 'Name'], 'application/json')->willReturn('{"name":"Name"}'),
+        ]);
 
-        self::assertSame(json_encode(['name' => 'Name']), $json);
-    }
+        $serializer = new Serializer($normalizer, $encoder);
 
-    /**
-     * @return NormalizerInterface
-     */
-    private function getNormalizer(): NormalizerInterface
-    {
-        /** @var NormalizerInterface|\PHPUnit_Framework_MockObject_MockObject $encoder */
-        $encoder = $this->getMockBuilder(NormalizerInterface::class)->getMockForAbstractClass();
-
-        $encoder->expects(self::any())->method('normalize')->willReturnCallback(
-            function ($object, NormalizerContextInterface $context = null, string $path = '') {
-                self::assertNotNull($context);
-                self::assertSame('', $path);
-
-                return [
-                    'name' => $object->name,
-                ];
-            }
-        );
-
-        return $encoder;
-    }
-
-    /**
-     * @return NormalizerContextInterface
-     */
-    private function getNormalizerContext(): NormalizerContextInterface
-    {
-        /** @var NormalizerContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
-        $context = $this->getMockBuilder(NormalizerContextInterface::class)->getMockForAbstractClass();
-
-        return $context;
-    }
-
-    /**
-     * @return EncoderInterface
-     */
-    private function getEncoder(): EncoderInterface
-    {
-        /** @var EncoderInterface|\PHPUnit_Framework_MockObject_MockObject $encoder */
-        $encoder = $this->getMockBuilder(EncoderInterface::class)->getMockForAbstractClass();
-
-        $encoder->expects(self::any())->method('getContentTypes')->willReturn(['application/json']);
-
-        $encoder->expects(self::any())->method('encode')->willReturnCallback(
-            function (array $data, string $contentType) {
-                self::assertSame(['name' => 'Name'], $data);
-                self::assertSame('application/json', $contentType);
-
-                return json_encode($data);
-            }
-        );
-
-        return $encoder;
+        self::assertSame('{"name":"Name"}', $serializer->encode(['name' => 'Name'], 'application/json'));
     }
 }
