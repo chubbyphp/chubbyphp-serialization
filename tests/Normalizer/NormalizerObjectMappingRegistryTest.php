@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Normalizer;
 
+use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\SerializerLogicException;
-use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
 use Chubbyphp\Tests\Serialization\Resources\Model\AbstractManyModel;
 use Doctrine\Common\Persistence\Proxy;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -57,7 +58,7 @@ class NormalizerObjectMappingRegistryTest extends TestCase
      */
     private function getNormalizationObjectMapping(): NormalizationObjectMappingInterface
     {
-        /** @var NormalizationObjectMappingInterface|\PHPUnit_Framework_MockObject_MockObject $objectMapping */
+        /** @var NormalizationObjectMappingInterface|MockObject $objectMapping */
         $objectMapping = $this->getMockBuilder(NormalizationObjectMappingInterface::class)
             ->setMethods([])
             ->getMockForAbstractClass();
@@ -78,7 +79,7 @@ class NormalizerObjectMappingRegistryTest extends TestCase
      */
     private function getNormalizationProxyObjectMapping(): NormalizationObjectMappingInterface
     {
-        /** @var NormalizationObjectMappingInterface|\PHPUnit_Framework_MockObject_MockObject $objectMapping */
+        /** @var NormalizationObjectMappingInterface|MockObject $objectMapping */
         $objectMapping = $this->getMockBuilder(NormalizationObjectMappingInterface::class)
             ->setMethods([])
             ->getMockForAbstractClass();

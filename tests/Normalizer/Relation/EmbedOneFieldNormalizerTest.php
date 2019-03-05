@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Normalizer;
 
+use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\Relation\EmbedOneFieldNormalizer;
-use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -66,7 +67,7 @@ class EmbedOneFieldNormalizerTest extends TestCase
      */
     private function getAccessor(): AccessorInterface
     {
-        /** @var AccessorInterface|\PHPUnit_Framework_MockObject_MockObject $accessor */
+        /** @var AccessorInterface|MockObject $accessor */
         $accessor = $this->getMockBuilder(AccessorInterface::class)->getMockForAbstractClass();
 
         $accessor->expects(self::any())->method('getValue')->willReturnCallback(function ($object) {
@@ -81,7 +82,7 @@ class EmbedOneFieldNormalizerTest extends TestCase
      */
     private function getNormalizer(): NormalizerInterface
     {
-        /** @var NormalizerInterface|\PHPUnit_Framework_MockObject_MockObject $normalizer */
+        /** @var NormalizerInterface|MockObject $normalizer */
         $normalizer = $this->getMockBuilder(NormalizerInterface::class)->getMockForAbstractClass();
 
         $normalizer->expects(self::any())->method('normalize')->willReturnCallback(
@@ -98,7 +99,7 @@ class EmbedOneFieldNormalizerTest extends TestCase
      */
     private function getNormalizerContext(): NormalizerContextInterface
     {
-        /** @var NormalizerContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var NormalizerContextInterface|MockObject $context */
         $context = $this->getMockBuilder(NormalizerContextInterface::class)->getMockForAbstractClass();
 
         return $context;

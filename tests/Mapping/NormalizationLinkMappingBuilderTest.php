@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Mapping;
 
-use Chubbyphp\Serialization\Normalizer\LinkNormalizerInterface;
+use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingBuilder;
+use Chubbyphp\Serialization\Normalizer\LinkNormalizerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,38 +15,31 @@ use PHPUnit\Framework\TestCase;
  */
 class NormalizationLinkMappingBuilderTest extends TestCase
 {
+    use MockByCallsTrait;
+
     public function testGetDefaultMapping()
     {
-        $normalizer = $this->getLinkNormalizer();
+        /** @var LinkNormalizerInterface|MockObject $linkNormalizer */
+        $linkNormalizer = $this->getMockByCalls(LinkNormalizerInterface::class);
 
-        $linkMapping = NormalizationLinkMappingBuilder::create('name', $normalizer)->getMapping();
+        $linkMapping = NormalizationLinkMappingBuilder::create('name', $linkNormalizer)->getMapping();
 
         self::assertSame('name', $linkMapping->getName());
         self::assertSame([], $linkMapping->getGroups());
-        self::assertSame($normalizer, $linkMapping->getLinkNormalizer());
+        self::assertSame($linkNormalizer, $linkMapping->getLinkNormalizer());
     }
 
     public function testGetMapping()
     {
-        $normalizer = $this->getLinkNormalizer();
+        /** @var LinkNormalizerInterface|MockObject $linkNormalizer */
+        $linkNormalizer = $this->getMockByCalls(LinkNormalizerInterface::class);
 
-        $linkMapping = NormalizationLinkMappingBuilder::create('name', $normalizer)
+        $linkMapping = NormalizationLinkMappingBuilder::create('name', $linkNormalizer)
             ->setGroups(['group1'])
             ->getMapping();
 
         self::assertSame('name', $linkMapping->getName());
         self::assertSame(['group1'], $linkMapping->getGroups());
-        self::assertSame($normalizer, $linkMapping->getLinkNormalizer());
-    }
-
-    /**
-     * @return LinkNormalizerInterface
-     */
-    private function getLinkNormalizer(): LinkNormalizerInterface
-    {
-        /** @var LinkNormalizerInterface|\PHPUnit_Framework_MockObject_MockObject $linkNormalizer */
-        $linkNormalizer = $this->getMockBuilder(LinkNormalizerInterface::class)->getMockForAbstractClass();
-
-        return $linkNormalizer;
+        self::assertSame($linkNormalizer, $linkMapping->getLinkNormalizer());
     }
 }

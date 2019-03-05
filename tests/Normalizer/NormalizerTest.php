@@ -14,6 +14,7 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistryInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -112,9 +113,10 @@ class NormalizerTest extends TestCase
      *
      * @return NormalizerObjectMappingRegistryInterface
      */
-    private function getNormalizerObjectMappingRegistry(array $normalizationObjectMappings): NormalizerObjectMappingRegistryInterface
-    {
-        /** @var NormalizerObjectMappingRegistryInterface|\PHPUnit_Framework_MockObject_MockObject $objectMappingRegistry */
+    private function getNormalizerObjectMappingRegistry(
+        array $normalizationObjectMappings
+    ): NormalizerObjectMappingRegistryInterface {
+        /** @var NormalizerObjectMappingRegistryInterface|MockObject $objectMappingRegistry */
         $objectMappingRegistry = $this->getMockBuilder(NormalizerObjectMappingRegistryInterface::class)
             ->setMethods(['getObjectMapping'])
             ->getMockForAbstractClass();
@@ -152,7 +154,7 @@ class NormalizerTest extends TestCase
         array $groupLinks = [],
         bool $nullLink = false
     ): NormalizationObjectMappingInterface {
-        /** @var NormalizationObjectMappingInterface|\PHPUnit_Framework_MockObject_MockObject $objectMapping */
+        /** @var NormalizationObjectMappingInterface|MockObject $objectMapping */
         $objectMapping = $this->getMockBuilder(NormalizationObjectMappingInterface::class)
             ->setMethods([])
             ->getMockForAbstractClass();
@@ -189,7 +191,7 @@ class NormalizerTest extends TestCase
      */
     private function getNormalizationFieldMapping(array $groups = []): NormalizationFieldMappingInterface
     {
-        /** @var NormalizationFieldMappingInterface|\PHPUnit_Framework_MockObject_MockObject $fieldMapping */
+        /** @var NormalizationFieldMappingInterface|MockObject $fieldMapping */
         $fieldMapping = $this->getMockBuilder(NormalizationFieldMappingInterface::class)
             ->setMethods([])
             ->getMockForAbstractClass();
@@ -209,7 +211,7 @@ class NormalizerTest extends TestCase
      */
     private function getNormalizationLinkMapping(bool $nullLink, array $groups = []): NormalizationLinkMappingInterface
     {
-        /** @var NormalizationLinkMappingInterface|\PHPUnit_Framework_MockObject_MockObject $linkMapping */
+        /** @var NormalizationLinkMappingInterface|MockObject $linkMapping */
         $linkMapping = $this->getMockBuilder(NormalizationLinkMappingInterface::class)
             ->setMethods([])
             ->getMockForAbstractClass();
@@ -226,7 +228,7 @@ class NormalizerTest extends TestCase
      */
     private function getFieldNormalizer(): FieldNormalizerInterface
     {
-        /** @var FieldNormalizerInterface|\PHPUnit_Framework_MockObject_MockObject $fieldNormalizer */
+        /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
         $fieldNormalizer = $this->getMockBuilder(FieldNormalizerInterface::class)
             ->setMethods([])
             ->getMockForAbstractClass();
@@ -250,7 +252,7 @@ class NormalizerTest extends TestCase
      */
     private function getLinkNormalizer(bool $nullLink): LinkNormalizerInterface
     {
-        /** @var LinkNormalizerInterface|\PHPUnit_Framework_MockObject_MockObject $linkNormalizer */
+        /** @var LinkNormalizerInterface|MockObject $linkNormalizer */
         $linkNormalizer = $this->getMockBuilder(LinkNormalizerInterface::class)
             ->setMethods([])
             ->getMockForAbstractClass();
@@ -277,7 +279,7 @@ class NormalizerTest extends TestCase
      */
     private function getNormalizerContext(array $groups = []): NormalizerContextInterface
     {
-        /** @var NormalizerContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
+        /** @var NormalizerContextInterface|MockObject $context */
         $context = $this->getMockBuilder(NormalizerContextInterface::class)
             ->setMethods([])
             ->getMockForAbstractClass();

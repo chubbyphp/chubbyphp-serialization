@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Mapping;
 
+use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder;
 use Chubbyphp\Serialization\Normalizer\CallbackFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
-use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder;
 use Chubbyphp\Serialization\Normalizer\Relation\EmbedManyFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\Relation\EmbedOneFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\Relation\ReferenceManyFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\Relation\ReferenceOneFieldNormalizer;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,6 +22,8 @@ use PHPUnit\Framework\TestCase;
  */
 class NormalizationFieldMappingBuilderTest extends TestCase
 {
+    use MockByCallsTrait;
+
     public function testGetDefaultMapping()
     {
         $fieldMapping = NormalizationFieldMappingBuilder::create('name')->getMapping();
@@ -102,7 +106,8 @@ class NormalizationFieldMappingBuilderTest extends TestCase
 
     public function testGetMapping()
     {
-        $normalizer = $this->getFieldNormalizer();
+        /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
+        $normalizer = $this->getMockByCalls(FieldNormalizerInterface::class);
 
         $fieldMapping = NormalizationFieldMappingBuilder::create('name')
             ->setGroups(['group1'])
@@ -112,16 +117,5 @@ class NormalizationFieldMappingBuilderTest extends TestCase
         self::assertSame('name', $fieldMapping->getName());
         self::assertSame(['group1'], $fieldMapping->getGroups());
         self::assertSame($normalizer, $fieldMapping->getFieldNormalizer());
-    }
-
-    /**
-     * @return FieldNormalizerInterface
-     */
-    private function getFieldNormalizer(): FieldNormalizerInterface
-    {
-        /** @var FieldNormalizerInterface|\PHPUnit_Framework_MockObject_MockObject $fieldNormalizer */
-        $fieldNormalizer = $this->getMockBuilder(FieldNormalizerInterface::class)->getMockForAbstractClass();
-
-        return $fieldNormalizer;
     }
 }

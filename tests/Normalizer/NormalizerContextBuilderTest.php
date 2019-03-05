@@ -6,14 +6,18 @@ namespace Chubbyphp\Tests\Serialization\Normalizer;
 
 use Chubbyphp\Serialization\Normalizer\NormalizerContextBuilder;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use Chubbyphp\Mock\MockByCallsTrait;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\NormalizerContextBuilder
  */
 class NormalizerContextBuilderTest extends TestCase
 {
+    use MockByCallsTrait;
+
     public function testCreate()
     {
         $context = NormalizerContextBuilder::create()->getContext();
@@ -26,7 +30,8 @@ class NormalizerContextBuilderTest extends TestCase
 
     public function testCreateWithOverridenSettings()
     {
-        $request = $this->getRequest();
+        /** @var ServerRequestInterface|MockObject $request */
+        $request = $this->getMockByCalls(ServerRequestInterface::class);
 
         $context = NormalizerContextBuilder::create()
             ->setGroups(['group1'])
@@ -48,16 +53,5 @@ class NormalizerContextBuilderTest extends TestCase
         self::assertInstanceOf(NormalizerContextInterface::class, $context);
 
         self::assertNull($context->getRequest());
-    }
-
-    /**
-     * @return ServerRequestInterface
-     */
-    private function getRequest(): ServerRequestInterface
-    {
-        /** @var ServerRequestInterface|\PHPUnit_Framework_MockObject_MockObject $request */
-        $request = $this->getMockBuilder(ServerRequestInterface::class)->getMockForAbstractClass();
-
-        return $request;
     }
 }

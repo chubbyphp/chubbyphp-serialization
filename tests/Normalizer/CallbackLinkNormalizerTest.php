@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Normalizer;
 
-use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
+use Chubbyphp\Mock\Call;
+use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
+use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Link\LinkInterface;
 
@@ -15,30 +18,30 @@ use Psr\Link\LinkInterface;
  */
 class CallbackLinkNormalizerTest extends TestCase
 {
+    use MockByCallsTrait;
+
     public function testNormalizeLink()
     {
-        $object = new class() {
-            /**
-             * @var string
-             */
-            private $id = 'id1';
+        $object = new \stdClass;
 
-            /**
-             * @return string
-             */
-            public function getId(): string
-            {
-                return $this->id;
-            }
-        };
+        /** @var LinkInterface|MockObject $link */
+        $link = $this->getMockByCalls(LinkInterface::class, [
+            Call::create('getHref')->with()->willReturn('/api/model/id1'),
+            Call::create('isTemplated')->with()->willReturn(false),
+            Call::create('getRels')->with()->willReturn(['model']),
+            Call::create('getAttributes')->with()->willReturn(['method' => 'GET']),
+        ]);
+
+        /** @var NormalizerContextInterface|MockObject $normalizerContext */
+        $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $linkNormalizer = new CallbackLinkNormalizer(
             function (
                 string $path,
                 $object,
                 NormalizerContextInterface $context
-            ) {
-                return $this->getLink('/api/model/'.$object->getId(), ['model'], ['method' => 'GET']);
+            ) use ($link) {
+                return $link;
             }
         );
 
@@ -47,20 +50,22 @@ class CallbackLinkNormalizerTest extends TestCase
                 'href' => '/api/model/id1',
                 'templated' => false,
                 'rel' => [
-                    0 => 'model',
+                    'model',
                 ],
                 'attributes' => [
                     'method' => 'GET',
                 ],
             ],
-            $linkNormalizer->normalizeLink('name', $object, $this->getNormalizerContext())
+            $linkNormalizer->normalizeLink('name', $object, $normalizerContext)
         );
     }
 
     public function testNormalizeLinkWithNull()
     {
-        $object = new class() {
-        };
+        $object = new \stdClass;
+
+        /** @var NormalizerContextInterface|MockObject $normalizerContext */
+        $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $linkNormalizer = new CallbackLinkNormalizer(
             function (
@@ -72,29 +77,21 @@ class CallbackLinkNormalizerTest extends TestCase
         );
 
         self::assertNull(
-            $linkNormalizer->normalizeLink('name', $object, $this->getNormalizerContext())
+            $linkNormalizer->normalizeLink('name', $object, $normalizerContext)
         );
     }
 
     public function testNormalizeLinkWithWrongDataType()
     {
         $this->expectException(SerializerLogicException::class);
-        $this->expectExceptionMessage('The link normalizer callback needs to return a Psr\Link\LinkInterface|null, "string" given at path: "name"');
+        $this->expectExceptionMessage(
+            'The link normalizer callback needs to return a Psr\Link\LinkInterface|null, "string" given at path: "name"'
+        );
 
-        $object = new class() {
-            /**
-             * @var string
-             */
-            private $id = 'id1';
+        $object = new \stdClass;
 
-            /**
-             * @return string
-             */
-            public function getId(): string
-            {
-                return $this->id;
-            }
-        };
+        /** @var NormalizerContextInterface|MockObject $normalizerContext */
+        $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $linkNormalizer = new CallbackLinkNormalizer(
             function (
@@ -106,39 +103,6 @@ class CallbackLinkNormalizerTest extends TestCase
             }
         );
 
-        $linkNormalizer->normalizeLink('name', $object, $this->getNormalizerContext());
-    }
-
-    /**
-     * @return NormalizerContextInterface
-     */
-    private function getNormalizerContext(): NormalizerContextInterface
-    {
-        /** @var NormalizerContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
-        $context = $this->getMockBuilder(NormalizerContextInterface::class)->getMockForAbstractClass();
-
-        return $context;
-    }
-
-    /**
-     * @param string $href
-     * @param array  $rels
-     * @param array  $attributes
-     *
-     * @return LinkInterface
-     */
-    private function getLink(string $href, array $rels, array $attributes): LinkInterface
-    {
-        /** @var LinkInterface|\PHPUnit_Framework_MockObject_MockObject $link */
-        $link = $this->getMockBuilder(LinkInterface::class)->getMockForAbstractClass();
-
-        $link->expects(self::any())->method('getHref')->willReturn($href);
-        $link->expects(self::any())->method('isTemplated')->willReturnCallback(function () use ($href) {
-            return false !== strpos($href, '{');
-        });
-        $link->expects(self::any())->method('getRels')->willReturn($rels);
-        $link->expects(self::any())->method('getAttributes')->willReturn($attributes);
-
-        return $link;
+        $linkNormalizer->normalizeLink('name', $object, $normalizerContext);
     }
 }

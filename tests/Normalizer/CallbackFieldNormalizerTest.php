@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Normalizer;
 
-use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
+use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Normalizer\CallbackFieldNormalizer;
+use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,36 +16,14 @@ use PHPUnit\Framework\TestCase;
  */
 class CallbackFieldNormalizerTest extends TestCase
 {
+    use MockByCallsTrait;
+
     public function testNormalizeField()
     {
-        $object = new class() {
-            /**
-             * @var string
-             */
-            private $name;
+        /** @var NormalizerContextInterface|MockObject $normalizerContext */
+        $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);
 
-            /**
-             * @return string
-             */
-            public function getName(): string
-            {
-                return $this->name;
-            }
-
-            /**
-             * @param string $name
-             *
-             * @return self
-             */
-            public function setName(string $name): self
-            {
-                $this->name = $name;
-
-                return $this;
-            }
-        };
-
-        $object->setName('name');
+        $object = new \stdClass();
 
         $fieldNormalizer = new CallbackFieldNormalizer(
             function (
@@ -52,21 +32,10 @@ class CallbackFieldNormalizerTest extends TestCase
                 NormalizerContextInterface $context,
                 NormalizerInterface $normalizer = null
             ) {
-                return $object->getName();
+                return 'name';
             }
         );
 
-        self::assertSame('name', $fieldNormalizer->normalizeField('name', $object, $this->getNormalizerContext()));
-    }
-
-    /**
-     * @return NormalizerContextInterface
-     */
-    private function getNormalizerContext(): NormalizerContextInterface
-    {
-        /** @var NormalizerContextInterface|\PHPUnit_Framework_MockObject_MockObject $context */
-        $context = $this->getMockBuilder(NormalizerContextInterface::class)->getMockForAbstractClass();
-
-        return $context;
+        self::assertSame('name', $fieldNormalizer->normalizeField('name', $object, $normalizerContext));
     }
 }
