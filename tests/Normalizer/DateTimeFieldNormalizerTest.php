@@ -24,8 +24,8 @@ class DateTimeFieldNormalizerTest extends TestCase
         $this->expectException(\TypeError::class);
         $this->expectExceptionMessage(
             'Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer::__construct() expects parameter 1 to be '
-                . 'Chubbyphp\Serialization\Accessor\AccessorInterface|Chubbyphp\Serialization\Normalizer\\'
-                . 'FieldNormalizerInterface, DateTime given'
+                .'Chubbyphp\Serialization\Accessor\AccessorInterface|Chubbyphp\Serialization\Normalizer\\'
+                .'FieldNormalizerInterface, DateTime given'
         );
 
         new DateTimeFieldNormalizer(new \DateTime());

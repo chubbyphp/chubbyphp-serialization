@@ -22,7 +22,7 @@ class CallbackLinkNormalizerTest extends TestCase
 
     public function testNormalizeLink()
     {
-        $object = new \stdClass;
+        $object = new \stdClass();
 
         /** @var LinkInterface|MockObject $link */
         $link = $this->getMockByCalls(LinkInterface::class, [
@@ -62,7 +62,7 @@ class CallbackLinkNormalizerTest extends TestCase
 
     public function testNormalizeLinkWithNull()
     {
-        $object = new \stdClass;
+        $object = new \stdClass();
 
         /** @var NormalizerContextInterface|MockObject $normalizerContext */
         $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);
@@ -88,7 +88,7 @@ class CallbackLinkNormalizerTest extends TestCase
             'The link normalizer callback needs to return a Psr\Link\LinkInterface|null, "string" given at path: "name"'
         );
 
-        $object = new \stdClass;
+        $object = new \stdClass();
 
         /** @var NormalizerContextInterface|MockObject $normalizerContext */
         $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);

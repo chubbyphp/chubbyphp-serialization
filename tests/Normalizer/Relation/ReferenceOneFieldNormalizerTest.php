@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Normalizer;
 
+use Chubbyphp\Mock\Call;
+use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
-use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\Relation\ReferenceOneFieldNormalizer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -16,17 +17,29 @@ use PHPUnit\Framework\TestCase;
  */
 class ReferenceOneFieldNormalizerTest extends TestCase
 {
+    use MockByCallsTrait;
+
     public function testNormalizeFieldWithNull()
     {
-        $object = $this->getObject();
+        $object = new \stdClass;
 
-        $fieldNormalizer = new ReferenceOneFieldNormalizer($this->getIdentifierAccessor(), $this->getAccessor());
+        /** @var AccessorInterface|MockObject $identifierAccessor */
+        $identifierAccessor = $this->getMockByCalls(AccessorInterface::class);
+
+        /** @var AccessorInterface|MockObject $accessor */
+        $accessor = $this->getMockByCalls(AccessorInterface::class, [
+            Call::create('getValue')->with($object)->willReturn(null),
+        ]);
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+
+        $fieldNormalizer = new ReferenceOneFieldNormalizer($identifierAccessor, $accessor);
 
         $data = $fieldNormalizer->normalizeField(
             'relation',
             $object,
-            $this->getNormalizerContext(),
-            $this->getNormalizer()
+            $context
         );
 
         self::assertSame(null, $data);
@@ -34,140 +47,31 @@ class ReferenceOneFieldNormalizerTest extends TestCase
 
     public function testNormalizeFieldWithObject()
     {
-        $object = $this->getObject();
-        $object->setRelation($this->getRelation('id1'));
+        $relation = new \stdClass;
 
-        $fieldNormalizer = new ReferenceOneFieldNormalizer($this->getIdentifierAccessor(), $this->getAccessor());
+        $object = new \stdClass;
+
+        /** @var AccessorInterface|MockObject $identifierAccessor */
+        $identifierAccessor = $this->getMockByCalls(AccessorInterface::class, [
+            Call::create('getValue')->with($relation)->willReturn('id1'),
+        ]);
+
+        /** @var AccessorInterface|MockObject $accessor */
+        $accessor = $this->getMockByCalls(AccessorInterface::class, [
+            Call::create('getValue')->with($object)->willReturn($relation),
+        ]);
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+
+        $fieldNormalizer = new ReferenceOneFieldNormalizer($identifierAccessor, $accessor);
 
         $data = $fieldNormalizer->normalizeField(
             'relation',
             $object,
-            $this->getNormalizerContext(),
-            $this->getNormalizer()
+            $context
         );
 
         self::assertSame('id1', $data);
-    }
-
-    /**
-     * @return AccessorInterface
-     */
-    private function getAccessor(): AccessorInterface
-    {
-        /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockBuilder(AccessorInterface::class)->getMockForAbstractClass();
-
-        $accessor->expects(self::any())->method('getValue')->willReturnCallback(function ($object) {
-            return $object->getRelation();
-        });
-
-        return $accessor;
-    }
-
-    /**
-     * @return AccessorInterface
-     */
-    private function getIdentifierAccessor(): AccessorInterface
-    {
-        /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockBuilder(AccessorInterface::class)->getMockForAbstractClass();
-
-        $accessor->expects(self::any())->method('getValue')->willReturnCallback(function ($object) {
-            return $object->getId();
-        });
-
-        return $accessor;
-    }
-
-    /**
-     * @return NormalizerInterface
-     */
-    private function getNormalizer(): NormalizerInterface
-    {
-        /** @var NormalizerInterface|MockObject $normalizer */
-        $normalizer = $this->getMockBuilder(NormalizerInterface::class)->getMockForAbstractClass();
-
-        $normalizer->expects(self::any())->method('normalize')->willReturnCallback(
-            function ($object, NormalizerContextInterface $context = null, string $path = '') {
-                return ['name' => $object->getName()];
-            }
-        );
-
-        return $normalizer;
-    }
-
-    /**
-     * @return NormalizerContextInterface
-     */
-    private function getNormalizerContext(): NormalizerContextInterface
-    {
-        /** @var NormalizerContextInterface|MockObject $context */
-        $context = $this->getMockBuilder(NormalizerContextInterface::class)->getMockForAbstractClass();
-
-        return $context;
-    }
-
-    /**
-     * @return object
-     */
-    private function getObject()
-    {
-        return new class() {
-            /**
-             * @var object
-             */
-            private $relation;
-
-            /**
-             * @return object
-             */
-            public function getRelation()
-            {
-                return $this->relation;
-            }
-
-            /**
-             * @param object $relation
-             *
-             * @return self
-             */
-            public function setRelation($relation): self
-            {
-                $this->relation = $relation;
-
-                return $this;
-            }
-        };
-    }
-
-    /**
-     * @param string|null $id
-     *
-     * @return object
-     */
-    private function getRelation(string $id)
-    {
-        return new class($id ?? uniqid()) {
-            /**
-             * @var string
-             */
-            private $id;
-
-            /**
-             * @param string $id
-             */
-            public function __construct(string $id)
-            {
-                $this->id = $id;
-            }
-
-            /**
-             * @return string
-             */
-            public function getId(): string
-            {
-                return $this->id;
-            }
-        };
     }
 }

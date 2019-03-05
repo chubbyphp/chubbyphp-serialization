@@ -21,14 +21,14 @@ class FieldNormalizerTest extends TestCase
 
     public function testNormalizeField()
     {
-        $object = new \stdClass;
+        $object = new \stdClass();
 
         /** @var NormalizerContextInterface|MockObject $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
         /** @var AccessorInterface|MockObject $accessor */
         $accessor = $this->getMockByCalls(AccessorInterface::class, [
-            Call::create('getValue')->with($object)->willReturn('name')
+            Call::create('getValue')->with($object)->willReturn('name'),
         ]);
 
         $fieldNormalizer = new FieldNormalizer($accessor);
