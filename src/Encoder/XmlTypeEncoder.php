@@ -145,7 +145,7 @@ final class XmlTypeEncoder implements TypeEncoderInterface
      * @param \DOMDocument               $document
      * @param \DOMNode                   $listNode
      * @param string|int                 $key
-     * @param string|null|bool|float|int $value
+     * @param string|bool|float|int|null $value
      *
      * @return \DOMNode
      */

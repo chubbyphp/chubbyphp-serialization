@@ -4,6 +4,7 @@ namespace Chubbyphp\Tests\Serialization\Provider;
 
 use Chubbyphp\Serialization\Encoder\Encoder;
 use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
+use Chubbyphp\Serialization\Encoder\JsonxTypeEncoder;
 use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
 use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
 use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
@@ -42,8 +43,9 @@ final class SerializationProviderTest extends TestCase
         self::assertInstanceOf(Encoder::class, $container['serializer.encoder']);
         self::assertInternalType('array', $container['serializer.encodertypes']);
         self::assertInstanceOf(JsonTypeEncoder::class, $container['serializer.encodertypes'][0]);
-        self::assertInstanceOf(UrlEncodedTypeEncoder::class, $container['serializer.encodertypes'][1]);
-        self::assertInstanceOf(XmlTypeEncoder::class, $container['serializer.encodertypes'][2]);
-        self::assertInstanceOf(YamlTypeEncoder::class, $container['serializer.encodertypes'][3]);
+        self::assertInstanceOf(JsonxTypeEncoder::class, $container['serializer.encodertypes'][1]);
+        self::assertInstanceOf(UrlEncodedTypeEncoder::class, $container['serializer.encodertypes'][2]);
+        self::assertInstanceOf(XmlTypeEncoder::class, $container['serializer.encodertypes'][3]);
+        self::assertInstanceOf(YamlTypeEncoder::class, $container['serializer.encodertypes'][4]);
     }
 }

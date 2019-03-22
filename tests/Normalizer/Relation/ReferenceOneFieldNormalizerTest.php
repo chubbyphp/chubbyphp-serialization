@@ -21,7 +21,7 @@ class ReferenceOneFieldNormalizerTest extends TestCase
 
     public function testNormalizeFieldWithNull()
     {
-        $object = new \stdClass;
+        $object = new \stdClass();
 
         /** @var AccessorInterface|MockObject $identifierAccessor */
         $identifierAccessor = $this->getMockByCalls(AccessorInterface::class);
@@ -47,9 +47,9 @@ class ReferenceOneFieldNormalizerTest extends TestCase
 
     public function testNormalizeFieldWithObject()
     {
-        $relation = new \stdClass;
+        $relation = new \stdClass();
 
-        $object = new \stdClass;
+        $object = new \stdClass();
 
         /** @var AccessorInterface|MockObject $identifierAccessor */
         $identifierAccessor = $this->getMockByCalls(AccessorInterface::class, [
