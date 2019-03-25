@@ -6,6 +6,7 @@ namespace Chubbyphp\Serialization\Provider;
 
 use Chubbyphp\Serialization\Encoder\Encoder;
 use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
+use Chubbyphp\Serialization\Encoder\JsonxTypeEncoder;
 use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
 use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
 use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
@@ -50,6 +51,7 @@ final class SerializationProvider implements ServiceProviderInterface
             $encoderTypes = [];
 
             $encoderTypes[] = new JsonTypeEncoder();
+            $encoderTypes[] = new JsonxTypeEncoder();
             $encoderTypes[] = new UrlEncodedTypeEncoder();
             $encoderTypes[] = new XmlTypeEncoder();
 

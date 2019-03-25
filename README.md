@@ -32,7 +32,7 @@ A simple serialization.
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-serialization][1].
 
 ```sh
-composer require chubbyphp/chubbyphp-serialization "~2.6"
+composer require chubbyphp/chubbyphp-serialization "~2.7"
 ```
 
 ## Usage
@@ -49,70 +49,71 @@ composer require chubbyphp/chubbyphp-serialization "~2.6"
 #### Type Encoder
 
  * [JsonTypeEncoder][5]
- * [UrlEncodedTypeEncoder][6]
- * [XmlTypeEncoder][7]
- * [YamlTypeEncoder][8]
+ * [JsonxTypeEncoder][6]
+ * [UrlEncodedTypeEncoder][7]
+ * [XmlTypeEncoder][8]
+ * [YamlTypeEncoder][9]
 
 ### Link
 
- * [Link][9]
- * [LinkBuilder][10]
+ * [Link][10]
+ * [LinkBuilder][11]
 
 ### Normalizer
 
- * [Normalizer][11]
+ * [Normalizer][12]
 
 #### Field Normalizer
 
- * [CallbackFieldNormalizer][12]
- * [DateTimeFieldNormalizer][13]
- * [FieldNormalizer][14]
+ * [CallbackFieldNormalizer][13]
+ * [DateTimeFieldNormalizer][14]
+ * [FieldNormalizer][15]
 
 ##### Relation Field Normalizer
 
- * [EmbedManyFieldNormalizer][15]
- * [EmbedOneFieldNormalizer][16]
- * [ReferenceManyFieldNormalizer][17]
- * [ReferenceOneFieldNormalizer][18]
+ * [EmbedManyFieldNormalizer][16]
+ * [EmbedOneFieldNormalizer][17]
+ * [ReferenceManyFieldNormalizer][18]
+ * [ReferenceOneFieldNormalizer][19]
 
 #### Link Normalizer
 
- * [CallbackLinkNormalizer][19]
+ * [CallbackLinkNormalizer][20]
 
 #### Normalizer Context
 
- * [NormalizerContext][20]
- * [NormalizerContextBuilder][21]
+ * [NormalizerContext][21]
+ * [NormalizerContextBuilder][22]
 
 ### NormalizerObjectMappingRegistry
 
-* [NormalizerObjectMappingRegistry][22]
+* [NormalizerObjectMappingRegistry][23]
 
 ### Mapping
 
 #### NormalizationFieldMapping
 
- * [NormalizationFieldMapping][23]
- * [NormalizationFieldMappingBuilder][24]
+ * [NormalizationFieldMapping][24]
+ * [NormalizationFieldMappingBuilder][25]
 
 #### NormalizationLinkMapping
 
- * [NormalizationLinkMapping][25]
- * [NormalizationLinkMappingBuilder][26]
+ * [NormalizationLinkMapping][26]
+ * [NormalizationLinkMappingBuilder][27]
 
 #### NormalizationObjectMapping
 
- * [AdvancecNormalizationObjectMapping][27]
- * [SimpleNormalizationObjectMapping][28]
+ * [AdvancecNormalizationObjectMapping][28]
+ * [SimpleNormalizationObjectMapping][29]
 
 #### LazyNormalizationObjectMapping
 
- * [CallableNormalizationObjectMapping][29]
- * [LazyNormalizationObjectMapping][30]
+ * [CallableNormalizationObjectMapping][30]
+ * [LazyNormalizationObjectMapping][31]
 
 ### Provider
 
-* [SerializationProvider][31]
+* [SerializationProvider][32]
 
 ### Serializer
 
@@ -121,6 +122,7 @@ composer require chubbyphp/chubbyphp-serialization "~2.6"
 
 use Chubbyphp\Serialization\Encoder\Encoder;
 use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
+use Chubbyphp\Serialization\Encoder\JsonxTypeEncoder;
 use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
 use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
 use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
@@ -142,6 +144,7 @@ $serializer = new Serializer(
     ),
     new Encoder([
         new JsonTypeEncoder(),
+        new JsonxTypeEncoder(),
         new UrlEncodedTypeEncoder(),
         new XmlTypeEncoder(),
         new YamlTypeEncoder()
@@ -172,6 +175,7 @@ print_r($data);
 print_r($serializer->getContentTypes());
 //[
 //    'application/json',
+//    'application/x-jsonx',
 //    'application/x-www-form-urlencoded',
 //    'application/xml',
 //    'application/x-yaml'
@@ -197,41 +201,42 @@ Dominik Zogg 2017
 [4]: doc/Encoder/Encoder.md
 
 [5]: doc/Encoder/JsonTypeEncoder.md
-[6]: doc/Encoder/UrlEncodedTypeEncoder.md
-[7]: doc/Encoder/XmlTypeEncoder.md
-[8]: doc/Encoder/YamlTypeEncoder.md
+[6]: doc/Encoder/JsonxTypeEncoder.md
+[7]: doc/Encoder/UrlEncodedTypeEncoder.md
+[8]: doc/Encoder/XmlTypeEncoder.md
+[9]: doc/Encoder/YamlTypeEncoder.md
 
-[9]: doc/Link/Link.md
-[10]: doc/Link/LinkBuilder.md
+[10]: doc/Link/Link.md
+[11]: doc/Link/LinkBuilder.md
 
-[11]: doc/Normalizer/Normalizer.md
+[12]: doc/Normalizer/Normalizer.md
 
-[12]: doc/Normalizer/CallbackFieldNormalizer.md
-[13]: doc/Normalizer/DateTimeFieldNormalizer.md
-[14]: doc/Normalizer/FieldNormalizer.md
+[13]: doc/Normalizer/CallbackFieldNormalizer.md
+[14]: doc/Normalizer/DateTimeFieldNormalizer.md
+[15]: doc/Normalizer/FieldNormalizer.md
 
-[15]: doc/Normalizer/Relation/EmbedManyFieldNormalizer.md
-[16]: doc/Normalizer/Relation/EmbedOneFieldNormalizer.md
-[17]: doc/Normalizer/Relation/ReferenceManyFieldNormalizer.md
-[18]: doc/Normalizer/Relation/ReferenceOneFieldNormalizer.md
+[16]: doc/Normalizer/Relation/EmbedManyFieldNormalizer.md
+[17]: doc/Normalizer/Relation/EmbedOneFieldNormalizer.md
+[18]: doc/Normalizer/Relation/ReferenceManyFieldNormalizer.md
+[19]: doc/Normalizer/Relation/ReferenceOneFieldNormalizer.md
 
-[19]: doc/Normalizer/CallbackLinkNormalizer.md
+[20]: doc/Normalizer/CallbackLinkNormalizer.md
 
-[20]: doc/Normalizer/NormalizerContext.md
-[21]: doc/Normalizer/NormalizerContextBuilder.md
+[21]: doc/Normalizer/NormalizerContext.md
+[22]: doc/Normalizer/NormalizerContextBuilder.md
 
-[22]: doc/Normalizer/NormalizerObjectMappingRegistry.md
+[23]: doc/Normalizer/NormalizerObjectMappingRegistry.md
 
-[23]: doc/Mapping/NormalizationFieldMapping.md
-[24]: doc/Mapping/NormalizationFieldMappingBuilder.md
+[24]: doc/Mapping/NormalizationFieldMapping.md
+[25]: doc/Mapping/NormalizationFieldMappingBuilder.md
 
-[25]: doc/Mapping/NormalizationLinkMapping.md
-[26]: doc/Mapping/NormalizationLinkMappingBuilder.md
+[26]: doc/Mapping/NormalizationLinkMapping.md
+[27]: doc/Mapping/NormalizationLinkMappingBuilder.md
 
-[27]: doc/Mapping/AdvancedNormalizationObjectMapping.md
-[28]: doc/Mapping/SimpleNormalizationObjectMapping.md
+[28]: doc/Mapping/AdvancedNormalizationObjectMapping.md
+[29]: doc/Mapping/SimpleNormalizationObjectMapping.md
 
-[29]: doc/Mapping/CallableNormalizationObjectMapping.md
-[30]: doc/Mapping/LazyNormalizationObjectMapping.md
+[30]: doc/Mapping/CallableNormalizationObjectMapping.md
+[31]: doc/Mapping/LazyNormalizationObjectMapping.md
 
-[31]: doc/Provider/SerializationProvider.md
+[32]: doc/Provider/SerializationProvider.md
