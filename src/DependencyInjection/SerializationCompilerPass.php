@@ -6,6 +6,7 @@ namespace Chubbyphp\Serialization\DependencyInjection;
 
 use Chubbyphp\Serialization\Encoder\Encoder;
 use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
+use Chubbyphp\Serialization\Encoder\JsonxTypeEncoder;
 use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
 use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
 use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
@@ -53,6 +54,10 @@ final class SerializationCompilerPass implements CompilerPassInterface
 
         $container
             ->register('chubbyphp.serializer.encoder.type.json', JsonTypeEncoder::class)
+            ->addTag('chubbyphp.serializer.encoder.type');
+
+        $container
+            ->register('chubbyphp.serializer.encoder.type.jsonx', JsonxTypeEncoder::class)
             ->addTag('chubbyphp.serializer.encoder.type');
 
         $container

@@ -57,6 +57,14 @@ class SerializationCompilerPassTest extends TestCase
         self::assertInstanceOf(Encoder::class, $encoder);
 
         self::assertSame('{"key":"value"}', $encoder->encode(['key' => 'value'], 'application/json'));
+        self::assertSame(
+            '<?xml version="1.0" encoding="UTF-8"?>'."\n"
+            .'<json:object xsi:schemaLocation="http://www.datapower.com/schemas/json jsonx.xsd"'
+            .' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
+            .' xmlns:json="http://www.ibm.com/xmlns/prod/2009/jsonx">'
+            .'<json:string name="key">value</json:string></json:object>',
+            $encoder->encode(['key' => 'value'], 'application/x-jsonx')
+        );
         self::assertSame('key=value', $encoder->encode(['key' => 'value'], 'application/x-www-form-urlencoded'));
         self::assertSame(
             '<?xml version="1.0" encoding="UTF-8"?>'."\n"
