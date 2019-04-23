@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Chubbyphp\Serialization\Mapping;
 
 use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
+use Chubbyphp\Serialization\Policy\PolicyInterface;
 
 interface NormalizationFieldMappingBuilderInterface
 {
@@ -16,6 +17,8 @@ interface NormalizationFieldMappingBuilderInterface
     public static function create(string $name): self;
 
     /**
+     * @deprecated
+     *
      * @param array $groups
      *
      * @return self
@@ -28,6 +31,13 @@ interface NormalizationFieldMappingBuilderInterface
      * @return self
      */
     public function setFieldNormalizer(FieldNormalizerInterface $fieldNormalizer): self;
+
+    /**
+     * @param PolicyInterface $policy
+     *
+     * @return self
+     */
+    //public function setPolicy(PolicyInterface $policy): self;
 
     /**
      * @return NormalizationFieldMappingInterface

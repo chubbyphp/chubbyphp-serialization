@@ -17,4 +17,12 @@ interface NormalizerContextInterface
      * @return ServerRequestInterface|null
      */
     public function getRequest();
+
+    /*
+     * @param string $name
+     * @param mixed  $default
+     *
+     * @return mixed
+     */
+    //public function getAttribute(string $name, $default = null);
 }
