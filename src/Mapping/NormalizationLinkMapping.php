@@ -24,18 +24,26 @@ final class NormalizationLinkMapping implements NormalizationLinkMappingInterfac
     private $linkNormalizer;
 
     /**
+     * @var object|string|null
+     */
+    private $permission;
+
+    /**
      * @param string                  $name
      * @param array                   $groups
      * @param LinkNormalizerInterface $linkNormalizer
+     * @param object|string|null      $permission
      */
     public function __construct(
         string $name,
         array $groups,
-        LinkNormalizerInterface $linkNormalizer
+        LinkNormalizerInterface $linkNormalizer,
+        $permission = null
     ) {
         $this->name = $name;
         $this->groups = $groups;
         $this->linkNormalizer = $linkNormalizer;
+        $this->permission = $permission;
     }
 
     /**
@@ -60,5 +68,13 @@ final class NormalizationLinkMapping implements NormalizationLinkMappingInterfac
     public function getLinkNormalizer(): LinkNormalizerInterface
     {
         return $this->linkNormalizer;
+    }
+
+    /**
+     * @return object|string|null
+     */
+    public function getPermission()
+    {
+        return $this->permission;
     }
 }

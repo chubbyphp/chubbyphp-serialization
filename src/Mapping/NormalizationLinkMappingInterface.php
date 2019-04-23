@@ -22,4 +22,9 @@ interface NormalizationLinkMappingInterface
      * @return LinkNormalizerInterface
      */
     public function getLinkNormalizer(): LinkNormalizerInterface;
+
+    /*
+     * @return object|string|null
+     */
+    //public function getPermission();
 }

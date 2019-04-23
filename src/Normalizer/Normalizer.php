@@ -10,6 +10,8 @@ use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Chubbyphp\Serialization\Authorization\AuthorizationCheckerInterface;
+use Chubbyphp\Serialization\Authorization\NullAuthorizationChecker;
 
 final class Normalizer implements NormalizerInterface
 {
@@ -24,15 +26,23 @@ final class Normalizer implements NormalizerInterface
     private $logger;
 
     /**
+     * @var AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
+    /**
      * @param NormalizerObjectMappingRegistryInterface $normalizerObjectMappingRegistry
      * @param LoggerInterface|null                     $logger
+     * @param AuthorizationCheckerInterface|null       $authorizationChecker
      */
     public function __construct(
         NormalizerObjectMappingRegistryInterface $normalizerObjectMappingRegistry,
-        LoggerInterface $logger = null
+        LoggerInterface $logger = null,
+        AuthorizationCheckerInterface $authorizationChecker = null
     ) {
         $this->normalizerObjectMappingRegistry = $normalizerObjectMappingRegistry;
         $this->logger = $logger ?? new NullLogger();
+        $this->authorizationChecker = $authorizationChecker ?? new NullAuthorizationChecker();
     }
 
     /**
@@ -130,6 +140,10 @@ final class Normalizer implements NormalizerInterface
     ): array {
         $data = [];
         foreach ($normalizationFieldMappings as $normalizationFieldMapping) {
+            if (!$this->isAllowed($context, $normalizationFieldMapping, $object)) {
+                continue;
+            }
+
             if (!$this->isWithinGroup($context, $normalizationFieldMapping)) {
                 continue;
             }
@@ -164,6 +178,10 @@ final class Normalizer implements NormalizerInterface
     ): array {
         $links = [];
         foreach ($normalizationLinkMappings as $normalizationLinkMapping) {
+            if (!$this->isAllowed($context, $normalizationLinkMapping, $object)) {
+                continue;
+            }
+
             if (!$this->isWithinGroup($context, $normalizationLinkMapping)) {
                 continue;
             }
@@ -178,6 +196,26 @@ final class Normalizer implements NormalizerInterface
         }
 
         return $links;
+    }
+
+    /**
+     * @param NormalizerContextInterface                                           $context
+     * @param NormalizationFieldMappingInterface|NormalizationLinkMappingInterface $mapping
+     * @param object                                                               $object
+     *
+     * @return bool
+     */
+    private function isAllowed(NormalizerContextInterface $context, $mapping, $object)
+    {
+        if (!is_callable([$context, 'getRole'])) {
+            return true;
+        }
+
+        if (!is_callable([$mapping, 'getPermission'])) {
+            return true;
+        }
+
+        return $this->authorizationChecker->isAllowed($context->getRole(), $object, $mapping->getPermission());
     }
 
     /**

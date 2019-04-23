@@ -30,6 +30,13 @@ interface NormalizationFieldMappingBuilderInterface
     public function setFieldNormalizer(FieldNormalizerInterface $fieldNormalizer): self;
 
     /**
+     * @param object|string|null $permission
+     *
+     * @return self
+     */
+    //public function setPermissions($permission): self;
+
+    /**
      * @return NormalizationFieldMappingInterface
      */
     public function getMapping(): NormalizationFieldMappingInterface;

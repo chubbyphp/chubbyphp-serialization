@@ -17,4 +17,9 @@ interface NormalizerContextInterface
      * @return ServerRequestInterface|null
      */
     public function getRequest();
+
+    /*
+     * @return object|string|null
+     */
+    //public function getRole();
 }

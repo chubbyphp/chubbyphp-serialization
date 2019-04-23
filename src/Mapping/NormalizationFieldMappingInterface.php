@@ -22,4 +22,9 @@ interface NormalizationFieldMappingInterface
      * @return FieldNormalizerInterface
      */
     public function getFieldNormalizer(): FieldNormalizerInterface;
+
+    /*
+     * @return object|string|null
+     */
+    //public function getPermission();
 }

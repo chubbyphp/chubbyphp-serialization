@@ -32,6 +32,11 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
     private $fieldNormalizer;
 
     /**
+     * @var object|string|null
+     */
+    private $permission;
+
+    /**
      * @param string $name
      */
     private function __construct(string $name)
@@ -167,6 +172,18 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
     }
 
     /**
+     * @param object|string|null $permission
+     *
+     * @return NormalizationFieldMappingBuilderInterface
+     */
+    public function setPermission($permission): NormalizationFieldMappingBuilderInterface
+    {
+        $this->permission = $permission;
+
+        return $this;
+    }
+
+    /**
      * @return NormalizationFieldMappingInterface
      */
     public function getMapping(): NormalizationFieldMappingInterface
@@ -174,7 +191,8 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
         return new NormalizationFieldMapping(
             $this->name,
             $this->groups,
-            $this->fieldNormalizer ?? new FieldNormalizer(new PropertyAccessor($this->name))
+            $this->fieldNormalizer ?? new FieldNormalizer(new PropertyAccessor($this->name)),
+            $this->permission
         );
     }
 }

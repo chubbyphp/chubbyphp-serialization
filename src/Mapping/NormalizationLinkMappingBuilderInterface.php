@@ -24,6 +24,13 @@ interface NormalizationLinkMappingBuilderInterface
     public function setGroups(array $groups): self;
 
     /**
+     * @param object|string|null $permission
+     *
+     * @return self
+     */
+    //public function setPermissions($permission): self;
+
+    /**
      * @return NormalizationLinkMappingInterface
      */
     public function getMapping(): NormalizationLinkMappingInterface;

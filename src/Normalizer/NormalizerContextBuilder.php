@@ -18,6 +18,11 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
      */
     private $request;
 
+    /**
+     * @var object|string|null
+     */
+    private $role;
+
     private function __construct()
     {
     }
@@ -55,10 +60,22 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
     }
 
     /**
+     * @param object|string|null $role
+     *
+     * @return NormalizerContextBuilderInterface
+     */
+    public function setRole($role): NormalizerContextBuilderInterface
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
      * @return NormalizerContextInterface
      */
     public function getContext(): NormalizerContextInterface
     {
-        return new NormalizerContext($this->groups, $this->request);
+        return new NormalizerContext($this->groups, $this->request, $this->role);
     }
 }

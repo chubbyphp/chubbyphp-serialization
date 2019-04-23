@@ -23,6 +23,11 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
      */
     private $linkNormalizer;
 
+    /**
+     * @var object|string|null
+     */
+    private $permission;
+
     private function __construct()
     {
     }
@@ -58,10 +63,22 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
     }
 
     /**
+     * @param object|string|null $permission
+     *
+     * @return NormalizationLinkMappingBuilderInterface
+     */
+    public function setPermission($permission): NormalizationLinkMappingBuilderInterface
+    {
+        $this->permission = $permission;
+
+        return $this;
+    }
+
+    /**
      * @return NormalizationLinkMappingInterface
      */
     public function getMapping(): NormalizationLinkMappingInterface
     {
-        return new NormalizationLinkMapping($this->name, $this->groups, $this->linkNormalizer);
+        return new NormalizationLinkMapping($this->name, $this->groups, $this->linkNormalizer, $this->permission);
     }
 }

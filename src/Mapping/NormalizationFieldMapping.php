@@ -24,15 +24,22 @@ final class NormalizationFieldMapping implements NormalizationFieldMappingInterf
     private $fieldNormalizer;
 
     /**
+     * @var object|string|null
+     */
+    private $permission;
+
+    /**
      * @param string                   $name
      * @param array                    $groups
      * @param FieldNormalizerInterface $fieldNormalizer
+     * @param object|string|null       $permission
      */
-    public function __construct($name, array $groups, FieldNormalizerInterface $fieldNormalizer)
+    public function __construct($name, array $groups, FieldNormalizerInterface $fieldNormalizer, $permission = null)
     {
         $this->name = $name;
         $this->groups = $groups;
         $this->fieldNormalizer = $fieldNormalizer;
+        $this->permission = $permission;
     }
 
     /**
@@ -57,5 +64,13 @@ final class NormalizationFieldMapping implements NormalizationFieldMappingInterf
     public function getFieldNormalizer(): FieldNormalizerInterface
     {
         return $this->fieldNormalizer;
+    }
+
+    /**
+     * @return object|string|null
+     */
+    public function getPermission()
+    {
+        return $this->permission;
     }
 }

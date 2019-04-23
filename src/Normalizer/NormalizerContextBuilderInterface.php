@@ -28,6 +28,13 @@ interface NormalizerContextBuilderInterface
     public function setRequest(ServerRequestInterface $request = null): self;
 
     /**
+     * @param object|string|null $role
+     *
+     * @return self
+     */
+    //public function setRole($role): self;
+
+    /**
      * @return NormalizerContextInterface
      */
     public function getContext(): NormalizerContextInterface;
