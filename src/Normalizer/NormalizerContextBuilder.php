@@ -18,7 +18,7 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
     /**
      * @var array
      */
-    private $attributes;
+    private $attributes = [];
 
     /**
      * @var ServerRequestInterface|null
