@@ -9,6 +9,11 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 final class GroupPolicy implements PolicyInterface
 {
     /**
+     * @var string
+     */
+    const ATTRIBUTE_GROUPS = 'groups';
+
+    /**
      * @var string[]
      */
     private $groups;
@@ -29,7 +34,7 @@ final class GroupPolicy implements PolicyInterface
      */
     public function isCompliant(NormalizerContextInterface $context, $object): bool
     {
-        if ([] === $groups = $context->getAttribute('groups', [])) {
+        if ([] === $groups = $context->getAttribute(self::ATTRIBUTE_GROUPS, [])) {
             return true;
         }
 
