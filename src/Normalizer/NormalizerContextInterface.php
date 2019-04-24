@@ -9,6 +9,8 @@ use Psr\Http\Message\ServerRequestInterface;
 interface NormalizerContextInterface
 {
     /**
+     * @deprecated
+     *
      * @return string[]
      */
     public function getGroups(): array;

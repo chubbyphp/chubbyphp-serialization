@@ -14,11 +14,20 @@ interface NormalizerContextBuilderInterface
     public static function create(): self;
 
     /**
+     * @deprecated
+     *
      * @param string[] $groups
      *
      * @return self
      */
     public function setGroups(array $groups): self;
+
+    /**
+     * @param array $attributes
+     *
+     * @return NormalizerContextBuilderInterface
+     */
+    //public function setAttributes(array $attributes): self;
 
     /**
      * @param ServerRequestInterface|null $request

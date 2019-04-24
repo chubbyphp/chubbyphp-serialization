@@ -10,6 +10,8 @@ use Chubbyphp\Serialization\Policy\GroupPolicy;
 final class NormalizerContext implements NormalizerContextInterface
 {
     /**
+     * @deprecated
+     *
      * @var string[]
      */
     private $groups = [];
@@ -41,6 +43,8 @@ final class NormalizerContext implements NormalizerContextInterface
     }
 
     /**
+     * @deprecated
+     *
      * @return string[]
      */
     public function getGroups(): array
