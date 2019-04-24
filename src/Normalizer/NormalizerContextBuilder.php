@@ -80,6 +80,6 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
      */
     public function getContext(): NormalizerContextInterface
     {
-        return new NormalizerContext($this->groups, $this->request);
+        return new NormalizerContext($this->groups, $this->request, $this->attributes);
     }
 }
