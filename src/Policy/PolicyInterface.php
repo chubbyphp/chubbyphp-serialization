@@ -10,7 +10,7 @@ interface PolicyInterface
 {
     /**
      * @param NormalizerContextInterface $context
-     * @param object                     $object
+     * @param object|mixed               $object
      *
      * @return bool
      */

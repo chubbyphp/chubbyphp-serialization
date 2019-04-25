@@ -6,24 +6,19 @@ namespace Chubbyphp\Serialization\Policy;
 
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 
-final class GroupPolicy implements PolicyInterface
+final class OrPolicy implements PolicyInterface
 {
     /**
-     * @var string
+     * @var array|PolicyInterface[]
      */
-    const ATTRIBUTE_GROUPS = 'groups';
+    private $policies;
 
     /**
-     * @var string[]
+     * @param array|PolicyInterface[] $policies
      */
-    private $groups;
-
-    /**
-     * @param array $groups
-     */
-    public function __construct(array $groups)
+    public function __construct(array $policies)
     {
-        $this->groups = $groups;
+        $this->policies = $policies;
     }
 
     /**
@@ -34,12 +29,8 @@ final class GroupPolicy implements PolicyInterface
      */
     public function isCompliant(NormalizerContextInterface $context, $object): bool
     {
-        if ([] === $groups = $context->getAttribute(self::ATTRIBUTE_GROUPS, [])) {
-            return true;
-        }
-
-        foreach ($this->groups as $group) {
-            if (in_array($group, $groups, true)) {
+        foreach ($this->policies as $policy) {
+            if (true === $policy->isCompliant($context, $object)) {
                 return true;
             }
         }

@@ -7,6 +7,9 @@ namespace Chubbyphp\Serialization\Mapping;
 use Chubbyphp\Serialization\Normalizer\LinkNormalizerInterface;
 use Chubbyphp\Serialization\Policy\PolicyInterface;
 
+/**
+ * @method setPolicy(PolicyInterface $policy): self
+ */
 interface NormalizationLinkMappingBuilderInterface
 {
     /**

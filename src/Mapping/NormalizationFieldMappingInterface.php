@@ -7,6 +7,9 @@ namespace Chubbyphp\Serialization\Mapping;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
 use Chubbyphp\Serialization\Policy\PolicyInterface;
 
+/**
+ * @method getPolicy(): PolicyInterface
+ */
 interface NormalizationFieldMappingInterface
 {
     /**

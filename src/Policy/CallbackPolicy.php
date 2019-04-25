@@ -6,8 +6,21 @@ namespace Chubbyphp\Serialization\Policy;
 
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 
-final class NullPolicy implements PolicyInterface
+final class CallbackPolicy implements PolicyInterface
 {
+    /**
+     * @var callable
+     */
+    private $callback;
+
+    /**
+     * @param callable $callback
+     */
+    public function __construct(callable $callback)
+    {
+        $this->callback = $callback;
+    }
+
     /**
      * @param NormalizerContextInterface $context
      * @param object|mixed               $object
@@ -16,6 +29,6 @@ final class NullPolicy implements PolicyInterface
      */
     public function isCompliant(NormalizerContextInterface $context, $object): bool
     {
-        return true;
+        return ($this->callback)($context, $object);
     }
 }
