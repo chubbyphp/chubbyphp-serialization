@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Mapping;
 
+use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
+use Chubbyphp\Serialization\Normalizer\LinkNormalizer;
 use Chubbyphp\Serialization\Normalizer\LinkNormalizerInterface;
 use Chubbyphp\Serialization\Policy\PolicyInterface;
 use Chubbyphp\Serialization\Policy\NullPolicy;
+use Psr\Link\LinkInterface;
 
 final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingBuilderInterface
 {
@@ -18,7 +21,7 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
     /**
      * @var array
      */
-    private $groups;
+    private $groups = [];
 
     /**
      * @var LinkNormalizerInterface
@@ -30,8 +33,12 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
      */
     private $policy;
 
-    private function __construct()
+    /**
+     * @param string $name
+     */
+    private function __construct(string $name)
     {
+        $this->name = $name;
     }
 
     /**
@@ -44,10 +51,40 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
         string $name,
         LinkNormalizerInterface $linkNormalizer
     ): NormalizationLinkMappingBuilderInterface {
-        $self = new self();
-        $self->name = $name;
-        $self->groups = [];
+        $self = new self($name);
         $self->linkNormalizer = $linkNormalizer;
+
+        return $self;
+    }
+
+    /**
+     * @param string   $name
+     * @param callable $callback
+     *
+     * @return NormalizationLinkMappingBuilderInterface
+     */
+    public static function createCallback(
+        string $name,
+        callable $callback
+    ): NormalizationLinkMappingBuilderInterface {
+        $self = new self($name);
+        $self->linkNormalizer = new CallbackLinkNormalizer($callback);
+
+        return $self;
+    }
+
+    /**
+     * @param string        $name
+     * @param LinkInterface $link
+     *
+     * @return NormalizationLinkMappingBuilderInterface
+     */
+    public static function createLink(
+        string $name,
+        LinkInterface $link
+    ): NormalizationLinkMappingBuilderInterface {
+        $self = new self($name);
+        $self->linkNormalizer = new LinkNormalizer($link);
 
         return $self;
     }
