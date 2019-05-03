@@ -61,6 +61,14 @@ final class NormalizerContext implements NormalizerContextInterface
     }
 
     /**
+     * @return array
+     */
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    /**
      * @param string $name
      * @param mixed  $default
      *
@@ -78,9 +86,9 @@ final class NormalizerContext implements NormalizerContextInterface
     /**
      * @param string $name
      * @param mixed  $value
-     * @return NormalizerContext
+     * @return NormalizerContextInterface
      */
-    public function withAttribute(string $name, $value): self
+    public function withAttribute(string $name, $value): NormalizerContextInterface
     {
         $context = clone $this;
         $context->attributes[$name] = $value;
