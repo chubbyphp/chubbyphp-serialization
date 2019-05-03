@@ -74,4 +74,17 @@ final class NormalizerContext implements NormalizerContextInterface
 
         return $default;
     }
+
+    /**
+     * @param string $name
+     * @param mixed  $value
+     * @return NormalizerContext
+     */
+    public function withAttribute(string $name, $value): self
+    {
+        $context = clone $this;
+        $context->attributes[$name] = $value;
+
+        return $context;
+    }
 }

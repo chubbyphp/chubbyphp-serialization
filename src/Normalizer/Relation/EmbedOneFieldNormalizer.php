@@ -49,6 +49,6 @@ final class EmbedOneFieldNormalizer implements FieldNormalizerInterface
             return null;
         }
 
-        return $normalizer->normalize($relatedObject, $context, $path);
+        return $normalizer->normalize($relatedObject, $context->withAttribute('parent', $object), $path);
     }
 }

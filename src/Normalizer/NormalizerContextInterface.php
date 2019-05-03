@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @method getAttribute(string $name, $default = null)
+ * @method withAttribute(string $name, $value): self
  */
 interface NormalizerContextInterface
 {
