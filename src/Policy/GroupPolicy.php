@@ -34,9 +34,11 @@ final class GroupPolicy implements PolicyInterface
      */
     public function isCompliant(NormalizerContextInterface $context, $object): bool
     {
-        if ([] === $groups = $context->getAttribute(self::ATTRIBUTE_GROUPS, [])) {
+        if ([] === $this->groups) {
             return true;
         }
+
+        $groups = $context->getAttribute(self::ATTRIBUTE_GROUPS, []);
 
         foreach ($this->groups as $group) {
             if (in_array($group, $groups, true)) {
