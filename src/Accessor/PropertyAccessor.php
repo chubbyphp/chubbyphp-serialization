@@ -29,6 +29,10 @@ final class PropertyAccessor implements AccessorInterface
      */
     public function getValue($object)
     {
+        if (isset($object->{$this->property})) {
+            return $object->{$this->property};
+        }
+
         $class = $this->getClass($object);
 
         if (!property_exists($class, $this->property)) {
