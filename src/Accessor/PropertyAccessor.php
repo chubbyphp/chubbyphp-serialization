@@ -29,25 +29,21 @@ final class PropertyAccessor implements AccessorInterface
      */
     public function getValue($object)
     {
-        if (isset($object->{$this->property})) {
+        if (!property_exists($object, $this->property)) {
+            throw SerializerLogicException::createMissingProperty(get_class($object), $this->property);
+        }
+
+        if ($object instanceof \stdClass) {
             return $object->{$this->property};
         }
 
-        $class = $this->getClass($object);
-
-        if (!property_exists($class, $this->property)) {
-            throw SerializerLogicException::createMissingProperty($class, $this->property);
-        }
-
-        $getter = \Closure::bind(
+        return \Closure::bind(
             function ($property) {
                 return $this->$property;
             },
             $object,
-            $class
-        );
-
-        return $getter($this->property);
+            $this->getClass($object)
+        )($this->property);
     }
 
     /**

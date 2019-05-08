@@ -69,6 +69,17 @@ class PropertyAccessorTest extends TestCase
         $accessor = new PropertyAccessor('foo');
         self::assertEquals($value, $accessor->getValue($object));
     }
+
+    public function testPublicPropertyGetWithNullValue()
+    {
+        $value = null;
+
+        $object = new \stdClass();
+        $object->foo = $value;
+
+        $accessor = new PropertyAccessor('foo');
+        self::assertEquals($value, $accessor->getValue($object));
+    }
 }
 
 class Model
