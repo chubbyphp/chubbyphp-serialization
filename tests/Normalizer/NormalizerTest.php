@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Normalizer;
 
+use Chubbyphp\Mock\Argument\ArgumentInstanceOf;
+use Chubbyphp\Mock\Call;
+use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
@@ -11,7 +14,6 @@ use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\LinkNormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\Normalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
-use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistryInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -22,16 +24,91 @@ use PHPUnit\Framework\TestCase;
  */
 class NormalizerTest extends TestCase
 {
+    use MockByCallsTrait;
+
     public function testNormalize()
     {
         $object = $this->getObject();
         $object->setName('php');
 
-        $normalizer = new Normalizer(
-            $this->getNormalizerObjectMappingRegistry([
-                $this->getNormalizationObjectMapping(),
-            ])
-        );
+        $class = get_class($object);
+
+        /** @var FieldNormalizerInterface|MockObject $nameFieldNormalizer */
+        $nameFieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class, [
+            Call::create('normalizeField')
+                ->with(
+                    'name',
+                    $object,
+                    new ArgumentInstanceOf(NormalizerContextInterface::class),
+                    new ArgumentInstanceOf(Normalizer::class)
+                )
+                ->willReturn('php'),
+        ]);
+
+        /** @var NormalizationFieldMappingInterface|MockObject $nameFieldMapping */
+        $nameFieldMapping = $this->getMockByCalls(NormalizationFieldMappingInterface::class, [
+            //Call::create('getGroups')->with()->willReturn([]),
+            Call::create('getFieldNormalizer')->with()->willReturn($nameFieldNormalizer),
+            Call::create('getName')->with()->willReturn('name'),
+        ]);
+
+        $fieldMappings = [$nameFieldMapping];
+
+        /** @var FieldNormalizerInterface|MockObject $embeddedNameFieldNormalizer */
+        $embeddedNameFieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class, [
+            Call::create('normalizeField')
+                ->with(
+                    'name',
+                    $object,
+                    new ArgumentInstanceOf(NormalizerContextInterface::class),
+                    new ArgumentInstanceOf(Normalizer::class)
+                )
+                ->willReturn('php'),
+        ]);
+
+        /** @var NormalizationFieldMappingInterface|MockObject $embeddedNameFieldMapping */
+        $embeddedNameFieldMapping = $this->getMockByCalls(NormalizationFieldMappingInterface::class, [
+            //Call::create('getGroups')->with()->willReturn([]),
+            Call::create('getFieldNormalizer')->with()->willReturn($embeddedNameFieldNormalizer),
+            Call::create('getName')->with()->willReturn('name'),
+        ]);
+
+        $embeddedFieldMappings = [$embeddedNameFieldMapping];
+
+        /** @var LinkNormalizerInterface|MockObject $nameLinkNormalizer */
+        $nameLinkNormalizer = $this->getMockByCalls(LinkNormalizerInterface::class, [
+            Call::create('normalizeLink')
+                ->with(
+                    '',
+                    $object,
+                    new ArgumentInstanceOf(NormalizerContextInterface::class)
+                )
+                ->willReturn(['href' => '/api/model/id1']),
+        ]);
+
+        /** @var NormalizationLinkMappingInterface|MockObject $nameLinkMapping */
+        $nameLinkMapping = $this->getMockByCalls(NormalizationLinkMappingInterface::class, [
+            //Call::create('getGroups')->with()->willReturn([]),
+            Call::create('getLinkNormalizer')->with()->willReturn($nameLinkNormalizer),
+            Call::create('getName')->with()->willReturn('name'),
+        ]);
+
+        $linkMappings = [$nameLinkMapping];
+
+        /** @var NormalizationObjectMappingInterface|MockObject $objectMapping */
+        $objectMapping = $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
+            Call::create('getNormalizationFieldMappings')->with('')->willReturn($fieldMappings),
+            Call::create('getNormalizationEmbeddedFieldMappings')->with('')->willReturn($embeddedFieldMappings),
+            Call::create('getNormalizationLinkMappings')->with('')->willReturn($linkMappings),
+            Call::create('getNormalizationType')->with()->willReturn('object'),
+        ]);
+
+        /** @var NormalizerObjectMappingRegistryInterface|MockObject $objectMappingRegistry */
+        $objectMappingRegistry = $this->getMockByCalls(NormalizerObjectMappingRegistryInterface::class, [
+            Call::create('getObjectMapping')->with($class)->willReturn($objectMapping),
+        ]);
+
+        $normalizer = new Normalizer($objectMappingRegistry);
 
         self::assertEquals([
             'name' => 'php',
@@ -47,12 +124,223 @@ class NormalizerTest extends TestCase
         ], $normalizer->normalize($object));
     }
 
+    public function testNormalizeWithNullLink()
+    {
+        $object = $this->getObject();
+        $object->setName('php');
+
+        $class = get_class($object);
+
+        $fieldMappings = [];
+        $embeddedFieldMappings = [];
+
+        /** @var LinkNormalizerInterface|MockObject $nameLinkNormalizer */
+        $nameLinkNormalizer = $this->getMockByCalls(LinkNormalizerInterface::class, [
+            Call::create('normalizeLink')
+                ->with(
+                    '',
+                    $object,
+                    new ArgumentInstanceOf(NormalizerContextInterface::class)
+                )
+                ->willReturn(null),
+        ]);
+
+        /** @var NormalizationLinkMappingInterface|MockObject $nameLinkMapping */
+        $nameLinkMapping = $this->getMockByCalls(NormalizationLinkMappingInterface::class, [
+            Call::create('getLinkNormalizer')->with()->willReturn($nameLinkNormalizer),
+        ]);
+
+        $linkMappings = [$nameLinkMapping];
+
+        /** @var NormalizationObjectMappingInterface|MockObject $objectMapping */
+        $objectMapping = $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
+            Call::create('getNormalizationFieldMappings')->with('')->willReturn($fieldMappings),
+            Call::create('getNormalizationEmbeddedFieldMappings')->with('')->willReturn($embeddedFieldMappings),
+            Call::create('getNormalizationLinkMappings')->with('')->willReturn($linkMappings),
+            Call::create('getNormalizationType')->with()->willReturn('object'),
+        ]);
+
+        /** @var NormalizerObjectMappingRegistryInterface|MockObject $objectMappingRegistry */
+        $objectMappingRegistry = $this->getMockByCalls(NormalizerObjectMappingRegistryInterface::class, [
+            Call::create('getObjectMapping')->with($class)->willReturn($objectMapping),
+        ]);
+
+        $normalizer = new Normalizer($objectMappingRegistry);
+
+        self::assertEquals([
+            '_type' => 'object',
+        ], $normalizer->normalize($object));
+    }
+
+    public function testNormalizeWithMatchingGroup()
+    {
+        $object = $this->getObject();
+        $object->setName('php');
+
+        $class = get_class($object);
+
+        /** @var FieldNormalizerInterface|MockObject $nameFieldNormalizer */
+        $nameFieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class, [
+            Call::create('normalizeField')
+                ->with(
+                    'name',
+                    $object,
+                    new ArgumentInstanceOf(NormalizerContextInterface::class),
+                    new ArgumentInstanceOf(Normalizer::class)
+                )
+                ->willReturn('php'),
+        ]);
+
+        /** @var NormalizationFieldMappingInterface|MockObject $nameFieldMapping */
+        $nameFieldMapping = $this->getMockByCalls(NormalizationFieldMappingInterface::class, [
+            Call::create('getGroups')->with()->willReturn(['group1']),
+            Call::create('getFieldNormalizer')->with()->willReturn($nameFieldNormalizer),
+            Call::create('getName')->with()->willReturn('name'),
+        ]);
+
+        $fieldMappings = [$nameFieldMapping];
+
+        /** @var FieldNormalizerInterface|MockObject $embeddedNameFieldNormalizer */
+        $embeddedNameFieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class, [
+            Call::create('normalizeField')
+                ->with(
+                    'name',
+                    $object,
+                    new ArgumentInstanceOf(NormalizerContextInterface::class),
+                    new ArgumentInstanceOf(Normalizer::class)
+                )
+                ->willReturn('php'),
+        ]);
+
+        /** @var NormalizationFieldMappingInterface|MockObject $embeddedNameFieldMapping */
+        $embeddedNameFieldMapping = $this->getMockByCalls(NormalizationFieldMappingInterface::class, [
+            Call::create('getGroups')->with()->willReturn(['group1']),
+            Call::create('getFieldNormalizer')->with()->willReturn($embeddedNameFieldNormalizer),
+            Call::create('getName')->with()->willReturn('name'),
+        ]);
+
+        $embeddedFieldMappings = [$embeddedNameFieldMapping];
+
+        /** @var LinkNormalizerInterface|MockObject $nameLinkNormalizer */
+        $nameLinkNormalizer = $this->getMockByCalls(LinkNormalizerInterface::class, [
+            Call::create('normalizeLink')
+                ->with(
+                    '',
+                    $object,
+                    new ArgumentInstanceOf(NormalizerContextInterface::class)
+                )
+                ->willReturn(['href' => '/api/model/id1']),
+        ]);
+
+        /** @var NormalizationLinkMappingInterface|MockObject $nameLinkMapping */
+        $nameLinkMapping = $this->getMockByCalls(NormalizationLinkMappingInterface::class, [
+            Call::create('getGroups')->with()->willReturn(['group1']),
+            Call::create('getLinkNormalizer')->with()->willReturn($nameLinkNormalizer),
+            Call::create('getName')->with()->willReturn('name'),
+        ]);
+
+        $linkMappings = [$nameLinkMapping];
+
+        /** @var NormalizationObjectMappingInterface|MockObject $objectMapping */
+        $objectMapping = $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
+            Call::create('getNormalizationFieldMappings')->with('')->willReturn($fieldMappings),
+            Call::create('getNormalizationEmbeddedFieldMappings')->with('')->willReturn($embeddedFieldMappings),
+            Call::create('getNormalizationLinkMappings')->with('')->willReturn($linkMappings),
+            Call::create('getNormalizationType')->with()->willReturn('object'),
+        ]);
+
+        /** @var NormalizerObjectMappingRegistryInterface|MockObject $objectMappingRegistry */
+        $objectMappingRegistry = $this->getMockByCalls(NormalizerObjectMappingRegistryInterface::class, [
+            Call::create('getObjectMapping')->with($class)->willReturn($objectMapping),
+        ]);
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class, [
+            Call::create('getGroups')->with()->willReturn(['group1']),
+            Call::create('getGroups')->with()->willReturn(['group1']),
+            Call::create('getGroups')->with()->willReturn(['group1']),
+        ]);
+
+        $normalizer = new Normalizer($objectMappingRegistry);
+
+        self::assertEquals([
+            'name' => 'php',
+            '_embedded' => [
+                'name' => 'php',
+            ],
+            '_links' => [
+                'name' => [
+                    'href' => '/api/model/id1',
+                ],
+            ],
+            '_type' => 'object',
+        ], $normalizer->normalize($object, $context));
+    }
+
+    public function testNormalizeWithNotMatchingGroup()
+    {
+        $object = $this->getObject();
+        $object->setName('php');
+
+        $class = get_class($object);
+
+        /** @var NormalizationFieldMappingInterface|MockObject $nameFieldMapping */
+        $nameFieldMapping = $this->getMockByCalls(NormalizationFieldMappingInterface::class, [
+            Call::create('getGroups')->with()->willReturn(['group1']),
+        ]);
+
+        $fieldMappings = [$nameFieldMapping];
+
+        /** @var NormalizationFieldMappingInterface|MockObject $embeddedNameFieldMapping */
+        $embeddedNameFieldMapping = $this->getMockByCalls(NormalizationFieldMappingInterface::class, [
+            Call::create('getGroups')->with()->willReturn(['group1']),
+        ]);
+
+        $embeddedFieldMappings = [$embeddedNameFieldMapping];
+
+        /** @var NormalizationLinkMappingInterface|MockObject $nameLinkMapping */
+        $nameLinkMapping = $this->getMockByCalls(NormalizationLinkMappingInterface::class, [
+            Call::create('getGroups')->with()->willReturn(['group1']),
+        ]);
+
+        $linkMappings = [$nameLinkMapping];
+
+        /** @var NormalizationObjectMappingInterface|MockObject $objectMapping */
+        $objectMapping = $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
+            Call::create('getNormalizationFieldMappings')->with('')->willReturn($fieldMappings),
+            Call::create('getNormalizationEmbeddedFieldMappings')->with('')->willReturn($embeddedFieldMappings),
+            Call::create('getNormalizationLinkMappings')->with('')->willReturn($linkMappings),
+            Call::create('getNormalizationType')->with()->willReturn('object'),
+        ]);
+
+        /** @var NormalizerObjectMappingRegistryInterface|MockObject $objectMappingRegistry */
+        $objectMappingRegistry = $this->getMockByCalls(NormalizerObjectMappingRegistryInterface::class, [
+            Call::create('getObjectMapping')->with($class)->willReturn($objectMapping),
+        ]);
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class, [
+            Call::create('getGroups')->with()->willReturn(['group2']),
+            Call::create('getGroups')->with()->willReturn(['group2']),
+            Call::create('getGroups')->with()->willReturn(['group2']),
+        ]);
+
+        $normalizer = new Normalizer($objectMappingRegistry);
+
+        self::assertEquals([
+            '_type' => 'object',
+        ], $normalizer->normalize($object, $context));
+    }
+
     public function testNormalizeWithoutObject()
     {
         $this->expectException(SerializerLogicException::class);
         $this->expectExceptionMessage('Wrong data type "" at path : "string"');
 
-        $normalizer = new Normalizer($this->getNormalizerObjectMappingRegistry([]));
+        /** @var NormalizerObjectMappingRegistryInterface|MockObject $objectMappingRegistry */
+        $objectMappingRegistry = $this->getMockByCalls(NormalizerObjectMappingRegistryInterface::class);
+
+        $normalizer = new Normalizer($objectMappingRegistry);
 
         $normalizer->normalize('test');
     }
@@ -62,231 +350,16 @@ class NormalizerTest extends TestCase
         $this->expectException(SerializerLogicException::class);
         $this->expectExceptionMessage('There is no mapping for class: "stdClass"');
 
-        $normalizer = new Normalizer(
-            $this->getNormalizerObjectMappingRegistry([
-                $this->getNormalizationObjectMapping(),
-            ])
-        );
+        $exception = SerializerLogicException::createMissingMapping(\stdClass::class);
+
+        /** @var NormalizerObjectMappingRegistryInterface|MockObject $objectMappingRegistry */
+        $objectMappingRegistry = $this->getMockByCalls(NormalizerObjectMappingRegistryInterface::class, [
+            Call::create('getObjectMapping')->with(\stdClass::class)->willThrowException($exception),
+        ]);
+
+        $normalizer = new Normalizer($objectMappingRegistry);
 
         $normalizer->normalize(new \stdClass());
-    }
-
-    public function testNormalizeWithGroup()
-    {
-        $object = $this->getObject();
-        $object->setName('php');
-
-        $normalizer = new Normalizer(
-            $this->getNormalizerObjectMappingRegistry([
-                $this->getNormalizationObjectMapping(['group1'], ['group2'], ['group2']),
-            ])
-        );
-
-        self::assertEquals([
-            'name' => 'php',
-            '_type' => 'object',
-        ], $normalizer->normalize($object, $this->getNormalizerContext(['group1'])));
-    }
-
-    public function testNormalizeWithNullLink()
-    {
-        $object = $this->getObject();
-        $object->setName('php');
-
-        $normalizer = new Normalizer(
-            $this->getNormalizerObjectMappingRegistry([
-                $this->getNormalizationObjectMapping([], [], [], true),
-            ])
-        );
-
-        self::assertEquals([
-            'name' => 'php',
-            '_embedded' => [
-                'name' => 'php',
-            ],
-            '_type' => 'object',
-        ], $normalizer->normalize($object));
-    }
-
-    /**
-     * @param NormalizationObjectMappingInterface[] $normalizationObjectMappings
-     *
-     * @return NormalizerObjectMappingRegistryInterface
-     */
-    private function getNormalizerObjectMappingRegistry(
-        array $normalizationObjectMappings
-    ): NormalizerObjectMappingRegistryInterface {
-        /** @var NormalizerObjectMappingRegistryInterface|MockObject $objectMappingRegistry */
-        $objectMappingRegistry = $this->getMockBuilder(NormalizerObjectMappingRegistryInterface::class)
-            ->setMethods(['getObjectMapping'])
-            ->getMockForAbstractClass();
-
-        $objectMappingRegistry->__mapppings = [];
-
-        foreach ($normalizationObjectMappings as $normalizationObjectMapping) {
-            $objectMappingRegistry->__mapppings[$normalizationObjectMapping->getClass()] = $normalizationObjectMapping;
-        }
-
-        $objectMappingRegistry->expects(self::any())->method('getObjectMapping')->willReturnCallback(
-            function (string $class) use ($objectMappingRegistry) {
-                if (isset($objectMappingRegistry->__mapppings[$class])) {
-                    return $objectMappingRegistry->__mapppings[$class];
-                }
-
-                throw SerializerLogicException::createMissingMapping($class);
-            }
-        );
-
-        return $objectMappingRegistry;
-    }
-
-    /**
-     * @param array $groupFields
-     * @param array $groupEmbeddedFields
-     * @param array $groupLinks
-     * @param bool  $nullLink
-     *
-     * @return NormalizationObjectMappingInterface
-     */
-    private function getNormalizationObjectMapping(
-        array $groupFields = [],
-        array $groupEmbeddedFields = [],
-        array $groupLinks = [],
-        bool $nullLink = false
-    ): NormalizationObjectMappingInterface {
-        /** @var NormalizationObjectMappingInterface|MockObject $objectMapping */
-        $objectMapping = $this->getMockBuilder(NormalizationObjectMappingInterface::class)
-            ->setMethods([])
-            ->getMockForAbstractClass();
-
-        $object = $this->getObject();
-
-        $objectMapping->expects(self::any())->method('getClass')->willReturnCallback(
-            function () use ($object) {
-                return get_class($object);
-            }
-        );
-
-        $objectMapping->expects(self::any())->method('getNormalizationType')->willReturn('object');
-
-        $objectMapping->expects(self::any())->method('getNormalizationFieldMappings')->willReturn([
-            $this->getNormalizationFieldMapping($groupFields),
-        ]);
-
-        $objectMapping->expects(self::any())->method('getNormalizationEmbeddedFieldMappings')->willReturn([
-            $this->getNormalizationFieldMapping($groupEmbeddedFields),
-        ]);
-
-        $objectMapping->expects(self::any())->method('getNormalizationLinkMappings')->willReturn([
-            $this->getNormalizationLinkMapping($nullLink, $groupLinks),
-        ]);
-
-        return $objectMapping;
-    }
-
-    /**
-     * @param array $groups
-     *
-     * @return NormalizationFieldMappingInterface
-     */
-    private function getNormalizationFieldMapping(array $groups = []): NormalizationFieldMappingInterface
-    {
-        /** @var NormalizationFieldMappingInterface|MockObject $fieldMapping */
-        $fieldMapping = $this->getMockBuilder(NormalizationFieldMappingInterface::class)
-            ->setMethods([])
-            ->getMockForAbstractClass();
-
-        $fieldMapping->expects(self::any())->method('getName')->willReturn('name');
-        $fieldMapping->expects(self::any())->method('getGroups')->willReturn($groups);
-        $fieldMapping->expects(self::any())->method('getFieldNormalizer')->willReturn($this->getFieldNormalizer());
-
-        return $fieldMapping;
-    }
-
-    /**
-     * @param bool  $nullLink
-     * @param array $groups
-     *
-     * @return NormalizationLinkMappingInterface
-     */
-    private function getNormalizationLinkMapping(bool $nullLink, array $groups = []): NormalizationLinkMappingInterface
-    {
-        /** @var NormalizationLinkMappingInterface|MockObject $linkMapping */
-        $linkMapping = $this->getMockBuilder(NormalizationLinkMappingInterface::class)
-            ->setMethods([])
-            ->getMockForAbstractClass();
-
-        $linkMapping->expects(self::any())->method('getName')->willReturn('name');
-        $linkMapping->expects(self::any())->method('getGroups')->willReturn($groups);
-        $linkMapping->expects(self::any())->method('getLinkNormalizer')->willReturn($this->getLinkNormalizer($nullLink));
-
-        return $linkMapping;
-    }
-
-    /**
-     * @return FieldNormalizerInterface
-     */
-    private function getFieldNormalizer(): FieldNormalizerInterface
-    {
-        /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
-        $fieldNormalizer = $this->getMockBuilder(FieldNormalizerInterface::class)
-            ->setMethods([])
-            ->getMockForAbstractClass();
-
-        $fieldNormalizer->expects(self::any())->method('normalizeField')->willReturnCallback(function (
-            string $path,
-            $object,
-            NormalizerContextInterface $context,
-            NormalizerInterface $normalizer = null
-        ) {
-            return $object->getName();
-        });
-
-        return $fieldNormalizer;
-    }
-
-    /**
-     * @param bool $nullLink
-     *
-     * @return LinkNormalizerInterface
-     */
-    private function getLinkNormalizer(bool $nullLink): LinkNormalizerInterface
-    {
-        /** @var LinkNormalizerInterface|MockObject $linkNormalizer */
-        $linkNormalizer = $this->getMockBuilder(LinkNormalizerInterface::class)
-            ->setMethods([])
-            ->getMockForAbstractClass();
-
-        $linkNormalizer->expects(self::any())->method('normalizeLink')->willReturnCallback(function (
-            string $path,
-            $object,
-            NormalizerContextInterface $context
-        ) use ($nullLink) {
-            if ($nullLink) {
-                return null;
-            }
-
-            return ['href' => '/api/model/'.$object->getId()];
-        });
-
-        return $linkNormalizer;
-    }
-
-    /**
-     * @param array $groups
-     *
-     * @return NormalizerContextInterface
-     */
-    private function getNormalizerContext(array $groups = []): NormalizerContextInterface
-    {
-        /** @var NormalizerContextInterface|MockObject $context */
-        $context = $this->getMockBuilder(NormalizerContextInterface::class)
-            ->setMethods([])
-            ->getMockForAbstractClass();
-
-        $context->expects(self::any())->method('getGroups')->willReturn($groups);
-
-        return $context;
     }
 
     /**
