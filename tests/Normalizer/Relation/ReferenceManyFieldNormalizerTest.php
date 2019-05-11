@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Normalizer\Relation;
 
+use Chubbyphp\Mock\Call;
+use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
-use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\Relation\ReferenceManyFieldNormalizer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -16,23 +17,38 @@ use PHPUnit\Framework\TestCase;
  */
 class ReferenceManyFieldNormalizerTest extends TestCase
 {
+    use MockByCallsTrait;
+
     public function testNormalize()
     {
+        $child1 = $this->getChild('id1');
+        $child2 = $this->getChild('id2');
+
         $parent = $this->getParent();
-        $parent->setChildren([
-            $this->getChild('id1'),
-            $this->getChild('id2'),
+        $parent->setChildren([$child1, $child2]);
+
+        /** @var AccessorInterface|MockObject $identifierAccessor */
+        $identifierAccessor = $this->getMockByCalls(AccessorInterface::class, [
+            Call::create('getValue')->with($child1)->willReturn($child1->getId()),
+            Call::create('getValue')->with($child2)->willReturn($child2->getId()),
         ]);
 
-        $fieldNormalizer = new ReferenceManyFieldNormalizer($this->getIdentifierAccessor(), $this->getAccessor());
+        /** @var AccessorInterface|MockObject $accessor */
+        $accessor = $this->getMockByCalls(AccessorInterface::class, [
+            Call::create('getValue')->with($parent)->willReturn($parent->getChildren()),
+        ]);
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+
+        $fieldNormalizer = new ReferenceManyFieldNormalizer($identifierAccessor, $accessor);
 
         self::assertSame(
             ['id1', 'id2'],
             $fieldNormalizer->normalizeField(
                 'children',
                 $parent,
-                $this->getNormalizerContext(),
-                $this->getNormalizer()
+                $context
             )
         );
     }
@@ -42,15 +58,25 @@ class ReferenceManyFieldNormalizerTest extends TestCase
         $parent = $this->getParent();
         $parent->setChildren([]);
 
-        $fieldNormalizer = new ReferenceManyFieldNormalizer($this->getIdentifierAccessor(), $this->getAccessor());
+        /** @var AccessorInterface|MockObject $identifierAccessor */
+        $identifierAccessor = $this->getMockByCalls(AccessorInterface::class);
+
+        /** @var AccessorInterface|MockObject $accessor */
+        $accessor = $this->getMockByCalls(AccessorInterface::class, [
+            Call::create('getValue')->with($parent)->willReturn($parent->getChildren()),
+        ]);
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+
+        $fieldNormalizer = new ReferenceManyFieldNormalizer($identifierAccessor, $accessor);
 
         self::assertSame(
             [],
             $fieldNormalizer->normalizeField(
                 'children',
                 $parent,
-                $this->getNormalizerContext(),
-                $this->getNormalizer()
+                $context
             )
         );
     }
@@ -59,14 +85,24 @@ class ReferenceManyFieldNormalizerTest extends TestCase
     {
         $parent = $this->getParent();
 
-        $fieldNormalizer = new ReferenceManyFieldNormalizer($this->getIdentifierAccessor(), $this->getAccessor());
+        /** @var AccessorInterface|MockObject $identifierAccessor */
+        $identifierAccessor = $this->getMockByCalls(AccessorInterface::class);
+
+        /** @var AccessorInterface|MockObject $accessor */
+        $accessor = $this->getMockByCalls(AccessorInterface::class, [
+            Call::create('getValue')->with($parent)->willReturn($parent->getChildren()),
+        ]);
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+
+        $fieldNormalizer = new ReferenceManyFieldNormalizer($identifierAccessor, $accessor);
 
         self::assertNull(
             $fieldNormalizer->normalizeField(
                 'children',
                 $parent,
-                $this->getNormalizerContext(),
-                $this->getNormalizer()
+                $context
             )
         );
     }
@@ -133,63 +169,5 @@ class ReferenceManyFieldNormalizerTest extends TestCase
                 return $this->id;
             }
         };
-    }
-
-    /**
-     * @return AccessorInterface
-     */
-    private function getAccessor(): AccessorInterface
-    {
-        /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockBuilder(AccessorInterface::class)->getMockForAbstractClass();
-
-        $accessor->expects(self::any())->method('getValue')->willReturnCallback(function ($object) {
-            return $object->getChildren();
-        });
-
-        return $accessor;
-    }
-
-    /**
-     * @return AccessorInterface
-     */
-    private function getIdentifierAccessor(): AccessorInterface
-    {
-        /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockBuilder(AccessorInterface::class)->getMockForAbstractClass();
-
-        $accessor->expects(self::any())->method('getValue')->willReturnCallback(function ($object) {
-            return $object->getId();
-        });
-
-        return $accessor;
-    }
-
-    /**
-     * @return NormalizerContextInterface
-     */
-    private function getNormalizerContext(): NormalizerContextInterface
-    {
-        /** @var NormalizerContextInterface|MockObject $context */
-        $context = $this->getMockBuilder(NormalizerContextInterface::class)->getMockForAbstractClass();
-
-        return $context;
-    }
-
-    /**
-     * @return NormalizerInterface
-     */
-    private function getNormalizer(): NormalizerInterface
-    {
-        /** @var NormalizerInterface|MockObject $normalizer */
-        $normalizer = $this->getMockBuilder(NormalizerInterface::class)->getMockForAbstractClass();
-
-        $normalizer->expects(self::any())->method('normalize')->willReturnCallback(
-            function ($object, NormalizerContextInterface $context = null, string $path = '') {
-                return ['name' => $object->getName()];
-            }
-        );
-
-        return $normalizer;
     }
 }

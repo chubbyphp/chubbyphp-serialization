@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Normalizer;
 
+use Chubbyphp\Mock\Call;
+use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\SerializerLogicException;
@@ -17,6 +19,8 @@ use PHPUnit\Framework\TestCase;
  */
 class NormalizerObjectMappingRegistryTest extends TestCase
 {
+    use MockByCallsTrait;
+
     public function testGetObjectMapping()
     {
         $object = $this->getObject();
@@ -44,9 +48,12 @@ class NormalizerObjectMappingRegistryTest extends TestCase
     {
         $object = $this->getProxyObject();
 
-        $registry = new NormalizerObjectMappingRegistry([
-            $this->getNormalizationProxyObjectMapping(),
+        /** @var NormalizationObjectMappingInterface|MockObject $objectMapping */
+        $objectMapping = $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
+            Call::create('getClass')->with()->willReturn(AbstractManyModel::class),
         ]);
+
+        $registry = new NormalizerObjectMappingRegistry([$objectMapping]);
 
         $mapping = $registry->getObjectMapping(get_class($object));
 
@@ -58,39 +65,12 @@ class NormalizerObjectMappingRegistryTest extends TestCase
      */
     private function getNormalizationObjectMapping(): NormalizationObjectMappingInterface
     {
-        /** @var NormalizationObjectMappingInterface|MockObject $objectMapping */
-        $objectMapping = $this->getMockBuilder(NormalizationObjectMappingInterface::class)
-            ->setMethods([])
-            ->getMockForAbstractClass();
-
         $object = $this->getObject();
 
-        $objectMapping->expects(self::any())->method('getClass')->willReturnCallback(
-            function () use ($object) {
-                return get_class($object);
-            }
-        );
-
-        return $objectMapping;
-    }
-
-    /**
-     * @return NormalizationObjectMappingInterface
-     */
-    private function getNormalizationProxyObjectMapping(): NormalizationObjectMappingInterface
-    {
         /** @var NormalizationObjectMappingInterface|MockObject $objectMapping */
-        $objectMapping = $this->getMockBuilder(NormalizationObjectMappingInterface::class)
-            ->setMethods([])
-            ->getMockForAbstractClass();
-
-        $object = $this->getProxyObject();
-
-        $objectMapping->expects(self::any())->method('getClass')->willReturnCallback(
-            function () use ($object) {
-                return AbstractManyModel::class;
-            }
-        );
+        $objectMapping = $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
+            Call::create('getClass')->with()->willReturn(get_class($object)),
+        ]);
 
         return $objectMapping;
     }
