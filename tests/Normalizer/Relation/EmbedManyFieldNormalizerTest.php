@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Normalizer\Relation;
 
+use Chubbyphp\Mock\Call;
+use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
@@ -17,33 +19,62 @@ use PHPUnit\Framework\TestCase;
  */
 class EmbedManyFieldNormalizerTest extends TestCase
 {
+    use MockByCallsTrait;
+
     public function testNormalizeMissingNormalizer()
     {
         $this->expectException(SerializerLogicException::class);
         $this->expectExceptionMessage('There is no normalizer at path: "children"');
 
-        $fieldNormalizer = new EmbedManyFieldNormalizer($this->getAccessor());
+        /** @var AccessorInterface|MockObject $accessor */
+        $accessor = $this->getMockByCalls(AccessorInterface::class);
 
-        $fieldNormalizer->normalizeField('children', new \stdClass(), $this->getNormalizerContext());
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+
+        $fieldNormalizer = new EmbedManyFieldNormalizer($accessor);
+
+        $fieldNormalizer->normalizeField('children', new \stdClass(), $context);
     }
 
     public function testNormalize()
     {
+        $child1 = $this->getChild();
+        $child1->setName('name1');
+
+        $child2 = $this->getChild();
+        $child2->setName('name2');
+
         $parent = $this->getParent();
-        $parent->setChildren([
-            $this->getChild()->setName('name1'),
-            $this->getChild()->setName('name2'),
+        $parent->setChildren([$child1, $child2]);
+
+        /** @var AccessorInterface|MockObject $accessor */
+        $accessor = $this->getMockByCalls(AccessorInterface::class, [
+            Call::create('getValue')->with($parent)->willReturn($parent->getChildren()),
         ]);
 
-        $fieldNormalizer = new EmbedManyFieldNormalizer($this->getAccessor());
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+
+        /** @var NormalizerInterface|MockObject $normalizer */
+        $normalizer = $this->getMockByCalls(NormalizerInterface::class, [
+            Call::create('normalize')
+                ->with($child1, $context, 'children[0]')
+                ->willReturn(['name' => $child1->getName()]),
+            Call::create('normalize')
+                ->with($child2, $context, 'children[1]')
+                ->willReturn(['name' => $child2->getName()]),
+        ]);
+
+        $fieldNormalizer = new EmbedManyFieldNormalizer($accessor);
 
         self::assertSame(
             [['name' => 'name1'], ['name' => 'name2']],
             $fieldNormalizer->normalizeField(
                 'children',
                 $parent,
-                $this->getNormalizerContext(),
-                $this->getNormalizer()
+                $context,
+                $normalizer
             )
         );
     }
@@ -53,15 +84,26 @@ class EmbedManyFieldNormalizerTest extends TestCase
         $parent = $this->getParent();
         $parent->setChildren([]);
 
-        $fieldNormalizer = new EmbedManyFieldNormalizer($this->getAccessor());
+        /** @var AccessorInterface|MockObject $accessor */
+        $accessor = $this->getMockByCalls(AccessorInterface::class, [
+            Call::create('getValue')->with($parent)->willReturn($parent->getChildren()),
+        ]);
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+
+        /** @var NormalizerInterface|MockObject $normalizer */
+        $normalizer = $this->getMockByCalls(NormalizerInterface::class);
+
+        $fieldNormalizer = new EmbedManyFieldNormalizer($accessor);
 
         self::assertSame(
             [],
             $fieldNormalizer->normalizeField(
                 'children',
                 $parent,
-                $this->getNormalizerContext(),
-                $this->getNormalizer()
+                $context,
+                $normalizer
             )
         );
     }
@@ -70,14 +112,25 @@ class EmbedManyFieldNormalizerTest extends TestCase
     {
         $parent = $this->getParent();
 
-        $fieldNormalizer = new EmbedManyFieldNormalizer($this->getAccessor());
+        /** @var AccessorInterface|MockObject $accessor */
+        $accessor = $this->getMockByCalls(AccessorInterface::class, [
+            Call::create('getValue')->with($parent)->willReturn($parent->getChildren()),
+        ]);
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+
+        /** @var NormalizerInterface|MockObject $normalizer */
+        $normalizer = $this->getMockByCalls(NormalizerInterface::class);
+
+        $fieldNormalizer = new EmbedManyFieldNormalizer($accessor);
 
         self::assertNull(
             $fieldNormalizer->normalizeField(
                 'children',
                 $parent,
-                $this->getNormalizerContext(),
-                $this->getNormalizer()
+                $context,
+                $normalizer
             )
         );
     }
@@ -146,48 +199,5 @@ class EmbedManyFieldNormalizerTest extends TestCase
                 return $this;
             }
         };
-    }
-
-    /**
-     * @return AccessorInterface
-     */
-    private function getAccessor(): AccessorInterface
-    {
-        /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockBuilder(AccessorInterface::class)->getMockForAbstractClass();
-
-        $accessor->expects(self::any())->method('getValue')->willReturnCallback(function ($object) {
-            return $object->getChildren();
-        });
-
-        return $accessor;
-    }
-
-    /**
-     * @return NormalizerContextInterface
-     */
-    private function getNormalizerContext(): NormalizerContextInterface
-    {
-        /** @var NormalizerContextInterface|MockObject $context */
-        $context = $this->getMockBuilder(NormalizerContextInterface::class)->getMockForAbstractClass();
-
-        return $context;
-    }
-
-    /**
-     * @return NormalizerInterface
-     */
-    private function getNormalizer(): NormalizerInterface
-    {
-        /** @var NormalizerInterface|MockObject $normalizer */
-        $normalizer = $this->getMockBuilder(NormalizerInterface::class)->getMockForAbstractClass();
-
-        $normalizer->expects(self::any())->method('normalize')->willReturnCallback(
-            function ($object, NormalizerContextInterface $context = null, string $path = '') {
-                return ['name' => $object->getName()];
-            }
-        );
-
-        return $normalizer;
     }
 }

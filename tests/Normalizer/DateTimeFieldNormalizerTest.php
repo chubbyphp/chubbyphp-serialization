@@ -11,6 +11,7 @@ use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Chubbyphp\Mock\Call;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer
@@ -39,11 +40,18 @@ class DateTimeFieldNormalizerTest extends TestCase
         /** @var NormalizerContextInterface|MockObject $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
-        $fieldNormalizer = new DateTimeFieldNormalizer($this->getFieldNormalizer());
+        /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
+        $fieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class, [
+            Call::create('normalizeField')
+            ->with('date', $object, $context, null)
+                ->willReturn('2017-01-01 22:00:00+01:00'),
+        ]);
+
+        $dateTimeFieldNormalizer = new DateTimeFieldNormalizer($fieldNormalizer);
 
         self::assertSame(
             '2017-01-01T22:00:00+01:00',
-            $fieldNormalizer->normalizeField(
+            $dateTimeFieldNormalizer->normalizeField(
                 'date',
                 $object,
                 $context
@@ -59,11 +67,16 @@ class DateTimeFieldNormalizerTest extends TestCase
         /** @var NormalizerContextInterface|MockObject $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
-        $fieldNormalizer = new DateTimeFieldNormalizer($this->getAccessor());
+        /** @var AccessorInterface|MockObject $accessor */
+        $accessor = $this->getMockByCalls(AccessorInterface::class, [
+            Call::create('getValue')->with($object)->willReturn('2017-01-01 22:00:00+01:00'),
+        ]);
+
+        $dateTimeFieldNormalizer = new DateTimeFieldNormalizer($accessor);
 
         self::assertSame(
             '2017-01-01T22:00:00+01:00',
-            $fieldNormalizer->normalizeField(
+            $dateTimeFieldNormalizer->normalizeField(
                 'date',
                 $object,
                 $context
@@ -79,11 +92,16 @@ class DateTimeFieldNormalizerTest extends TestCase
         /** @var NormalizerContextInterface|MockObject $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
-        $fieldNormalizer = new DateTimeFieldNormalizer($this->getAccessor());
+        /** @var AccessorInterface|MockObject $accessor */
+        $accessor = $this->getMockByCalls(AccessorInterface::class, [
+            Call::create('getValue')->with($object)->willReturn('2017-01-01 22:00:00+01:00'),
+        ]);
+
+        $dateTimeFieldNormalizer = new DateTimeFieldNormalizer($accessor);
 
         self::assertSame(
             '2017-01-01T22:00:00+01:00',
-            $fieldNormalizer->normalizeField(
+            $dateTimeFieldNormalizer->normalizeField(
                 'date',
                 $object,
                 $context
@@ -99,11 +117,16 @@ class DateTimeFieldNormalizerTest extends TestCase
         /** @var NormalizerContextInterface|MockObject $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
-        $fieldNormalizer = new DateTimeFieldNormalizer($this->getAccessor());
+        /** @var AccessorInterface|MockObject $accessor */
+        $accessor = $this->getMockByCalls(AccessorInterface::class, [
+            Call::create('getValue')->with($object)->willReturn('2017-01-01 25:00:00'),
+        ]);
+
+        $dateTimeFieldNormalizer = new DateTimeFieldNormalizer($accessor);
 
         self::assertSame(
             '2017-01-01 25:00:00',
-            $fieldNormalizer->normalizeField(
+            $dateTimeFieldNormalizer->normalizeField(
                 'date',
                 $object,
                 $context
@@ -118,10 +141,15 @@ class DateTimeFieldNormalizerTest extends TestCase
         /** @var NormalizerContextInterface|MockObject $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
-        $fieldNormalizer = new DateTimeFieldNormalizer($this->getAccessor());
+        /** @var AccessorInterface|MockObject $accessor */
+        $accessor = $this->getMockByCalls(AccessorInterface::class, [
+            Call::create('getValue')->with($object)->willReturn(null),
+        ]);
+
+        $dateTimeFieldNormalizer = new DateTimeFieldNormalizer($accessor);
 
         self::assertNull(
-            $fieldNormalizer->normalizeField('date', $object, $context)
+            $dateTimeFieldNormalizer->normalizeField('date', $object, $context)
         );
     }
 
@@ -153,39 +181,5 @@ class DateTimeFieldNormalizerTest extends TestCase
                 return $this;
             }
         };
-    }
-
-    /**
-     * @return AccessorInterface
-     */
-    private function getAccessor(): AccessorInterface
-    {
-        /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockBuilder(AccessorInterface::class)->getMockForAbstractClass();
-
-        $accessor->expects(self::any())->method('getValue')->willReturnCallback(
-            function ($object) {
-                return $object->getDate();
-            }
-        );
-
-        return $accessor;
-    }
-
-    /**
-     * @return FieldNormalizerInterface
-     */
-    private function getFieldNormalizer(): FieldNormalizerInterface
-    {
-        /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
-        $fieldNormalizer = $this->getMockBuilder(FieldNormalizerInterface::class)->getMockForAbstractClass();
-
-        $fieldNormalizer->expects(self::any())->method('normalizeField')->willReturnCallback(
-            function (string $path, $object) {
-                return $object->getDate();
-            }
-        );
-
-        return $fieldNormalizer;
     }
 }
