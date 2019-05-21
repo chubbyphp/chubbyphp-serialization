@@ -14,6 +14,8 @@ use Chubbyphp\Serialization\Normalizer\Relation\EmbedManyFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\Relation\EmbedOneFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\Relation\ReferenceManyFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\Relation\ReferenceOneFieldNormalizer;
+use Chubbyphp\Serialization\Policy\NullPolicy;
+use Chubbyphp\Serialization\Policy\PolicyInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -31,6 +33,7 @@ class NormalizationFieldMappingBuilderTest extends TestCase
         self::assertSame('name', $fieldMapping->getName());
         self::assertSame([], $fieldMapping->getGroups());
         self::assertInstanceOf(FieldNormalizer::class, $fieldMapping->getFieldNormalizer());
+        self::assertInstanceOf(NullPolicy::class, $fieldMapping->getPolicy());
     }
 
     public function testGetDefaultMappingForCallback()
@@ -40,6 +43,7 @@ class NormalizationFieldMappingBuilderTest extends TestCase
         self::assertSame('name', $fieldMapping->getName());
         self::assertSame([], $fieldMapping->getGroups());
         self::assertInstanceOf(CallbackFieldNormalizer::class, $fieldMapping->getFieldNormalizer());
+        self::assertInstanceOf(NullPolicy::class, $fieldMapping->getPolicy());
     }
 
     public function testGetDefaultMappingForDateTime()
@@ -49,6 +53,7 @@ class NormalizationFieldMappingBuilderTest extends TestCase
         self::assertSame('name', $fieldMapping->getName());
         self::assertSame([], $fieldMapping->getGroups());
         self::assertInstanceOf(DateTimeFieldNormalizer::class, $fieldMapping->getFieldNormalizer());
+        self::assertInstanceOf(NullPolicy::class, $fieldMapping->getPolicy());
     }
 
     public function testGetDefaultMappingForDateTimeWithFormat()
@@ -61,6 +66,7 @@ class NormalizationFieldMappingBuilderTest extends TestCase
         self::assertSame('name', $fieldMapping->getName());
         self::assertSame([], $fieldMapping->getGroups());
         self::assertInstanceOf(DateTimeFieldNormalizer::class, $fieldNormalizer);
+        self::assertInstanceOf(NullPolicy::class, $fieldMapping->getPolicy());
 
         $reflection = new \ReflectionProperty($fieldNormalizer, 'format');
         $reflection->setAccessible(true);
@@ -75,6 +81,7 @@ class NormalizationFieldMappingBuilderTest extends TestCase
         self::assertSame('name', $fieldMapping->getName());
         self::assertSame([], $fieldMapping->getGroups());
         self::assertInstanceOf(EmbedManyFieldNormalizer::class, $fieldMapping->getFieldNormalizer());
+        self::assertInstanceOf(NullPolicy::class, $fieldMapping->getPolicy());
     }
 
     public function testGetDefaultMappingForEmbedOne()
@@ -84,6 +91,7 @@ class NormalizationFieldMappingBuilderTest extends TestCase
         self::assertSame('name', $fieldMapping->getName());
         self::assertSame([], $fieldMapping->getGroups());
         self::assertInstanceOf(EmbedOneFieldNormalizer::class, $fieldMapping->getFieldNormalizer());
+        self::assertInstanceOf(NullPolicy::class, $fieldMapping->getPolicy());
     }
 
     public function testGetDefaultMappingForReferenceMany()
@@ -93,6 +101,7 @@ class NormalizationFieldMappingBuilderTest extends TestCase
         self::assertSame('name', $fieldMapping->getName());
         self::assertSame([], $fieldMapping->getGroups());
         self::assertInstanceOf(ReferenceManyFieldNormalizer::class, $fieldMapping->getFieldNormalizer());
+        self::assertInstanceOf(NullPolicy::class, $fieldMapping->getPolicy());
     }
 
     public function testGetDefaultMappingForReferenceOne()
@@ -102,6 +111,7 @@ class NormalizationFieldMappingBuilderTest extends TestCase
         self::assertSame('name', $fieldMapping->getName());
         self::assertSame([], $fieldMapping->getGroups());
         self::assertInstanceOf(ReferenceOneFieldNormalizer::class, $fieldMapping->getFieldNormalizer());
+        self::assertInstanceOf(NullPolicy::class, $fieldMapping->getPolicy());
     }
 
     public function testGetMapping()
@@ -109,13 +119,18 @@ class NormalizationFieldMappingBuilderTest extends TestCase
         /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
         $normalizer = $this->getMockByCalls(FieldNormalizerInterface::class);
 
+        /** @var PolicyInterface|MockObject $policy */
+        $policy = $this->getMockByCalls(PolicyInterface::class);
+
         $fieldMapping = NormalizationFieldMappingBuilder::create('name')
             ->setGroups(['group1'])
             ->setFieldNormalizer($normalizer)
+            ->setPolicy($policy)
             ->getMapping();
 
         self::assertSame('name', $fieldMapping->getName());
         self::assertSame(['group1'], $fieldMapping->getGroups());
         self::assertSame($normalizer, $fieldMapping->getFieldNormalizer());
+        self::assertSame($policy, $fieldMapping->getPolicy());
     }
 }
