@@ -38,10 +38,10 @@ final class GroupPolicy implements PolicyInterface
             return true;
         }
 
-        $groups = $context->getAttribute(self::ATTRIBUTE_GROUPS, []);
+        $contextGroups = $context->getAttribute(self::ATTRIBUTE_GROUPS, []);
 
         foreach ($this->groups as $group) {
-            if (in_array($group, $groups, true)) {
+            if (in_array($group, $contextGroups, true)) {
                 return true;
             }
         }
