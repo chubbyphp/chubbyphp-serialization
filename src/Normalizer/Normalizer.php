@@ -131,11 +131,11 @@ final class Normalizer implements NormalizerInterface
     ): array {
         $data = [];
         foreach ($normalizationFieldMappings as $normalizationFieldMapping) {
-            if (!$this->isCompliant($context, $normalizationFieldMapping, $object)) {
+            if (true !== $this->isCompliant($context, $normalizationFieldMapping, $object)) {
                 continue;
             }
 
-            if (!$this->isWithinGroup($context, $normalizationFieldMapping)) {
+            if (true !== $this->isWithinGroup($context, $normalizationFieldMapping)) {
                 continue;
             }
 
@@ -169,11 +169,11 @@ final class Normalizer implements NormalizerInterface
     ): array {
         $links = [];
         foreach ($normalizationLinkMappings as $normalizationLinkMapping) {
-            if (!$this->isCompliant($context, $normalizationLinkMapping, $object)) {
+            if (true !== $this->isCompliant($context, $normalizationLinkMapping, $object)) {
                 continue;
             }
 
-            if (!$this->isWithinGroup($context, $normalizationLinkMapping)) {
+            if (true !== $this->isWithinGroup($context, $normalizationLinkMapping)) {
                 continue;
             }
 
