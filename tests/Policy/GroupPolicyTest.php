@@ -67,6 +67,7 @@ class GroupPolicyTest extends TestCase
 
     /**
      * @param array $groups
+     *
      * @return NormalizerContextInterface
      */
     private function getNormalizerContextWithGroupAttribute(array $groups): NormalizerContextInterface

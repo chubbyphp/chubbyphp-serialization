@@ -86,6 +86,7 @@ final class NormalizerContext implements NormalizerContextInterface
     /**
      * @param string $name
      * @param mixed  $value
+     *
      * @return NormalizerContextInterface
      */
     public function withAttribute(string $name, $value): NormalizerContextInterface

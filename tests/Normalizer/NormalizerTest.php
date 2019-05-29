@@ -441,7 +441,7 @@ class NormalizerTest extends TestCase
                         'href' => '/api/model/id1',
                     ],
                 ],
-                '_type' => 'object'
+                '_type' => 'object',
             ],
             $normalizer->normalize($object)
         );
@@ -630,10 +630,12 @@ class NormalizerTest extends TestCase
             public function getName(): string
             {
                 return $this->name;
-            }/**
+            }
+
+            /**
              * @return string[]
-             * @deprecated
              *
+             * @deprecated
              */
             public function getGroups(): array
             {
@@ -688,10 +690,12 @@ class NormalizerTest extends TestCase
             public function getName(): string
             {
                 return $this->name;
-            }/**
+            }
+
+            /**
              * @return string[]
-             * @deprecated
              *
+             * @deprecated
              */
             public function getGroups(): array
             {

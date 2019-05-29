@@ -25,7 +25,7 @@ interface NormalizerContextInterface
      */
     public function getRequest();
 
-    /**
+    /*
      * @return array
      */
     //public function getAttributes(): array;
@@ -38,7 +38,7 @@ interface NormalizerContextInterface
      */
     //public function getAttribute(string $name, $default = null);
 
-    /**
+    /*
      * @param string $name
      * @param mixed  $value
      * @return self
