@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Normalizer;
 
+use Chubbyphp\Serialization\Policy\PolicyInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
 use Psr\Link\LinkInterface;
 
@@ -38,6 +39,13 @@ final class CallbackLinkNormalizer implements LinkNormalizerInterface
         $link = $callback($path, $object, $context);
 
         if (null === $link) {
+            @trigger_error(
+                sprintf(
+                    'If a link should not be serialized under certain conditions, use a "%s" instead',
+                    PolicyInterface::class
+                ),
+                E_USER_DEPRECATED
+            );
             return null;
         }
 
