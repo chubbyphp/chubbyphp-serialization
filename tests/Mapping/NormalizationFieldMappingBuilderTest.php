@@ -36,6 +36,19 @@ class NormalizationFieldMappingBuilderTest extends TestCase
         self::assertInstanceOf(NullPolicy::class, $fieldMapping->getPolicy());
     }
 
+    public function testGetMappingWithNormalizer()
+    {
+        /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
+        $fieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class);
+
+        $fieldMapping = NormalizationFieldMappingBuilder::create('name', $fieldNormalizer)->getMapping();
+
+        self::assertSame('name', $fieldMapping->getName());
+        self::assertSame([], $fieldMapping->getGroups());
+        self::assertSame($fieldNormalizer, $fieldMapping->getFieldNormalizer());
+        self::assertInstanceOf(NullPolicy::class, $fieldMapping->getPolicy());
+    }
+
     public function testGetDefaultMappingForCallback()
     {
         $fieldMapping = NormalizationFieldMappingBuilder::createCallback('name', function () {})->getMapping();
@@ -117,20 +130,20 @@ class NormalizationFieldMappingBuilderTest extends TestCase
     public function testGetMapping()
     {
         /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
-        $normalizer = $this->getMockByCalls(FieldNormalizerInterface::class);
+        $fieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class);
 
         /** @var PolicyInterface|MockObject $policy */
         $policy = $this->getMockByCalls(PolicyInterface::class);
 
         $fieldMapping = NormalizationFieldMappingBuilder::create('name')
             ->setGroups(['group1'])
-            ->setFieldNormalizer($normalizer)
+            ->setFieldNormalizer($fieldNormalizer)
             ->setPolicy($policy)
             ->getMapping();
 
         self::assertSame('name', $fieldMapping->getName());
         self::assertSame(['group1'], $fieldMapping->getGroups());
-        self::assertSame($normalizer, $fieldMapping->getFieldNormalizer());
+        self::assertSame($fieldNormalizer, $fieldMapping->getFieldNormalizer());
         self::assertSame($policy, $fieldMapping->getPolicy());
     }
 }

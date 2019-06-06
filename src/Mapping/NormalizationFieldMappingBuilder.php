@@ -48,12 +48,18 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
 
     /**
      * @param string $name
+     * @param FieldNormalizerInterface|null $fieldNormalizer
      *
      * @return NormalizationFieldMappingBuilderInterface
      */
-    public static function create(string $name): NormalizationFieldMappingBuilderInterface
-    {
-        return new self($name);
+    public static function create(
+        string $name,
+        FieldNormalizerInterface $fieldNormalizer = null
+    ): NormalizationFieldMappingBuilderInterface {
+        $self = new self($name);
+        $self->fieldNormalizer = $fieldNormalizer;
+
+        return $self;
     }
 
     /**
@@ -163,6 +169,8 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
     }
 
     /**
+     * @deprecated
+     *
      * @param FieldNormalizerInterface $fieldNormalizer
      *
      * @return NormalizationFieldMappingBuilderInterface
@@ -170,6 +178,11 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
     public function setFieldNormalizer(
         FieldNormalizerInterface $fieldNormalizer
     ): NormalizationFieldMappingBuilderInterface {
+        @trigger_error(
+            'Utilize second parameter of create method instead',
+            E_USER_DEPRECATED
+        );
+
         $this->fieldNormalizer = $fieldNormalizer;
 
         return $this;
