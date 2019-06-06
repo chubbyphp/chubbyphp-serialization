@@ -30,7 +30,7 @@ final class OrPolicy implements PolicyInterface
     public function isCompliant(NormalizerContextInterface $context, $object): bool
     {
         foreach ($this->policies as $policy) {
-            if (true === $policy->isCompliant($context, $object)) {
+            if ($policy->isCompliant($context, $object)) {
                 return true;
             }
         }
