@@ -213,6 +213,10 @@ final class Normalizer implements NormalizerInterface
      */
     private function isWithinGroup(NormalizerContextInterface $context, $mapping): bool
     {
+        if ([] === $groups = $context->getGroups()) {
+            return true;
+        }
+
         @trigger_error(
             sprintf(
                 'Use "%s" instead of "%s::setGroups"',
@@ -221,10 +225,6 @@ final class Normalizer implements NormalizerInterface
             ),
             E_USER_DEPRECATED
         );
-
-        if ([] === $groups = $context->getGroups()) {
-            return true;
-        }
 
         foreach ($mapping->getGroups() as $group) {
             if (in_array($group, $groups, true)) {
