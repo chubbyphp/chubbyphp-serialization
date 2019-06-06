@@ -47,11 +47,6 @@ final class CallbackLinkNormalizer implements LinkNormalizerInterface
             throw SerializerLogicException::createInvalidLinkTypeReturned($path, $type);
         }
 
-        return [
-            'href' => $link->getHref(),
-            'templated' => $link->isTemplated(),
-            'rel' => $link->getRels(),
-            'attributes' => $link->getAttributes(),
-        ];
+        return (new LinkNormalizer($link))->normalizeLink($path, $object, $context);
     }
 }
