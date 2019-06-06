@@ -14,6 +14,11 @@ final class GroupPolicy implements PolicyInterface
     const ATTRIBUTE_GROUPS = 'groups';
 
     /**
+     * @var string
+     */
+    const GROUP_DEFAULT = 'default';
+
+    /**
      * @var string[]
      */
     private $groups;
@@ -21,7 +26,7 @@ final class GroupPolicy implements PolicyInterface
     /**
      * @param array $groups
      */
-    public function __construct(array $groups)
+    public function __construct(array $groups = [self::GROUP_DEFAULT])
     {
         $this->groups = $groups;
     }
@@ -38,7 +43,7 @@ final class GroupPolicy implements PolicyInterface
             return true;
         }
 
-        $contextGroups = $context->getAttribute(self::ATTRIBUTE_GROUPS, []);
+        $contextGroups = $context->getAttribute(self::ATTRIBUTE_GROUPS, [self::GROUP_DEFAULT]);
 
         foreach ($this->groups as $group) {
             if (in_array($group, $contextGroups, true)) {

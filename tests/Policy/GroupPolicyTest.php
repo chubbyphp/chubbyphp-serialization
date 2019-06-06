@@ -29,6 +29,18 @@ class GroupPolicyTest extends TestCase
         self::assertTrue($policy->isCompliant($context, $object));
     }
 
+    public function testIsCompliantReturnsTrueWithDefaultValues()
+    {
+        $object = new \stdClass();
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getNormalizerContextWithGroupAttribute(null);
+
+        $policy = new GroupPolicy();
+
+        self::assertTrue($policy->isCompliant($context, $object));
+    }
+
     public function testIsCompliantReturnsTrueIfOneGroupMatches()
     {
         $object = new \stdClass();
@@ -66,11 +78,11 @@ class GroupPolicyTest extends TestCase
     }
 
     /**
-     * @param array $groups
+     * @param array|null $groups
      *
      * @return NormalizerContextInterface
      */
-    private function getNormalizerContextWithGroupAttribute(array $groups): NormalizerContextInterface
+    private function getNormalizerContextWithGroupAttribute(?array $groups): NormalizerContextInterface
     {
         return new class($groups) implements NormalizerContextInterface {
             private $groups;
@@ -97,7 +109,7 @@ class GroupPolicyTest extends TestCase
 
             public function getAttribute(string $name, $default = null)
             {
-                return $this->groups;
+                return $this->groups ?? $default;
             }
 
             public function withAttribute(string $name, $value): NormalizerContextInterface
