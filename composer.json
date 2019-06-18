@@ -1,7 +1,7 @@
 {
     "name": "chubbyphp/chubbyphp-serialization",
     "description": "Chubbyphp Serialize",
-    "keywords": ["chubbyphp", "slim", "symfony", "serialization"],
+    "keywords": ["chubbyphp", "slim", "symfony", "serialization", "serialize", "serializer"],
     "license": "MIT",
     "authors": [
         {
