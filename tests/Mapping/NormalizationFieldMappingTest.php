@@ -7,6 +7,7 @@ namespace Chubbyphp\Tests\Serialization\Mapping;
 use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMapping;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
+use Chubbyphp\Serialization\Policy\PolicyInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -45,5 +46,18 @@ class NormalizationFieldMappingTest extends TestCase
         $fieldMapping = new NormalizationFieldMapping('name', ['group1'], $fieldNormalizer);
 
         self::assertSame($fieldNormalizer, $fieldMapping->getFieldNormalizer());
+    }
+
+    public function testGetPolicy()
+    {
+        /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
+        $fieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class);
+
+        /** @var PolicyInterface|MockObject $policy */
+        $policy = $this->getMockByCalls(PolicyInterface::class);
+
+        $fieldMapping = new NormalizationFieldMapping('name', ['group1'], $fieldNormalizer, $policy);
+
+        self::assertSame($policy, $fieldMapping->getPolicy());
     }
 }

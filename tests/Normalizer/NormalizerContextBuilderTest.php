@@ -26,6 +26,7 @@ class NormalizerContextBuilderTest extends TestCase
 
         self::assertSame([], $context->getGroups());
         self::assertNull($context->getRequest());
+        self::assertSame([], $context->getAttributes());
     }
 
     public function testCreateWithOverridenSettings()
@@ -36,12 +37,14 @@ class NormalizerContextBuilderTest extends TestCase
         $context = NormalizerContextBuilder::create()
             ->setGroups(['group1'])
             ->setRequest($request)
+            ->setAttributes(['attribute' => 'value'])
             ->getContext();
 
         self::assertInstanceOf(NormalizerContextInterface::class, $context);
 
         self::assertSame(['group1'], $context->getGroups());
         self::assertSame($request, $context->getRequest());
+        self::assertSame(['attribute' => 'value'], $context->getAttributes());
     }
 
     public function testCreateSetNullRequest()

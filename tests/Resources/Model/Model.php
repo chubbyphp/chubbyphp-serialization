@@ -17,6 +17,16 @@ final class Model
     private $name;
 
     /**
+     * @var string
+     */
+    private $additionalInfo;
+
+    /**
+     * @var string
+     */
+    private $hiddenProperty;
+
+    /**
      * @var OneModel|null
      */
     private $one;
@@ -55,6 +65,26 @@ final class Model
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdditionalInfo(): string
+    {
+        return $this->additionalInfo;
+    }
+
+    /**
+     * @param string $additionalInfo
+     *
+     * @return self
+     */
+    public function setAdditionalInfo(string $additionalInfo): self
+    {
+        $this->additionalInfo = $additionalInfo;
 
         return $this;
     }

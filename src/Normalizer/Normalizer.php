@@ -10,6 +10,7 @@ use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Chubbyphp\Serialization\Policy\GroupPolicy;
 
 final class Normalizer implements NormalizerInterface
 {
@@ -130,6 +131,10 @@ final class Normalizer implements NormalizerInterface
     ): array {
         $data = [];
         foreach ($normalizationFieldMappings as $normalizationFieldMapping) {
+            if (!$this->isCompliant($context, $normalizationFieldMapping, $object)) {
+                continue;
+            }
+
             if (!$this->isWithinGroup($context, $normalizationFieldMapping)) {
                 continue;
             }
@@ -164,6 +169,10 @@ final class Normalizer implements NormalizerInterface
     ): array {
         $links = [];
         foreach ($normalizationLinkMappings as $normalizationLinkMapping) {
+            if (!$this->isCompliant($context, $normalizationLinkMapping, $object)) {
+                continue;
+            }
+
             if (!$this->isWithinGroup($context, $normalizationLinkMapping)) {
                 continue;
             }
@@ -183,6 +192,22 @@ final class Normalizer implements NormalizerInterface
     /**
      * @param NormalizerContextInterface                                           $context
      * @param NormalizationFieldMappingInterface|NormalizationLinkMappingInterface $mapping
+     * @param object                                                               $object
+     *
+     * @return bool
+     */
+    private function isCompliant(NormalizerContextInterface $context, $mapping, $object): bool
+    {
+        if (!is_callable([$mapping, 'getPolicy'])) {
+            return true;
+        }
+
+        return $mapping->getPolicy()->isCompliant($context, $object);
+    }
+
+    /**
+     * @param NormalizerContextInterface                                           $context
+     * @param NormalizationFieldMappingInterface|NormalizationLinkMappingInterface $mapping
      *
      * @return bool
      */
@@ -191,6 +216,15 @@ final class Normalizer implements NormalizerInterface
         if ([] === $groups = $context->getGroups()) {
             return true;
         }
+
+        @trigger_error(
+            sprintf(
+                'Use "%s" instead of "%s::setGroups"',
+                GroupPolicy::class,
+                NormalizerContextInterface::class
+            ),
+            E_USER_DEPRECATED
+        );
 
         foreach ($mapping->getGroups() as $group) {
             if (in_array($group, $groups, true)) {

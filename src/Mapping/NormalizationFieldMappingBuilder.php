@@ -13,6 +13,8 @@ use Chubbyphp\Serialization\Normalizer\Relation\EmbedManyFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\Relation\EmbedOneFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\Relation\ReferenceManyFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\Relation\ReferenceOneFieldNormalizer;
+use Chubbyphp\Serialization\Policy\NullPolicy;
+use Chubbyphp\Serialization\Policy\PolicyInterface;
 
 final class NormalizationFieldMappingBuilder implements NormalizationFieldMappingBuilderInterface
 {
@@ -32,6 +34,11 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
     private $fieldNormalizer;
 
     /**
+     * @var PolicyInterface|null
+     */
+    private $policy;
+
+    /**
      * @param string $name
      */
     private function __construct(string $name)
@@ -41,12 +48,18 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
 
     /**
      * @param string $name
+     * @param FieldNormalizerInterface|null $fieldNormalizer
      *
      * @return NormalizationFieldMappingBuilderInterface
      */
-    public static function create(string $name): NormalizationFieldMappingBuilderInterface
-    {
-        return new self($name);
+    public static function create(
+        string $name,
+        FieldNormalizerInterface $fieldNormalizer = null
+    ): NormalizationFieldMappingBuilderInterface {
+        $self = new self($name);
+        $self->fieldNormalizer = $fieldNormalizer;
+
+        return $self;
     }
 
     /**
@@ -142,6 +155,8 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
     }
 
     /**
+     * @deprecated
+     *
      * @param array $groups
      *
      * @return NormalizationFieldMappingBuilderInterface
@@ -154,6 +169,8 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
     }
 
     /**
+     * @deprecated
+     *
      * @param FieldNormalizerInterface $fieldNormalizer
      *
      * @return NormalizationFieldMappingBuilderInterface
@@ -161,7 +178,24 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
     public function setFieldNormalizer(
         FieldNormalizerInterface $fieldNormalizer
     ): NormalizationFieldMappingBuilderInterface {
+        @trigger_error(
+            'Utilize second parameter of create method instead',
+            E_USER_DEPRECATED
+        );
+
         $this->fieldNormalizer = $fieldNormalizer;
+
+        return $this;
+    }
+
+    /**
+     * @param PolicyInterface $policy
+     *
+     * @return NormalizationFieldMappingBuilderInterface
+     */
+    public function setPolicy(PolicyInterface $policy): NormalizationFieldMappingBuilderInterface
+    {
+        $this->policy = $policy;
 
         return $this;
     }
@@ -174,7 +208,8 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
         return new NormalizationFieldMapping(
             $this->name,
             $this->groups,
-            $this->fieldNormalizer ?? new FieldNormalizer(new PropertyAccessor($this->name))
+            $this->fieldNormalizer ?? new FieldNormalizer(new PropertyAccessor($this->name)),
+            $this->policy ?? new NullPolicy()
         );
     }
 }
