@@ -11,6 +11,11 @@ use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
+use Chubbyphp\Serialization\Policy\AndPolicy;
+use Chubbyphp\Serialization\Policy\CallbackPolicy;
+use Chubbyphp\Serialization\Policy\GroupPolicy;
+use Chubbyphp\Serialization\Policy\NullPolicy;
+use Chubbyphp\Serialization\Policy\OrPolicy;
 use Chubbyphp\Tests\Serialization\Resources\Model\Model;
 
 final class ModelMapping implements NormalizationObjectMappingInterface
@@ -40,8 +45,35 @@ final class ModelMapping implements NormalizationObjectMappingInterface
     public function getNormalizationFieldMappings(string $path, string $type = null): array
     {
         return [
-            NormalizationFieldMappingBuilder::create('id')->setGroups(['baseInformation'])->getMapping(),
-            NormalizationFieldMappingBuilder::create('name')->setGroups(['baseInformation'])->getMapping(),
+            NormalizationFieldMappingBuilder::create('id')
+                ->setGroups(['baseInformation'])
+                ->setPolicy(new AndPolicy([
+                    new NullPolicy(),
+                    new OrPolicy([
+                        new CallbackPolicy(function () {
+                            return false;
+                        }),
+                        new NullPolicy()
+                    ])
+                ]))
+                ->getMapping(),
+            NormalizationFieldMappingBuilder::create('name')
+                ->setGroups(['baseInformation'])
+                ->setPolicy(new GroupPolicy([]))
+                ->getMapping(),
+            NormalizationFieldMappingBuilder::create('additionalInfo')
+                ->setPolicy(new GroupPolicy(['additionalInfo']))
+                ->getMapping(),
+            NormalizationFieldMappingBuilder::create('hiddenProperty')
+                ->setPolicy(new AndPolicy([
+                    new NullPolicy(),
+                    new OrPolicy([
+                        new CallbackPolicy(function () {
+                            return false;
+                        })
+                    ])
+                ]))
+                ->getMapping(),
             NormalizationFieldMappingBuilder::createEmbedOne('one')->getMapping(),
             NormalizationFieldMappingBuilder::createEmbedMany('manies')->getMapping(),
         ];

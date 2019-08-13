@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Chubbyphp\Serialization\Mapping;
 
 use Chubbyphp\Serialization\Normalizer\LinkNormalizerInterface;
+use Chubbyphp\Serialization\Policy\PolicyInterface;
+use Chubbyphp\Serialization\Policy\NullPolicy;
 
 final class NormalizationLinkMapping implements NormalizationLinkMappingInterface
 {
@@ -24,18 +26,26 @@ final class NormalizationLinkMapping implements NormalizationLinkMappingInterfac
     private $linkNormalizer;
 
     /**
+     * @var PolicyInterface
+     */
+    private $policy;
+
+    /**
      * @param string                  $name
      * @param array                   $groups
      * @param LinkNormalizerInterface $linkNormalizer
+     * @param PolicyInterface|null    $policy
      */
     public function __construct(
         string $name,
         array $groups,
-        LinkNormalizerInterface $linkNormalizer
+        LinkNormalizerInterface $linkNormalizer,
+        PolicyInterface $policy = null
     ) {
         $this->name = $name;
         $this->groups = $groups;
         $this->linkNormalizer = $linkNormalizer;
+        $this->policy = $policy ?? new NullPolicy();
     }
 
     /**
@@ -47,6 +57,8 @@ final class NormalizationLinkMapping implements NormalizationLinkMappingInterfac
     }
 
     /**
+     * @deprecated
+     *
      * @return string[]
      */
     public function getGroups(): array
@@ -60,5 +72,13 @@ final class NormalizationLinkMapping implements NormalizationLinkMappingInterfac
     public function getLinkNormalizer(): LinkNormalizerInterface
     {
         return $this->linkNormalizer;
+    }
+
+    /**
+     * @return PolicyInterface
+     */
+    public function getPolicy(): PolicyInterface
+    {
+        return $this->policy;
     }
 }

@@ -9,9 +9,16 @@ use Psr\Http\Message\ServerRequestInterface;
 final class NormalizerContextBuilder implements NormalizerContextBuilderInterface
 {
     /**
+     * @deprecated
+     *
      * @var string[]
      */
     private $groups = [];
+
+    /**
+     * @var array
+     */
+    private $attributes = [];
 
     /**
      * @var ServerRequestInterface|null
@@ -31,6 +38,8 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
     }
 
     /**
+     * @deprecated
+     *
      * @param string[] $groups
      *
      * @return NormalizerContextBuilderInterface
@@ -38,6 +47,18 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
     public function setGroups(array $groups): NormalizerContextBuilderInterface
     {
         $this->groups = $groups;
+
+        return $this;
+    }
+
+    /**
+     * @param array $attributes
+     *
+     * @return NormalizerContextBuilderInterface
+     */
+    public function setAttributes(array $attributes): NormalizerContextBuilderInterface
+    {
+        $this->attributes = $attributes;
 
         return $this;
     }
@@ -59,6 +80,6 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
      */
     public function getContext(): NormalizerContextInterface
     {
-        return new NormalizerContext($this->groups, $this->request);
+        return new NormalizerContext($this->groups, $this->request, $this->attributes);
     }
 }
