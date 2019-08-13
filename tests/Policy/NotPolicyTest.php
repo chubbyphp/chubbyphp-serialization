@@ -13,7 +13,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Chubbyphp\Serialization\Policy\OrPolicy
+ * @covers \Chubbyphp\Serialization\Policy\NotPolicy
  */
 class NotPolicyTest extends TestCase
 {
