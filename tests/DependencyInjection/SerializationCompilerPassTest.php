@@ -17,6 +17,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * @covers \Chubbyphp\Serialization\DependencyInjection\SerializationCompilerPass
+ *
+ * @internal
  */
 class SerializationCompilerPassTest extends TestCase
 {
@@ -30,7 +32,8 @@ class SerializationCompilerPassTest extends TestCase
 
         $container
             ->register('stdclass', $stdClassMappingClass)
-            ->addTag('chubbyphp.serializer.normalizer.objectmapping');
+            ->addTag('chubbyphp.serializer.normalizer.objectmapping')
+        ;
 
         $container->compile();
 

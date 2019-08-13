@@ -47,7 +47,7 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
     }
 
     /**
-     * @param string $name
+     * @param string                        $name
      * @param FieldNormalizerInterface|null $fieldNormalizer
      *
      * @return NormalizationFieldMappingBuilderInterface

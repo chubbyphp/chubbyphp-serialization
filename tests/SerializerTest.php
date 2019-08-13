@@ -15,6 +15,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Serializer
+ *
+ * @internal
  */
 class SerializerTest extends TestCase
 {

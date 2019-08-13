@@ -13,6 +13,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\CallbackFieldNormalizer
+ *
+ * @internal
  */
 class CallbackFieldNormalizerTest extends TestCase
 {

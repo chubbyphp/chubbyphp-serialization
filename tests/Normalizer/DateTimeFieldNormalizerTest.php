@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Normalizer;
 
+use Chubbyphp\Mock\Call;
 use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer;
@@ -11,10 +12,11 @@ use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Chubbyphp\Mock\Call;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer
+ *
+ * @internal
  */
 class DateTimeFieldNormalizerTest extends TestCase
 {

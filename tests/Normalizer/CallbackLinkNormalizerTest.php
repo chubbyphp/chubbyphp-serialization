@@ -15,6 +15,8 @@ use Psr\Link\LinkInterface;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer
+ *
+ * @internal
  */
 class CallbackLinkNormalizerTest extends TestCase
 {

@@ -23,6 +23,8 @@ use Psr\Log\AbstractLogger;
 
 /**
  * @coversNothing
+ *
+ * @internal
  */
 class SerializerIntegrationTest extends TestCase
 {
@@ -48,7 +50,7 @@ class SerializerIntegrationTest extends TestCase
         $model->setOne((new OneModel())->setName('Name')->setValue('Value'));
         $model->setManies([(new ManyModel())->setName('Name')->setValue('Value')]);
 
-        $expectedJson = <<<EOD
+        $expectedJson = <<<'EOD'
 {
     "id": "ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a",
     "name": "Name",
@@ -165,7 +167,7 @@ EOD;
         $model->setOne((new OneModel())->setName('Name')->setValue('Value'));
         $model->setManies([(new ManyModel())->setName('Name')->setValue('Value')]);
 
-        $expectedJson = <<<EOD
+        $expectedJson = <<<'EOD'
 {
     "id": "ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a",
     "name": "Name",
@@ -223,7 +225,7 @@ EOD;
         $model->setOne((new OneModel())->setName('Name')->setValue('Value'));
         $model->setManies([(new ManyModel())->setName('Name')->setValue('Value')]);
 
-        $expectedJson = <<<EOD
+        $expectedJson = <<<'EOD'
 {
     "id": "ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a",
     "name": "Name",
@@ -256,7 +258,8 @@ EOD;
 
         $context = NormalizerContextBuilder::create()
             ->setAttributes([GroupPolicy::ATTRIBUTE_GROUPS => ['additionalInfo']])
-            ->getContext();
+            ->getContext()
+        ;
 
         self::assertSame(
             $expectedJson,

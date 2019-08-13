@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\Relation\EmbedManyFieldNormalizer
+ *
+ * @internal
  */
 class EmbedManyFieldNormalizerTest extends TestCase
 {

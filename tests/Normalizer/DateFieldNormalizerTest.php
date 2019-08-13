@@ -14,6 +14,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\DateFieldNormalizer
+ *
+ * @internal
  */
 class DateFieldNormalizerTest extends TestCase
 {

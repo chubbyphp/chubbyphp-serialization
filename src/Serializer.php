@@ -52,9 +52,9 @@ final class Serializer implements SerializerInterface
      * @param NormalizerContextInterface|null $context
      * @param string                          $path
      *
-     * @return array
-     *
      * @throws SerializerLogicException
+     *
+     * @return array
      */
     public function normalize($object, NormalizerContextInterface $context = null, string $path = ''): array
     {
@@ -73,9 +73,9 @@ final class Serializer implements SerializerInterface
      * @param array  $data
      * @param string $contentType
      *
-     * @return string
-     *
      * @throws SerializerLogicException
+     *
+     * @return string
      */
     public function encode(array $data, string $contentType): string
     {

@@ -12,6 +12,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Policy\CallbackPolicy
+ *
+ * @internal
  */
 class CallbackPolicyTest extends TestCase
 {

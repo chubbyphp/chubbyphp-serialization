@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Chubbyphp\Tests\Serialization\Provider;
 
 use Chubbyphp\Serialization\Encoder\Encoder;
@@ -17,6 +19,8 @@ use Pimple\Container;
 
 /**
  * @covers \Chubbyphp\Serialization\Provider\SerializationProvider
+ *
+ * @internal
  */
 final class SerializationProviderTest extends TestCase
 {

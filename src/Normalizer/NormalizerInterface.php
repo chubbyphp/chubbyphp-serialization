@@ -13,9 +13,9 @@ interface NormalizerInterface
      * @param NormalizerContextInterface|null $context
      * @param string                          $path
      *
-     * @return array
-     *
      * @throws SerializerLogicException
+     *
+     * @return array
      */
     public function normalize($object, NormalizerContextInterface $context = null, string $path = ''): array;
 }

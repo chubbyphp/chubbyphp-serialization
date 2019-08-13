@@ -17,6 +17,8 @@ use Psr\Link\LinkInterface;
 
 /**
  * @covers \Chubbyphp\Serialization\Mapping\NormalizationLinkMappingBuilder
+ *
+ * @internal
  */
 class NormalizationLinkMappingBuilderTest extends TestCase
 {
@@ -69,7 +71,8 @@ class NormalizationLinkMappingBuilderTest extends TestCase
         $linkMapping = NormalizationLinkMappingBuilder::create('name', $linkNormalizer)
             ->setGroups(['group1'])
             ->setPolicy($policy)
-            ->getMapping();
+            ->getMapping()
+        ;
 
         self::assertSame('name', $linkMapping->getName());
         self::assertSame(['group1'], $linkMapping->getGroups());

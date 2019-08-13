@@ -12,6 +12,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Policy\NullPolicy
+ *
+ * @internal
  */
 class NullPolicyTest extends TestCase
 {

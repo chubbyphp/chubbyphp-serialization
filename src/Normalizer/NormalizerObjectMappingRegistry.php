@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Normalizer;
 
-use Chubbyphp\Serialization\SerializerLogicException;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
+use Chubbyphp\Serialization\SerializerLogicException;
 
 final class NormalizerObjectMappingRegistry implements NormalizerObjectMappingRegistryInterface
 {
@@ -26,19 +26,11 @@ final class NormalizerObjectMappingRegistry implements NormalizerObjectMappingRe
     }
 
     /**
-     * @param NormalizationObjectMappingInterface $objectMapping
-     */
-    private function addObjectMapping(NormalizationObjectMappingInterface $objectMapping)
-    {
-        $this->objectMappings[$objectMapping->getClass()] = $objectMapping;
-    }
-
-    /**
      * @param string $class
      *
-     * @return NormalizationObjectMappingInterface
-     *
      * @throws SerializerLogicException
+     *
+     * @return NormalizationObjectMappingInterface
      */
     public function getObjectMapping(string $class): NormalizationObjectMappingInterface
     {
@@ -53,5 +45,13 @@ final class NormalizerObjectMappingRegistry implements NormalizerObjectMappingRe
         }
 
         throw SerializerLogicException::createMissingMapping($class);
+    }
+
+    /**
+     * @param NormalizationObjectMappingInterface $objectMapping
+     */
+    private function addObjectMapping(NormalizationObjectMappingInterface $objectMapping)
+    {
+        $this->objectMappings[$objectMapping->getClass()] = $objectMapping;
     }
 }

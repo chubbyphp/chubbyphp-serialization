@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Normalizer;
 
+use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextBuilder;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use Chubbyphp\Mock\MockByCallsTrait;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\NormalizerContextBuilder
+ *
+ * @internal
  */
 class NormalizerContextBuilderTest extends TestCase
 {
@@ -38,7 +40,8 @@ class NormalizerContextBuilderTest extends TestCase
             ->setGroups(['group1'])
             ->setRequest($request)
             ->setAttributes(['attribute' => 'value'])
-            ->getContext();
+            ->getContext()
+        ;
 
         self::assertInstanceOf(NormalizerContextInterface::class, $context);
 
@@ -51,7 +54,8 @@ class NormalizerContextBuilderTest extends TestCase
     {
         $context = NormalizerContextBuilder::create()
             ->setRequest()
-            ->getContext();
+            ->getContext()
+        ;
 
         self::assertInstanceOf(NormalizerContextInterface::class, $context);
 

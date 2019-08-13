@@ -12,6 +12,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\NormalizerContext
+ *
+ * @internal
  */
 class NormalizerContextTest extends TestCase
 {

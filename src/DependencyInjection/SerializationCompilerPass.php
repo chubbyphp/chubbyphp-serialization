@@ -37,7 +37,8 @@ final class SerializationCompilerPass implements CompilerPassInterface
             ->setArguments([
                 new Reference('chubbyphp.serializer.normalizer.objectmappingregistry'),
                 new Reference('logger', ContainerInterface::IGNORE_ON_INVALID_REFERENCE),
-            ]);
+            ])
+        ;
 
         $normalizerObjectMappingReferences = [];
         foreach ($container->findTaggedServiceIds('chubbyphp.serializer.normalizer.objectmapping') as $id => $tags) {
@@ -50,28 +51,34 @@ final class SerializationCompilerPass implements CompilerPassInterface
                 NormalizerObjectMappingRegistry::class
             )
             ->setPublic(true)
-            ->setArguments([$normalizerObjectMappingReferences]);
+            ->setArguments([$normalizerObjectMappingReferences])
+        ;
 
         $container
             ->register('chubbyphp.serializer.encoder.type.json', JsonTypeEncoder::class)
-            ->addTag('chubbyphp.serializer.encoder.type');
+            ->addTag('chubbyphp.serializer.encoder.type')
+        ;
 
         $container
             ->register('chubbyphp.serializer.encoder.type.jsonx', JsonxTypeEncoder::class)
-            ->addTag('chubbyphp.serializer.encoder.type');
+            ->addTag('chubbyphp.serializer.encoder.type')
+        ;
 
         $container
             ->register('chubbyphp.serializer.encoder.type.urlencoded', UrlEncodedTypeEncoder::class)
-            ->addTag('chubbyphp.serializer.encoder.type');
+            ->addTag('chubbyphp.serializer.encoder.type')
+        ;
 
         $container
             ->register('chubbyphp.serializer.encoder.type.xml', XmlTypeEncoder::class)
-            ->addTag('chubbyphp.serializer.encoder.type');
+            ->addTag('chubbyphp.serializer.encoder.type')
+        ;
 
         if (class_exists(Yaml::class)) {
             $container
             ->register('chubbyphp.serializer.encoder.type.yaml', YamlTypeEncoder::class)
-            ->addTag('chubbyphp.serializer.encoder.type');
+            ->addTag('chubbyphp.serializer.encoder.type')
+            ;
         }
 
         $encoderTypeReferences = [];
@@ -82,6 +89,7 @@ final class SerializationCompilerPass implements CompilerPassInterface
         $container
             ->register('chubbyphp.serializer.encoder', Encoder::class)
             ->setPublic(true)
-            ->setArguments([$encoderTypeReferences]);
+            ->setArguments([$encoderTypeReferences])
+        ;
     }
 }

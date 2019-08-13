@@ -16,6 +16,8 @@ use Psr\Container\ContainerInterface;
 
 /**
  * @covers \Chubbyphp\Serialization\Mapping\LazyNormalizationObjectMapping
+ *
+ * @internal
  */
 class LazyNormalizationObjectMappingTest extends TestCase
 {

@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry
+ *
+ * @internal
  */
 class NormalizerObjectMappingRegistryTest extends TestCase
 {
@@ -68,11 +70,9 @@ class NormalizerObjectMappingRegistryTest extends TestCase
         $object = $this->getObject();
 
         /** @var NormalizationObjectMappingInterface|MockObject $objectMapping */
-        $objectMapping = $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
+        return $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
             Call::create('getClass')->with()->willReturn(get_class($object)),
         ]);
-
-        return $objectMapping;
     }
 
     /**

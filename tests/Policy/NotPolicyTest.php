@@ -14,6 +14,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Policy\NotPolicy
+ *
+ * @internal
  */
 class NotPolicyTest extends TestCase
 {

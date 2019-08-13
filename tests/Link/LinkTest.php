@@ -9,6 +9,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Link\Link
+ *
+ * @internal
  */
 class LinkTest extends TestCase
 {

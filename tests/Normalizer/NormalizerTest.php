@@ -22,6 +22,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\Normalizer
+ *
+ * @internal
  */
 class NormalizerTest extends TestCase
 {

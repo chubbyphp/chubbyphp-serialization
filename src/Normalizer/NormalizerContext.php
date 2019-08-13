@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Normalizer;
 
-use Psr\Http\Message\ServerRequestInterface;
 use Chubbyphp\Serialization\Policy\GroupPolicy;
+use Psr\Http\Message\ServerRequestInterface;
 
 final class NormalizerContext implements NormalizerContextInterface
 {

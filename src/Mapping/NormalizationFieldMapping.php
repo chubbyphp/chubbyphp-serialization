@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Chubbyphp\Serialization\Mapping;
 
 use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
-use Chubbyphp\Serialization\Policy\PolicyInterface;
 use Chubbyphp\Serialization\Policy\NullPolicy;
+use Chubbyphp\Serialization\Policy\PolicyInterface;
 
 final class NormalizationFieldMapping implements NormalizationFieldMappingInterface
 {

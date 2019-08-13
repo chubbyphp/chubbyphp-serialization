@@ -9,6 +9,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Link\LinkBuilder
+ *
+ * @internal
  */
 class LinkBuilderTest extends TestCase
 {
@@ -17,7 +19,8 @@ class LinkBuilderTest extends TestCase
         $link = LinkBuilder::create('/api/models/{id}')
             ->setRels(['models'])
             ->setAttributes(['method' => 'GET'])
-            ->getLink();
+            ->getLink()
+        ;
 
         self::assertSame('/api/models/{id}', $link->getHref());
         self::assertTrue($link->isTemplated());

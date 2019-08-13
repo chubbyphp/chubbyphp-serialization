@@ -14,9 +14,9 @@ interface FieldNormalizerInterface
      * @param NormalizerContextInterface $context
      * @param NormalizerInterface|null   $normalizer
      *
-     * @return mixed
-     *
      * @throws SerializerLogicException
+     *
+     * @return mixed
      */
     public function normalizeField(
         string $path,

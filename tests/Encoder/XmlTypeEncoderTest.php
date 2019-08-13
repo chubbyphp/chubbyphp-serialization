@@ -8,6 +8,8 @@ use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
 
 /**
  * @covers \Chubbyphp\Serialization\Encoder\XmlTypeEncoder
+ *
+ * @internal
  */
 class XmlTypeEncoderTest extends AbstractTypeEncoderTest
 {

@@ -8,6 +8,8 @@ use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
 
 /**
  * @covers \Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder
+ *
+ * @internal
  */
 class UrlEncodedTypeEncoderTest extends AbstractTypeEncoderTest
 {
