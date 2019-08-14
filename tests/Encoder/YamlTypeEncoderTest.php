@@ -8,6 +8,8 @@ use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
 
 /**
  * @covers \Chubbyphp\Serialization\Encoder\YamlTypeEncoder
+ *
+ * @internal
  */
 class YamlTypeEncoderTest extends AbstractTypeEncoderTest
 {

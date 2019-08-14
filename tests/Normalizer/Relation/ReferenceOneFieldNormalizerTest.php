@@ -14,6 +14,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\Relation\ReferenceOneFieldNormalizer
+ *
+ * @internal
  */
 class ReferenceOneFieldNormalizerTest extends TestCase
 {

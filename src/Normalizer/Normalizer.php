@@ -7,10 +7,10 @@ namespace Chubbyphp\Serialization\Normalizer;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
+use Chubbyphp\Serialization\Policy\GroupPolicy;
 use Chubbyphp\Serialization\SerializerLogicException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Chubbyphp\Serialization\Policy\GroupPolicy;
 
 final class Normalizer implements NormalizerInterface
 {
@@ -100,9 +100,9 @@ final class Normalizer implements NormalizerInterface
     /**
      * @param string $class
      *
-     * @return NormalizationObjectMappingInterface
-     *
      * @throws SerializerLogicException
+     *
+     * @return NormalizationObjectMappingInterface
      */
     private function getObjectMapping(string $class): NormalizationObjectMappingInterface
     {

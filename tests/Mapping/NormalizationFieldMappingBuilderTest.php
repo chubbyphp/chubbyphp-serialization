@@ -21,6 +21,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder
+ *
+ * @internal
  */
 class NormalizationFieldMappingBuilderTest extends TestCase
 {
@@ -139,7 +141,8 @@ class NormalizationFieldMappingBuilderTest extends TestCase
             ->setGroups(['group1'])
             ->setFieldNormalizer($fieldNormalizer)
             ->setPolicy($policy)
-            ->getMapping();
+            ->getMapping()
+        ;
 
         self::assertSame('name', $fieldMapping->getName());
         self::assertSame(['group1'], $fieldMapping->getGroups());

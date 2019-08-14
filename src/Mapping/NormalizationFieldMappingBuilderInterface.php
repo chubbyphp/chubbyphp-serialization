@@ -20,7 +20,7 @@ interface NormalizationFieldMappingBuilderInterface
     public static function create(string $name): self;
 
     /**
-     * @param string $name
+     * @param string                        $name
      * @param FieldNormalizerInterface|null $fieldNormalizer
      *
      * @return NormalizationFieldMappingBuilderInterface

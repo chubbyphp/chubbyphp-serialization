@@ -8,7 +8,7 @@ use Chubbyphp\Serialization\Encoder\EncoderInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 
-interface SerializerInterface extends NormalizerInterface, EncoderInterface
+interface SerializerInterface extends EncoderInterface, NormalizerInterface
 {
     /**
      * @param object                          $object

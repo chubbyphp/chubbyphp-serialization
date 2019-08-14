@@ -10,6 +10,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Accessor\MethodAccessor
+ *
+ * @internal
  */
 class MethodAccessorTest extends TestCase
 {

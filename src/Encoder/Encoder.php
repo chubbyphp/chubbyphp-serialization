@@ -25,14 +25,6 @@ final class Encoder implements EncoderInterface
     }
 
     /**
-     * @param TypeEncoderInterface $encoderType
-     */
-    private function addTypeEncoder(TypeEncoderInterface $encoderType)
-    {
-        $this->encoderTypes[$encoderType->getContentType()] = $encoderType;
-    }
-
-    /**
      * @return array
      */
     public function getContentTypes(): array
@@ -44,9 +36,9 @@ final class Encoder implements EncoderInterface
      * @param array  $data
      * @param string $contentType
      *
-     * @return string
-     *
      * @throws SerializerLogicException
+     *
+     * @return string
      */
     public function encode(array $data, string $contentType): string
     {
@@ -55,5 +47,13 @@ final class Encoder implements EncoderInterface
         }
 
         throw SerializerLogicException::createMissingContentType($contentType);
+    }
+
+    /**
+     * @param TypeEncoderInterface $encoderType
+     */
+    private function addTypeEncoder(TypeEncoderInterface $encoderType)
+    {
+        $this->encoderTypes[$encoderType->getContentType()] = $encoderType;
     }
 }

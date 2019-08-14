@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Chubbyphp\Tests\Serialization\Resources\Mapping;
 
 use Chubbyphp\Serialization\Link\LinkBuilder;
-use Chubbyphp\Serialization\Mapping\NormalizationLinkMapping;
-use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
-use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
+use Chubbyphp\Serialization\Mapping\NormalizationLinkMapping;
+use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
+use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
 use Chubbyphp\Serialization\Policy\AndPolicy;
 use Chubbyphp\Serialization\Policy\CallbackPolicy;
 use Chubbyphp\Serialization\Policy\GroupPolicy;
@@ -53,8 +53,8 @@ final class ModelMapping implements NormalizationObjectMappingInterface
                         new CallbackPolicy(function () {
                             return false;
                         }),
-                        new NullPolicy()
-                    ])
+                        new NullPolicy(),
+                    ]),
                 ]))
                 ->getMapping(),
             NormalizationFieldMappingBuilder::create('name')
@@ -70,8 +70,8 @@ final class ModelMapping implements NormalizationObjectMappingInterface
                     new OrPolicy([
                         new CallbackPolicy(function () {
                             return false;
-                        })
-                    ])
+                        }),
+                    ]),
                 ]))
                 ->getMapping(),
             NormalizationFieldMappingBuilder::createEmbedOne('one')->getMapping(),
@@ -106,7 +106,8 @@ final class ModelMapping implements NormalizationObjectMappingInterface
                             ->setAttributes([
                                 'method' => 'GET',
                             ])
-                            ->getLink();
+                            ->getLink()
+                        ;
                     }
                 )
             ),

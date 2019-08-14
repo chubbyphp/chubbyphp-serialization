@@ -13,6 +13,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Mapping\NormalizationFieldMapping
+ *
+ * @internal
  */
 class NormalizationFieldMappingTest extends TestCase
 {

@@ -14,6 +14,8 @@ use Psr\Link\LinkInterface;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\LinkNormalizer
+ *
+ * @internal
  */
 class LinkNormalizerTest extends TestCase
 {

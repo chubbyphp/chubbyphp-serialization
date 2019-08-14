@@ -8,6 +8,8 @@ use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
 
 /**
  * @covers \Chubbyphp\Serialization\Encoder\JsonTypeEncoder
+ *
+ * @internal
  */
 class JsonTypeEncoderTest extends AbstractTypeEncoderTest
 {

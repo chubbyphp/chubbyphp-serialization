@@ -179,9 +179,9 @@ final class XmlTypeEncoder implements TypeEncoderInterface
     /**
      * @param bool|float|int $value
      *
-     * @return string
-     *
      * @throws \InvalidArgumentException
+     *
+     * @return string
      */
     private function getValueAsString($value): string
     {

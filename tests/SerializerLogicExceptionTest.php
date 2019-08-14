@@ -9,6 +9,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\SerializerLogicException
+ *
+ * @internal
  */
 class SerializerLogicExceptionTest extends TestCase
 {

@@ -14,6 +14,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Encoder\Encoder
+ *
+ * @internal
  */
 class EncoderTest extends TestCase
 {

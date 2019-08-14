@@ -12,6 +12,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Policy\GroupPolicy
+ *
+ * @internal
  */
 class GroupPolicyTest extends TestCase
 {

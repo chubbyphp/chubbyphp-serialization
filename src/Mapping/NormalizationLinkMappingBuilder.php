@@ -7,8 +7,8 @@ namespace Chubbyphp\Serialization\Mapping;
 use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
 use Chubbyphp\Serialization\Normalizer\LinkNormalizer;
 use Chubbyphp\Serialization\Normalizer\LinkNormalizerInterface;
-use Chubbyphp\Serialization\Policy\PolicyInterface;
 use Chubbyphp\Serialization\Policy\NullPolicy;
+use Chubbyphp\Serialization\Policy\PolicyInterface;
 use Psr\Link\LinkInterface;
 
 final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingBuilderInterface

@@ -9,17 +9,16 @@ namespace Chubbyphp\Serialization\Encoder;
  */
 final class JsonxTypeEncoder implements TypeEncoderInterface
 {
-    /**
-     * @var bool
-     */
-    private $prettyPrint;
-
     const DATATYPE_OBJECT = 'object';
     const DATATYPE_ARRAY = 'array';
     const DATATYPE_BOOLEAN = 'boolean';
     const DATATYPE_STRING = 'string';
     const DATATYPE_NUMBER = 'number';
     const DATATYPE_NULL = 'null';
+    /**
+     * @var bool
+     */
+    private $prettyPrint;
 
     /**
      * @param bool $prettyPrint

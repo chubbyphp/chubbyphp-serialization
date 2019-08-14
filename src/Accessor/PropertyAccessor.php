@@ -37,7 +37,7 @@ final class PropertyAccessor implements AccessorInterface
 
         $getter = \Closure::bind(
             function ($property) {
-                return $this->$property;
+                return $this->{$property};
             },
             $object,
             $class

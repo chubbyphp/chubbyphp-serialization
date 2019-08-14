@@ -13,6 +13,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Mapping\NormalizationLinkMapping
+ *
+ * @internal
  */
 class NormalizationLinkMappingTest extends TestCase
 {

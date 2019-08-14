@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Mapping;
 
-use Chubbyphp\Serialization\Mapping\CallableNormalizationObjectMapping;
-use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
-use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
 use Chubbyphp\Mock\Call;
 use Chubbyphp\Mock\MockByCallsTrait;
-use PHPUnit\Framework\TestCase;
+use Chubbyphp\Serialization\Mapping\CallableNormalizationObjectMapping;
+use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
+use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Mapping\CallableNormalizationObjectMapping
+ *
+ * @internal
  */
 class CallableNormalizationObjectMappingTest extends TestCase
 {

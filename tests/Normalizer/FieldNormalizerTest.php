@@ -14,6 +14,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Chubbyphp\Serialization\Normalizer\FieldNormalizer
+ *
+ * @internal
  */
 class FieldNormalizerTest extends TestCase
 {

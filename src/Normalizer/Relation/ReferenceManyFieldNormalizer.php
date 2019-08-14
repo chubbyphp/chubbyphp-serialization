@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Chubbyphp\Serialization\Normalizer\Relation;
 
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
+use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
-use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
 
 final class ReferenceManyFieldNormalizer implements FieldNormalizerInterface
@@ -38,9 +38,9 @@ final class ReferenceManyFieldNormalizer implements FieldNormalizerInterface
      * @param NormalizerContextInterface $context
      * @param NormalizerInterface|null   $normalizer
      *
-     * @return mixed
-     *
      * @throws SerializerLogicException
+     *
+     * @return mixed
      */
     public function normalizeField(
         string $path,

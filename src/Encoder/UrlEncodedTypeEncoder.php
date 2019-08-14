@@ -51,17 +51,15 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
             $query .= '&';
         }
 
-        $query = substr($query, 0, -strlen('&'));
-
-        return $query;
+        return substr($query, 0, -strlen('&'));
     }
 
     /**
      * @param bool|int|float|string $value
      *
-     * @return string
-     *
      * @throws \InvalidArgumentException
+     *
+     * @return string
      */
     private function getValueAsString($value): string
     {

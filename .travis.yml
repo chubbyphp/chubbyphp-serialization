@@ -27,4 +27,8 @@ before_script:
   - if [ "$dependencies" = "lowest" ]; then composer update --prefer-lowest -n; fi;
   - if [ "$dependencies" = "highest" ]; then composer update -n; fi;
 
-script: vendor/bin/phpunit --coverage-text --verbose
+script:
+  - vendor/bin/phpunit --coverage-text --verbose
+  - vendor/bin/phpstan analyse -l 7 -c phpstan.neon src
+  - vendor/bin/phploc src --verbose
+  - vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation
