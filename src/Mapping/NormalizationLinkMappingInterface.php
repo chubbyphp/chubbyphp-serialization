@@ -8,7 +8,7 @@ use Chubbyphp\Serialization\Normalizer\LinkNormalizerInterface;
 use Chubbyphp\Serialization\Policy\PolicyInterface;
 
 /**
- * @method getPolicy(): PolicyInterface
+ * @method PolicyInterface getPolicy()
  */
 interface NormalizationLinkMappingInterface
 {

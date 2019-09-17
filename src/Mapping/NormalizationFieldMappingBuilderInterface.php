@@ -8,7 +8,7 @@ use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
 use Chubbyphp\Serialization\Policy\PolicyInterface;
 
 /**
- * @method setPolicy(PolicyInterface $policy): self
+ * @method NormalizationFieldMappingBuilderInterface setPolicy(PolicyInterface $policy)
  */
 interface NormalizationFieldMappingBuilderInterface
 {
