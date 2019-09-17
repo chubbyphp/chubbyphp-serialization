@@ -7,7 +7,7 @@ namespace Chubbyphp\Serialization\Normalizer;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * @method setAttributes(array $attributes): self
+ * @method NormalizerContextBuilderInterface setAttributes(array $attributes)
  */
 interface NormalizerContextBuilderInterface
 {
