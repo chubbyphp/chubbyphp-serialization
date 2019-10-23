@@ -6,6 +6,9 @@ namespace Chubbyphp\Serialization\Encoder;
 
 use Doctrine\Common\Inflector\Inflector;
 
+/**
+ * @deprecated use JsonxTypeEncoder instead
+ */
 final class XmlTypeEncoder implements TypeEncoderInterface
 {
     /**
