@@ -84,7 +84,7 @@ final class XmlTypeEncoder implements TypeEncoderInterface
      * @param \DOMNode     $listNode
      * @param array        $data
      */
-    private function dataToNodes(\DOMDocument $document, \DOMNode $listNode, array $data)
+    private function dataToNodes(\DOMDocument $document, \DOMNode $listNode, array $data): void
     {
         foreach ($data as $key => $value) {
             if (is_string($key) && '_' === $key[0]) {

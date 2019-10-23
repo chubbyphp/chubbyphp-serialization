@@ -22,7 +22,7 @@ final class SerializationProvider implements ServiceProviderInterface
     /**
      * @param Container $container
      */
-    public function register(Container $container)
+    public function register(Container $container): void
     {
         $container['serializer'] = function () use ($container) {
             return new Serializer($container['serializer.normalizer'], $container['serializer.encoder']);

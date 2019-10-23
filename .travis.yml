@@ -2,33 +2,28 @@ language: php
 
 matrix:
   include:
-    - php: 7.0
-      env: dependencies=lowest
-    - php: 7.0
-      env: dependencies=highest
-    - php: 7.1
-      env: dependencies=lowest
-    - php: 7.1
-      env: dependencies=highest
     - php: 7.2
       env: dependencies=lowest
     - php: 7.2
-      env: dependencies=highest
     - php: 7.3
       env: dependencies=lowest
     - php: 7.3
-      env: dependencies=highest
+    - php: 7.4snapshot
+      env: dependencies=lowest
+    - php: 7.4snapshot
+  allow_failures:
+    - php: 7.4snapshot
 
 before_script:
+  - rm ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
+  - echo 'extension=apcu.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/apcu.ini
   - echo 'Europe/Zurich' | sudo tee /etc/timezone
   - echo 'date.timezone = "Europe/Zurich"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer self-update -q
-  - if [ -z "$dependencies" ]; then composer install; fi;
+  - composer global require hirak/prestissimo
+  - if [ -z "$dependencies" ]; then composer update -n; fi;
   - if [ "$dependencies" = "lowest" ]; then composer update --prefer-lowest -n; fi;
-  - if [ "$dependencies" = "highest" ]; then composer update -n; fi;
 
 script:
-  - vendor/bin/phpunit --coverage-text --verbose
-  - vendor/bin/phpstan analyse -l 7 -c phpstan.neon src
-  - vendor/bin/phploc src --verbose
-  - vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation
+  - composer test
+  - vendor/bin/php-coveralls --coverage_clover=build/phpunit/phpunit.clover.xml --json_path=build/coveralls.json -v

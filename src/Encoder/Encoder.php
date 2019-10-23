@@ -52,7 +52,7 @@ final class Encoder implements EncoderInterface
     /**
      * @param TypeEncoderInterface $encoderType
      */
-    private function addTypeEncoder(TypeEncoderInterface $encoderType)
+    private function addTypeEncoder(TypeEncoderInterface $encoderType): void
     {
         $this->encoderTypes[$encoderType->getContentType()] = $encoderType;
     }

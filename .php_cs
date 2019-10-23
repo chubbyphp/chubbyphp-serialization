@@ -24,11 +24,13 @@ return PhpCsFixer\Config::create()
         'no_php4_constructor' => true,
         'ordered_interfaces' => true,
         'php_unit_dedicate_assert' => true,
+        'php_unit_dedicate_assert_internal_type' => true,
         'php_unit_expectation' => true,
         'php_unit_mock' => true,
         'php_unit_namespaced' => true,
         'php_unit_no_expectation_annotation' => true,
         'ternary_to_null_coalescing' => true,
+        'void_return' => true,
     ])
     ->setRiskyAllowed(true)
     ->setFinder($finder)

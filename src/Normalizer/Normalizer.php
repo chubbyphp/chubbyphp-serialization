@@ -52,7 +52,7 @@ final class Normalizer implements NormalizerInterface
 
         $context = $context ?? NormalizerContextBuilder::create()->getContext();
 
-        $class = is_object($object) ? get_class($object) : $object;
+        $class = get_class($object);
         $objectMapping = $this->getObjectMapping($class);
 
         $fieldMappings = $objectMapping->getNormalizationFieldMappings($path);
@@ -86,7 +86,7 @@ final class Normalizer implements NormalizerInterface
      *
      * @throws SerializerLogicException
      */
-    private function validateDataType($object, string $path)
+    private function validateDataType($object, string $path): void
     {
         if (!is_object($object)) {
             $exception = SerializerLogicException::createWrongDataType(gettype($object), $path);

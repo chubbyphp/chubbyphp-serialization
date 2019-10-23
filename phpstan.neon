@@ -1,3 +1,14 @@
 parameters:
-	ignoreErrors:
-		- '#Call to an undefined method DOMNode::setAttribute().#'
+    ignoreErrors:
+        -
+            message: '##'
+            path: %currentWorkingDirectory%/src/Encoder/JsonTypeEncoder.php
+        -
+            message: '##'
+            path: %currentWorkingDirectory%/src/Encoder/JsonxTypeEncoder.php
+        -
+            message: '##'
+            path: %currentWorkingDirectory%/src/Encoder/XmlTypeEncoder.php
+        -
+            message: '#Else branch is unreachable because ternary operator condition is always true.#'
+            path: %currentWorkingDirectory%/src/Normalizer/DateTimeFieldNormalizer.php

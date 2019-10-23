@@ -1,8 +1,7 @@
 # chubbyphp-serialization
 
 [![Build Status](https://api.travis-ci.org/chubbyphp/chubbyphp-serialization.png?branch=master)](https://travis-ci.org/chubbyphp/chubbyphp-serialization)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/chubbyphp/chubbyphp-serialization/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/chubbyphp/chubbyphp-serialization/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/chubbyphp/chubbyphp-serialization/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/chubbyphp/chubbyphp-serialization/?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/chubbyphp/chubbyphp-serialization/badge.svg?branch=master)](https://coveralls.io/github/chubbyphp/chubbyphp-serialization?branch=master)
 [![Total Downloads](https://poser.pugx.org/chubbyphp/chubbyphp-serialization/downloads.png)](https://packagist.org/packages/chubbyphp/chubbyphp-serialization)
 [![Monthly Downloads](https://poser.pugx.org/chubbyphp/chubbyphp-serialization/d/monthly)](https://packagist.org/packages/chubbyphp/chubbyphp-serialization)
 [![Latest Stable Version](https://poser.pugx.org/chubbyphp/chubbyphp-serialization/v/stable.png)](https://packagist.org/packages/chubbyphp/chubbyphp-serialization)
@@ -14,25 +13,25 @@ A simple serialization.
 
 ## Requirements
 
- * php: ~7.0
- * doctrine/inflector: ~1.0
- * psr/http-message: ~1.0
- * psr/link: ~1.0
- * psr/log: ~1.0
+ * php: ^7.2
+ * doctrine/inflector: ^1.0
+ * psr/http-message: ^1.0.1
+ * psr/link: ^1.0
+ * psr/log: ^1.1
 
 ## Suggest
 
- * container-interop/container-interop: ~1.0
- * pimple/pimple: ~3.0
- * symfony/dependency-injection: ~2.8|~3.0|~4.0 (symfony integration)
- * symfony/yaml: ~2.8|~3.0|~4.0 (application/x-yaml support)
+ * psr/container: ^1.0
+ * pimple/pimple: ^3.2.3
+ * symfony/dependency-injection: ^2.8|^3.4|^4.2 (symfony integration)
+ * symfony/yaml: ^2.8|^3.4|^4.2 (application/x-yaml support)
 
 ## Installation
 
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-serialization][1].
 
 ```sh
-composer require chubbyphp/chubbyphp-serialization "~2.10"
+composer require chubbyphp/chubbyphp-serialization "^2.11"
 ```
 
 ## Usage
@@ -190,7 +189,7 @@ echo $serializer->encode(
 
 ## Copyright
 
-Dominik Zogg 2017
+Dominik Zogg 2019
 
 
 [1]: https://packagist.org/packages/chubbyphp/chubbyphp-serialization

@@ -37,7 +37,9 @@ final class NormalizerObjectMappingRegistry implements NormalizerObjectMappingRe
         $reflectionClass = new \ReflectionClass($class);
 
         if (in_array('Doctrine\Common\Persistence\Proxy', $reflectionClass->getInterfaceNames(), true)) {
-            $class = $reflectionClass->getParentClass()->name;
+            /** @var \ReflectionClass $reflectionParentClass */
+            $reflectionParentClass = $reflectionClass->getParentClass();
+            $class = $reflectionParentClass->getName();
         }
 
         if (isset($this->objectMappings[$class])) {
@@ -50,7 +52,7 @@ final class NormalizerObjectMappingRegistry implements NormalizerObjectMappingRe
     /**
      * @param NormalizationObjectMappingInterface $objectMapping
      */
-    private function addObjectMapping(NormalizationObjectMappingInterface $objectMapping)
+    private function addObjectMapping(NormalizationObjectMappingInterface $objectMapping): void
     {
         $this->objectMappings[$objectMapping->getClass()] = $objectMapping;
     }

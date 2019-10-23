@@ -1,6 +1,6 @@
-phpunit/
-vendor/
-composer.lock
-.php_cs.cache
-
+.DS_Store
 .idea/
+.vscode/
+build/
+composer.lock
+vendor/
