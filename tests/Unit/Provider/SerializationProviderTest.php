@@ -7,6 +7,7 @@ namespace Chubbyphp\Tests\Serialization\Unit\Provider;
 use Chubbyphp\Serialization\Encoder\Encoder;
 use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
 use Chubbyphp\Serialization\Encoder\JsonxTypeEncoder;
+use Chubbyphp\Serialization\Encoder\TypeEncoderInterface;
 use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
 use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
 use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
@@ -46,10 +47,24 @@ final class SerializationProviderTest extends TestCase
 
         self::assertInstanceOf(Encoder::class, $container['serializer.encoder']);
         self::assertIsArray($container['serializer.encodertypes']);
-        self::assertInstanceOf(JsonTypeEncoder::class, $container['serializer.encodertypes'][0]);
-        self::assertInstanceOf(JsonxTypeEncoder::class, $container['serializer.encodertypes'][1]);
-        self::assertInstanceOf(UrlEncodedTypeEncoder::class, $container['serializer.encodertypes'][2]);
-        self::assertInstanceOf(XmlTypeEncoder::class, $container['serializer.encodertypes'][3]);
-        self::assertInstanceOf(YamlTypeEncoder::class, $container['serializer.encodertypes'][4]);
+
+        /** @var array<int, TypeEncoderInterface> $encoderTypes */
+        $encoderTypes = $container['serializer.encodertypes'];
+
+        self::assertInstanceOf(JsonTypeEncoder::class, array_shift($encoderTypes));
+
+        $jsonxTypeEncoder1 = array_shift($encoderTypes);
+        self::assertInstanceOf(JsonxTypeEncoder::class, $jsonxTypeEncoder1);
+
+        self::assertSame('application/x-jsonx', $jsonxTypeEncoder1->getContentType());
+
+        $jsonxTypeEncoder2 = array_shift($encoderTypes);
+        self::assertInstanceOf(JsonxTypeEncoder::class, $jsonxTypeEncoder2);
+
+        self::assertSame('application/jsonx+xml', $jsonxTypeEncoder2->getContentType());
+
+        self::assertInstanceOf(UrlEncodedTypeEncoder::class, array_shift($encoderTypes));
+        self::assertInstanceOf(XmlTypeEncoder::class, array_shift($encoderTypes));
+        self::assertInstanceOf(YamlTypeEncoder::class, array_shift($encoderTypes));
     }
 }

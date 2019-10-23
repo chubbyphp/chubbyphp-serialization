@@ -15,9 +15,9 @@ final class YamlTypeEncoderTest extends AbstractTypeEncoderTest
 {
     public function testContentType(): void
     {
-        $transformer = new YamlTypeEncoder();
+        $encoder = new YamlTypeEncoder();
 
-        self::assertSame('application/x-yaml', $transformer->getContentType());
+        self::assertSame('application/x-yaml', $encoder->getContentType());
     }
 
     /**
@@ -27,9 +27,9 @@ final class YamlTypeEncoderTest extends AbstractTypeEncoderTest
      */
     public function testFormat(array $data): void
     {
-        $yamlTransformer = new YamlTypeEncoder();
+        $yamlencoder = new YamlTypeEncoder();
 
-        $yaml = $yamlTransformer->encode($data);
+        $yaml = $yamlencoder->encode($data);
 
         $expectedYaml = <<<'EOT'
 page: 1

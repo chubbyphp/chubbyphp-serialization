@@ -15,9 +15,28 @@ final class JsonxTypeEncoderTest extends AbstractTypeEncoderTest
 {
     public function testContentType(): void
     {
-        $transformer = new JsonxTypeEncoder();
+        error_clear_last();
 
-        self::assertSame('application/x-jsonx', $transformer->getContentType());
+        $encoder = new JsonxTypeEncoder();
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(
+            'Use "application/jsonx+xml" instead of "application/x-jsonx", cause jsonx is a xml variant.',
+            $error['message']
+        );
+
+        self::assertSame('application/x-jsonx', $encoder->getContentType());
+    }
+
+    public function testGetContentTypeWithFixedContentType(): void
+    {
+        $encoder = new JsonxTypeEncoder(false, 'application/jsonx+xml');
+
+        self::assertSame('application/jsonx+xml', $encoder->getContentType());
     }
 
     /**
@@ -27,9 +46,9 @@ final class JsonxTypeEncoderTest extends AbstractTypeEncoderTest
      */
     public function testFormat(array $data): void
     {
-        $transformer = new JsonxTypeEncoder(true);
+        $encoder = new JsonxTypeEncoder(true);
 
-        $jsonx = $transformer->encode($data);
+        $jsonx = $encoder->encode($data);
 
         $expectedJsonx = <<<'EOT'
 <?xml version="1.0" encoding="UTF-8"?>
@@ -218,7 +237,7 @@ EOT;
 
     public function testArray(): void
     {
-        $transformer = new JsonxTypeEncoder(true);
+        $encoder = new JsonxTypeEncoder(true);
 
         $expectedJsonx = <<<'EOT'
 <?xml version="1.0" encoding="UTF-8"?>
@@ -237,7 +256,7 @@ EOT;
 </json:array>
 EOT;
 
-        $jsonx = $transformer->encode([
+        $jsonx = $encoder->encode([
             ['key' => 'value'],
             ['value'],
             false,
@@ -255,7 +274,7 @@ EOT;
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Value needs to be of type array|bool|string|int|float|null, DateTime given');
 
-        $transformer = new JsonxTypeEncoder(true);
-        $transformer->encode(['key' => new \DateTime()]);
+        $encoder = new JsonxTypeEncoder(true);
+        $encoder->encode(['key' => new \DateTime()]);
     }
 }

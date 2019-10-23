@@ -15,9 +15,9 @@ final class JsonTypeEncoderTest extends AbstractTypeEncoderTest
 {
     public function testContentType(): void
     {
-        $transformer = new JsonTypeEncoder();
+        $encoder = new JsonTypeEncoder();
 
-        self::assertSame('application/json', $transformer->getContentType());
+        self::assertSame('application/json', $encoder->getContentType());
     }
 
     /**
@@ -27,9 +27,9 @@ final class JsonTypeEncoderTest extends AbstractTypeEncoderTest
      */
     public function testFormat(array $data): void
     {
-        $jsonTransformer = new JsonTypeEncoder(true);
+        $jsonencoder = new JsonTypeEncoder(true);
 
-        $json = $jsonTransformer->encode($data);
+        $json = $jsonencoder->encode($data);
 
         $expectedJson = <<<'EOT'
 {

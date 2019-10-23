@@ -52,6 +52,7 @@ final class SerializationProvider implements ServiceProviderInterface
 
             $encoderTypes[] = new JsonTypeEncoder();
             $encoderTypes[] = new JsonxTypeEncoder();
+            $encoderTypes[] = new JsonxTypeEncoder(false, 'application/jsonx+xml');
             $encoderTypes[] = new UrlEncodedTypeEncoder();
             $encoderTypes[] = new XmlTypeEncoder();
 

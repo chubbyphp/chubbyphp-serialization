@@ -15,9 +15,9 @@ final class XmlTypeEncoderTest extends AbstractTypeEncoderTest
 {
     public function testContentType(): void
     {
-        $transformer = new XmlTypeEncoder();
+        $encoder = new XmlTypeEncoder();
 
-        self::assertSame('application/xml', $transformer->getContentType());
+        self::assertSame('application/xml', $encoder->getContentType());
     }
 
     /**
@@ -27,8 +27,8 @@ final class XmlTypeEncoderTest extends AbstractTypeEncoderTest
      */
     public function testFormat(array $data): void
     {
-        $xmlTransformer = new XmlTypeEncoder(true);
-        $xml = $xmlTransformer->encode($data);
+        $xmlencoder = new XmlTypeEncoder(true);
+        $xml = $xmlencoder->encode($data);
 
         $expectedXml = <<<'EOT'
 <?xml version="1.0" encoding="UTF-8"?>
@@ -222,9 +222,9 @@ EOT;
 </object>
 EOT;
 
-        $xmlTransformer = new XmlTypeEncoder(true);
+        $xmlencoder = new XmlTypeEncoder(true);
 
-        self::assertSame($expectedXml, $xmlTransformer->encode(['key' => 'value']));
+        self::assertSame($expectedXml, $xmlencoder->encode(['key' => 'value']));
     }
 
     public function testInvalidValueAsString(): void
@@ -232,7 +232,7 @@ EOT;
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported data type: object');
 
-        $xmlTransformer = new XmlTypeEncoder(true);
-        $xmlTransformer->encode(['key' => new \stdClass()]);
+        $xmlencoder = new XmlTypeEncoder(true);
+        $xmlencoder->encode(['key' => new \stdClass()]);
     }
 }

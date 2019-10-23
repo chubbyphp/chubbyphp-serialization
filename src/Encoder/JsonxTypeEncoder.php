@@ -15,17 +15,33 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     const DATATYPE_STRING = 'string';
     const DATATYPE_NUMBER = 'number';
     const DATATYPE_NULL = 'null';
+
     /**
      * @var bool
      */
     private $prettyPrint;
 
     /**
-     * @param bool $prettyPrint
+     * @var string
      */
-    public function __construct(bool $prettyPrint = false)
+    private $contentType;
+
+    /**
+     * @param bool   $prettyPrint
+     * @param string $contentType
+     */
+    public function __construct(bool $prettyPrint = false, string $contentType = 'application/x-jsonx')
     {
         $this->prettyPrint = $prettyPrint;
+
+        if ('application/x-jsonx' === $contentType) {
+            @trigger_error(
+                'Use "application/jsonx+xml" instead of "application/x-jsonx", cause jsonx is a xml variant.',
+                E_USER_DEPRECATED
+            );
+        }
+
+        $this->contentType = $contentType;
     }
 
     /**
@@ -33,7 +49,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
      */
     public function getContentType(): string
     {
-        return 'application/x-jsonx';
+        return $this->contentType;
     }
 
     /**
