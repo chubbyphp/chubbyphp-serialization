@@ -59,6 +59,12 @@ final class SerializationProvider implements ServiceProviderInterface
                 $encoderTypes[] = new YamlTypeEncoder();
             }
 
+            @trigger_error(
+                'Register the encoder types by yourself:'
+                    .' $container[\'serializer.encodertypes\'] = function () { return [new JsonTypeEncoder()]; };',
+                E_USER_DEPRECATED
+            );
+
             return $encoderTypes;
         };
     }

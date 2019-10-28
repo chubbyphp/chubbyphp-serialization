@@ -16,6 +16,7 @@ use Chubbyphp\Serialization\Provider\SerializationProvider;
 use Chubbyphp\Serialization\Serializer;
 use PHPUnit\Framework\TestCase;
 use Pimple\Container;
+use Psr\Log\NullLogger;
 
 /**
  * @covers \Chubbyphp\Serialization\Provider\SerializationProvider
@@ -28,6 +29,8 @@ final class SerializationProviderTest extends TestCase
     {
         $container = new Container();
         $container->register(new SerializationProvider());
+
+        error_clear_last();
 
         self::assertTrue(isset($container['serializer']));
 
@@ -51,5 +54,26 @@ final class SerializationProviderTest extends TestCase
         self::assertInstanceOf(UrlEncodedTypeEncoder::class, $container['serializer.encodertypes'][2]);
         self::assertInstanceOf(XmlTypeEncoder::class, $container['serializer.encodertypes'][3]);
         self::assertInstanceOf(YamlTypeEncoder::class, $container['serializer.encodertypes'][4]);
+
+        /** @var Normalizer $normalizer */
+        $normalizer = $container['serializer.normalizer'];
+
+        self::assertInstanceOf(Normalizer::class, $normalizer);
+
+        $reflectionProperty = new \ReflectionProperty($normalizer, 'logger');
+        $reflectionProperty->setAccessible(true);
+
+        self::assertInstanceOf(NullLogger::class, $reflectionProperty->getValue($normalizer));
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(
+            'Register the encoder types by yourself:'
+                .' $container[\'serializer.encodertypes\'] = function () { return [new JsonTypeEncoder()]; };',
+            $error['message']
+        );
     }
 }
