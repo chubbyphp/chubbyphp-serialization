@@ -41,27 +41,16 @@ final class Model
         $this->id = 'ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a';
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return self
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -69,19 +58,11 @@ final class Model
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getAdditionalInfo(): string
     {
         return $this->additionalInfo;
     }
 
-    /**
-     * @param string $additionalInfo
-     *
-     * @return self
-     */
     public function setAdditionalInfo(string $additionalInfo): self
     {
         $this->additionalInfo = $additionalInfo;
@@ -98,8 +79,6 @@ final class Model
     }
 
     /**
-     * @param OneModel|null $one
-     *
      * @return self
      */
     public function setOne(OneModel $one = null)
@@ -119,8 +98,6 @@ final class Model
 
     /**
      * @param AbstractManyModel[] $manies
-     *
-     * @return self
      */
     public function setManies(array $manies): self
     {

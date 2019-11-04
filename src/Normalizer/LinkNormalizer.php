@@ -14,18 +14,13 @@ final class LinkNormalizer implements LinkNormalizerInterface
      */
     private $link;
 
-    /**
-     * @param LinkInterface $link
-     */
     public function __construct(LinkInterface $link)
     {
         $this->link = $link;
     }
 
     /**
-     * @param string                     $path
-     * @param object|mixed               $object
-     * @param NormalizerContextInterface $context
+     * @param object|mixed $object
      *
      * @throws SerializerLogicException
      *

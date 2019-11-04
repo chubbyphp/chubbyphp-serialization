@@ -23,17 +23,11 @@ final class MethodAccessorTest extends TestCase
              */
             private $name;
 
-            /**
-             * @return string
-             */
             public function getName(): string
             {
                 return $this->name;
             }
 
-            /**
-             * @param string $name
-             */
             public function setName(string $name): void
             {
                 $this->name = $name;
@@ -55,17 +49,11 @@ final class MethodAccessorTest extends TestCase
              */
             private $name;
 
-            /**
-             * @return bool
-             */
             public function hasName(): bool
             {
                 return (bool) $this->name;
             }
 
-            /**
-             * @param string $name
-             */
             public function setName(string $name): void
             {
                 $this->name = $name;
@@ -87,17 +75,11 @@ final class MethodAccessorTest extends TestCase
              */
             private $name;
 
-            /**
-             * @return bool
-             */
             public function isName(): bool
             {
                 return (bool) $this->name;
             }
 
-            /**
-             * @param string $name
-             */
             public function setName(string $name): void
             {
                 $this->name = $name;

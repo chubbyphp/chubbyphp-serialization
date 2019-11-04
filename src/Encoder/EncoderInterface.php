@@ -14,12 +14,7 @@ interface EncoderInterface
     public function getContentTypes(): array;
 
     /**
-     * @param array  $data
-     * @param string $contentType
-     *
      * @throws SerializerLogicException
-     *
-     * @return string
      */
     public function encode(array $data, string $contentType): string;
 }

@@ -29,9 +29,6 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
     {
     }
 
-    /**
-     * @return NormalizerContextBuilderInterface
-     */
     public static function create(): NormalizerContextBuilderInterface
     {
         return new self();
@@ -41,8 +38,6 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
      * @deprecated
      *
      * @param string[] $groups
-     *
-     * @return NormalizerContextBuilderInterface
      */
     public function setGroups(array $groups): NormalizerContextBuilderInterface
     {
@@ -51,11 +46,6 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
         return $this;
     }
 
-    /**
-     * @param array $attributes
-     *
-     * @return NormalizerContextBuilderInterface
-     */
     public function setAttributes(array $attributes): NormalizerContextBuilderInterface
     {
         $this->attributes = $attributes;
@@ -63,11 +53,6 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
         return $this;
     }
 
-    /**
-     * @param ServerRequestInterface|null $request
-     *
-     * @return NormalizerContextBuilderInterface
-     */
     public function setRequest(ServerRequestInterface $request = null): NormalizerContextBuilderInterface
     {
         $this->request = $request;
@@ -75,9 +60,6 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
         return $this;
     }
 
-    /**
-     * @return NormalizerContextInterface
-     */
     public function getContext(): NormalizerContextInterface
     {
         return new NormalizerContext($this->groups, $this->request, $this->attributes);

@@ -12,9 +12,6 @@ use Chubbyphp\Serialization\Policy\PolicyInterface;
  */
 interface NormalizationFieldMappingInterface
 {
-    /**
-     * @return string
-     */
     public function getName(): string;
 
     /**
@@ -24,9 +21,6 @@ interface NormalizationFieldMappingInterface
      */
     public function getGroups(): array;
 
-    /**
-     * @return FieldNormalizerInterface
-     */
     public function getFieldNormalizer(): FieldNormalizerInterface;
 
     /*

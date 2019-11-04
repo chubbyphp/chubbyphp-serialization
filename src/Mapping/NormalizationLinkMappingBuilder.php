@@ -33,20 +33,11 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
      */
     private $policy;
 
-    /**
-     * @param string $name
-     */
     private function __construct(string $name)
     {
         $this->name = $name;
     }
 
-    /**
-     * @param string                  $name
-     * @param LinkNormalizerInterface $linkNormalizer
-     *
-     * @return NormalizationLinkMappingBuilderInterface
-     */
     public static function create(
         string $name,
         LinkNormalizerInterface $linkNormalizer
@@ -57,12 +48,6 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
         return $self;
     }
 
-    /**
-     * @param string   $name
-     * @param callable $callback
-     *
-     * @return NormalizationLinkMappingBuilderInterface
-     */
     public static function createCallback(
         string $name,
         callable $callback
@@ -73,12 +58,6 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
         return $self;
     }
 
-    /**
-     * @param string        $name
-     * @param LinkInterface $link
-     *
-     * @return NormalizationLinkMappingBuilderInterface
-     */
     public static function createLink(
         string $name,
         LinkInterface $link
@@ -91,10 +70,6 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
 
     /**
      * @deprecated
-     *
-     * @param array $groups
-     *
-     * @return NormalizationLinkMappingBuilderInterface
      */
     public function setGroups(array $groups): NormalizationLinkMappingBuilderInterface
     {
@@ -103,11 +78,6 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
         return $this;
     }
 
-    /**
-     * @param PolicyInterface $policy
-     *
-     * @return NormalizationLinkMappingBuilderInterface
-     */
     public function setPolicy(PolicyInterface $policy): NormalizationLinkMappingBuilderInterface
     {
         $this->policy = $policy;
@@ -115,9 +85,6 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
         return $this;
     }
 
-    /**
-     * @return NormalizationLinkMappingInterface
-     */
     public function getMapping(): NormalizationLinkMappingInterface
     {
         return new NormalizationLinkMapping(

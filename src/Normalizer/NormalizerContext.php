@@ -27,9 +27,7 @@ final class NormalizerContext implements NormalizerContextInterface
     private $attributes;
 
     /**
-     * @param string[]                    $groups
-     * @param ServerRequestInterface|null $request
-     * @param array                       $attributes
+     * @param string[] $groups
      */
     public function __construct(array $groups = [], ServerRequestInterface $request = null, array $attributes = [])
     {
@@ -60,17 +58,13 @@ final class NormalizerContext implements NormalizerContextInterface
         return $this->request;
     }
 
-    /**
-     * @return array
-     */
     public function getAttributes(): array
     {
         return $this->attributes;
     }
 
     /**
-     * @param string $name
-     * @param mixed  $default
+     * @param mixed $default
      *
      * @return mixed
      */
@@ -84,10 +78,7 @@ final class NormalizerContext implements NormalizerContextInterface
     }
 
     /**
-     * @param string $name
-     * @param mixed  $value
-     *
-     * @return NormalizerContextInterface
+     * @param mixed $value
      */
     public function withAttribute(string $name, $value): NormalizerContextInterface
     {

@@ -24,9 +24,7 @@ final class Link implements LinkInterface
     private $attributes;
 
     /**
-     * @param string   $href
      * @param string[] $rels
-     * @param array    $attributes
      */
     public function __construct(string $href, array $rels, array $attributes)
     {
@@ -35,17 +33,11 @@ final class Link implements LinkInterface
         $this->attributes = $attributes;
     }
 
-    /**
-     * @return string
-     */
     public function getHref(): string
     {
         return $this->href;
     }
 
-    /**
-     * @return bool
-     */
     public function isTemplated(): bool
     {
         return false !== strpos($this->href, '{');
@@ -59,9 +51,6 @@ final class Link implements LinkInterface
         return $this->rels;
     }
 
-    /**
-     * @return array
-     */
     public function getAttributes(): array
     {
         return $this->attributes;

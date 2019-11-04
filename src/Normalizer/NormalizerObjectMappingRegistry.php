@@ -14,9 +14,6 @@ final class NormalizerObjectMappingRegistry implements NormalizerObjectMappingRe
      */
     private $objectMappings;
 
-    /**
-     * @param array $objectMappings
-     */
     public function __construct(array $objectMappings)
     {
         $this->objectMappings = [];
@@ -26,11 +23,7 @@ final class NormalizerObjectMappingRegistry implements NormalizerObjectMappingRe
     }
 
     /**
-     * @param string $class
-     *
      * @throws SerializerLogicException
-     *
-     * @return NormalizationObjectMappingInterface
      */
     public function getObjectMapping(string $class): NormalizationObjectMappingInterface
     {
@@ -49,9 +42,6 @@ final class NormalizerObjectMappingRegistry implements NormalizerObjectMappingRe
         throw SerializerLogicException::createMissingMapping($class);
     }
 
-    /**
-     * @param NormalizationObjectMappingInterface $objectMapping
-     */
     private function addObjectMapping(NormalizationObjectMappingInterface $objectMapping): void
     {
         $this->objectMappings[$objectMapping->getClass()] = $objectMapping;

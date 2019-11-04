@@ -391,9 +391,6 @@ EOD;
                 $this->entries[] = ['level' => $level, 'message' => $message, 'context' => $context];
             }
 
-            /**
-             * @return array
-             */
             public function getEntries(): array
             {
                 return $this->entries;

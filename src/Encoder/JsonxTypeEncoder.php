@@ -26,10 +26,6 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
      */
     private $contentType;
 
-    /**
-     * @param bool   $prettyPrint
-     * @param string $contentType
-     */
     public function __construct(bool $prettyPrint = false, string $contentType = 'application/x-jsonx')
     {
         $this->prettyPrint = $prettyPrint;
@@ -44,19 +40,11 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
         $this->contentType = $contentType;
     }
 
-    /**
-     * @return string
-     */
     public function getContentType(): string
     {
         return $this->contentType;
     }
 
-    /**
-     * @param array $data
-     *
-     * @return string
-     */
     public function encode(array $data): string
     {
         $document = new \DOMDocument('1.0', 'UTF-8');
@@ -78,11 +66,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param \DOMDocument $document
-     * @param string       $name
-     * @param array        $value
-     *
-     * @return \DOMNode
+     * @param string $name
      */
     private function createObjectNode(\DOMDocument $document, array $value, string $name = null): \DOMNode
     {
@@ -115,11 +99,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param \DOMDocument $document
-     * @param array        $value
-     * @param string       $name
-     *
-     * @return \DOMNode
+     * @param string $name
      */
     private function createArrayNode(\DOMDocument $document, array $value, string $name = null): \DOMNode
     {
@@ -152,11 +132,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param \DOMDocument $document
-     * @param bool         $value
-     * @param string       $name
-     *
-     * @return \DOMNode
+     * @param string $name
      */
     private function createBooleanNode(\DOMDocument $document, bool $value, string $name = null): \DOMNode
     {
@@ -170,11 +146,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param \DOMDocument $document
-     * @param string       $value
-     * @param string       $name
-     *
-     * @return \DOMNode
+     * @param string $name
      */
     private function createStringNode(\DOMDocument $document, string $value, string $name = null): \DOMNode
     {
@@ -188,11 +160,8 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param \DOMDocument $document
-     * @param int|float    $value
-     * @param string       $name
-     *
-     * @return \DOMNode
+     * @param int|float $value
+     * @param string    $name
      */
     private function createNumberNode(\DOMDocument $document, $value, string $name = null): \DOMNode
     {
@@ -206,10 +175,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param \DOMDocument $document
-     * @param string       $name
-     *
-     * @return \DOMNode
+     * @param string $name
      */
     private function createNullNode(\DOMDocument $document, string $name = null): \DOMNode
     {
@@ -224,8 +190,6 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
 
     /**
      * @param array|bool|string|int|float|null $value
-     *
-     * @return string
      */
     private function getType($value): string
     {

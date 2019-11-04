@@ -9,13 +9,9 @@ use Chubbyphp\Serialization\SerializerLogicException;
 interface NormalizerInterface
 {
     /**
-     * @param object                          $object
-     * @param NormalizerContextInterface|null $context
-     * @param string                          $path
+     * @param object $object
      *
      * @throws SerializerLogicException
-     *
-     * @return array
      */
     public function normalize($object, NormalizerContextInterface $context = null, string $path = ''): array;
 }

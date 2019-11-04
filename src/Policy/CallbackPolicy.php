@@ -13,19 +13,13 @@ final class CallbackPolicy implements PolicyInterface
      */
     private $callback;
 
-    /**
-     * @param callable $callback
-     */
     public function __construct(callable $callback)
     {
         $this->callback = $callback;
     }
 
     /**
-     * @param NormalizerContextInterface $context
-     * @param object|mixed               $object
-     *
-     * @return bool
+     * @param object|mixed $object
      */
     public function isCompliant(NormalizerContextInterface $context, $object): bool
     {

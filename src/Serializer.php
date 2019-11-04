@@ -20,10 +20,6 @@ final class Serializer implements SerializerInterface
      */
     private $encoder;
 
-    /**
-     * @param NormalizerInterface $normalizer
-     * @param EncoderInterface    $encoder
-     */
     public function __construct(NormalizerInterface $normalizer, EncoderInterface $encoder)
     {
         $this->normalizer = $normalizer;
@@ -31,12 +27,8 @@ final class Serializer implements SerializerInterface
     }
 
     /**
-     * @param object                          $object
-     * @param string                          $contentType
-     * @param NormalizerContextInterface|null $context
-     * @param string                          $path
-     *
-     * @return string
+     * @param object $object
+     * @param string $path
      */
     public function serialize(
         $object,
@@ -48,13 +40,9 @@ final class Serializer implements SerializerInterface
     }
 
     /**
-     * @param object                          $object
-     * @param NormalizerContextInterface|null $context
-     * @param string                          $path
+     * @param object $object
      *
      * @throws SerializerLogicException
-     *
-     * @return array
      */
     public function normalize($object, NormalizerContextInterface $context = null, string $path = ''): array
     {
@@ -70,12 +58,7 @@ final class Serializer implements SerializerInterface
     }
 
     /**
-     * @param array  $data
-     * @param string $contentType
-     *
      * @throws SerializerLogicException
-     *
-     * @return string
      */
     public function encode(array $data, string $contentType): string
     {

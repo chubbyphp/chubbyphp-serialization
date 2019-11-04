@@ -21,19 +21,12 @@ final class CallableNormalizationObjectMapping implements NormalizationObjectMap
      */
     private $mapping;
 
-    /**
-     * @param string   $class
-     * @param callable $callable
-     */
     public function __construct(string $class, callable $callable)
     {
         $this->class = $class;
         $this->callable = $callable;
     }
 
-    /**
-     * @return string
-     */
     public function getClass(): string
     {
         return $this->class;
@@ -48,8 +41,6 @@ final class CallableNormalizationObjectMapping implements NormalizationObjectMap
     }
 
     /**
-     * @param string $path
-     *
      * @return NormalizationFieldMappingInterface[]
      */
     public function getNormalizationFieldMappings(string $path): array
@@ -58,8 +49,6 @@ final class CallableNormalizationObjectMapping implements NormalizationObjectMap
     }
 
     /**
-     * @param string $path
-     *
      * @return NormalizationFieldMappingInterface[]
      */
     public function getNormalizationEmbeddedFieldMappings(string $path): array
@@ -68,8 +57,6 @@ final class CallableNormalizationObjectMapping implements NormalizationObjectMap
     }
 
     /**
-     * @param string $path
-     *
      * @return NormalizationLinkMappingInterface[]
      */
     public function getNormalizationLinkMappings(string $path): array
@@ -77,9 +64,6 @@ final class CallableNormalizationObjectMapping implements NormalizationObjectMap
         return $this->getMapping()->getNormalizationLinkMappings($path);
     }
 
-    /**
-     * @return NormalizationObjectMappingInterface
-     */
     private function getMapping(): NormalizationObjectMappingInterface
     {
         if (null === $this->mapping) {

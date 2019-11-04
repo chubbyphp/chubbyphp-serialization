@@ -10,11 +10,7 @@ use Chubbyphp\Serialization\SerializerLogicException;
 interface NormalizerObjectMappingRegistryInterface
 {
     /**
-     * @param string $class
-     *
      * @throws SerializerLogicException
-     *
-     * @return NormalizationObjectMappingInterface
      */
     public function getObjectMapping(string $class): NormalizationObjectMappingInterface;
 }

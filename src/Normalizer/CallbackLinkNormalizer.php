@@ -15,18 +15,13 @@ final class CallbackLinkNormalizer implements LinkNormalizerInterface
      */
     private $callback;
 
-    /**
-     * @param callable $callback
-     */
     public function __construct(callable $callback)
     {
         $this->callback = $callback;
     }
 
     /**
-     * @param string                     $path
-     * @param object                     $object
-     * @param NormalizerContextInterface $context
+     * @param object $object
      *
      * @throws SerializerLogicException
      *

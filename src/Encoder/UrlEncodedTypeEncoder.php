@@ -6,30 +6,16 @@ namespace Chubbyphp\Serialization\Encoder;
 
 final class UrlEncodedTypeEncoder implements TypeEncoderInterface
 {
-    /**
-     * @return string
-     */
     public function getContentType(): string
     {
         return 'application/x-www-form-urlencoded';
     }
 
-    /**
-     * @param array $data
-     *
-     * @return string
-     */
     public function encode(array $data): string
     {
         return $this->buildQuery($data);
     }
 
-    /**
-     * @param array  $data
-     * @param string $path
-     *
-     * @return string
-     */
     private function buildQuery(array $data, string $path = ''): string
     {
         if ([] === $data) {
@@ -58,8 +44,6 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
      * @param bool|int|float|string $value
      *
      * @throws \InvalidArgumentException
-     *
-     * @return string
      */
     private function getValueAsString($value): string
     {

@@ -154,8 +154,6 @@ final class DateFieldNormalizerTest extends TestCase
 
             /**
              * @param \DateTime|string|null $date
-             *
-             * @return self
              */
             public function setDate($date): self
             {

@@ -124,8 +124,6 @@ final class EmbedOneFieldNormalizerTest extends TestCase
 
             /**
              * @param object $relation
-             *
-             * @return self
              */
             public function setRelation($relation): self
             {
@@ -147,19 +145,11 @@ final class EmbedOneFieldNormalizerTest extends TestCase
              */
             private $name;
 
-            /**
-             * @return string
-             */
             public function getName(): string
             {
                 return $this->name;
             }
 
-            /**
-             * @param string $name
-             *
-             * @return self
-             */
             public function setName(string $name): self
             {
                 $this->name = $name;

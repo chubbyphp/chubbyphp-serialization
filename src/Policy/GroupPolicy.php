@@ -23,19 +23,13 @@ final class GroupPolicy implements PolicyInterface
      */
     private $groups;
 
-    /**
-     * @param array $groups
-     */
     public function __construct(array $groups = [self::GROUP_DEFAULT])
     {
         $this->groups = $groups;
     }
 
     /**
-     * @param NormalizerContextInterface $context
-     * @param object|mixed               $object
-     *
-     * @return bool
+     * @param object|mixed $object
      */
     public function isCompliant(NormalizerContextInterface $context, $object): bool
     {

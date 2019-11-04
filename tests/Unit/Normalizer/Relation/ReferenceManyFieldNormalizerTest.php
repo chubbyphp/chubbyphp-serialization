@@ -128,11 +128,6 @@ final class ReferenceManyFieldNormalizerTest extends TestCase
                 return $this->children;
             }
 
-            /**
-             * @param array|null $children
-             *
-             * @return self
-             */
             public function setChildren(array $children = null): self
             {
                 $this->children = $children;
@@ -143,8 +138,6 @@ final class ReferenceManyFieldNormalizerTest extends TestCase
     }
 
     /**
-     * @param string|null $id
-     *
      * @return object
      */
     private function getChild(string $id = null)
@@ -155,17 +148,11 @@ final class ReferenceManyFieldNormalizerTest extends TestCase
              */
             private $id;
 
-            /**
-             * @param string $id
-             */
             public function __construct(string $id)
             {
                 $this->id = $id;
             }
 
-            /**
-             * @return string
-             */
             public function getId(): string
             {
                 return $this->id;

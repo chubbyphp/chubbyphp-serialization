@@ -82,25 +82,17 @@ final class SerializationCompilerPassTest extends TestCase
     private function getStdClassMapping()
     {
         return new class() implements NormalizationObjectMappingInterface {
-            /**
-             * @return string
-             */
             public function getClass(): string
             {
                 return \stdClass::class;
             }
 
-            /**
-             * @return string
-             */
             public function getNormalizationType(): string
             {
                 return 'stdClass';
             }
 
             /**
-             * @param string $path
-             *
              * @return NormalizationFieldMappingInterface[]
              */
             public function getNormalizationFieldMappings(string $path): array
@@ -109,8 +101,6 @@ final class SerializationCompilerPassTest extends TestCase
             }
 
             /**
-             * @param string $path
-             *
              * @return NormalizationFieldMappingInterface[]
              */
             public function getNormalizationEmbeddedFieldMappings(string $path): array
@@ -119,8 +109,6 @@ final class SerializationCompilerPassTest extends TestCase
             }
 
             /**
-             * @param string $path
-             *
              * @return NormalizationLinkMappingInterface[]
              */
             public function getNormalizationLinkMappings(string $path): array

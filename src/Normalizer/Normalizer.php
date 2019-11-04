@@ -24,10 +24,6 @@ final class Normalizer implements NormalizerInterface
      */
     private $logger;
 
-    /**
-     * @param NormalizerObjectMappingRegistryInterface $normalizerObjectMappingRegistry
-     * @param LoggerInterface|null                     $logger
-     */
     public function __construct(
         NormalizerObjectMappingRegistryInterface $normalizerObjectMappingRegistry,
         LoggerInterface $logger = null
@@ -37,11 +33,7 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @param object                          $object
-     * @param NormalizerContextInterface|null $context
-     * @param string                          $path
-     *
-     * @return array
+     * @param object $object
      */
     public function normalize(
         $object,
@@ -82,7 +74,6 @@ final class Normalizer implements NormalizerInterface
 
     /**
      * @param object $object
-     * @param string $path
      *
      * @throws SerializerLogicException
      */
@@ -98,11 +89,7 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @param string $class
-     *
      * @throws SerializerLogicException
-     *
-     * @return NormalizationObjectMappingInterface
      */
     private function getObjectMapping(string $class): NormalizationObjectMappingInterface
     {
@@ -116,12 +103,8 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @param NormalizerContextInterface           $context
      * @param NormalizationFieldMappingInterface[] $normalizationFieldMappings
-     * @param string                               $path
      * @param object                               $object
-     *
-     * @return array
      */
     private function getFieldsByFieldNormalizationMappings(
         NormalizerContextInterface $context,
@@ -154,12 +137,8 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @param NormalizerContextInterface          $context
      * @param NormalizationLinkMappingInterface[] $normalizationLinkMappings
-     * @param string                              $path
      * @param object                              $object
-     *
-     * @return array
      */
     private function getLinksByLinkNormalizationMappings(
         NormalizerContextInterface $context,
@@ -190,11 +169,8 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @param NormalizerContextInterface                                           $context
      * @param NormalizationFieldMappingInterface|NormalizationLinkMappingInterface $mapping
      * @param object                                                               $object
-     *
-     * @return bool
      */
     private function isCompliant(NormalizerContextInterface $context, $mapping, $object): bool
     {
@@ -206,10 +182,7 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @param NormalizerContextInterface                                           $context
      * @param NormalizationFieldMappingInterface|NormalizationLinkMappingInterface $mapping
-     *
-     * @return bool
      */
     private function isWithinGroup(NormalizerContextInterface $context, $mapping): bool
     {
@@ -235,12 +208,6 @@ final class Normalizer implements NormalizerInterface
         return false;
     }
 
-    /**
-     * @param string $path
-     * @param string $name
-     *
-     * @return string
-     */
     private function getSubPathByName(string $path, string $name): string
     {
         return '' === $path ? $name : $path.'.'.$name;

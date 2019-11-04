@@ -38,20 +38,11 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
      */
     private $policy;
 
-    /**
-     * @param string $name
-     */
     private function __construct(string $name)
     {
         $this->name = $name;
     }
 
-    /**
-     * @param string                        $name
-     * @param FieldNormalizerInterface|null $fieldNormalizer
-     *
-     * @return NormalizationFieldMappingBuilderInterface
-     */
     public static function create(
         string $name,
         FieldNormalizerInterface $fieldNormalizer = null
@@ -62,12 +53,6 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
         return $self;
     }
 
-    /**
-     * @param string   $name
-     * @param callable $callback
-     *
-     * @return NormalizationFieldMappingBuilderInterface
-     */
     public static function createCallback(string $name, callable $callback): NormalizationFieldMappingBuilderInterface
     {
         $self = new self($name);
@@ -76,12 +61,6 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
         return $self;
     }
 
-    /**
-     * @param string $name
-     * @param string $format
-     *
-     * @return NormalizationFieldMappingBuilderInterface
-     */
     public static function createDateTime(string $name, string $format = 'c'): NormalizationFieldMappingBuilderInterface
     {
         $self = new self($name);
@@ -90,11 +69,6 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
         return $self;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return NormalizationFieldMappingBuilderInterface
-     */
     public static function createEmbedMany(string $name): NormalizationFieldMappingBuilderInterface
     {
         $self = new self($name);
@@ -103,11 +77,6 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
         return $self;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return NormalizationFieldMappingBuilderInterface
-     */
     public static function createEmbedOne(string $name): NormalizationFieldMappingBuilderInterface
     {
         $self = new self($name);
@@ -116,12 +85,6 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
         return $self;
     }
 
-    /**
-     * @param string $name
-     * @param string $idName
-     *
-     * @return NormalizationFieldMappingBuilderInterface
-     */
     public static function createReferenceMany(
         string $name,
         string $idName = 'id'
@@ -135,12 +98,6 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
         return $self;
     }
 
-    /**
-     * @param string $name
-     * @param string $idName
-     *
-     * @return NormalizationFieldMappingBuilderInterface
-     */
     public static function createReferenceOne(
         string $name,
         string $idName = 'id'
@@ -156,10 +113,6 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
 
     /**
      * @deprecated
-     *
-     * @param array $groups
-     *
-     * @return NormalizationFieldMappingBuilderInterface
      */
     public function setGroups(array $groups): NormalizationFieldMappingBuilderInterface
     {
@@ -170,10 +123,6 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
 
     /**
      * @deprecated
-     *
-     * @param FieldNormalizerInterface $fieldNormalizer
-     *
-     * @return NormalizationFieldMappingBuilderInterface
      */
     public function setFieldNormalizer(
         FieldNormalizerInterface $fieldNormalizer
@@ -188,11 +137,6 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
         return $this;
     }
 
-    /**
-     * @param PolicyInterface $policy
-     *
-     * @return NormalizationFieldMappingBuilderInterface
-     */
     public function setPolicy(PolicyInterface $policy): NormalizationFieldMappingBuilderInterface
     {
         $this->policy = $policy;
@@ -200,9 +144,6 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
         return $this;
     }
 
-    /**
-     * @return NormalizationFieldMappingInterface
-     */
     public function getMapping(): NormalizationFieldMappingInterface
     {
         return new NormalizationFieldMapping(

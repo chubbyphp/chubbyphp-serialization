@@ -16,27 +16,16 @@ final class XmlTypeEncoder implements TypeEncoderInterface
      */
     private $prettyPrint;
 
-    /**
-     * @param bool $prettyPrint
-     */
     public function __construct(bool $prettyPrint = false)
     {
         $this->prettyPrint = $prettyPrint;
     }
 
-    /**
-     * @return string
-     */
     public function getContentType(): string
     {
         return 'application/xml';
     }
 
-    /**
-     * @param array $data
-     *
-     * @return string
-     */
     public function encode(array $data): string
     {
         $document = new \DOMDocument('1.0', 'UTF-8');
@@ -53,12 +42,6 @@ final class XmlTypeEncoder implements TypeEncoderInterface
         return trim($document->saveXML($document, LIBXML_NOEMPTYTAG));
     }
 
-    /**
-     * @param \DOMDocument $document
-     * @param string|null  $type
-     *
-     * @return \DOMNode
-     */
     private function createMetadataNode(\DOMDocument $document, string $type = null): \DOMNode
     {
         $node = $document->createElement('object');
@@ -70,8 +53,6 @@ final class XmlTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param string $name
-     *
      * @return string
      */
     private function getMetaPrefix(string $name)
@@ -79,11 +60,6 @@ final class XmlTypeEncoder implements TypeEncoderInterface
         return 'meta-'.$name;
     }
 
-    /**
-     * @param \DOMDocument $document
-     * @param \DOMNode     $listNode
-     * @param array        $data
-     */
     private function dataToNodes(\DOMDocument $document, \DOMNode $listNode, array $data): void
     {
         foreach ($data as $key => $value) {
@@ -106,10 +82,7 @@ final class XmlTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param \DOMDocument $document
-     * @param \DOMNode     $listNode
-     * @param string|int   $key
-     * @param array        $value
+     * @param string|int $key
      *
      * @return \DOMElement|\DOMNode
      */
@@ -145,12 +118,8 @@ final class XmlTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param \DOMDocument               $document
-     * @param \DOMNode                   $listNode
      * @param string|int                 $key
      * @param string|bool|float|int|null $value
-     *
-     * @return \DOMNode
      */
     private function dataToScalarNode(\DOMDocument $document, \DOMNode $listNode, $key, $value): \DOMNode
     {
@@ -183,8 +152,6 @@ final class XmlTypeEncoder implements TypeEncoderInterface
      * @param bool|float|int $value
      *
      * @throws \InvalidArgumentException
-     *
-     * @return string
      */
     private function getValueAsString($value): string
     {
@@ -210,8 +177,6 @@ final class XmlTypeEncoder implements TypeEncoderInterface
 
     /**
      * @param bool|float|int|string $value
-     *
-     * @return string
      */
     private function getType($value): string
     {

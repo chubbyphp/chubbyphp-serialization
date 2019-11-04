@@ -24,9 +24,7 @@ final class LazyNormalizationObjectMapping implements NormalizationObjectMapping
     private $class;
 
     /**
-     * @param ContainerInterface $container
-     * @param string             $serviceId
-     * @param string             $class
+     * @param string $serviceId
      */
     public function __construct(ContainerInterface $container, $serviceId, string $class)
     {
@@ -35,9 +33,6 @@ final class LazyNormalizationObjectMapping implements NormalizationObjectMapping
         $this->class = $class;
     }
 
-    /**
-     * @return string
-     */
     public function getClass(): string
     {
         return $this->class;
@@ -52,8 +47,6 @@ final class LazyNormalizationObjectMapping implements NormalizationObjectMapping
     }
 
     /**
-     * @param string $path
-     *
      * @return NormalizationFieldMappingInterface[]
      */
     public function getNormalizationFieldMappings(string $path): array
@@ -62,8 +55,6 @@ final class LazyNormalizationObjectMapping implements NormalizationObjectMapping
     }
 
     /**
-     * @param string $path
-     *
      * @return NormalizationFieldMappingInterface[]
      */
     public function getNormalizationEmbeddedFieldMappings(string $path): array
@@ -72,8 +63,6 @@ final class LazyNormalizationObjectMapping implements NormalizationObjectMapping
     }
 
     /**
-     * @param string $path
-     *
      * @return NormalizationLinkMappingInterface[]
      */
     public function getNormalizationLinkMappings(string $path): array

@@ -12,25 +12,17 @@ use Chubbyphp\Tests\Serialization\Resources\Model\OneModel;
 
 final class OneModelMapping implements NormalizationObjectMappingInterface
 {
-    /**
-     * @return string
-     */
     public function getClass(): string
     {
         return OneModel::class;
     }
 
-    /**
-     * @return string
-     */
     public function getNormalizationType(): string
     {
         return 'one-model';
     }
 
     /**
-     * @param string $path
-     *
      * @return NormalizationFieldMappingInterface[]
      */
     public function getNormalizationFieldMappings(string $path): array
@@ -42,8 +34,6 @@ final class OneModelMapping implements NormalizationObjectMappingInterface
     }
 
     /**
-     * @param string $path
-     *
      * @return NormalizationFieldMappingInterface[]
      */
     public function getNormalizationEmbeddedFieldMappings(string $path): array
@@ -52,8 +42,6 @@ final class OneModelMapping implements NormalizationObjectMappingInterface
     }
 
     /**
-     * @param string $path
-     *
      * @return NormalizationLinkMappingInterface[]
      */
     public function getNormalizationLinkMappings(string $path): array

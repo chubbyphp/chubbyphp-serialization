@@ -12,11 +12,6 @@ use Chubbyphp\Serialization\Policy\PolicyInterface;
  */
 interface NormalizationFieldMappingBuilderInterface
 {
-    /**
-     * @param string $name
-     *
-     * @return self
-     */
     public static function create(string $name): self;
 
     /**
@@ -29,19 +24,11 @@ interface NormalizationFieldMappingBuilderInterface
 
     /**
      * @deprecated
-     *
-     * @param array $groups
-     *
-     * @return self
      */
     public function setGroups(array $groups): self;
 
     /**
      * @deprecated
-     *
-     * @param FieldNormalizerInterface $fieldNormalizer
-     *
-     * @return self
      */
     public function setFieldNormalizer(FieldNormalizerInterface $fieldNormalizer): self;
 
@@ -52,8 +39,5 @@ interface NormalizationFieldMappingBuilderInterface
      */
     //public function setPolicy(PolicyInterface $policy): self;
 
-    /**
-     * @return NormalizationFieldMappingInterface
-     */
     public function getMapping(): NormalizationFieldMappingInterface;
 }

@@ -9,10 +9,7 @@ use Chubbyphp\Serialization\SerializerLogicException;
 interface FieldNormalizerInterface
 {
     /**
-     * @param string                     $path
-     * @param object                     $object
-     * @param NormalizerContextInterface $context
-     * @param NormalizerInterface|null   $normalizer
+     * @param object $object
      *
      * @throws SerializerLogicException
      *

@@ -27,11 +27,6 @@ final class LinkBuilder implements LinkBuilderInterface
     {
     }
 
-    /**
-     * @param string $href
-     *
-     * @return LinkBuilderInterface
-     */
     public static function create(string $href): LinkBuilderInterface
     {
         $self = new self();
@@ -44,8 +39,6 @@ final class LinkBuilder implements LinkBuilderInterface
 
     /**
      * @param string[] $rels
-     *
-     * @return LinkBuilderInterface
      */
     public function setRels(array $rels): LinkBuilderInterface
     {
@@ -54,11 +47,6 @@ final class LinkBuilder implements LinkBuilderInterface
         return $this;
     }
 
-    /**
-     * @param array $attributes
-     *
-     * @return LinkBuilderInterface
-     */
     public function setAttributes(array $attributes): LinkBuilderInterface
     {
         $this->attributes = $attributes;
@@ -66,9 +54,6 @@ final class LinkBuilder implements LinkBuilderInterface
         return $this;
     }
 
-    /**
-     * @return LinkInterface
-     */
     public function getLink(): LinkInterface
     {
         return new Link($this->href, $this->rels, $this->attributes);

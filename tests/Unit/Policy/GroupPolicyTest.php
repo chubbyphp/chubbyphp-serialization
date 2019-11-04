@@ -79,11 +79,6 @@ final class GroupPolicyTest extends TestCase
         self::assertFalse($policy->isCompliant($context, $object));
     }
 
-    /**
-     * @param array|null $groups
-     *
-     * @return NormalizerContextInterface
-     */
     private function getNormalizerContextWithGroupAttribute(array $groups = null): NormalizerContextInterface
     {
         return new class($groups) implements NormalizerContextInterface {

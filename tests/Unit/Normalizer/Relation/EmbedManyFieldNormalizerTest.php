@@ -156,11 +156,6 @@ final class EmbedManyFieldNormalizerTest extends TestCase
                 return $this->children;
             }
 
-            /**
-             * @param array|null $children
-             *
-             * @return self
-             */
             public function setChildren(array $children = null): self
             {
                 $this->children = $children;
@@ -181,19 +176,11 @@ final class EmbedManyFieldNormalizerTest extends TestCase
              */
             private $name;
 
-            /**
-             * @return string
-             */
             public function getName(): string
             {
                 return $this->name;
             }
 
-            /**
-             * @param string $name
-             *
-             * @return self
-             */
             public function setName(string $name): self
             {
                 $this->name = $name;

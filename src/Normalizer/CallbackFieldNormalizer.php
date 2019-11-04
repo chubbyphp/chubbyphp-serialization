@@ -11,19 +11,13 @@ final class CallbackFieldNormalizer implements FieldNormalizerInterface
      */
     private $callback;
 
-    /**
-     * @param callable $callback
-     */
     public function __construct(callable $callback)
     {
         $this->callback = $callback;
     }
 
     /**
-     * @param string                     $path
-     * @param object                     $object
-     * @param NormalizerContextInterface $context
-     * @param NormalizerInterface|null   $normalizer
+     * @param object $object
      *
      * @return mixed
      */

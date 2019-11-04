@@ -9,9 +9,7 @@ use Chubbyphp\Serialization\SerializerLogicException;
 interface LinkNormalizerInterface
 {
     /**
-     * @param string                     $path
-     * @param object                     $object
-     * @param NormalizerContextInterface $context
+     * @param object $object
      *
      * @throws SerializerLogicException
      *

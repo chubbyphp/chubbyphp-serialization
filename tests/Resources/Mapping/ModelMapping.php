@@ -20,26 +20,17 @@ use Chubbyphp\Tests\Serialization\Resources\Model\Model;
 
 final class ModelMapping implements NormalizationObjectMappingInterface
 {
-    /**
-     * @return string
-     */
     public function getClass(): string
     {
         return Model::class;
     }
 
-    /**
-     * @return string
-     */
     public function getNormalizationType(): string
     {
         return 'model';
     }
 
     /**
-     * @param string      $path
-     * @param string|null $type
-     *
      * @return NormalizationFieldMappingInterface[]
      */
     public function getNormalizationFieldMappings(string $path, string $type = null): array
@@ -80,8 +71,6 @@ final class ModelMapping implements NormalizationObjectMappingInterface
     }
 
     /**
-     * @param string $path
-     *
      * @return NormalizationFieldMappingInterface[]
      */
     public function getNormalizationEmbeddedFieldMappings(string $path): array
@@ -90,8 +79,6 @@ final class ModelMapping implements NormalizationObjectMappingInterface
     }
 
     /**
-     * @param string $path
-     *
      * @return NormalizationLinkMappingInterface[]
      */
     public function getNormalizationLinkMappings(string $path): array

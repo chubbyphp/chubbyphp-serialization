@@ -17,19 +17,13 @@ final class EmbedOneFieldNormalizer implements FieldNormalizerInterface
      */
     private $accessor;
 
-    /**
-     * @param AccessorInterface $accessor
-     */
     public function __construct(AccessorInterface $accessor)
     {
         $this->accessor = $accessor;
     }
 
     /**
-     * @param string                     $path
-     * @param object                     $object
-     * @param NormalizerContextInterface $context
-     * @param NormalizerInterface|null   $normalizer
+     * @param object $object
      *
      * @throws SerializerLogicException
      *

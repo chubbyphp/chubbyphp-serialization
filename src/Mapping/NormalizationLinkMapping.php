@@ -30,12 +30,6 @@ final class NormalizationLinkMapping implements NormalizationLinkMappingInterfac
      */
     private $policy;
 
-    /**
-     * @param string                  $name
-     * @param array                   $groups
-     * @param LinkNormalizerInterface $linkNormalizer
-     * @param PolicyInterface|null    $policy
-     */
     public function __construct(
         string $name,
         array $groups,
@@ -48,9 +42,6 @@ final class NormalizationLinkMapping implements NormalizationLinkMappingInterfac
         $this->policy = $policy ?? new NullPolicy();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
@@ -66,17 +57,11 @@ final class NormalizationLinkMapping implements NormalizationLinkMappingInterfac
         return $this->groups;
     }
 
-    /**
-     * @return LinkNormalizerInterface
-     */
     public function getLinkNormalizer(): LinkNormalizerInterface
     {
         return $this->linkNormalizer;
     }
 
-    /**
-     * @return PolicyInterface
-     */
     public function getPolicy(): PolicyInterface
     {
         return $this->policy;

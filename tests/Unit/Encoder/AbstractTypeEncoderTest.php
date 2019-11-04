@@ -10,14 +10,9 @@ abstract class AbstractTypeEncoderTest extends TestCase
 {
     /**
      * @dataProvider dataProvider
-     *
-     * @param array $data
      */
     abstract public function testFormat(array $data);
 
-    /**
-     * @return array
-     */
     public function dataProvider(): array
     {
         return [

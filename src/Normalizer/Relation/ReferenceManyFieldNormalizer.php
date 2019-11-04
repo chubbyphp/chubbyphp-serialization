@@ -22,10 +22,6 @@ final class ReferenceManyFieldNormalizer implements FieldNormalizerInterface
      */
     private $accessor;
 
-    /**
-     * @param AccessorInterface $identifierAccessor
-     * @param AccessorInterface $accessor
-     */
     public function __construct(AccessorInterface $identifierAccessor, AccessorInterface $accessor)
     {
         $this->identifierAccessor = $identifierAccessor;
@@ -33,10 +29,7 @@ final class ReferenceManyFieldNormalizer implements FieldNormalizerInterface
     }
 
     /**
-     * @param string                     $path
-     * @param object                     $object
-     * @param NormalizerContextInterface $context
-     * @param NormalizerInterface|null   $normalizer
+     * @param object $object
      *
      * @throws SerializerLogicException
      *

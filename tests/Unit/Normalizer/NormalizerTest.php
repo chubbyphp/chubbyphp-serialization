@@ -569,9 +569,6 @@ final class NormalizerTest extends TestCase
              */
             private $name;
 
-            /**
-             * @return string
-             */
             public function getId(): string
             {
                 return $this->id;
@@ -585,11 +582,6 @@ final class NormalizerTest extends TestCase
                 return $this->name;
             }
 
-            /**
-             * @param string $name
-             *
-             * @return self
-             */
             public function setName(string $name): self
             {
                 $this->name = $name;
@@ -600,13 +592,6 @@ final class NormalizerTest extends TestCase
     }
 
     /**
-     * @param string                   $name
-     * @param FieldNormalizerInterface $fieldNormalizer
-     * @param PolicyInterface          $policy
-     * @param array                    $groups
-     *
-     * @return NormalizationFieldMappingInterface
-     *
      * @todo remove as soon getPolicy() is part of the mapping interface
      */
     private function getNormalizationFieldMappingWithPolicy(
@@ -644,9 +629,6 @@ final class NormalizerTest extends TestCase
                 return $this->groups;
             }
 
-            /**
-             * @return FieldNormalizerInterface
-             */
             public function getFieldNormalizer(): FieldNormalizerInterface
             {
                 return $this->fieldNormalizer;
@@ -660,13 +642,6 @@ final class NormalizerTest extends TestCase
     }
 
     /**
-     * @param string                  $name
-     * @param LinkNormalizerInterface $linkNormalizer
-     * @param PolicyInterface         $policy
-     * @param array                   $groups
-     *
-     * @return NormalizationLinkMappingInterface
-     *
      * @todo remove as soon getPolicy() is part of the mapping interface
      */
     private function getNormalizationLinkMappingWithPolicy(
@@ -704,9 +679,6 @@ final class NormalizerTest extends TestCase
                 return $this->groups;
             }
 
-            /**
-             * @return LinkNormalizerInterface
-             */
             public function getLinkNormalizer(): LinkNormalizerInterface
             {
                 return $this->linkNormalizer;

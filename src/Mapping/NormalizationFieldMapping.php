@@ -31,10 +31,7 @@ final class NormalizationFieldMapping implements NormalizationFieldMappingInterf
     private $policy;
 
     /**
-     * @param string                   $name
-     * @param array                    $groups
-     * @param FieldNormalizerInterface $fieldNormalizer
-     * @param PolicyInterface|null     $policy
+     * @param string $name
      */
     public function __construct(
         $name,
@@ -48,9 +45,6 @@ final class NormalizationFieldMapping implements NormalizationFieldMappingInterf
         $this->policy = $policy ?? new NullPolicy();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
@@ -66,17 +60,11 @@ final class NormalizationFieldMapping implements NormalizationFieldMappingInterf
         return $this->groups;
     }
 
-    /**
-     * @return FieldNormalizerInterface
-     */
     public function getFieldNormalizer(): FieldNormalizerInterface
     {
         return $this->fieldNormalizer;
     }
 
-    /**
-     * @return PolicyInterface
-     */
     public function getPolicy(): PolicyInterface
     {
         return $this->policy;

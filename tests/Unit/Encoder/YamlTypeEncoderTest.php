@@ -22,8 +22,6 @@ final class YamlTypeEncoderTest extends AbstractTypeEncoderTest
 
     /**
      * @dataProvider dataProvider
-     *
-     * @param array $data
      */
     public function testFormat(array $data): void
     {

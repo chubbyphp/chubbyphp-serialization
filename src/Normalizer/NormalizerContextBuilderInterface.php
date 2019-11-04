@@ -11,17 +11,12 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 interface NormalizerContextBuilderInterface
 {
-    /**
-     * @return self
-     */
     public static function create(): self;
 
     /**
      * @deprecated
      *
      * @param string[] $groups
-     *
-     * @return self
      */
     public function setGroups(array $groups): self;
 
@@ -32,15 +27,7 @@ interface NormalizerContextBuilderInterface
      */
     //public function setAttributes(array $attributes): self;
 
-    /**
-     * @param ServerRequestInterface|null $request
-     *
-     * @return self
-     */
     public function setRequest(ServerRequestInterface $request = null): self;
 
-    /**
-     * @return NormalizerContextInterface
-     */
     public function getContext(): NormalizerContextInterface;
 }

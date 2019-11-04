@@ -62,9 +62,6 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
         self::assertInstanceOf(NormalizationObjectMappingInterface::class, $mapping);
     }
 
-    /**
-     * @return NormalizationObjectMappingInterface
-     */
     private function getNormalizationObjectMapping(): NormalizationObjectMappingInterface
     {
         $object = $this->getObject();
@@ -94,11 +91,6 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
                 return $this->name;
             }
 
-            /**
-             * @param string $name
-             *
-             * @return self
-             */
             public function setName(string $name): self
             {
                 $this->name = $name;

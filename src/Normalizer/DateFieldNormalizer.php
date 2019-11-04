@@ -14,20 +14,13 @@ final class DateFieldNormalizer implements FieldNormalizerInterface
      */
     private $fieldNormalizer;
 
-    /**
-     * @param FieldNormalizerInterface $fieldNormalizer
-     * @param string                   $format
-     */
     public function __construct(FieldNormalizerInterface $fieldNormalizer, string $format = 'c')
     {
         $this->fieldNormalizer = new DateTimeFieldNormalizer($fieldNormalizer, $format);
     }
 
     /**
-     * @param string                     $path
-     * @param object                     $object
-     * @param NormalizerContextInterface $context
-     * @param NormalizerInterface|null   $normalizer
+     * @param object $object
      *
      * @return mixed
      */

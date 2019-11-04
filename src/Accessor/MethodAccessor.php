@@ -13,9 +13,6 @@ final class MethodAccessor implements AccessorInterface
      */
     private $property;
 
-    /**
-     * @param string $property
-     */
     public function __construct(string $property)
     {
         $this->property = $property;
