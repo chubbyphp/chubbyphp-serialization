@@ -23,8 +23,8 @@ A simple serialization.
 
  * psr/container: ^1.0
  * pimple/pimple: ^3.2.3
- * symfony/dependency-injection: ^2.8|^3.4|^4.2 (symfony integration)
- * symfony/yaml: ^2.8|^3.4|^4.2 (application/x-yaml support)
+ * symfony/dependency-injection: ^2.8|^3.4|^4.2|^5.0 (symfony integration)
+ * symfony/yaml: ^2.8|^3.4|^4.2|^5.0 (application/x-yaml support)
 
 ## Installation
 
