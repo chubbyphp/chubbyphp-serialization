@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Tests\Serialization\Unit\Provider;
+namespace Chubbyphp\Tests\Serialization\Unit\ServiceProvider;
 
 use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Encoder\Encoder;
@@ -13,26 +13,26 @@ use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
 use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
 use Chubbyphp\Serialization\Normalizer\Normalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
-use Chubbyphp\Serialization\Provider\SerializationProvider;
 use Chubbyphp\Serialization\Serializer;
+use Chubbyphp\Serialization\ServiceProvider\SerializationServiceProvider;
 use PHPUnit\Framework\TestCase;
 use Pimple\Container;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
 /**
- * @covers \Chubbyphp\Serialization\Provider\SerializationProvider
+ * @covers \Chubbyphp\Serialization\ServiceProvider\SerializationServiceProvider
  *
  * @internal
  */
-final class SerializationProviderTest extends TestCase
+final class SerializationServiceProviderTest extends TestCase
 {
     use MockByCallsTrait;
 
     public function testRegister(): void
     {
         $container = new Container();
-        $container->register(new SerializationProvider());
+        $container->register(new SerializationServiceProvider());
 
         error_clear_last();
 
@@ -90,7 +90,7 @@ final class SerializationProviderTest extends TestCase
             'logger' => $logger,
         ]);
 
-        $container->register(new SerializationProvider());
+        $container->register(new SerializationServiceProvider());
 
         /** @var Normalizer $normalizer */
         $normalizer = $container['serializer.normalizer'];

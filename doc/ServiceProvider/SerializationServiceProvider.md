@@ -1,13 +1,13 @@
-# SerializationProvider
+# SerializationServiceProvider
 
 ```php
 <?php
 
-use Chubbyphp\Serialization\Provider\SerializationProvider;
+use Chubbyphp\Serialization\ServiceProvider\SerializationServiceProvider;
 use Pimple\Container;
 
 $container = new Container();
-$container->register(new SerializationProvider);
+$container->register(new SerializationServiceProvider);
 
 $container['serializer']
     ->serialize(...);
