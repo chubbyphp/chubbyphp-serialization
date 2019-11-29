@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\ServiceFactory;
 
-use Chubbyphp\Container\ContainerInterface;
 use Chubbyphp\Serialization\Encoder\Encoder;
 use Chubbyphp\Serialization\Normalizer\Normalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;
+use Psr\Container\ContainerInterface;
 
 final class SerializationServiceFactory
 {
