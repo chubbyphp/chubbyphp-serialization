@@ -21,8 +21,9 @@ A simple serialization.
 
 ## Suggest
 
- * psr/container: ^1.0
+ * chubbyphp/chubbyphp-container: ^1.0
  * pimple/pimple: ^3.2.3
+ * psr/container: ^1.0
  * symfony/dependency-injection: ^2.8|^3.4|^4.2|^5.0 (symfony integration)
  * symfony/yaml: ^2.8|^3.4|^4.2|^5.0 (application/x-yaml support)
 
@@ -110,9 +111,13 @@ composer require chubbyphp/chubbyphp-serialization "^2.12"
  * [CallableNormalizationObjectMapping][30]
  * [LazyNormalizationObjectMapping][31]
 
+### ServiceFactory
+
+* [SerializationServiceFactory][32]
+
 ### ServiceProvider
 
-* [SerializationServiceProvider][32]
+* [SerializationServiceProvider][33]
 
 ### Serializer
 
@@ -238,4 +243,6 @@ Dominik Zogg 2019
 [30]: doc/Mapping/CallableNormalizationObjectMapping.md
 [31]: doc/Mapping/LazyNormalizationObjectMapping.md
 
-[32]: doc/ServiceProvider/SerializationServiceProvider.md
+[32]: doc/ServiceFactory/SerializationServiceFactory.md
+
+[33]: doc/ServiceProvider/SerializationServiceProvider.md

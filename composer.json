@@ -17,6 +17,7 @@
         "psr/log": "^1.1"
     },
     "require-dev": {
+        "chubbyphp/chubbyphp-container": "^1.0",
         "chubbyphp/chubbyphp-mock": "^1.4.2",
         "doctrine/common": "^2.7",
         "friendsofphp/php-cs-fixer": "^2.16.1",
