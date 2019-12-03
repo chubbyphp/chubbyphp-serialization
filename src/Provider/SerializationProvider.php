@@ -2,6 +2,26 @@
 
 declare(strict_types=1);
 
-use Chubbyphp\Serialization\ServiceProvider\SerializationServiceProvider;
+namespace Chubbyphp\Serialization\Provider;
 
-class_alias(SerializationServiceProvider::class, 'Chubbyphp\Serialization\Provider\SerializationProvider');
+use Chubbyphp\Serialization\ServiceProvider\SerializationServiceProvider;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+
+final class SerializationProvider implements ServiceProviderInterface
+{
+    /**
+     * @var SerializationServiceProvider
+     */
+    private $serviceProvider;
+
+    public function __construct()
+    {
+        $this->serviceProvider = new SerializationServiceProvider();
+    }
+
+    public function register(Container $container): void
+    {
+        $this->serviceProvider->register($container);
+    }
+}
