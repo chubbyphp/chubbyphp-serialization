@@ -8,6 +8,9 @@ use Chubbyphp\Serialization\ServiceProvider\SerializationServiceProvider;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * @deprecated use \Chubbyphp\Serialization\ServiceProvider\SerializationServiceProvider
+ */
 final class SerializationProvider implements ServiceProviderInterface
 {
     /**
@@ -17,6 +20,11 @@ final class SerializationProvider implements ServiceProviderInterface
 
     public function __construct()
     {
+        @trigger_error(
+            sprintf('Use "%s" instead.', SerializationServiceProvider::class),
+            E_USER_DEPRECATED
+        );
+
         $this->serviceProvider = new SerializationServiceProvider();
     }
 
