@@ -6,7 +6,7 @@ namespace Chubbyphp\Tests\Serialization\Unit\Accessor;
 
 use Chubbyphp\Serialization\Accessor\PropertyAccessor;
 use Chubbyphp\Serialization\SerializerLogicException;
-use Doctrine\Common\Persistence\Proxy;
+use Doctrine\Persistence\Proxy;
 use PHPUnit\Framework\TestCase;
 
 /**

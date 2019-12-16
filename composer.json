@@ -19,7 +19,7 @@
     "require-dev": {
         "chubbyphp/chubbyphp-container": "^1.0",
         "chubbyphp/chubbyphp-mock": "^1.4.2",
-        "doctrine/common": "^2.7",
+        "doctrine/persistence": "^1.3",
         "friendsofphp/php-cs-fixer": "^2.16.1",
         "infection/infection": "^0.14.3",
         "mavimo/phpstan-junit": "^0.2.3",
