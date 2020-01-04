@@ -12,6 +12,9 @@ use Psr\Container\ContainerInterface;
 
 final class SerializationServiceFactory
 {
+    /**
+     * @return array<string, callable>
+     */
     public function __invoke(): array
     {
         return [

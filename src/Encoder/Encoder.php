@@ -24,12 +24,17 @@ final class Encoder implements EncoderInterface
         }
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getContentTypes(): array
     {
         return array_keys($this->encoderTypes);
     }
 
     /**
+     * @param array<mixed> $data
+     *
      * @throws SerializerLogicException
      */
     public function encode(array $data, string $contentType): string

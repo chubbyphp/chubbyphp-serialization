@@ -10,10 +10,13 @@ use Chubbyphp\Serialization\SerializerLogicException;
 final class NormalizerObjectMappingRegistry implements NormalizerObjectMappingRegistryInterface
 {
     /**
-     * @var NormalizationObjectMappingInterface[]
+     * @var array<string, NormalizationObjectMappingInterface>
      */
     private $objectMappings;
 
+    /**
+     * @param array<int, NormalizationObjectMappingInterface> $objectMappings
+     */
     public function __construct(array $objectMappings)
     {
         $this->objectMappings = [];
@@ -30,9 +33,9 @@ final class NormalizerObjectMappingRegistry implements NormalizerObjectMappingRe
         $reflectionClass = new \ReflectionClass($class);
 
         if (in_array('Doctrine\Persistence\Proxy', $reflectionClass->getInterfaceNames(), true)) {
-            /** @var \ReflectionClass $reflectionParentClass */
-            $reflectionParentClass = $reflectionClass->getParentClass();
-            $class = $reflectionParentClass->getName();
+            /** @var \ReflectionClass $parentReflectionClass */
+            $parentReflectionClass = $reflectionClass->getParentClass();
+            $class = $parentReflectionClass->getName();
         }
 
         if (isset($this->objectMappings[$class])) {

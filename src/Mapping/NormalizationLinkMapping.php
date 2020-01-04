@@ -16,7 +16,7 @@ final class NormalizationLinkMapping implements NormalizationLinkMappingInterfac
     private $name;
 
     /**
-     * @var array
+     * @var array<int, string>
      */
     private $groups;
 
@@ -30,6 +30,10 @@ final class NormalizationLinkMapping implements NormalizationLinkMappingInterfac
      */
     private $policy;
 
+    /**
+     * @param array<int, string> $groups
+     * @param PolicyInterface    $policy
+     */
     public function __construct(
         string $name,
         array $groups,
@@ -50,7 +54,7 @@ final class NormalizationLinkMapping implements NormalizationLinkMappingInterfac
     /**
      * @deprecated
      *
-     * @return string[]
+     * @return array<int, string>
      */
     public function getGroups(): array
     {

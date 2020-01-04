@@ -53,10 +53,10 @@ final class PropertyAccessor implements AccessorInterface
                 $object->__load();
             }
 
-            /** @var \ReflectionClass $reflectionParentClass */
-            $reflectionParentClass = (new \ReflectionClass($object))->getParentClass();
+            /** @var \ReflectionClass $parentReflectionClass */
+            $parentReflectionClass = (new \ReflectionClass($object))->getParentClass();
 
-            return $reflectionParentClass->getName();
+            return $parentReflectionClass->getName();
         }
 
         return get_class($object);

@@ -11,12 +11,12 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
     /**
      * @deprecated
      *
-     * @var string[]
+     * @var array<int, string>
      */
     private $groups = [];
 
     /**
-     * @var array
+     * @var array<mixed>
      */
     private $attributes = [];
 
@@ -37,7 +37,7 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
     /**
      * @deprecated
      *
-     * @param string[] $groups
+     * @param array<int, string> $groups
      */
     public function setGroups(array $groups): NormalizerContextBuilderInterface
     {
@@ -46,6 +46,9 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
         return $this;
     }
 
+    /**
+     * @param array<mixed> $attributes
+     */
     public function setAttributes(array $attributes): NormalizerContextBuilderInterface
     {
         $this->attributes = $attributes;

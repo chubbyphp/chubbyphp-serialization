@@ -34,6 +34,10 @@ final class Normalizer implements NormalizerInterface
 
     /**
      * @param object $object
+     *
+     * @throws SerializerLogicException
+     *
+     * @return array<mixed>
      */
     public function normalize(
         $object,
@@ -105,6 +109,8 @@ final class Normalizer implements NormalizerInterface
     /**
      * @param NormalizationFieldMappingInterface[] $normalizationFieldMappings
      * @param object                               $object
+     *
+     * @return array<mixed>
      */
     private function getFieldsByFieldNormalizationMappings(
         NormalizerContextInterface $context,
@@ -139,6 +145,8 @@ final class Normalizer implements NormalizerInterface
     /**
      * @param NormalizationLinkMappingInterface[] $normalizationLinkMappings
      * @param object                              $object
+     *
+     * @return array<mixed>
      */
     private function getLinksByLinkNormalizationMappings(
         NormalizerContextInterface $context,

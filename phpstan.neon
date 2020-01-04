@@ -1,14 +1,26 @@
 parameters:
     ignoreErrors:
         -
-            message: '##'
+            message: '/PHPDoc tag @var for variable \$parentReflectionClass contains generic class ReflectionClass but does not specify its types\: T/'
+            path: %currentWorkingDirectory%/src/Accessor/PropertyAccessor.php
+        -
+            message: '/Method Chubbyphp\\Serialization\\Encoder\\JsonTypeEncoder\:\:encode\(\) should return string but returns string\|false\./'
             path: %currentWorkingDirectory%/src/Encoder/JsonTypeEncoder.php
         -
-            message: '##'
+            message: '//'
             path: %currentWorkingDirectory%/src/Encoder/JsonxTypeEncoder.php
         -
-            message: '##'
+            message: '/Unreachable statement - code above always terminates\./'
+            path: %currentWorkingDirectory%/src/Encoder/UrlEncodedTypeEncoder.php
+        -
+            message: '//'
             path: %currentWorkingDirectory%/src/Encoder/XmlTypeEncoder.php
         -
-            message: '#Else branch is unreachable because ternary operator condition is always true.#'
+            message: '/Unreachable statement - code above always terminates\./'
             path: %currentWorkingDirectory%/src/Normalizer/DateTimeFieldNormalizer.php
+        -
+            message: '/PHPDoc tag @var for variable \$parentReflectionClass contains generic class ReflectionClass but does not specify its types\: T/'
+            path: %currentWorkingDirectory%/src/Normalizer/NormalizerObjectMappingRegistry.php
+        -
+            message: '/Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object>\|T of object, string given\./'
+            path: %currentWorkingDirectory%/src/Normalizer/NormalizerObjectMappingRegistry.php

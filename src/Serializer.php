@@ -43,6 +43,8 @@ final class Serializer implements SerializerInterface
      * @param object $object
      *
      * @throws SerializerLogicException
+     *
+     * @return array<mixed>
      */
     public function normalize($object, NormalizerContextInterface $context = null, string $path = ''): array
     {
@@ -50,7 +52,7 @@ final class Serializer implements SerializerInterface
     }
 
     /**
-     * @return string[]
+     * @return array<int, string>
      */
     public function getContentTypes(): array
     {
@@ -58,6 +60,8 @@ final class Serializer implements SerializerInterface
     }
 
     /**
+     * @param array<mixed> $data
+     *
      * @throws SerializerLogicException
      */
     public function encode(array $data, string $contentType): string

@@ -25,7 +25,7 @@ final class CallbackLinkNormalizer implements LinkNormalizerInterface
      *
      * @throws SerializerLogicException
      *
-     * @return array|null
+     * @return array<mixed>|null
      */
     public function normalizeLink(string $path, $object, NormalizerContextInterface $context)
     {

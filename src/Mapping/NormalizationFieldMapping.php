@@ -16,7 +16,7 @@ final class NormalizationFieldMapping implements NormalizationFieldMappingInterf
     private $name;
 
     /**
-     * @var array
+     * @var array<int, string>
      */
     private $groups;
 
@@ -31,7 +31,8 @@ final class NormalizationFieldMapping implements NormalizationFieldMappingInterf
     private $policy;
 
     /**
-     * @param string $name
+     * @param string             $name
+     * @param array<int, string> $groups
      */
     public function __construct(
         $name,
@@ -53,7 +54,7 @@ final class NormalizationFieldMapping implements NormalizationFieldMappingInterf
     /**
      * @deprecated
      *
-     * @return string[]
+     * @return array<int, string>
      */
     public function getGroups(): array
     {

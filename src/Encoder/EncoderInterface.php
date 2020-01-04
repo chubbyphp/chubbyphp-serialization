@@ -9,11 +9,13 @@ use Chubbyphp\Serialization\SerializerLogicException;
 interface EncoderInterface
 {
     /**
-     * @return string[]
+     * @return array<int, string>
      */
     public function getContentTypes(): array;
 
     /**
+     * @param array<mixed> $data
+     *
      * @throws SerializerLogicException
      */
     public function encode(array $data, string $contentType): string;

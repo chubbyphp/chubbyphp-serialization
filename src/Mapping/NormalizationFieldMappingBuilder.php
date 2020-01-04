@@ -24,7 +24,7 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
     private $name;
 
     /**
-     * @var array
+     * @var array<int, string>
      */
     private $groups = [];
 
@@ -113,6 +113,8 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
 
     /**
      * @deprecated
+     *
+     * @param array<int, string> $groups
      */
     public function setGroups(array $groups): NormalizationFieldMappingBuilderInterface
     {

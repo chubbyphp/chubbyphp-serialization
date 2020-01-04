@@ -16,12 +16,12 @@ interface NormalizerContextBuilderInterface
     /**
      * @deprecated
      *
-     * @param string[] $groups
+     * @param array<int, string> $groups
      */
     public function setGroups(array $groups): self;
 
     /**
-     * @param array $attributes
+     * @param array<mixed> $attributes
      *
      * @return NormalizerContextBuilderInterface
      */

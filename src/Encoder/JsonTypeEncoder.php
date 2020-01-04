@@ -21,6 +21,9 @@ final class JsonTypeEncoder implements TypeEncoderInterface
         return 'application/json';
     }
 
+    /**
+     * @param array<mixed> $data
+     */
     public function encode(array $data): string
     {
         $options = JSON_PRESERVE_ZERO_FRACTION | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;

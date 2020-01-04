@@ -11,11 +11,17 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
         return 'application/x-www-form-urlencoded';
     }
 
+    /**
+     * @param array<mixed> $data
+     */
     public function encode(array $data): string
     {
         return $this->buildQuery($data);
     }
 
+    /**
+     * @param array<mixed> $data
+     */
     private function buildQuery(array $data, string $path = ''): string
     {
         if ([] === $data) {

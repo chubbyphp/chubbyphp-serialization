@@ -12,7 +12,7 @@ final class NormalizerContext implements NormalizerContextInterface
     /**
      * @deprecated
      *
-     * @var string[]
+     * @var array<int, string>
      */
     private $groups = [];
 
@@ -22,12 +22,13 @@ final class NormalizerContext implements NormalizerContextInterface
     private $request;
 
     /**
-     * @var array
+     * @var array<mixed>
      */
     private $attributes;
 
     /**
-     * @param string[] $groups
+     * @param array<int, string> $groups
+     * @param array<mixed>       $attributes
      */
     public function __construct(array $groups = [], ServerRequestInterface $request = null, array $attributes = [])
     {
@@ -43,7 +44,7 @@ final class NormalizerContext implements NormalizerContextInterface
     /**
      * @deprecated
      *
-     * @return string[]
+     * @return array<int, string>
      */
     public function getGroups(): array
     {
@@ -58,6 +59,9 @@ final class NormalizerContext implements NormalizerContextInterface
         return $this->request;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getAttributes(): array
     {
         return $this->attributes;

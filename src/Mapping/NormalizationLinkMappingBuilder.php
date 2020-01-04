@@ -19,7 +19,7 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
     private $name;
 
     /**
-     * @var array
+     * @var array<int, string>
      */
     private $groups = [];
 
@@ -70,6 +70,8 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
 
     /**
      * @deprecated
+     *
+     * @param array<int, string> $groups
      */
     public function setGroups(array $groups): NormalizationLinkMappingBuilderInterface
     {

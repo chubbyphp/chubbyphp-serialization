@@ -14,12 +14,12 @@ final class LinkBuilder implements LinkBuilderInterface
     private $href;
 
     /**
-     * @var string[]
+     * @var array<int, string>
      */
     private $rels;
 
     /**
-     * @var array
+     * @var array<string, array<string, string>>
      */
     private $attributes;
 
@@ -38,7 +38,7 @@ final class LinkBuilder implements LinkBuilderInterface
     }
 
     /**
-     * @param string[] $rels
+     * @param array<int, string> $rels
      */
     public function setRels(array $rels): LinkBuilderInterface
     {
@@ -47,6 +47,9 @@ final class LinkBuilder implements LinkBuilderInterface
         return $this;
     }
 
+    /**
+     * @param array<string, array<string, string>> $attributes
+     */
     public function setAttributes(array $attributes): LinkBuilderInterface
     {
         $this->attributes = $attributes;

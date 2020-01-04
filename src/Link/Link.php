@@ -14,17 +14,18 @@ final class Link implements LinkInterface
     private $href;
 
     /**
-     * @var string[]
+     * @var array<int, string>
      */
     private $rels;
 
     /**
-     * @var array
+     * @var array<string, array<string, string>>
      */
     private $attributes;
 
     /**
-     * @param string[] $rels
+     * @param array<int, string>                   $rels
+     * @param array<string, array<string, string>> $attributes
      */
     public function __construct(string $href, array $rels, array $attributes)
     {
@@ -44,13 +45,16 @@ final class Link implements LinkInterface
     }
 
     /**
-     * @return string[]
+     * @return array<int, string>
      */
     public function getRels(): array
     {
         return $this->rels;
     }
 
+    /**
+     * @return array<string, array<string, string>>
+     */
     public function getAttributes(): array
     {
         return $this->attributes;

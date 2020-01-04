@@ -13,6 +13,9 @@ final class YamlTypeEncoder implements TypeEncoderInterface
         return 'application/x-yaml';
     }
 
+    /**
+     * @param array<mixed> $data
+     */
     public function encode(array $data): string
     {
         return trim(Yaml::dump($data, 10, 4));

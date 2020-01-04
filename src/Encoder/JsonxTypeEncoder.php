@@ -45,6 +45,9 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
         return $this->contentType;
     }
 
+    /**
+     * @param array<mixed> $data
+     */
     public function encode(array $data): string
     {
         $document = new \DOMDocument('1.0', 'UTF-8');

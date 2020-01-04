@@ -16,7 +16,7 @@ interface NormalizerContextInterface
     /**
      * @deprecated
      *
-     * @return string[]
+     * @return array<int, string>
      */
     public function getGroups(): array;
 
@@ -26,7 +26,7 @@ interface NormalizerContextInterface
     public function getRequest();
 
     /*
-     * @return array
+     * @return array<mixed>
      */
     //public function getAttributes(): array;
 

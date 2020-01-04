@@ -11,10 +11,13 @@ interface LinkBuilderInterface
     public static function create(string $href): self;
 
     /**
-     * @param string[] $rels
+     * @param array<int, string> $rels
      */
     public function setRels(array $rels): self;
 
+    /**
+     * @param array<string, array<string, string>> $attributes
+     */
     public function setAttributes(array $attributes): self;
 
     public function getLink(): LinkInterface;
