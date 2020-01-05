@@ -1,9 +1,6 @@
 parameters:
     ignoreErrors:
         -
-            message: '/PHPDoc tag @var for variable \$parentReflectionClass contains generic class ReflectionClass but does not specify its types\: T/'
-            path: %currentWorkingDirectory%/src/Accessor/PropertyAccessor.php
-        -
             message: '/Method Chubbyphp\\Serialization\\Encoder\\JsonTypeEncoder\:\:encode\(\) should return string but returns string\|false\./'
             path: %currentWorkingDirectory%/src/Encoder/JsonTypeEncoder.php
         -
