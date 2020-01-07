@@ -19,7 +19,7 @@ final class LinkBuilder implements LinkBuilderInterface
     private $rels;
 
     /**
-     * @var array<string, array<string, string>>
+     * @var array<mixed>
      */
     private $attributes;
 
@@ -48,7 +48,7 @@ final class LinkBuilder implements LinkBuilderInterface
     }
 
     /**
-     * @param array<string, array<string, string>> $attributes
+     * @param array<mixed> $attributes
      */
     public function setAttributes(array $attributes): LinkBuilderInterface
     {

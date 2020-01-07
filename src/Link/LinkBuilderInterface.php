@@ -16,7 +16,7 @@ interface LinkBuilderInterface
     public function setRels(array $rels): self;
 
     /**
-     * @param array<string, array<string, string>> $attributes
+     * @param array<mixed> $attributes
      */
     public function setAttributes(array $attributes): self;
 
