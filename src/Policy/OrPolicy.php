@@ -9,12 +9,12 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 final class OrPolicy implements PolicyInterface
 {
     /**
-     * @var array|PolicyInterface[]
+     * @var array<int, PolicyInterface>
      */
     private $policies;
 
     /**
-     * @param array|PolicyInterface[] $policies
+     * @param array<int, PolicyInterface> $policies
      */
     public function __construct(array $policies)
     {

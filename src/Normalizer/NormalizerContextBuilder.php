@@ -56,7 +56,7 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
         return $this;
     }
 
-    public function setRequest(ServerRequestInterface $request = null): NormalizerContextBuilderInterface
+    public function setRequest(?ServerRequestInterface $request = null): NormalizerContextBuilderInterface
     {
         $this->request = $request;
 

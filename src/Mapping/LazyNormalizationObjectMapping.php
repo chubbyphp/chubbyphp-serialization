@@ -47,7 +47,7 @@ final class LazyNormalizationObjectMapping implements NormalizationObjectMapping
     }
 
     /**
-     * @return NormalizationFieldMappingInterface[]
+     * @return array<int, NormalizationFieldMappingInterface>
      */
     public function getNormalizationFieldMappings(string $path): array
     {
@@ -55,7 +55,7 @@ final class LazyNormalizationObjectMapping implements NormalizationObjectMapping
     }
 
     /**
-     * @return NormalizationFieldMappingInterface[]
+     * @return array<int, NormalizationFieldMappingInterface>
      */
     public function getNormalizationEmbeddedFieldMappings(string $path): array
     {
@@ -63,7 +63,7 @@ final class LazyNormalizationObjectMapping implements NormalizationObjectMapping
     }
 
     /**
-     * @return NormalizationLinkMappingInterface[]
+     * @return array<int, NormalizationLinkMappingInterface>
      */
     public function getNormalizationLinkMappings(string $path): array
     {

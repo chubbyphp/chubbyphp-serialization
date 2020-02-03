@@ -39,7 +39,7 @@ final class ReferenceManyFieldNormalizer implements FieldNormalizerInterface
         string $path,
         $object,
         NormalizerContextInterface $context,
-        NormalizerInterface $normalizer = null
+        ?NormalizerInterface $normalizer = null
     ) {
         if (null === $relatedObjects = $this->accessor->getValue($object)) {
             return null;

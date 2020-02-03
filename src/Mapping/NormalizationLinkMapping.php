@@ -32,13 +32,12 @@ final class NormalizationLinkMapping implements NormalizationLinkMappingInterfac
 
     /**
      * @param array<int, string> $groups
-     * @param PolicyInterface    $policy
      */
     public function __construct(
         string $name,
         array $groups,
         LinkNormalizerInterface $linkNormalizer,
-        PolicyInterface $policy = null
+        ?PolicyInterface $policy = null
     ) {
         $this->name = $name;
         $this->groups = $groups;

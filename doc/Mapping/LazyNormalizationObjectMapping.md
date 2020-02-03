@@ -21,8 +21,8 @@ echo $objectMapping->getNormalizationType();
 // 'model'
 
 $objectMapping->getNormalizationFieldMappings('');
-// NormalizationFieldMappingInterface[]
+// array<int, NormalizationFieldMappingInterface>
 
 $objectMapping->getNormalizationEmbeddedFieldMappings('');
-// NormalizationFieldMappingInterface[]
+// array<int, NormalizationFieldMappingInterface>
 ```

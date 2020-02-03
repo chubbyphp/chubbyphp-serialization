@@ -19,6 +19,6 @@ interface FieldNormalizerInterface
         string $path,
         $object,
         NormalizerContextInterface $context,
-        NormalizerInterface $normalizer = null
+        ?NormalizerInterface $normalizer = null
     );
 }

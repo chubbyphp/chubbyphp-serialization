@@ -9,12 +9,12 @@ namespace Chubbyphp\Serialization\Encoder;
  */
 final class JsonxTypeEncoder implements TypeEncoderInterface
 {
-    const DATATYPE_OBJECT = 'object';
-    const DATATYPE_ARRAY = 'array';
-    const DATATYPE_BOOLEAN = 'boolean';
-    const DATATYPE_STRING = 'string';
-    const DATATYPE_NUMBER = 'number';
-    const DATATYPE_NULL = 'null';
+    public const DATATYPE_OBJECT = 'object';
+    public const DATATYPE_ARRAY = 'array';
+    public const DATATYPE_BOOLEAN = 'boolean';
+    public const DATATYPE_STRING = 'string';
+    public const DATATYPE_NUMBER = 'number';
+    public const DATATYPE_NULL = 'null';
 
     /**
      * @var bool
@@ -69,9 +69,9 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param string $name
+     * @param array<mixed> $value
      */
-    private function createObjectNode(\DOMDocument $document, array $value, string $name = null): \DOMNode
+    private function createObjectNode(\DOMDocument $document, array $value, ?string $name = null): \DOMNode
     {
         $node = $document->createElement('json:object');
 
@@ -101,10 +101,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
         return $node;
     }
 
-    /**
-     * @param string $name
-     */
-    private function createArrayNode(\DOMDocument $document, array $value, string $name = null): \DOMNode
+    private function createArrayNode(\DOMDocument $document, array $value, ?string $name = null): \DOMNode
     {
         $node = $document->createElement('json:array');
 
@@ -134,10 +131,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
         return $node;
     }
 
-    /**
-     * @param string $name
-     */
-    private function createBooleanNode(\DOMDocument $document, bool $value, string $name = null): \DOMNode
+    private function createBooleanNode(\DOMDocument $document, bool $value, ?string $name = null): \DOMNode
     {
         $node = $document->createElement('json:boolean', $value ? 'true' : 'false');
 
@@ -148,10 +142,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
         return $node;
     }
 
-    /**
-     * @param string $name
-     */
-    private function createStringNode(\DOMDocument $document, string $value, string $name = null): \DOMNode
+    private function createStringNode(\DOMDocument $document, string $value, ?string $name = null): \DOMNode
     {
         $node = $document->createElement('json:string', htmlentities($value, ENT_COMPAT | ENT_XML1, 'UTF-8'));
 
@@ -164,9 +155,8 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
 
     /**
      * @param int|float $value
-     * @param string    $name
      */
-    private function createNumberNode(\DOMDocument $document, $value, string $name = null): \DOMNode
+    private function createNumberNode(\DOMDocument $document, $value, ?string $name = null): \DOMNode
     {
         $node = $document->createElement('json:number', (string) $value);
 
@@ -177,10 +167,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
         return $node;
     }
 
-    /**
-     * @param string $name
-     */
-    private function createNullNode(\DOMDocument $document, string $name = null): \DOMNode
+    private function createNullNode(\DOMDocument $document, ?string $name = null): \DOMNode
     {
         $node = $document->createElement('json:null');
 

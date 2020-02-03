@@ -45,7 +45,7 @@ final class XmlTypeEncoder implements TypeEncoderInterface
         return trim($document->saveXML($document, LIBXML_NOEMPTYTAG));
     }
 
-    private function createMetadataNode(\DOMDocument $document, string $type = null): \DOMNode
+    private function createMetadataNode(\DOMDocument $document, ?string $type = null): \DOMNode
     {
         $node = $document->createElement('object');
         if (null !== $type) {

@@ -37,16 +37,7 @@ final class DateTimeFieldNormalizer implements FieldNormalizerInterface
         }
 
         if ($accessor instanceof FieldNormalizerInterface) {
-            @trigger_error(
-                sprintf(
-                    'Use "%s" instead of "%s" as __construct argument',
-                    AccessorInterface::class,
-                    FieldNormalizerInterface::class
-                ),
-                E_USER_DEPRECATED
-            );
-
-            $this->fieldNormalizer = $accessor;
+            $this->setFieldDenormalizer($accessor);
 
             return;
         }
@@ -71,7 +62,7 @@ final class DateTimeFieldNormalizer implements FieldNormalizerInterface
         string $path,
         $object,
         NormalizerContextInterface $context,
-        NormalizerInterface $normalizer = null
+        ?NormalizerInterface $normalizer = null
     ) {
         $value = $this->getValue($path, $object, $context, $normalizer);
 
@@ -89,6 +80,20 @@ final class DateTimeFieldNormalizer implements FieldNormalizerInterface
         return $value->format($this->format);
     }
 
+    private function setFieldDenormalizer(FieldNormalizerInterface $fieldNormalizer): void
+    {
+        @trigger_error(
+            sprintf(
+                'Use "%s" instead of "%s" as __construct argument',
+                AccessorInterface::class,
+                FieldNormalizerInterface::class
+            ),
+            E_USER_DEPRECATED
+        );
+
+        $this->fieldNormalizer = $fieldNormalizer;
+    }
+
     /**
      * @param object $object
      *
@@ -98,7 +103,7 @@ final class DateTimeFieldNormalizer implements FieldNormalizerInterface
         string $path,
         $object,
         NormalizerContextInterface $context,
-        NormalizerInterface $normalizer = null
+        ?NormalizerInterface $normalizer = null
     ) {
         if (null !== $this->accessor) {
             return $this->accessor->getValue($object);

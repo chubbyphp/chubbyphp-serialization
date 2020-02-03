@@ -40,7 +40,7 @@ final class ModelMapping implements NormalizationObjectMappingInterface
      * @param string      $path
      * @param string|null $type
      *
-     * @return NormalizationFieldMappingInterface[]
+     * @return array<int, NormalizationFieldMappingInterface>
      */
     public function getNormalizationFieldMappings(string $path, string $type = null): array
     {
@@ -53,7 +53,7 @@ final class ModelMapping implements NormalizationObjectMappingInterface
     /**
      * @param string $path
      *
-     * @return NormalizationFieldMappingInterface[]
+     * @return array<int, NormalizationFieldMappingInterface>
      */
     public function getNormalizationEmbeddedFieldMappings(string $path): array
     {
@@ -63,7 +63,7 @@ final class ModelMapping implements NormalizationObjectMappingInterface
     /**
      * @param string $path
      *
-     * @return NormalizationLinkMappingInterface[]
+     * @return array<int, NormalizationLinkMappingInterface>
      */
     public function getNormalizationLinkMappings(string $path): array
     {
@@ -101,12 +101,12 @@ final class Model
      * @var string
      */
     private $id;
-    
+
     /**
      * @var string
      */
     private $name;
-    
+
     /**
      * @return string
      */

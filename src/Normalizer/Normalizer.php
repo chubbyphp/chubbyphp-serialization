@@ -26,7 +26,7 @@ final class Normalizer implements NormalizerInterface
 
     public function __construct(
         NormalizerObjectMappingRegistryInterface $normalizerObjectMappingRegistry,
-        LoggerInterface $logger = null
+        ?LoggerInterface $logger = null
     ) {
         $this->normalizerObjectMappingRegistry = $normalizerObjectMappingRegistry;
         $this->logger = $logger ?? new NullLogger();
@@ -41,7 +41,7 @@ final class Normalizer implements NormalizerInterface
      */
     public function normalize(
         $object,
-        NormalizerContextInterface $context = null,
+        ?NormalizerContextInterface $context = null,
         string $path = ''
     ): array {
         $this->validateDataType($object, $path);
@@ -107,8 +107,8 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @param NormalizationFieldMappingInterface[] $normalizationFieldMappings
-     * @param object                               $object
+     * @param array<int, NormalizationFieldMappingInterface> $normalizationFieldMappings
+     * @param object                                         $object
      *
      * @return array<mixed>
      */
@@ -143,8 +143,8 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @param NormalizationLinkMappingInterface[] $normalizationLinkMappings
-     * @param object                              $object
+     * @param array<int, NormalizationLinkMappingInterface> $normalizationLinkMappings
+     * @param object                                        $object
      *
      * @return array<mixed>
      */

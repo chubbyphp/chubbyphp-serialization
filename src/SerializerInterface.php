@@ -17,7 +17,7 @@ interface SerializerInterface extends EncoderInterface, NormalizerInterface
     public function serialize(
         $object,
         string $contentType,
-        NormalizerContextInterface $context = null,
+        ?NormalizerContextInterface $context = null,
         $path = ''
     ): string;
 }

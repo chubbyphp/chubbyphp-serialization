@@ -33,7 +33,7 @@ final class Serializer implements SerializerInterface
     public function serialize(
         $object,
         string $contentType,
-        NormalizerContextInterface $context = null,
+        ?NormalizerContextInterface $context = null,
         $path = ''
     ): string {
         return $this->encoder->encode($this->normalizer->normalize($object, $context, $path), $contentType);
@@ -42,11 +42,9 @@ final class Serializer implements SerializerInterface
     /**
      * @param object $object
      *
-     * @throws SerializerLogicException
-     *
      * @return array<mixed>
      */
-    public function normalize($object, NormalizerContextInterface $context = null, string $path = ''): array
+    public function normalize($object, ?NormalizerContextInterface $context = null, string $path = ''): array
     {
         return $this->normalizer->normalize($object, $context, $path);
     }

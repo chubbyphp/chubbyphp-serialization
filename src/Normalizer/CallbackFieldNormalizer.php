@@ -25,7 +25,7 @@ final class CallbackFieldNormalizer implements FieldNormalizerInterface
         string $path,
         $object,
         NormalizerContextInterface $context,
-        NormalizerInterface $normalizer = null
+        ?NormalizerInterface $normalizer = null
     ) {
         $callback = $this->callback;
 

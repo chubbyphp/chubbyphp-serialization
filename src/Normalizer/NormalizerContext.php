@@ -30,7 +30,7 @@ final class NormalizerContext implements NormalizerContextInterface
      * @param array<int, string> $groups
      * @param array<mixed>       $attributes
      */
-    public function __construct(array $groups = [], ServerRequestInterface $request = null, array $attributes = [])
+    public function __construct(array $groups = [], ?ServerRequestInterface $request = null, array $attributes = [])
     {
         if ([] !== $groups) {
             @trigger_error(sprintf('groups are deprecated, use "%s" instead', GroupPolicy::class), E_USER_DEPRECATED);

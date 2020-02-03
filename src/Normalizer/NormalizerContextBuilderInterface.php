@@ -27,7 +27,7 @@ interface NormalizerContextBuilderInterface
      */
     //public function setAttributes(array $attributes): self;
 
-    public function setRequest(ServerRequestInterface $request = null): self;
+    public function setRequest(?ServerRequestInterface $request = null): self;
 
     public function getContext(): NormalizerContextInterface;
 }

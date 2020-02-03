@@ -66,7 +66,7 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
     {
         $object = $this->getObject();
 
-        /* @var NormalizationObjectMappingInterface|MockObject $objectMapping */
+        /** @var NormalizationObjectMappingInterface|MockObject $objectMapping */
         return $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
             Call::create('getClass')->with()->willReturn(get_class($object)),
         ]);

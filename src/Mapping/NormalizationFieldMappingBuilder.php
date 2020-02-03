@@ -45,7 +45,7 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
 
     public static function create(
         string $name,
-        FieldNormalizerInterface $fieldNormalizer = null
+        ?FieldNormalizerInterface $fieldNormalizer = null
     ): NormalizationFieldMappingBuilderInterface {
         $self = new self($name);
         $self->fieldNormalizer = $fieldNormalizer;

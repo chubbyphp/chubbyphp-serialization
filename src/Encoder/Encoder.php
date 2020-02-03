@@ -9,12 +9,12 @@ use Chubbyphp\Serialization\SerializerLogicException;
 final class Encoder implements EncoderInterface
 {
     /**
-     * @var TypeEncoderInterface[]
+     * @var array<string, TypeEncoderInterface>
      */
     private $encoderTypes;
 
     /**
-     * @param TypeEncoderInterface[] $encoderTypes
+     * @param array<int, TypeEncoderInterface> $encoderTypes
      */
     public function __construct(array $encoderTypes)
     {

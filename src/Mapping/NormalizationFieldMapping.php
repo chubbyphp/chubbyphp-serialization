@@ -38,7 +38,7 @@ final class NormalizationFieldMapping implements NormalizationFieldMappingInterf
         $name,
         array $groups,
         FieldNormalizerInterface $fieldNormalizer,
-        PolicyInterface $policy = null
+        ?PolicyInterface $policy = null
     ) {
         $this->name = $name;
         $this->groups = $groups;

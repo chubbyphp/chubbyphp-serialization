@@ -73,8 +73,8 @@ final class SerializationCompilerPass implements CompilerPassInterface
 
         if (class_exists(Yaml::class)) {
             $container
-            ->register('chubbyphp.serializer.encoder.type.yaml', YamlTypeEncoder::class)
-            ->addTag('chubbyphp.serializer.encoder.type')
+                ->register('chubbyphp.serializer.encoder.type.yaml', YamlTypeEncoder::class)
+                ->addTag('chubbyphp.serializer.encoder.type')
             ;
         }
 

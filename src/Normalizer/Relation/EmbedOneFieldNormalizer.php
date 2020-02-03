@@ -33,7 +33,7 @@ final class EmbedOneFieldNormalizer implements FieldNormalizerInterface
         string $path,
         $object,
         NormalizerContextInterface $context,
-        NormalizerInterface $normalizer = null
+        ?NormalizerInterface $normalizer = null
     ) {
         if (null === $normalizer) {
             throw SerializerLogicException::createMissingNormalizer($path);
