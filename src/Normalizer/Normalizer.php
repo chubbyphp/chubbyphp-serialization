@@ -99,7 +99,11 @@ final class Normalizer implements NormalizerInterface
     ): array {
         $data = [];
         foreach ($normalizationFieldMappings as $normalizationFieldMapping) {
-            if (!$this->isCompliant($context, $normalizationFieldMapping, $object, $path)) {
+            $name = $normalizationFieldMapping->getName();
+
+            $subPath = $this->getSubPathByName($path, $name);
+
+            if (!$this->isCompliant($context, $normalizationFieldMapping, $object, $subPath)) {
                 continue;
             }
 
@@ -109,9 +113,6 @@ final class Normalizer implements NormalizerInterface
 
             $fieldNormalizer = $normalizationFieldMapping->getFieldNormalizer();
 
-            $name = $normalizationFieldMapping->getName();
-
-            $subPath = $this->getSubPathByName($path, $name);
 
             $this->logger->info('serialize: path {path}', ['path' => $subPath]);
 
