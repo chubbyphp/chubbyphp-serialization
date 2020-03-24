@@ -6,10 +6,12 @@ namespace Chubbyphp\Serialization\Policy;
 
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 
+/**
+ * @method bool isCompliantIncludingPath(object $object, NormalizerContextInterface $context, string $path)
+ */
 interface PolicyInterface
 {
-    /**
-     * @param object|mixed $object
-     */
-    public function isCompliant(NormalizerContextInterface $context, $object): bool;
+    public function isCompliant(NormalizerContextInterface $context, object $object): bool;
+
+    //public function isCompliantIncludingPath(object $object, NormalizerContextInterface $context, string $path): bool;
 }

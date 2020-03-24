@@ -25,10 +25,24 @@ final class GroupPolicy implements PolicyInterface
         $this->groups = $groups;
     }
 
-    /**
-     * @param object|mixed $object
-     */
-    public function isCompliant(NormalizerContextInterface $context, $object): bool
+    public function isCompliant(NormalizerContextInterface $context, object $object): bool
+    {
+        if ([] === $this->groups) {
+            return true;
+        }
+
+        $contextGroups = $context->getAttribute(self::ATTRIBUTE_GROUPS, [self::GROUP_DEFAULT]);
+
+        foreach ($this->groups as $group) {
+            if (in_array($group, $contextGroups, true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function isCompliantIncludingPath(object $object, NormalizerContextInterface $context, string $path): bool
     {
         if ([] === $this->groups) {
             return true;

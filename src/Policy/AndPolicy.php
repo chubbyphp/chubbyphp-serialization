@@ -21,13 +21,21 @@ final class AndPolicy implements PolicyInterface
         $this->policies = $policies;
     }
 
-    /**
-     * @param object|mixed $object
-     */
-    public function isCompliant(NormalizerContextInterface $context, $object): bool
+    public function isCompliant(NormalizerContextInterface $context, object $object): bool
     {
         foreach ($this->policies as $policy) {
             if (false === $policy->isCompliant($context, $object)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function isCompliantIncludingPath(object $object, NormalizerContextInterface $context, string $path): bool
+    {
+        foreach ($this->policies as $policy) {
+            if (false === $policy->isCompliantIncludingPath($object, $context, $path)) {
                 return false;
             }
         }

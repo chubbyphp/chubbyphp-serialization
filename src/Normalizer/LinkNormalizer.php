@@ -26,7 +26,7 @@ final class LinkNormalizer implements LinkNormalizerInterface
      *
      * @return array<mixed>|null
      */
-    public function normalizeLink(string $path, $object, NormalizerContextInterface $context)
+    public function normalizeLink(string $path, object $object, NormalizerContextInterface $context)
     {
         return [
             'href' => $this->link->getHref(),
