@@ -79,6 +79,76 @@ final class GroupPolicyTest extends TestCase
         self::assertFalse($policy->isCompliant($context, $object));
     }
 
+    public function testIsCompliantIncludingPathReturnsTrueIfNoGroupsAreSet(): void
+    {
+        $object = new \stdClass();
+
+        $path = '';
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+
+        $policy = new GroupPolicy([]);
+
+        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+    }
+
+    public function testIsCompliantIncludingPathReturnsTrueWithDefaultValues(): void
+    {
+        $object = new \stdClass();
+
+        $path = '';
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getNormalizerContextWithGroupAttribute(null);
+
+        $policy = new GroupPolicy();
+
+        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+    }
+
+    public function testIsCompliantIncludingPathReturnsTrueIfOneGroupMatches(): void
+    {
+        $object = new \stdClass();
+
+        $path = '';
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getNormalizerContextWithGroupAttribute(['group2']);
+
+        $policy = new GroupPolicy(['group1', 'group2']);
+
+        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+    }
+
+    public function testIsCompliantIncludingPathReturnsFalseIfNoGroupsAreSetInContext(): void
+    {
+        $object = new \stdClass();
+
+        $path = '';
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getNormalizerContextWithGroupAttribute([]);
+
+        $policy = new GroupPolicy(['group1', 'group2']);
+
+        self::assertFalse($policy->isCompliantIncludingPath($object, $context, $path));
+    }
+
+    public function testIsCompliantIncludingPathReturnsFalseIfNoGroupsMatch(): void
+    {
+        $object = new \stdClass();
+
+        $path = '';
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getNormalizerContextWithGroupAttribute(['unknownGroup']);
+
+        $policy = new GroupPolicy(['group1', 'group2']);
+
+        self::assertFalse($policy->isCompliantIncludingPath($object, $context, $path));
+    }
+
     private function getNormalizerContextWithGroupAttribute(array $groups = null): NormalizerContextInterface
     {
         return new class($groups) implements NormalizerContextInterface {

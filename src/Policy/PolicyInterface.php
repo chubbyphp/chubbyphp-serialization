@@ -11,6 +11,9 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
  */
 interface PolicyInterface
 {
+    /**
+     * @deprecated
+     */
     public function isCompliant(NormalizerContextInterface $context, object $object): bool;
 
     //public function isCompliantIncludingPath(object $object, NormalizerContextInterface $context, string $path): bool;

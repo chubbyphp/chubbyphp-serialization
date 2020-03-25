@@ -336,27 +336,6 @@ EOD;
         );
     }
 
-    public function testSerializeWithoutObject(): void
-    {
-        $this->expectException(SerializerLogicException::class);
-        $this->expectExceptionMessage('Wrong data type "" at path : "string"');
-
-        $logger = $this->getLogger();
-
-        $serializer = new Serializer(
-            new Normalizer(
-                new NormalizerObjectMappingRegistry([
-                    new ManyModelMapping(),
-                    new ModelMapping(),
-                ]),
-                $logger
-            ),
-            new Encoder([new JsonTypeEncoder(true)])
-        );
-
-        $serializer->serialize('test', 'application/json');
-    }
-
     public function testSerializeWithoutObjectMapping(): void
     {
         $this->expectException(SerializerLogicException::class);

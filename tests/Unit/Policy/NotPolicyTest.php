@@ -20,6 +20,7 @@ use PHPUnit\Framework\TestCase;
 final class NotPolicyTest extends TestCase
 {
     use MockByCallsTrait;
+    use PolicyIncludingPathTrait;
 
     public function testIsCompliantReturnsTrueIfGivenPolicyReturnsFalse(): void
     {
@@ -53,5 +54,39 @@ final class NotPolicyTest extends TestCase
         $policy = new NotPolicy($nonCompliantPolicy);
 
         self::assertFalse($policy->isCompliant($context, $object));
+    }
+
+    public function testIsCompliantIncludingPathReturnsTrueIfGivenPolicyReturnsFalse(): void
+    {
+        $object = new \stdClass();
+
+        $path = '';
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
+
+        /** @var PolicyInterface|MockObject $nonCompliantPolicy */
+        $nonCompliantPolicy = $this->getCompliantPolicyIncludingPath(false);
+
+        $policy = new NotPolicy($nonCompliantPolicy);
+
+        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+    }
+
+    public function testIsCompliantIncludingPathReturnsFalseIfGivenPolicyReturnsTrue(): void
+    {
+        $object = new \stdClass();
+
+        $path = '';
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
+
+        /** @var PolicyInterface|MockObject $nonCompliantPolicy */
+        $nonCompliantPolicy = $this->getCompliantPolicyIncludingPath(true);
+
+        $policy = new NotPolicy($nonCompliantPolicy);
+
+        self::assertFalse($policy->isCompliantIncludingPath($object, $context, $path));
     }
 }

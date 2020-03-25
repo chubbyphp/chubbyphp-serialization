@@ -20,6 +20,7 @@ use PHPUnit\Framework\TestCase;
 final class OrPolicyTest extends TestCase
 {
     use MockByCallsTrait;
+    use PolicyIncludingPathTrait;
 
     public function testIsCompliantReturnsTrueIfOnePolicyReturnsTrue(): void
     {
@@ -66,5 +67,48 @@ final class OrPolicyTest extends TestCase
         $policy = new OrPolicy([$nonCompliantPolicy1, $nonCompliantPolicy2]);
 
         self::assertFalse($policy->isCompliant($context, $object));
+    }
+
+    public function testIsCompliantIncludingPathReturnsTrueIfOnePolicyReturnsTrue(): void
+    {
+        $object = new \stdClass();
+
+        $path = '';
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
+
+        /** @var PolicyInterface|MockObject $nonCompliantPolicy */
+        $nonCompliantPolicy = $this->getCompliantPolicyIncludingPath(false);
+
+        /** @var PolicyInterface|MockObject $compliantPolicy */
+        $compliantPolicy = $this->getCompliantPolicyIncludingPath(true);
+
+        /** @var PolicyInterface|MockObject $notToBeCalledPolicy */
+        $notToBeCalledPolicy = $this->getMockByCalls(PolicyInterface::class, []);
+
+        $policy = new OrPolicy([$nonCompliantPolicy, $compliantPolicy, $notToBeCalledPolicy]);
+
+        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+    }
+
+    public function testIsCompliantIncludingPathReturnsFalseIfAllPoliciesReturnFalse(): void
+    {
+        $object = new \stdClass();
+
+        $path = '';
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
+
+        /** @var PolicyInterface|MockObject $nonCompliantPolicy1 */
+        $nonCompliantPolicy1 = $this->getCompliantPolicyIncludingPath(false);
+
+        /** @var PolicyInterface|MockObject $nonCompliantPolicy2 */
+        $nonCompliantPolicy2 = $this->getCompliantPolicyIncludingPath(false);
+
+        $policy = new OrPolicy([$nonCompliantPolicy1, $nonCompliantPolicy2]);
+
+        self::assertFalse($policy->isCompliantIncludingPath($object, $context, $path));
     }
 }

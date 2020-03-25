@@ -52,4 +52,42 @@ final class CallbackPolicyTest extends TestCase
 
         self::assertFalse($policy->isCompliant($context, $object));
     }
+
+    public function testIsCompliantIncludingPathReturnsTrueIfCallbackReturnsTrue(): void
+    {
+        $object = new \stdClass();
+
+        $path = '';
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
+
+        $policy = new CallbackPolicy(function ($objectParameter, $contextParameter) use ($object, $context) {
+            self::assertSame($context, $contextParameter);
+            self::assertSame($object, $objectParameter);
+
+            return true;
+        });
+
+        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+    }
+
+    public function testIsCompliantIncludingPathReturnsFalseIfCallbackReturnsFalse(): void
+    {
+        $object = new \stdClass();
+
+        $path = '';
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
+
+        $policy = new CallbackPolicy(function ($objectParameter, $contextParameter) use ($object, $context) {
+            self::assertSame($context, $contextParameter);
+            self::assertSame($object, $objectParameter);
+
+            return false;
+        });
+
+        self::assertFalse($policy->isCompliantIncludingPath($object, $context, $path));
+    }
 }
