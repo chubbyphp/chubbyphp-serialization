@@ -8,6 +8,9 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 
 final class NullPolicy implements PolicyInterface
 {
+    /**
+     * @deprecated
+     */
     public function isCompliant(NormalizerContextInterface $context, object $object): bool
     {
         return true;

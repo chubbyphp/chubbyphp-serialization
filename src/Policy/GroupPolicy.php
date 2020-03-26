@@ -25,6 +25,9 @@ final class GroupPolicy implements PolicyInterface
         $this->groups = $groups;
     }
 
+    /**
+     * @deprecated
+     */
     public function isCompliant(NormalizerContextInterface $context, object $object): bool
     {
         return $this->isCompliantIncludingPath($object, $context, '');

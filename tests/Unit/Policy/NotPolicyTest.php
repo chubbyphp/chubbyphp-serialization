@@ -56,7 +56,7 @@ final class NotPolicyTest extends TestCase
         self::assertFalse($policy->isCompliant($context, $object));
     }
 
-    public function testIsCompliantIncludingPathReturnsTrueIfGivenPolicyReturnsFalse(): void
+    public function testIsCompliantIncludingPathReturnsTrueIfGivenPolicyIncludingPathReturnsFalse(): void
     {
         $object = new \stdClass();
 
@@ -73,7 +73,7 @@ final class NotPolicyTest extends TestCase
         self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
     }
 
-    public function testIsCompliantIncludingPathReturnsFalseIfGivenPolicyReturnsTrue(): void
+    public function testIsCompliantIncludingPathReturnsFalseIfGivenPolicyIncludingPathReturnsTrue(): void
     {
         $object = new \stdClass();
 
@@ -84,6 +84,44 @@ final class NotPolicyTest extends TestCase
 
         /** @var PolicyInterface|MockObject $nonCompliantPolicy */
         $nonCompliantPolicy = $this->getCompliantPolicyIncludingPath(true);
+
+        $policy = new NotPolicy($nonCompliantPolicy);
+
+        self::assertFalse($policy->isCompliantIncludingPath($object, $context, $path));
+    }
+
+    public function testIsCompliantIncludingPathReturnsTrueIfGivenPolicyReturnsFalse(): void
+    {
+        $object = new \stdClass();
+
+        $path = '';
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
+
+        /** @var PolicyInterface|MockObject $nonCompliantPolicy */
+        $nonCompliantPolicy = $this->getMockByCalls(PolicyInterface::class, [
+            Call::create('isCompliant')->with($context, $object)->willReturn(false),
+        ]);
+
+        $policy = new NotPolicy($nonCompliantPolicy);
+
+        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+    }
+
+    public function testIsCompliantIncludingPathReturnsFalseIfGivenPolicyReturnsTrue(): void
+    {
+        $object = new \stdClass();
+
+        $path = '';
+
+        /** @var NormalizerContextInterface|MockObject $context */
+        $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
+
+        /** @var PolicyInterface|MockObject $nonCompliantPolicy */
+        $nonCompliantPolicy = $this->getMockByCalls(PolicyInterface::class, [
+            Call::create('isCompliant')->with($context, $object)->willReturn(true),
+        ]);
 
         $policy = new NotPolicy($nonCompliantPolicy);
 

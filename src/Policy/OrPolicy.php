@@ -21,6 +21,9 @@ final class OrPolicy implements PolicyInterface
         $this->policies = $policies;
     }
 
+    /**
+     * @deprecated
+     */
     public function isCompliant(NormalizerContextInterface $context, object $object): bool
     {
         foreach ($this->policies as $policy) {
@@ -35,7 +38,7 @@ final class OrPolicy implements PolicyInterface
     public function isCompliantIncludingPath(object $object, NormalizerContextInterface $context, string $path): bool
     {
         foreach ($this->policies as $policy) {
-            if (method_exists($policy, 'isCompliantIncludingPath')) {
+            if (is_callable([$policy, 'isCompliantIncludingPath'])) {
                 if ($policy->isCompliantIncludingPath($object, $context, $path)) {
                     return true;
                 }

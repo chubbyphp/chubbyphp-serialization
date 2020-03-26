@@ -165,7 +165,7 @@ final class Normalizer implements NormalizerInterface
             return true;
         }
 
-        if (method_exists($mapping->getPolicy(), 'isCompliantIncludingPath')) {
+        if (is_callable([$mapping->getPolicy(), 'isCompliantIncludingPath'])) {
             return $mapping->getPolicy()->isCompliantIncludingPath($object, $context, $path);
         }
 

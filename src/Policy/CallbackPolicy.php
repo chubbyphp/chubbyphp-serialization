@@ -18,6 +18,9 @@ final class CallbackPolicy implements PolicyInterface
         $this->callback = $callback;
     }
 
+    /**
+     * @deprecated
+     */
     public function isCompliant(NormalizerContextInterface $context, object $object): bool
     {
         return ($this->callback)($context, $object);
