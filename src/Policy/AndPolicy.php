@@ -35,7 +35,15 @@ final class AndPolicy implements PolicyInterface
     public function isCompliantIncludingPath(object $object, NormalizerContextInterface $context, string $path): bool
     {
         foreach ($this->policies as $policy) {
-            if (false === $policy->isCompliantIncludingPath($object, $context, $path)) {
+            if (method_exists($policy, 'isCompliantIncludingPath')) {
+                if (false === $policy->isCompliantIncludingPath($object, $context, $path)) {
+                    return false;
+                }
+
+                continue;
+            }
+
+            if (false === $policy->isCompliant($context,$object)) {
                 return false;
             }
         }
