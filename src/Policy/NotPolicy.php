@@ -23,6 +23,8 @@ final class NotPolicy implements PolicyInterface
      */
     public function isCompliant(NormalizerContextInterface $context, object $object): bool
     {
+        @trigger_error('Use "isCompliantIncludingPath()" instead of "isCompliant()"', E_USER_DEPRECATED);
+
         return !$this->policy->isCompliant($context, $object);
     }
 

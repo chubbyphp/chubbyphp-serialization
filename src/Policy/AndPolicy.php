@@ -26,6 +26,8 @@ final class AndPolicy implements PolicyInterface
      */
     public function isCompliant(NormalizerContextInterface $context, object $object): bool
     {
+        @trigger_error('Use "isCompliantIncludingPath()" instead of "isCompliant()"', E_USER_DEPRECATED);
+
         foreach ($this->policies as $policy) {
             if (false === $policy->isCompliant($context, $object)) {
                 return false;
@@ -45,6 +47,8 @@ final class AndPolicy implements PolicyInterface
 
                 continue;
             }
+
+            @trigger_error('Use "isCompliantIncludingPath()" instead of "isCompliant()"', E_USER_DEPRECATED);
 
             if (false === $policy->isCompliant($context,$object)) {
                 return false;
