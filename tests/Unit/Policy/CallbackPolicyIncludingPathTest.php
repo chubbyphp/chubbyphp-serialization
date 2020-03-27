@@ -6,7 +6,6 @@ namespace Chubbyphp\Tests\Serialization\Unit\Policy;
 
 use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
-use Chubbyphp\Serialization\Policy\CallbackPolicy;
 use Chubbyphp\Serialization\Policy\CallbackPolicyIncludingPath;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
