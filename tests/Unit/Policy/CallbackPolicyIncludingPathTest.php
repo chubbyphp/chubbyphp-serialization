@@ -42,7 +42,7 @@ final class CallbackPolicyIncludingPathTest extends TestCase
             return true;
         });
 
-        self::assertTrue($policy->isCompliant($context, $object));
+        $policy->isCompliant($context, $object);
     }
 
     public function testIsCompliantIncludingPathReturnsTrueIfCallbackReturnsTrue(): void
