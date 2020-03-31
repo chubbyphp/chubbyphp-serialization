@@ -86,7 +86,7 @@ final class AndPolicyTest extends TestCase
 
         $policy = new AndPolicy([$compliantPolicy1, $compliantPolicy2]);
 
-        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
     }
 
     public function testIsCompliantIncludingPathReturnsFalseWithNonCompliantIncludingPathPolicy(): void
@@ -109,7 +109,7 @@ final class AndPolicyTest extends TestCase
 
         $policy = new AndPolicy([$compliantPolicy1, $nonCompliantPolicy, $notExpectedToBeCalledPolicy]);
 
-        self::assertFalse($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertFalse($policy->isCompliantIncludingPath($path, $object, $context));
     }
 
     public function testIsCompliantIncludingPathReturnsFalseWithNonCompliantPolicy(): void
@@ -134,6 +134,6 @@ final class AndPolicyTest extends TestCase
 
         $policy = new AndPolicy([$compliantPolicy1, $nonCompliantPolicy, $notExpectedToBeCalledPolicy]);
 
-        self::assertFalse($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertFalse($policy->isCompliantIncludingPath($path, $object, $context));
     }
 }

@@ -90,7 +90,7 @@ final class GroupPolicyTest extends TestCase
 
         $policy = new GroupPolicy([]);
 
-        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
     }
 
     public function testIsCompliantIncludingPathReturnsTrueWithDefaultValues(): void
@@ -104,7 +104,7 @@ final class GroupPolicyTest extends TestCase
 
         $policy = new GroupPolicy();
 
-        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
     }
 
     public function testIsCompliantIncludingPathReturnsTrueIfOneGroupMatches(): void
@@ -118,7 +118,7 @@ final class GroupPolicyTest extends TestCase
 
         $policy = new GroupPolicy(['group1', 'group2']);
 
-        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
     }
 
     public function testIsCompliantIncludingPathReturnsFalseIfNoGroupsAreSetInContext(): void
@@ -132,7 +132,7 @@ final class GroupPolicyTest extends TestCase
 
         $policy = new GroupPolicy(['group1', 'group2']);
 
-        self::assertFalse($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertFalse($policy->isCompliantIncludingPath($path, $object, $context));
     }
 
     public function testIsCompliantIncludingPathReturnsFalseIfNoGroupsMatch(): void
@@ -146,7 +146,7 @@ final class GroupPolicyTest extends TestCase
 
         $policy = new GroupPolicy(['group1', 'group2']);
 
-        self::assertFalse($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertFalse($policy->isCompliantIncludingPath($path, $object, $context));
     }
 
     private function getNormalizerContextWithGroupAttribute(array $groups = null): NormalizerContextInterface

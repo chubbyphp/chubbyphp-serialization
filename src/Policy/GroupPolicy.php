@@ -32,10 +32,10 @@ final class GroupPolicy implements PolicyInterface
     {
         @trigger_error('Use "isCompliantIncludingPath()" instead of "isCompliant()"', E_USER_DEPRECATED);
 
-        return $this->isCompliantIncludingPath($object, $context, '');
+        return $this->isCompliantIncludingPath('', $object, $context);
     }
 
-    public function isCompliantIncludingPath(object $object, NormalizerContextInterface $context, string $path): bool
+    public function isCompliantIncludingPath(string $path, object $object, NormalizerContextInterface $context): bool
     {
         if ([] === $this->groups) {
             return true;

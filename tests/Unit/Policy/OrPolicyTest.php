@@ -89,7 +89,7 @@ final class OrPolicyTest extends TestCase
 
         $policy = new OrPolicy([$nonCompliantPolicy, $compliantPolicy, $notToBeCalledPolicy]);
 
-        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
     }
 
     public function testIsCompliantIncludingPathReturnsTrueIfOnePolicyReturnsTrue(): void
@@ -114,7 +114,7 @@ final class OrPolicyTest extends TestCase
 
         $policy = new OrPolicy([$nonCompliantPolicy, $compliantPolicy, $notToBeCalledPolicy]);
 
-        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
     }
 
     public function testIsCompliantIncludingPathReturnsFalseIfAllPoliciesReturnFalse(): void
@@ -134,6 +134,6 @@ final class OrPolicyTest extends TestCase
 
         $policy = new OrPolicy([$nonCompliantPolicy1, $nonCompliantPolicy2]);
 
-        self::assertFalse($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertFalse($policy->isCompliantIncludingPath($path, $object, $context));
     }
 }

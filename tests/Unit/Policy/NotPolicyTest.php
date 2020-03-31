@@ -70,7 +70,7 @@ final class NotPolicyTest extends TestCase
 
         $policy = new NotPolicy($nonCompliantPolicy);
 
-        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
     }
 
     public function testIsCompliantIncludingPathReturnsFalseIfGivenPolicyIncludingPathReturnsTrue(): void
@@ -87,7 +87,7 @@ final class NotPolicyTest extends TestCase
 
         $policy = new NotPolicy($nonCompliantPolicy);
 
-        self::assertFalse($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertFalse($policy->isCompliantIncludingPath($path, $object, $context));
     }
 
     public function testIsCompliantIncludingPathReturnsTrueIfGivenPolicyReturnsFalse(): void
@@ -106,7 +106,7 @@ final class NotPolicyTest extends TestCase
 
         $policy = new NotPolicy($nonCompliantPolicy);
 
-        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
     }
 
     public function testIsCompliantIncludingPathReturnsFalseIfGivenPolicyReturnsTrue(): void
@@ -125,6 +125,6 @@ final class NotPolicyTest extends TestCase
 
         $policy = new NotPolicy($nonCompliantPolicy);
 
-        self::assertFalse($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertFalse($policy->isCompliantIncludingPath($path, $object, $context));
     }
 }

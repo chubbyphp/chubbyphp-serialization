@@ -18,7 +18,7 @@ final class NullPolicy implements PolicyInterface
         return true;
     }
 
-    public function isCompliantIncludingPath(object $object, NormalizerContextInterface $context, string $path): bool
+    public function isCompliantIncludingPath(string $path, object $object, NormalizerContextInterface $context): bool
     {
         return true;
     }

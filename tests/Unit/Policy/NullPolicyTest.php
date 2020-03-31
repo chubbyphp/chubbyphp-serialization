@@ -42,6 +42,6 @@ final class NullPolicyTest extends TestCase
 
         $policy = new NullPolicy();
 
-        self::assertTrue($policy->isCompliantIncludingPath($object, $context, $path));
+        self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
     }
 }
