@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Chubbyphp\Serialization\Policy;
 
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
+use Chubbyphp\Serialization\SerializerLogicException;
 
 final class CallbackPolicyIncludingPath implements PolicyInterface
 {
@@ -20,12 +21,12 @@ final class CallbackPolicyIncludingPath implements PolicyInterface
 
     /**
      * @deprecated
+     *
+     * @throws SerializerLogicException
      */
     public function isCompliant(NormalizerContextInterface $context, object $object): bool
     {
-        @trigger_error('Use "isCompliantIncludingPath()" instead of "isCompliant()"', E_USER_DEPRECATED);
-
-        return ($this->callback)($context, $object);
+        throw SerializerLogicException::createMissingMethod(__CLASS__, ['isCompliant']);
     }
 
     public function isCompliantIncludingPath(string $path, object $object, NormalizerContextInterface $context): bool

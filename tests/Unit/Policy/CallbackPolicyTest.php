@@ -21,6 +21,8 @@ final class CallbackPolicyTest extends TestCase
 
     public function testIsCompliantReturnsTrueIfCallbackReturnsTrue(): void
     {
+        error_clear_last();
+
         $object = new \stdClass();
 
         /** @var NormalizerContextInterface|MockObject $context */
@@ -34,10 +36,19 @@ final class CallbackPolicyTest extends TestCase
         });
 
         self::assertTrue($policy->isCompliant($context, $object));
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame('Use "CallbackPolicyIncludingPath" instead of "CallbackPolicy"', $error['message']);
     }
 
     public function testIsCompliantReturnsFalseIfCallbackReturnsFalse(): void
     {
+        error_clear_last();
+
         $object = new \stdClass();
 
         /** @var NormalizerContextInterface|MockObject $context */
@@ -51,5 +62,12 @@ final class CallbackPolicyTest extends TestCase
         });
 
         self::assertFalse($policy->isCompliant($context, $object));
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame('Use "CallbackPolicyIncludingPath" instead of "CallbackPolicy"', $error['message']);
     }
 }

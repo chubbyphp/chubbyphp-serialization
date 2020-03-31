@@ -24,6 +24,8 @@ final class NotPolicyTest extends TestCase
 
     public function testIsCompliantReturnsTrueIfGivenPolicyReturnsFalse(): void
     {
+        error_clear_last();
+
         $object = new \stdClass();
 
         /** @var NormalizerContextInterface|MockObject $context */
@@ -37,10 +39,22 @@ final class NotPolicyTest extends TestCase
         $policy = new NotPolicy($nonCompliantPolicy);
 
         self::assertTrue($policy->isCompliant($context, $object));
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(
+            sprintf('The %s::isCompliant method is deprecated ().', PolicyInterface::class),
+            $error['message']
+        );
     }
 
     public function testIsCompliantReturnsFalseIfGivenPolicyReturnsTrue(): void
     {
+        error_clear_last();
+
         $object = new \stdClass();
 
         /** @var NormalizerContextInterface|MockObject $context */
@@ -54,10 +68,22 @@ final class NotPolicyTest extends TestCase
         $policy = new NotPolicy($nonCompliantPolicy);
 
         self::assertFalse($policy->isCompliant($context, $object));
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(
+            sprintf('The %s::isCompliant method is deprecated ().', PolicyInterface::class),
+            $error['message']
+        );
     }
 
     public function testIsCompliantIncludingPathReturnsTrueIfGivenPolicyIncludingPathReturnsFalse(): void
     {
+        error_clear_last();
+
         $object = new \stdClass();
 
         $path = '';
@@ -71,10 +97,16 @@ final class NotPolicyTest extends TestCase
         $policy = new NotPolicy($nonCompliantPolicy);
 
         self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
+
+        $error = error_get_last();
+
+        self::assertNull($error);
     }
 
     public function testIsCompliantIncludingPathReturnsFalseIfGivenPolicyIncludingPathReturnsTrue(): void
     {
+        error_clear_last();
+
         $object = new \stdClass();
 
         $path = '';
@@ -88,10 +120,16 @@ final class NotPolicyTest extends TestCase
         $policy = new NotPolicy($nonCompliantPolicy);
 
         self::assertFalse($policy->isCompliantIncludingPath($path, $object, $context));
+
+        $error = error_get_last();
+
+        self::assertNull($error);
     }
 
     public function testIsCompliantIncludingPathReturnsTrueIfGivenPolicyReturnsFalse(): void
     {
+        error_clear_last();
+
         $object = new \stdClass();
 
         $path = '';
@@ -107,10 +145,22 @@ final class NotPolicyTest extends TestCase
         $policy = new NotPolicy($nonCompliantPolicy);
 
         self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(
+            sprintf('The %s::isCompliant method is deprecated ().', PolicyInterface::class),
+            $error['message']
+        );
     }
 
     public function testIsCompliantIncludingPathReturnsFalseIfGivenPolicyReturnsTrue(): void
     {
+        error_clear_last();
+
         $object = new \stdClass();
 
         $path = '';
@@ -126,5 +176,15 @@ final class NotPolicyTest extends TestCase
         $policy = new NotPolicy($nonCompliantPolicy);
 
         self::assertFalse($policy->isCompliantIncludingPath($path, $object, $context));
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(
+            sprintf('The %s::isCompliant method is deprecated ().', PolicyInterface::class),
+            $error['message']
+        );
     }
 }

@@ -21,6 +21,8 @@ final class GroupPolicyTest extends TestCase
 
     public function testIsCompliantReturnsTrueIfNoGroupsAreSet(): void
     {
+        error_clear_last();
+
         $object = new \stdClass();
 
         /** @var NormalizerContextInterface|MockObject $context */
@@ -29,10 +31,19 @@ final class GroupPolicyTest extends TestCase
         $policy = new GroupPolicy([]);
 
         self::assertTrue($policy->isCompliant($context, $object));
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame('Use "isCompliantIncludingPath()" instead of "isCompliant()"', $error['message']);
     }
 
     public function testIsCompliantReturnsTrueWithDefaultValues(): void
     {
+        error_clear_last();
+
         $object = new \stdClass();
 
         /** @var NormalizerContextInterface|MockObject $context */
@@ -41,10 +52,19 @@ final class GroupPolicyTest extends TestCase
         $policy = new GroupPolicy();
 
         self::assertTrue($policy->isCompliant($context, $object));
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame('Use "isCompliantIncludingPath()" instead of "isCompliant()"', $error['message']);
     }
 
     public function testIsCompliantReturnsTrueIfOneGroupMatches(): void
     {
+        error_clear_last();
+
         $object = new \stdClass();
 
         /** @var NormalizerContextInterface|MockObject $context */
@@ -53,10 +73,19 @@ final class GroupPolicyTest extends TestCase
         $policy = new GroupPolicy(['group1', 'group2']);
 
         self::assertTrue($policy->isCompliant($context, $object));
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame('Use "isCompliantIncludingPath()" instead of "isCompliant()"', $error['message']);
     }
 
     public function testIsCompliantReturnsFalseIfNoGroupsAreSetInContext(): void
     {
+        error_clear_last();
+
         $object = new \stdClass();
 
         /** @var NormalizerContextInterface|MockObject $context */
@@ -65,10 +94,19 @@ final class GroupPolicyTest extends TestCase
         $policy = new GroupPolicy(['group1', 'group2']);
 
         self::assertFalse($policy->isCompliant($context, $object));
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame('Use "isCompliantIncludingPath()" instead of "isCompliant()"', $error['message']);
     }
 
     public function testIsCompliantReturnsFalseIfNoGroupsMatch(): void
     {
+        error_clear_last();
+
         $object = new \stdClass();
 
         /** @var NormalizerContextInterface|MockObject $context */
@@ -77,6 +115,13 @@ final class GroupPolicyTest extends TestCase
         $policy = new GroupPolicy(['group1', 'group2']);
 
         self::assertFalse($policy->isCompliant($context, $object));
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame('Use "isCompliantIncludingPath()" instead of "isCompliant()"', $error['message']);
     }
 
     public function testIsCompliantIncludingPathReturnsTrueIfNoGroupsAreSet(): void

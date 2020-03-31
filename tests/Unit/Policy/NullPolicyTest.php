@@ -21,6 +21,8 @@ final class NullPolicyTest extends TestCase
 
     public function testIsCompliantReturnsTrue(): void
     {
+        error_clear_last();
+
         $object = new \stdClass();
 
         /** @var NormalizerContextInterface|MockObject $context */
@@ -29,6 +31,13 @@ final class NullPolicyTest extends TestCase
         $policy = new NullPolicy();
 
         self::assertTrue($policy->isCompliant($context, $object));
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame('Use "isCompliantIncludingPath()" instead of "isCompliant()"', $error['message']);
     }
 
     public function testIsComplianIncludingPathtReturnsTrue(): void

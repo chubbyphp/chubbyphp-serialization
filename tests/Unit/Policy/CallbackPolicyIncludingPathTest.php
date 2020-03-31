@@ -7,6 +7,7 @@ namespace Chubbyphp\Tests\Serialization\Unit\Policy;
 use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Policy\CallbackPolicyIncludingPath;
+use Chubbyphp\Serialization\SerializerLogicException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -19,8 +20,16 @@ final class CallbackPolicyIncludingPathTest extends TestCase
 {
     use MockByCallsTrait;
 
-    public function testIsCompliantReturnsTrueIfCallbackReturnsTrue(): void
+    public function testIsCompliantThrowsException(): void
     {
+        $this->expectException(SerializerLogicException::class);
+        $this->expectExceptionMessage(
+            sprintf(
+                'There are no accessible method(s) "isCompliant", within class: "%s"',
+                CallbackPolicyIncludingPath::class
+            )
+        );
+
         $object = new \stdClass();
 
         /** @var NormalizerContextInterface|MockObject $context */
@@ -34,23 +43,6 @@ final class CallbackPolicyIncludingPathTest extends TestCase
         });
 
         self::assertTrue($policy->isCompliant($context, $object));
-    }
-
-    public function testIsCompliantReturnsFalseIfCallbackReturnsFalse(): void
-    {
-        $object = new \stdClass();
-
-        /** @var NormalizerContextInterface|MockObject $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
-
-        $policy = new CallbackPolicyIncludingPath(function ($contextParameter, $objectParameter) use ($context, $object) {
-            self::assertSame($context, $contextParameter);
-            self::assertSame($object, $objectParameter);
-
-            return false;
-        });
-
-        self::assertFalse($policy->isCompliant($context, $object));
     }
 
     public function testIsCompliantIncludingPathReturnsTrueIfCallbackReturnsTrue(): void
