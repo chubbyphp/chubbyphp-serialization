@@ -62,12 +62,15 @@ final class CallbackPolicyIncludingPathTest extends TestCase
         /** @var NormalizerContextInterface|MockObject $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
 
-        $policy = new CallbackPolicyIncludingPath(function ($objectParameter, $contextParameter) use ($object, $context) {
-            self::assertSame($context, $contextParameter);
-            self::assertSame($object, $objectParameter);
+        $policy = new CallbackPolicyIncludingPath(
+            function ($pathParameter, $objectParameter, $contextParameter) use ($path, $object, $context) {
+                self::assertSame($context, $contextParameter);
+                self::assertSame($object, $objectParameter);
+                self::assertSame($path, $pathParameter);
 
-            return true;
-        });
+                return true;
+            }
+        );
 
         self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
     }
@@ -81,12 +84,15 @@ final class CallbackPolicyIncludingPathTest extends TestCase
         /** @var NormalizerContextInterface|MockObject $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
 
-        $policy = new CallbackPolicyIncludingPath(function ($objectParameter, $contextParameter) use ($object, $context) {
-            self::assertSame($context, $contextParameter);
-            self::assertSame($object, $objectParameter);
+        $policy = new CallbackPolicyIncludingPath(
+            function ($pathParameter, $objectParameter, $contextParameter) use ($path, $object, $context) {
+                self::assertSame($context, $contextParameter);
+                self::assertSame($object, $objectParameter);
+                self::assertSame($path, $pathParameter);
 
-            return false;
-        });
+                return false;
+            }
+        );
 
         self::assertFalse($policy->isCompliantIncludingPath($path, $object, $context));
     }

@@ -30,6 +30,6 @@ final class CallbackPolicyIncludingPath implements PolicyInterface
 
     public function isCompliantIncludingPath(string $path, object $object, NormalizerContextInterface $context): bool
     {
-        return ($this->callback)($object, $context, $path);
+        return ($this->callback)($path, $object, $context);
     }
 }
