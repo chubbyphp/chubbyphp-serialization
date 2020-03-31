@@ -113,7 +113,6 @@ final class Normalizer implements NormalizerInterface
 
             $fieldNormalizer = $normalizationFieldMapping->getFieldNormalizer();
 
-
             $this->logger->info('serialize: path {path}', ['path' => $subPath]);
 
             $data[$name] = $fieldNormalizer->normalizeField($subPath, $object, $context, $this);
@@ -124,7 +123,6 @@ final class Normalizer implements NormalizerInterface
 
     /**
      * @param array<int, NormalizationLinkMappingInterface> $normalizationLinkMappings
-     * @param object                                        $object
      *
      * @return array<mixed>
      */

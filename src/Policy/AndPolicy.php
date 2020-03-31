@@ -50,7 +50,7 @@ final class AndPolicy implements PolicyInterface
 
             @trigger_error('Use "isCompliantIncludingPath()" instead of "isCompliant()"', E_USER_DEPRECATED);
 
-            if (false === $policy->isCompliant($context,$object)) {
+            if (false === $policy->isCompliant($context, $object)) {
                 return false;
             }
         }
