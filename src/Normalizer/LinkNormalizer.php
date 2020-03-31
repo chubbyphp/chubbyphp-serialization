@@ -20,8 +20,6 @@ final class LinkNormalizer implements LinkNormalizerInterface
     }
 
     /**
-     * @param object|mixed $object
-     *
      * @throws SerializerLogicException
      *
      * @return array<mixed>|null

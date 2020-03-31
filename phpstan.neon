@@ -16,6 +16,18 @@ parameters:
             message: '/Unreachable statement - code above always terminates\./'
             path: %currentWorkingDirectory%/src/Normalizer/DateTimeFieldNormalizer.php
         -
+            message: '/Unreachable statement - code above always terminates\./'
+            path: %currentWorkingDirectory%/src/Normalizer/Normalizer.php
+        -
+            message: '/Unreachable statement - code above always terminates\./'
+            path: %currentWorkingDirectory%/src/Policy/AndPolicy.php
+        -
+            message: '/Unreachable statement - code above always terminates\./'
+            path: %currentWorkingDirectory%/src/Policy/NotPolicy.php
+        -
+            message: '/Unreachable statement - code above always terminates\./'
+            path: %currentWorkingDirectory%/src/Policy/OrPolicy.php
+        -
             message: '/PHPDoc tag @var for variable \$parentReflectionClass contains generic class ReflectionClass but does not specify its types\: T/'
             path: %currentWorkingDirectory%/src/Normalizer/NormalizerObjectMappingRegistry.php
         -
