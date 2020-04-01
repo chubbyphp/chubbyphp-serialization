@@ -9,9 +9,11 @@ use Chubbyphp\Serialization\SerializerLogicException;
 interface LinkNormalizerInterface
 {
     /**
+     * @param object $object
+     *
      * @throws SerializerLogicException
      *
      * @return array<mixed>|null
      */
-    public function normalizeLink(string $path, object $object, NormalizerContextInterface $context);
+    public function normalizeLink(string $path, $object, NormalizerContextInterface $context);
 }

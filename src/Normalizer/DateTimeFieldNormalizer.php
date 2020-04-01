@@ -54,11 +54,13 @@ final class DateTimeFieldNormalizer implements FieldNormalizerInterface
     }
 
     /**
+     * @param object $object
+     *
      * @return mixed
      */
     public function normalizeField(
         string $path,
-        object $object,
+        $object,
         NormalizerContextInterface $context,
         ?NormalizerInterface $normalizer = null
     ) {
