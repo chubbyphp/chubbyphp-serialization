@@ -68,4 +68,14 @@ final class SerializerLogicExceptionTest extends TestCase
             $exception->getMessage()
         );
     }
+
+    public function testCreateDeprecatedMethod(): void
+    {
+        $exception = SerializerLogicException::createDeprecatedMethod(\stdClass::class, ['getName', 'hasName']);
+
+        self::assertSame(
+            'Method(s) "getName", "hasName", are deprecated within class: "stdClass"',
+            $exception->getMessage()
+        );
+    }
 }

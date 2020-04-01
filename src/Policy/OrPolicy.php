@@ -23,8 +23,10 @@ final class OrPolicy implements PolicyInterface
 
     /**
      * @deprecated
+     *
+     * @param object|mixed $object
      */
-    public function isCompliant(NormalizerContextInterface $context, object $object): bool
+    public function isCompliant(NormalizerContextInterface $context, $object): bool
     {
         @trigger_error('Use "isCompliantIncludingPath()" instead of "isCompliant()"', E_USER_DEPRECATED);
 
