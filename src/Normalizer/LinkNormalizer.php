@@ -20,13 +20,11 @@ final class LinkNormalizer implements LinkNormalizerInterface
     }
 
     /**
-     * @param object|mixed $object
-     *
      * @throws SerializerLogicException
      *
      * @return array<mixed>|null
      */
-    public function normalizeLink(string $path, $object, NormalizerContextInterface $context)
+    public function normalizeLink(string $path, object $object, NormalizerContextInterface $context)
     {
         return [
             'href' => $this->link->getHref(),

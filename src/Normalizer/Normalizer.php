@@ -33,19 +33,15 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @param object $object
-     *
      * @throws SerializerLogicException
      *
      * @return array<mixed>
      */
     public function normalize(
-        $object,
+        object $object,
         ?NormalizerContextInterface $context = null,
         string $path = ''
     ): array {
-        $this->validateDataType($object, $path);
-
         $context = $context ?? NormalizerContextBuilder::create()->getContext();
 
         $class = get_class($object);
@@ -77,22 +73,6 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @param object $object
-     *
-     * @throws SerializerLogicException
-     */
-    private function validateDataType($object, string $path): void
-    {
-        if (!is_object($object)) {
-            $exception = SerializerLogicException::createWrongDataType(gettype($object), $path);
-
-            $this->logger->error('serialize: {exception}', ['exception' => $exception->getMessage()]);
-
-            throw $exception;
-        }
-    }
-
-    /**
      * @throws SerializerLogicException
      */
     private function getObjectMapping(string $class): NormalizationObjectMappingInterface
@@ -108,7 +88,6 @@ final class Normalizer implements NormalizerInterface
 
     /**
      * @param array<int, NormalizationFieldMappingInterface> $normalizationFieldMappings
-     * @param object                                         $object
      *
      * @return array<mixed>
      */
@@ -116,11 +95,15 @@ final class Normalizer implements NormalizerInterface
         NormalizerContextInterface $context,
         array $normalizationFieldMappings,
         string $path,
-        $object
+        object $object
     ): array {
         $data = [];
         foreach ($normalizationFieldMappings as $normalizationFieldMapping) {
-            if (!$this->isCompliant($context, $normalizationFieldMapping, $object)) {
+            $name = $normalizationFieldMapping->getName();
+
+            $subPath = $this->getSubPathByName($path, $name);
+
+            if (!$this->isCompliant($context, $normalizationFieldMapping, $object, $subPath)) {
                 continue;
             }
 
@@ -129,10 +112,6 @@ final class Normalizer implements NormalizerInterface
             }
 
             $fieldNormalizer = $normalizationFieldMapping->getFieldNormalizer();
-
-            $name = $normalizationFieldMapping->getName();
-
-            $subPath = $this->getSubPathByName($path, $name);
 
             $this->logger->info('serialize: path {path}', ['path' => $subPath]);
 
@@ -144,7 +123,6 @@ final class Normalizer implements NormalizerInterface
 
     /**
      * @param array<int, NormalizationLinkMappingInterface> $normalizationLinkMappings
-     * @param object                                        $object
      *
      * @return array<mixed>
      */
@@ -152,11 +130,11 @@ final class Normalizer implements NormalizerInterface
         NormalizerContextInterface $context,
         array $normalizationLinkMappings,
         string $path,
-        $object
+        object $object
     ): array {
         $links = [];
         foreach ($normalizationLinkMappings as $normalizationLinkMapping) {
-            if (!$this->isCompliant($context, $normalizationLinkMapping, $object)) {
+            if (!$this->isCompliant($context, $normalizationLinkMapping, $object, $path)) {
                 continue;
             }
 
@@ -178,12 +156,15 @@ final class Normalizer implements NormalizerInterface
 
     /**
      * @param NormalizationFieldMappingInterface|NormalizationLinkMappingInterface $mapping
-     * @param object                                                               $object
      */
-    private function isCompliant(NormalizerContextInterface $context, $mapping, $object): bool
+    private function isCompliant(NormalizerContextInterface $context, $mapping, object $object, string $path): bool
     {
         if (!is_callable([$mapping, 'getPolicy'])) {
             return true;
+        }
+
+        if (is_callable([$mapping->getPolicy(), 'isCompliantIncludingPath'])) {
+            return $mapping->getPolicy()->isCompliantIncludingPath($path, $object, $context);
         }
 
         return $mapping->getPolicy()->isCompliant($context, $object);
