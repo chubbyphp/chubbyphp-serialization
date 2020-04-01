@@ -25,7 +25,7 @@ final class CallbackPolicyIncludingPathTest extends TestCase
         $this->expectException(SerializerLogicException::class);
         $this->expectExceptionMessage(
             sprintf(
-                'There are no accessible method(s) "isCompliant", within class: "%s"',
+                'Method(s) "isCompliant", are deprecated within class: "%s"',
                 CallbackPolicyIncludingPath::class
             )
         );
