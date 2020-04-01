@@ -103,7 +103,7 @@ final class Normalizer implements NormalizerInterface
 
             $subPath = $this->getSubPathByName($path, $name);
 
-            if (!$this->isCompliant($context, $normalizationFieldMapping, $object, $subPath)) {
+            if (!$this->isCompliant($subPath, $object, $context, $normalizationFieldMapping)) {
                 continue;
             }
 
@@ -134,7 +134,7 @@ final class Normalizer implements NormalizerInterface
     ): array {
         $links = [];
         foreach ($normalizationLinkMappings as $normalizationLinkMapping) {
-            if (!$this->isCompliant($context, $normalizationLinkMapping, $object, $path)) {
+            if (!$this->isCompliant($path, $object, $context, $normalizationLinkMapping)) {
                 continue;
             }
 
@@ -157,7 +157,7 @@ final class Normalizer implements NormalizerInterface
     /**
      * @param NormalizationFieldMappingInterface|NormalizationLinkMappingInterface $mapping
      */
-    private function isCompliant(NormalizerContextInterface $context, $mapping, object $object, string $path): bool
+    private function isCompliant(string $path, object $object, NormalizerContextInterface $context, $mapping): bool
     {
         if (!is_callable([$mapping, 'getPolicy'])) {
             return true;
