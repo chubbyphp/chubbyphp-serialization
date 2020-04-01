@@ -40,7 +40,7 @@ final class NullPolicyTest extends TestCase
         self::assertSame('Use "isCompliantIncludingPath()" instead of "isCompliant()"', $error['message']);
     }
 
-    public function testIsComplianIncludingPathtReturnsTrue(): void
+    public function testIsCompliantIncludingPathReturnsTrue(): void
     {
         $object = new \stdClass();
 
