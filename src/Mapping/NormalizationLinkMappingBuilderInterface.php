@@ -21,12 +21,12 @@ interface NormalizationLinkMappingBuilderInterface
      */
     public function setGroups(array $groups): self;
 
-    /**
-     * @param PolicyInterface $policy
-     *
-     * @return self
-     */
-    //public function setPolicy(PolicyInterface $policy): self;
+    // /**
+    //  * @param PolicyInterface $policy
+    //  *
+    //  * @return self
+    //  */
+    // public function setPolicy(PolicyInterface $policy): self;
 
     public function getMapping(): NormalizationLinkMappingInterface;
 }

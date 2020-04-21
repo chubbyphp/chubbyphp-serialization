@@ -20,12 +20,12 @@ interface NormalizerContextBuilderInterface
      */
     public function setGroups(array $groups): self;
 
-    /**
-     * @param array<mixed> $attributes
-     *
-     * @return NormalizerContextBuilderInterface
-     */
-    //public function setAttributes(array $attributes): self;
+    // /**
+    //  * @param array<mixed> $attributes
+    //  *
+    //  * @return NormalizerContextBuilderInterface
+    //  */
+    // public function setAttributes(array $attributes): self;
 
     public function setRequest(?ServerRequestInterface $request = null): self;
 

@@ -14,13 +14,13 @@ interface NormalizationFieldMappingBuilderInterface
 {
     public static function create(string $name): self;
 
-    /**
-     * @param string                        $name
-     * @param FieldNormalizerInterface|null $fieldNormalizer
-     *
-     * @return NormalizationFieldMappingBuilderInterface
-     */
-    //public static function create(string $name, FieldNormalizerInterface $fieldNormalizer = null): self;
+    // /**
+    //  * @param string                        $name
+    //  * @param FieldNormalizerInterface|null $fieldNormalizer
+    //  *
+    //  * @return NormalizationFieldMappingBuilderInterface
+    //  */
+    // public static function create(string $name, FieldNormalizerInterface $fieldNormalizer = null): self;
 
     /**
      * @deprecated
@@ -34,12 +34,12 @@ interface NormalizationFieldMappingBuilderInterface
      */
     public function setFieldNormalizer(FieldNormalizerInterface $fieldNormalizer): self;
 
-    /**
-     * @param PolicyInterface $policy
-     *
-     * @return self
-     */
-    //public function setPolicy(PolicyInterface $policy): self;
+    // /**
+    //  * @param PolicyInterface $policy
+    //  *
+    //  * @return self
+    //  */
+    // public function setPolicy(PolicyInterface $policy): self;
 
     public function getMapping(): NormalizationFieldMappingInterface;
 }
