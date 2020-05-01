@@ -24,26 +24,24 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
      */
     private function buildQuery(array $data, string $path = ''): string
     {
-        if ([] === $data) {
-            return '';
-        }
-
         $query = '';
         foreach ($data as $key => $value) {
-            if (null === $value) {
+            if (null === $value || $value === []) {
                 continue;
             }
 
             $subPath = '' !== $path ? $path.'['.$key.']' : (string) $key;
+
             if (is_array($value)) {
-                $query .= $this->buildQuery($value, $subPath);
+                $queryPart = $this->buildQuery($value, $subPath);
+
+                $query .= '' !== $queryPart ? $queryPart.'&' : '';
             } else {
-                $query .= $subPath.'='.urlencode($this->getValueAsString($value));
+                $query .= $subPath.'='.urlencode($this->getValueAsString($value)).'&';
             }
-            $query .= '&';
         }
 
-        return substr($query, 0, -strlen('&'));
+        return substr($query, 0, -1);
     }
 
     /**
