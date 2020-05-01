@@ -36,7 +36,7 @@ final class SerializationServiceProvider implements ServiceProviderInterface
             return new NormalizerObjectMappingRegistry($container['serializer.normalizer.objectmappings']);
         };
 
-        $container['serializer.normalizer.objectmappings'] = function () {
+        $container['serializer.normalizer.objectmappings'] = static function () {
             return [];
         };
 
@@ -44,7 +44,7 @@ final class SerializationServiceProvider implements ServiceProviderInterface
             return new Encoder($container['serializer.encodertypes']);
         };
 
-        $container['serializer.encodertypes'] = function () {
+        $container['serializer.encodertypes'] = static function () {
             $encoderTypes = [];
 
             $encoderTypes[] = new JsonTypeEncoder();
