@@ -26,7 +26,7 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
     {
         $query = '';
         foreach ($data as $key => $value) {
-            if (null === $value || $value === []) {
+            if (null === $value || [] === $value) {
                 continue;
             }
 
