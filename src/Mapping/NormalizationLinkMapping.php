@@ -16,11 +16,6 @@ final class NormalizationLinkMapping implements NormalizationLinkMappingInterfac
     private $name;
 
     /**
-     * @var array<int, string>
-     */
-    private $groups;
-
-    /**
      * @var LinkNormalizerInterface
      */
     private $linkNormalizer;
@@ -30,17 +25,12 @@ final class NormalizationLinkMapping implements NormalizationLinkMappingInterfac
      */
     private $policy;
 
-    /**
-     * @param array<int, string> $groups
-     */
     public function __construct(
         string $name,
-        array $groups,
         LinkNormalizerInterface $linkNormalizer,
         ?PolicyInterface $policy = null
     ) {
         $this->name = $name;
-        $this->groups = $groups;
         $this->linkNormalizer = $linkNormalizer;
         $this->policy = $policy ?? new NullPolicy();
     }
@@ -48,16 +38,6 @@ final class NormalizationLinkMapping implements NormalizationLinkMappingInterfac
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /**
-     * @deprecated
-     *
-     * @return array<int, string>
-     */
-    public function getGroups(): array
-    {
-        return $this->groups;
     }
 
     public function getLinkNormalizer(): LinkNormalizerInterface

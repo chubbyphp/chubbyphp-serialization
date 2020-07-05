@@ -3,14 +3,16 @@
 ```php
 <?php
 
-use Chubbyphp\Deserialization\Encoder\Encoder;
-use Chubbyphp\Deserialization\Encoder\JsonTypeEncoder;
-use Chubbyphp\Deserialization\Encoder\UrlEncodedTypeEncoder;
-use Chubbyphp\Deserialization\Encoder\XmlTypeEncoder;
-use Chubbyphp\Deserialization\Encoder\YamlTypeEncoder;
+use Chubbyphp\Serialization\Encoder\Encoder;
+use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
+use Chubbyphp\Serialization\Encoder\JsonxTypeEncoder;
+use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
+use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
+use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
 
 $encoder = new Encoder([
     new JsonTypeEncoder(),
+    new JsonxTypeEncoder(),
     new UrlEncodedTypeEncoder(),
     new XmlTypeEncoder(),
     new YamlTypeEncoder()
@@ -19,6 +21,7 @@ $encoder = new Encoder([
 print_r($encoder->getContentTypes());
 //[
 //    'application/json',
+//    'application/jsonx+xml',
 //    'application/x-www-form-urlencoded',
 //    'application/xml',
 //    'application/x-yaml'

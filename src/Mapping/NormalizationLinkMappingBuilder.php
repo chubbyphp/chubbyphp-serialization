@@ -11,17 +11,12 @@ use Chubbyphp\Serialization\Policy\NullPolicy;
 use Chubbyphp\Serialization\Policy\PolicyInterface;
 use Psr\Link\LinkInterface;
 
-final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingBuilderInterface
+final class NormalizationLinkMappingBuilder
 {
     /**
      * @var string
      */
     private $name;
-
-    /**
-     * @var array<int, string>
-     */
-    private $groups = [];
 
     /**
      * @var LinkNormalizerInterface
@@ -41,7 +36,7 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
     public static function create(
         string $name,
         LinkNormalizerInterface $linkNormalizer
-    ): NormalizationLinkMappingBuilderInterface {
+    ): self {
         $self = new self($name);
         $self->linkNormalizer = $linkNormalizer;
 
@@ -51,7 +46,7 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
     public static function createCallback(
         string $name,
         callable $callback
-    ): NormalizationLinkMappingBuilderInterface {
+    ): self {
         $self = new self($name);
         $self->linkNormalizer = new CallbackLinkNormalizer($callback);
 
@@ -61,26 +56,14 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
     public static function createLink(
         string $name,
         LinkInterface $link
-    ): NormalizationLinkMappingBuilderInterface {
+    ): self {
         $self = new self($name);
         $self->linkNormalizer = new LinkNormalizer($link);
 
         return $self;
     }
 
-    /**
-     * @deprecated
-     *
-     * @param array<int, string> $groups
-     */
-    public function setGroups(array $groups): NormalizationLinkMappingBuilderInterface
-    {
-        $this->groups = $groups;
-
-        return $this;
-    }
-
-    public function setPolicy(PolicyInterface $policy): NormalizationLinkMappingBuilderInterface
+    public function setPolicy(PolicyInterface $policy): self
     {
         $this->policy = $policy;
 
@@ -91,7 +74,6 @@ final class NormalizationLinkMappingBuilder implements NormalizationLinkMappingB
     {
         return new NormalizationLinkMapping(
             $this->name,
-            $this->groups,
             $this->linkNormalizer,
             $this->policy ?? new NullPolicy()
         );

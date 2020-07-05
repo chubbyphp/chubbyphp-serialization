@@ -9,12 +9,12 @@ use Psr\Http\Message\ServerRequestInterface;
 $request = ...;
 
 $context = NormalizerContextBuilder::create()
-    ->setGroups(['group1'])
     ->setRequest($request)
+    ->setAttributes(['key' => 'value'])
     ->getContext();
 
-print_r($context->getGroups());
-// ['group1']
+print_r($context->getAttributes());
+// ['key' => 'value']
 
 $request = $context->getRequest();
 ```

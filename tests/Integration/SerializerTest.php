@@ -145,64 +145,6 @@ EOD;
         );
     }
 
-    public function testSerializeWithGroup(): void
-    {
-        $logger = $this->getLogger();
-
-        $serializer = new Serializer(
-            new Normalizer(
-                new NormalizerObjectMappingRegistry([
-                    new ManyModelMapping(),
-                    new ModelMapping(),
-                    new OneModelMapping(),
-                ]),
-                $logger
-            ),
-            new Encoder([new JsonTypeEncoder(true)])
-        );
-
-        $model = new Model();
-        $model->setName('Name');
-        $model->setAdditionalInfo('AdditionalInfo');
-        $model->setOne((new OneModel())->setName('Name')->setValue('Value'));
-        $model->setManies([(new ManyModel())->setName('Name')->setValue('Value')]);
-
-        $expectedJson = <<<'EOD'
-{
-    "id": "ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a",
-    "name": "Name",
-    "_type": "model"
-}
-EOD;
-
-        $context = NormalizerContextBuilder::create()->setGroups(['baseInformation'])->getContext();
-
-        self::assertSame(
-            $expectedJson,
-            $serializer->serialize($model, 'application/json', $context)
-        );
-
-        self::assertEquals(
-            [
-                [
-                    'level' => 'info',
-                    'message' => 'serialize: path {path}',
-                    'context' => [
-                        'path' => 'id',
-                    ],
-                ],
-                [
-                    'level' => 'info',
-                    'message' => 'serialize: path {path}',
-                    'context' => [
-                        'path' => 'name',
-                    ],
-                ],
-            ],
-            $logger->getEntries()
-        );
-    }
-
     public function testSerializeWithGroupPolicy(): void
     {
         $logger = $this->getLogger();

@@ -5,11 +5,6 @@ declare(strict_types=1);
 namespace Chubbyphp\Serialization\DependencyInjection;
 
 use Chubbyphp\Serialization\Encoder\Encoder;
-use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
-use Chubbyphp\Serialization\Encoder\JsonxTypeEncoder;
-use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
-use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
-use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
 use Chubbyphp\Serialization\Normalizer\Normalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;
@@ -17,7 +12,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\Yaml\Yaml;
 
 final class SerializationCompilerPass implements CompilerPassInterface
 {
@@ -37,6 +31,12 @@ final class SerializationCompilerPass implements CompilerPassInterface
             ])
         ;
 
+        $this->registerObjectmappingRegistry($container);
+        $this->registerEncoder($container);
+    }
+
+    private function registerObjectmappingRegistry(ContainerBuilder $container): void
+    {
         $normalizerObjectMappingReferences = [];
         foreach ($container->findTaggedServiceIds('chubbyphp.serializer.normalizer.objectmapping') as $id => $tags) {
             $normalizerObjectMappingReferences[] = new Reference($id);
@@ -50,34 +50,10 @@ final class SerializationCompilerPass implements CompilerPassInterface
             ->setPublic(true)
             ->setArguments([$normalizerObjectMappingReferences])
         ;
+    }
 
-        $container
-            ->register('chubbyphp.serializer.encoder.type.json', JsonTypeEncoder::class)
-            ->addTag('chubbyphp.serializer.encoder.type')
-        ;
-
-        $container
-            ->register('chubbyphp.serializer.encoder.type.jsonx', JsonxTypeEncoder::class)
-            ->addTag('chubbyphp.serializer.encoder.type')
-        ;
-
-        $container
-            ->register('chubbyphp.serializer.encoder.type.urlencoded', UrlEncodedTypeEncoder::class)
-            ->addTag('chubbyphp.serializer.encoder.type')
-        ;
-
-        $container
-            ->register('chubbyphp.serializer.encoder.type.xml', XmlTypeEncoder::class)
-            ->addTag('chubbyphp.serializer.encoder.type')
-        ;
-
-        if (class_exists(Yaml::class)) {
-            $container
-                ->register('chubbyphp.serializer.encoder.type.yaml', YamlTypeEncoder::class)
-                ->addTag('chubbyphp.serializer.encoder.type')
-            ;
-        }
-
+    private function registerEncoder(ContainerBuilder $container): void
+    {
         $encoderTypeReferences = [];
         foreach ($container->findTaggedServiceIds('chubbyphp.serializer.encoder.type') as $id => $tags) {
             $encoderTypeReferences[] = new Reference($id);

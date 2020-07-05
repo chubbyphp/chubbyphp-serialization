@@ -8,18 +8,6 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 
 final class NullPolicy implements PolicyInterface
 {
-    /**
-     * @deprecated
-     *
-     * @param object|mixed $object
-     */
-    public function isCompliant(NormalizerContextInterface $context, $object): bool
-    {
-        @trigger_error('Use "isCompliantIncludingPath()" instead of "isCompliant()"', E_USER_DEPRECATED);
-
-        return true;
-    }
-
     public function isCompliantIncludingPath(string $path, object $object, NormalizerContextInterface $context): bool
     {
         return true;

@@ -22,7 +22,7 @@ final class JsonTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param array<mixed> $data
+     * @param array<string, array|string|float|int|bool|null> $data
      */
     public function encode(array $data): string
     {

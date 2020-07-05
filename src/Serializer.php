@@ -26,25 +26,19 @@ final class Serializer implements SerializerInterface
         $this->encoder = $encoder;
     }
 
-    /**
-     * @param object $object
-     * @param string $path
-     */
     public function serialize(
-        $object,
+        object $object,
         string $contentType,
         ?NormalizerContextInterface $context = null,
-        $path = ''
+        string $path = ''
     ): string {
         return $this->encoder->encode($this->normalizer->normalize($object, $context, $path), $contentType);
     }
 
     /**
-     * @param object $object
-     *
-     * @return array<mixed>
+     * @return array<string, array|string|float|int|bool|null>
      */
-    public function normalize($object, ?NormalizerContextInterface $context = null, string $path = ''): array
+    public function normalize(object $object, ?NormalizerContextInterface $context = null, string $path = ''): array
     {
         return $this->normalizer->normalize($object, $context, $path);
     }
@@ -58,7 +52,7 @@ final class Serializer implements SerializerInterface
     }
 
     /**
-     * @param array<mixed> $data
+     * @param array<string, array|string|float|int|bool|null> $data
      *
      * @throws SerializerLogicException
      */

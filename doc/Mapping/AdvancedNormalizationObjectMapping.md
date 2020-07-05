@@ -48,8 +48,8 @@ final class ModelMapping implements NormalizationObjectMappingInterface
     public function getNormalizationFieldMappings(string $path, string $type = null): array
     {
         return [
-            NormalizationFieldMappingBuilder::create('id')->setGroups(['baseInformation'])->getMapping(),
-            NormalizationFieldMappingBuilder::create('name')->setGroups(['baseInformation'])->getMapping(),
+            NormalizationFieldMappingBuilder::create('id')->getMapping(),
+            NormalizationFieldMappingBuilder::create('name')->getMapping(),
             NormalizationFieldMappingBuilder::createEmbedOne('one')->getMapping(),
             NormalizationFieldMappingBuilder::createEmbedMany('manies')->getMapping(),
         ];

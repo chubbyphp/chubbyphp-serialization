@@ -21,38 +21,10 @@ final class OrPolicy implements PolicyInterface
         $this->policies = $policies;
     }
 
-    /**
-     * @deprecated
-     *
-     * @param object|mixed $object
-     */
-    public function isCompliant(NormalizerContextInterface $context, $object): bool
-    {
-        @trigger_error('Use "isCompliantIncludingPath()" instead of "isCompliant()"', E_USER_DEPRECATED);
-
-        foreach ($this->policies as $policy) {
-            if ($policy->isCompliant($context, $object)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public function isCompliantIncludingPath(string $path, object $object, NormalizerContextInterface $context): bool
     {
         foreach ($this->policies as $policy) {
-            if (is_callable([$policy, 'isCompliantIncludingPath'])) {
-                if ($policy->isCompliantIncludingPath($path, $object, $context)) {
-                    return true;
-                }
-
-                continue;
-            }
-
-            @trigger_error('Use "isCompliantIncludingPath()" instead of "isCompliant()"', E_USER_DEPRECATED);
-
-            if ($policy->isCompliant($context, $object)) {
+            if ($policy->isCompliantIncludingPath($path, $object, $context)) {
                 return true;
             }
         }

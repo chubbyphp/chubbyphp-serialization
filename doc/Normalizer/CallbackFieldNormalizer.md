@@ -14,7 +14,7 @@ $context = ...;
 $fieldNormalizer = new CallbackFieldNormalizer(
     function (
         string $path,
-        $object,
+        object $object,
         NormalizerContextInterface $context,
         NormalizerInterface $normalizer = null
     ) {

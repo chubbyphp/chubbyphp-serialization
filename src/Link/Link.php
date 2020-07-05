@@ -19,13 +19,13 @@ final class Link implements LinkInterface
     private $rels;
 
     /**
-     * @var array<mixed>
+     * @var array<string, mixed>
      */
     private $attributes;
 
     /**
-     * @param array<int, string> $rels
-     * @param array<mixed>       $attributes
+     * @param array<int, string>   $rels
+     * @param array<string, mixed> $attributes
      */
     public function __construct(string $href, array $rels, array $attributes)
     {
@@ -53,7 +53,7 @@ final class Link implements LinkInterface
     }
 
     /**
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     public function getAttributes(): array
     {

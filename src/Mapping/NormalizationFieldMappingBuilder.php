@@ -16,17 +16,12 @@ use Chubbyphp\Serialization\Normalizer\Relation\ReferenceOneFieldNormalizer;
 use Chubbyphp\Serialization\Policy\NullPolicy;
 use Chubbyphp\Serialization\Policy\PolicyInterface;
 
-final class NormalizationFieldMappingBuilder implements NormalizationFieldMappingBuilderInterface
+final class NormalizationFieldMappingBuilder
 {
     /**
      * @var string
      */
     private $name;
-
-    /**
-     * @var array<int, string>
-     */
-    private $groups = [];
 
     /**
      * @var FieldNormalizerInterface|null
@@ -46,14 +41,14 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
     public static function create(
         string $name,
         ?FieldNormalizerInterface $fieldNormalizer = null
-    ): NormalizationFieldMappingBuilderInterface {
+    ): self {
         $self = new self($name);
         $self->fieldNormalizer = $fieldNormalizer;
 
         return $self;
     }
 
-    public static function createCallback(string $name, callable $callback): NormalizationFieldMappingBuilderInterface
+    public static function createCallback(string $name, callable $callback): self
     {
         $self = new self($name);
         $self->fieldNormalizer = new CallbackFieldNormalizer($callback);
@@ -61,7 +56,7 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
         return $self;
     }
 
-    public static function createDateTime(string $name, string $format = 'c'): NormalizationFieldMappingBuilderInterface
+    public static function createDateTime(string $name, string $format = 'c'): self
     {
         $self = new self($name);
         $self->fieldNormalizer = new DateTimeFieldNormalizer(new PropertyAccessor($name), $format);
@@ -69,7 +64,7 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
         return $self;
     }
 
-    public static function createEmbedMany(string $name): NormalizationFieldMappingBuilderInterface
+    public static function createEmbedMany(string $name): self
     {
         $self = new self($name);
         $self->fieldNormalizer = new EmbedManyFieldNormalizer(new PropertyAccessor($name));
@@ -77,7 +72,7 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
         return $self;
     }
 
-    public static function createEmbedOne(string $name): NormalizationFieldMappingBuilderInterface
+    public static function createEmbedOne(string $name): self
     {
         $self = new self($name);
         $self->fieldNormalizer = new EmbedOneFieldNormalizer(new PropertyAccessor($name));
@@ -88,7 +83,7 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
     public static function createReferenceMany(
         string $name,
         string $idName = 'id'
-    ): NormalizationFieldMappingBuilderInterface {
+    ): self {
         $self = new self($name);
         $self->fieldNormalizer = new ReferenceManyFieldNormalizer(
             new PropertyAccessor($idName),
@@ -101,7 +96,7 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
     public static function createReferenceOne(
         string $name,
         string $idName = 'id'
-    ): NormalizationFieldMappingBuilderInterface {
+    ): self {
         $self = new self($name);
         $self->fieldNormalizer = new ReferenceOneFieldNormalizer(
             new PropertyAccessor($idName),
@@ -111,35 +106,7 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
         return $self;
     }
 
-    /**
-     * @deprecated
-     *
-     * @param array<int, string> $groups
-     */
-    public function setGroups(array $groups): NormalizationFieldMappingBuilderInterface
-    {
-        $this->groups = $groups;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function setFieldNormalizer(
-        FieldNormalizerInterface $fieldNormalizer
-    ): NormalizationFieldMappingBuilderInterface {
-        @trigger_error(
-            'Utilize second parameter of create method instead',
-            E_USER_DEPRECATED
-        );
-
-        $this->fieldNormalizer = $fieldNormalizer;
-
-        return $this;
-    }
-
-    public function setPolicy(PolicyInterface $policy): NormalizationFieldMappingBuilderInterface
+    public function setPolicy(PolicyInterface $policy): self
     {
         $this->policy = $policy;
 
@@ -150,7 +117,6 @@ final class NormalizationFieldMappingBuilder implements NormalizationFieldMappin
     {
         return new NormalizationFieldMapping(
             $this->name,
-            $this->groups,
             $this->fieldNormalizer ?? new FieldNormalizer(new PropertyAccessor($this->name)),
             $this->policy ?? new NullPolicy()
         );

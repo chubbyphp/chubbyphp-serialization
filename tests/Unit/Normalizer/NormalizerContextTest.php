@@ -23,7 +23,6 @@ final class NormalizerContextTest extends TestCase
     {
         $context = new NormalizerContext();
 
-        self::assertSame([], $context->getGroups());
         self::assertNull($context->getRequest());
         self::assertSame([], $context->getAttributes());
         self::assertNull($context->getAttribute('nonExistingAttribute'));
@@ -35,12 +34,29 @@ final class NormalizerContextTest extends TestCase
         /** @var ServerRequestInterface|MockObject $request */
         $request = $this->getMockByCalls(ServerRequestInterface::class);
 
-        $context = new NormalizerContext(['group1'], $request, ['attribute' => 'value']);
+        $context = new NormalizerContext(
+            $request,
+            ['attribute' => 'value']
+        );
 
-        self::assertSame(['group1'], $context->getGroups());
         self::assertSame($request, $context->getRequest());
         self::assertSame(['attribute' => 'value'], $context->getAttributes());
         self::assertSame('value', $context->getAttribute('attribute'));
+    }
+
+    public function testWithAttributes(): void
+    {
+        /** @var ServerRequestInterface|MockObject $request */
+        $request = $this->getMockByCalls(ServerRequestInterface::class);
+
+        $context = new NormalizerContext($request, ['attribute' => 'value']);
+
+        $newContext = $context->withAttributes(['otherAttribute' => 'value2']);
+
+        self::assertNotSame($context, $newContext);
+
+        self::assertSame(['otherAttribute' => 'value2'], $newContext->getAttributes());
+        self::assertSame(['attribute' => 'value'], $context->getAttributes());
     }
 
     public function testWithAttribute(): void
@@ -48,10 +64,12 @@ final class NormalizerContextTest extends TestCase
         /** @var ServerRequestInterface|MockObject $request */
         $request = $this->getMockByCalls(ServerRequestInterface::class);
 
-        $context = new NormalizerContext(['group1'], $request, ['attribute' => 'value']);
+        $context = new NormalizerContext($request, ['attribute' => 'value'], ['allowed_field']);
+
         $newContext = $context->withAttribute('otherAttribute', 'value2');
 
         self::assertNotSame($context, $newContext);
+
         self::assertSame(['attribute' => 'value', 'otherAttribute' => 'value2'], $newContext->getAttributes());
         self::assertSame(['attribute' => 'value'], $context->getAttributes());
     }

@@ -12,7 +12,7 @@ use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
 use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
 use Chubbyphp\Serialization\Policy\AndPolicy;
-use Chubbyphp\Serialization\Policy\CallbackPolicy;
+use Chubbyphp\Serialization\Policy\CallbackPolicyIncludingPath;
 use Chubbyphp\Serialization\Policy\GroupPolicy;
 use Chubbyphp\Serialization\Policy\NullPolicy;
 use Chubbyphp\Serialization\Policy\OrPolicy;
@@ -37,11 +37,10 @@ final class ModelMapping implements NormalizationObjectMappingInterface
     {
         return [
             NormalizationFieldMappingBuilder::create('id')
-                ->setGroups(['baseInformation'])
                 ->setPolicy(new AndPolicy([
                     new NullPolicy(),
                     new OrPolicy([
-                        new CallbackPolicy(function () {
+                        new CallbackPolicyIncludingPath(function () {
                             return false;
                         }),
                         new NullPolicy(),
@@ -49,7 +48,6 @@ final class ModelMapping implements NormalizationObjectMappingInterface
                 ]))
                 ->getMapping(),
             NormalizationFieldMappingBuilder::create('name')
-                ->setGroups(['baseInformation'])
                 ->setPolicy(new GroupPolicy([]))
                 ->getMapping(),
             NormalizationFieldMappingBuilder::create('additionalInfo')
@@ -59,7 +57,7 @@ final class ModelMapping implements NormalizationObjectMappingInterface
                 ->setPolicy(new AndPolicy([
                     new NullPolicy(),
                     new OrPolicy([
-                        new CallbackPolicy(function () {
+                        new CallbackPolicyIncludingPath(function () {
                             return false;
                         }),
                     ]),
@@ -86,7 +84,6 @@ final class ModelMapping implements NormalizationObjectMappingInterface
         return [
             new NormalizationLinkMapping(
                 'self',
-                [],
                 new CallbackLinkNormalizer(
                     function (string $path, Model $model) {
                         return LinkBuilder::create('/api/model/'.$model->getId())
