@@ -32,7 +32,7 @@ A simple serialization.
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-serialization][1].
 
 ```sh
-composer require chubbyphp/chubbyphp-serialization "^2.13"
+composer require chubbyphp/chubbyphp-serialization "^2.14"
 ```
 
 ## Usage
@@ -41,6 +41,13 @@ composer require chubbyphp/chubbyphp-serialization "^2.13"
 
  * [MethodAccessor][2]
  * [PropertyAccessor][3]
+
+### Container
+
+ * [EncoderFactory][40]
+ * [NormalizerFactory][41]
+ * [NormalizerObjectMappingRegistryFactory][42]
+ * [SerializerFactory][43]
 
 ### Encoder
 
@@ -246,3 +253,8 @@ Dominik Zogg 2020
 [32]: doc/ServiceFactory/SerializationServiceFactory.md
 
 [33]: doc/ServiceProvider/SerializationServiceProvider.md
+
+[40]: doc/Container/EncoderFactory.md
+[41]: doc/Container/NormalizerFactory.md
+[42]: doc/Container/NormalizerObjectMappingRegistryFactory.md
+[43]: doc/Container/SerializerFactory.md
