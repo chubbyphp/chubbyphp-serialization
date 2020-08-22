@@ -8,5 +8,5 @@ use Psr\Container\ContainerInterface;
 
 $factory = new NormalizerObjectMappingRegistryFactory();
 
-$acceptNegotiator = $factory($container);
+$normalizerObjectMappingRegistry = $factory($container);
 ```

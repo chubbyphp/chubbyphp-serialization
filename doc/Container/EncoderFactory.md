@@ -8,5 +8,5 @@ use Psr\Container\ContainerInterface;
 
 $factory = new EncoderFactory();
 
-$acceptNegotiator = $factory($container);
+$encoder = $factory($container);
 ```

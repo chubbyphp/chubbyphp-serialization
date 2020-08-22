@@ -8,5 +8,5 @@ use Psr\Container\ContainerInterface;
 
 $factory = new SerializerFactory();
 
-$acceptNegotiator = $factory($container);
+$serializer = $factory($container);
 ```
