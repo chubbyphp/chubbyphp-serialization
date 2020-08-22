@@ -42,6 +42,13 @@ composer require chubbyphp/chubbyphp-serialization "^3.0"
  * [MethodAccessor][2]
  * [PropertyAccessor][3]
 
+### Container
+
+ * [EncoderFactory][40]
+ * [NormalizerFactory][41]
+ * [NormalizerObjectMappingRegistryFactory][42]
+ * [SerializerFactory][43]
+
 ### Encoder
 
  * [Encoder][4]
@@ -262,3 +269,8 @@ Dominik Zogg 2020
 [38]: doc/ServiceFactory/SerializationServiceFactory.md
 
 [39]: doc/ServiceProvider/SerializationServiceProvider.md
+
+[40]: doc/Container/EncoderFactory.md
+[41]: doc/Container/NormalizerFactory.md
+[42]: doc/Container/NormalizerObjectMappingRegistryFactory.md
+[43]: doc/Container/SerializerFactory.md
