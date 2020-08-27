@@ -25,7 +25,9 @@ final class JsonTypeEncoderTest extends AbstractTypeEncoderTest
      */
     public function testFormat(array $data): void
     {
-        $jsonencoder = new JsonTypeEncoder(true);
+        $jsonencoder = new JsonTypeEncoder(true, true);
+
+        $data['filter'] = utf8_decode('fieldÁ');
 
         $json = $jsonencoder->encode($data);
 
@@ -205,7 +207,8 @@ final class JsonTypeEncoderTest extends AbstractTypeEncoderTest
             "method": "POST"
         }
     },
-    "_type": "search"
+    "_type": "search",
+    "filter": "field"
 }
 EOT;
         self::assertEquals($expectedJson, $json);
