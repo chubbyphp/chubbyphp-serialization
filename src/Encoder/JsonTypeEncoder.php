@@ -11,15 +11,9 @@ final class JsonTypeEncoder implements TypeEncoderInterface
      */
     private $prettyPrint;
 
-    /**
-     * @var bool
-     */
-    private $ignoreInvalidUtf8;
-
-    public function __construct(bool $prettyPrint = false, bool $ignoreInvalidUtf8 = true)
+    public function __construct(bool $prettyPrint = false)
     {
         $this->prettyPrint = $prettyPrint;
-        $this->ignoreInvalidUtf8 = $ignoreInvalidUtf8;
     }
 
     public function getContentType(): string
@@ -32,12 +26,9 @@ final class JsonTypeEncoder implements TypeEncoderInterface
      */
     public function encode(array $data): string
     {
-        $options = JSON_PRESERVE_ZERO_FRACTION | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
+        $options = JSON_PRESERVE_ZERO_FRACTION | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_IGNORE;
         if ($this->prettyPrint) {
             $options |= JSON_PRETTY_PRINT;
-        }
-        if ($this->ignoreInvalidUtf8) {
-            $options |= JSON_INVALID_UTF8_IGNORE;
         }
 
         return json_encode($data, $options);

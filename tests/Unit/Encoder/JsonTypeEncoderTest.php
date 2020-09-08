@@ -211,7 +211,7 @@ EOT;
         self::assertEquals($expectedJson, $json);
     }
 
-    public function testFormatIgnoreInvalidUtf8WithPrettyPrint(): void
+    public function testFormatJsonIgnoreInvalidUtf8WithPrettyPrint(): void
     {
         $data = [
             'page' => 1,
