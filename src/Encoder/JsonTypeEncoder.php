@@ -26,7 +26,7 @@ final class JsonTypeEncoder implements TypeEncoderInterface
      */
     public function encode(array $data): string
     {
-        $options = JSON_PRESERVE_ZERO_FRACTION | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
+        $options = JSON_PRESERVE_ZERO_FRACTION | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_IGNORE;
         if ($this->prettyPrint) {
             $options |= JSON_PRETTY_PRINT;
         }

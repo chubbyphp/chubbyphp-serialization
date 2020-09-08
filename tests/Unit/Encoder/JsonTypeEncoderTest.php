@@ -210,4 +210,54 @@ final class JsonTypeEncoderTest extends AbstractTypeEncoderTest
 EOT;
         self::assertEquals($expectedJson, $json);
     }
+
+    public function testFormatJsonIgnoreInvalidUtf8WithPrettyPrint(): void
+    {
+        $data = [
+            'page' => 1,
+            'perPage' => 10,
+            'search' => null,
+            'sort' => 'name',
+            'order' => 'asc',
+            'filter' => utf8_decode('fieldÁ==value'),
+            '_links' => [
+                'self' => [
+                    'href' => 'http://test.com/items/?page=1&perPage=10&sort=name&order=asc',
+                    'method' => 'GET',
+                ],
+                'create' => [
+                    'href' => 'http://test.com/items/',
+                    'method' => 'POST',
+                ],
+            ],
+            '_type' => 'search',
+        ];
+
+        $jsonencoder = new JsonTypeEncoder(true);
+
+        $json = $jsonencoder->encode($data);
+
+        $expectedJson = <<<'EOT'
+{
+    "page": 1,
+    "perPage": 10,
+    "search": null,
+    "sort": "name",
+    "order": "asc",
+    "filter": "field==value",
+    "_links": {
+        "self": {
+            "href": "http://test.com/items/?page=1&perPage=10&sort=name&order=asc",
+            "method": "GET"
+        },
+        "create": {
+            "href": "http://test.com/items/",
+            "method": "POST"
+        }
+    },
+    "_type": "search"
+}
+EOT;
+        self::assertEquals($expectedJson, $json);
+    }
 }
