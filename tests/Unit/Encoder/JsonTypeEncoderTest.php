@@ -211,7 +211,7 @@ EOT;
         self::assertEquals($expectedJson, $json);
     }
 
-    public function testFormatWithPrettyPrintAndIgnoreInvalidUtf8(): void
+    public function testFormatIgnoreInvalidUtf8WithPrettyPrint(): void
     {
         $data = [
             'page' => 1,
@@ -233,7 +233,7 @@ EOT;
             '_type' => 'search',
         ];
 
-        $jsonencoder = new JsonTypeEncoder(true, true);
+        $jsonencoder = new JsonTypeEncoder(true);
 
         $json = $jsonencoder->encode($data);
 

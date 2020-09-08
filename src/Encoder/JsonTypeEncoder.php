@@ -16,7 +16,7 @@ final class JsonTypeEncoder implements TypeEncoderInterface
      */
     private $ignoreInvalidUtf8;
 
-    public function __construct(bool $prettyPrint = false, bool $ignoreInvalidUtf8 = false)
+    public function __construct(bool $prettyPrint = false, bool $ignoreInvalidUtf8 = true)
     {
         $this->prettyPrint = $prettyPrint;
         $this->ignoreInvalidUtf8 = $ignoreInvalidUtf8;
