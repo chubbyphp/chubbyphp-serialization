@@ -32,7 +32,7 @@ A simple serialization.
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-serialization][1].
 
 ```sh
-composer require chubbyphp/chubbyphp-serialization "^2.14"
+composer require chubbyphp/chubbyphp-serialization "^2.15"
 ```
 
 ## Usage
@@ -41,13 +41,6 @@ composer require chubbyphp/chubbyphp-serialization "^2.14"
 
  * [MethodAccessor][2]
  * [PropertyAccessor][3]
-
-### Container
-
- * [EncoderFactory][40]
- * [NormalizerFactory][41]
- * [NormalizerObjectMappingRegistryFactory][42]
- * [SerializerFactory][43]
 
 ### Encoder
 
@@ -120,7 +113,16 @@ composer require chubbyphp/chubbyphp-serialization "^2.14"
 
 ### ServiceFactory
 
-* [SerializationServiceFactory][32]
+#### chubbyphp-container
+
+ * [SerializationServiceFactory][32]
+
+#### chubbyphp-laminas-config-factory
+
+ * [EncoderFactory][40]
+ * [NormalizerFactory][41]
+ * [NormalizerObjectMappingRegistryFactory][42]
+ * [SerializerFactory][43]
 
 ### ServiceProvider
 
@@ -254,7 +256,7 @@ Dominik Zogg 2020
 
 [33]: doc/ServiceProvider/SerializationServiceProvider.md
 
-[40]: doc/Container/EncoderFactory.md
-[41]: doc/Container/NormalizerFactory.md
-[42]: doc/Container/NormalizerObjectMappingRegistryFactory.md
-[43]: doc/Container/SerializerFactory.md
+[40]: doc/ServiceFactory/EncoderFactory.md
+[41]: doc/ServiceFactory/NormalizerFactory.md
+[42]: doc/ServiceFactory/NormalizerObjectMappingRegistryFactory.md
+[43]: doc/ServiceFactory/SerializerFactory.md

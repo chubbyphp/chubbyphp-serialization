@@ -10,6 +10,9 @@ use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistryInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @deprecated \Chubbyphp\Serialization\ServiceFactory\NormalizerFactory
+ */
 final class NormalizerFactory
 {
     public function __invoke(ContainerInterface $container): NormalizerInterface

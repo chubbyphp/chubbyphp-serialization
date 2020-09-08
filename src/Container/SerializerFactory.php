@@ -10,6 +10,9 @@ use Chubbyphp\Serialization\Serializer;
 use Chubbyphp\Serialization\SerializerInterface;
 use Psr\Container\ContainerInterface;
 
+/**
+ * @deprecated \Chubbyphp\Serialization\ServiceFactory\SerializerFactory
+ */
 final class SerializerFactory
 {
     public function __invoke(ContainerInterface $container): SerializerInterface
