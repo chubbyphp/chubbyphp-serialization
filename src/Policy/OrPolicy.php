@@ -21,10 +21,10 @@ final class OrPolicy implements PolicyInterface
         $this->policies = $policies;
     }
 
-    public function isCompliantIncludingPath(string $path, object $object, NormalizerContextInterface $context): bool
+    public function isCompliant(string $path, object $object, NormalizerContextInterface $context): bool
     {
         foreach ($this->policies as $policy) {
-            if ($policy->isCompliantIncludingPath($path, $object, $context)) {
+            if ($policy->isCompliant($path, $object, $context)) {
                 return true;
             }
         }

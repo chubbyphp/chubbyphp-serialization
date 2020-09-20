@@ -6,16 +6,16 @@ namespace Chubbyphp\Tests\Serialization\Unit\Policy;
 
 use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
-use Chubbyphp\Serialization\Policy\CallbackPolicyIncludingPath;
+use Chubbyphp\Serialization\Policy\CallbackPolicy;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Chubbyphp\Serialization\Policy\CallbackPolicyIncludingPath
+ * @covers \Chubbyphp\Serialization\Policy\CallbackPolicy
  *
  * @internal
  */
-final class CallbackPolicyIncludingPathTest extends TestCase
+final class CallbackPolicyTest extends TestCase
 {
     use MockByCallsTrait;
 
@@ -28,7 +28,7 @@ final class CallbackPolicyIncludingPathTest extends TestCase
         /** @var NormalizerContextInterface|MockObject $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
 
-        $policy = new CallbackPolicyIncludingPath(
+        $policy = new CallbackPolicy(
             function ($pathParameter, $objectParameter, $contextParameter) use ($path, $object, $context) {
                 self::assertSame($context, $contextParameter);
                 self::assertSame($object, $objectParameter);
@@ -38,7 +38,7 @@ final class CallbackPolicyIncludingPathTest extends TestCase
             }
         );
 
-        self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
+        self::assertTrue($policy->isCompliant($path, $object, $context));
     }
 
     public function testIsCompliantIncludingPathReturnsFalseIfCallbackReturnsFalse(): void
@@ -50,7 +50,7 @@ final class CallbackPolicyIncludingPathTest extends TestCase
         /** @var NormalizerContextInterface|MockObject $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
 
-        $policy = new CallbackPolicyIncludingPath(
+        $policy = new CallbackPolicy(
             function ($pathParameter, $objectParameter, $contextParameter) use ($path, $object, $context) {
                 self::assertSame($context, $contextParameter);
                 self::assertSame($object, $objectParameter);
@@ -60,6 +60,6 @@ final class CallbackPolicyIncludingPathTest extends TestCase
             }
         );
 
-        self::assertFalse($policy->isCompliantIncludingPath($path, $object, $context));
+        self::assertFalse($policy->isCompliant($path, $object, $context));
     }
 }

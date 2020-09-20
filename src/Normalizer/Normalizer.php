@@ -150,7 +150,7 @@ final class Normalizer implements NormalizerInterface
      */
     private function isCompliant(string $path, object $object, NormalizerContextInterface $context, $mapping): bool
     {
-        return $mapping->getPolicy()->isCompliantIncludingPath($path, $object, $context);
+        return $mapping->getPolicy()->isCompliant($path, $object, $context);
     }
 
     private function getSubPathByName(string $path, string $name): string

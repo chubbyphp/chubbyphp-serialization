@@ -114,7 +114,7 @@ composer require chubbyphp/chubbyphp-serialization "^3.0"
 ### Policy
 
 * [AndPolicy][32]
-* [CallbackPolicyIncludingPath][33]
+* [CallbackPolicy][33]
 * [GroupPolicy][34]
 * [NotPolicy][35]
 * [NullPolicy][36]
@@ -262,7 +262,7 @@ Dominik Zogg 2020
 [31]: doc/Mapping/LazyNormalizationObjectMapping.md
 
 [32]: doc/Policy/AndPolicy.md
-[33]: doc/Policy/CallbackPolicyIncludingPath.md
+[33]: doc/Policy/CallbackPolicy.md
 [34]: doc/Policy/GroupPolicy.md
 [35]: doc/Policy/NotPolicy.md
 [36]: doc/Policy/NullPolicy.md

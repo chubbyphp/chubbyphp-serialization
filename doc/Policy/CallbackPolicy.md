@@ -1,23 +1,20 @@
-# OrPolicy
+# CallbackPolicy
 
 ```php
 <?php
 
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
-use Chubbyphp\Serialization\Policy\OrPolicy;
+use Chubbyphp\Serialization\Policy\CallbackPolicy;
 use MyProject\Model\Model;
-use MyProject\Policy\AnotherPolicy;
-use MyProject\Policy\SomePolicy;
 
 $model = new Model();
 
 /** @var NormalizerContextInterface $context */
 $context = ...;
 
-$policy = new OrPolicy([
-    new SomePolicy(),
-    new AnotherPolicy(),
-]);
+$policy = new CallbackPolicy(function (string $path, object $object, NormalizerContextInterface $context) {
+    return true;
+});
 
 echo $policy->isCompliant('path', $model, $context);
 // 1

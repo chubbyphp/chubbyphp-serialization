@@ -38,7 +38,7 @@ final class NormalizerTest extends TestCase
 
         /** @var PolicyInterface|MockObject $namePolicy */
         $namePolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliantIncludingPath')
+            Call::create('isCompliant')
                 ->with('name', $object, new ArgumentInstanceOf(NormalizerContextInterface::class))
                 ->willReturn(true),
         ]);
@@ -64,7 +64,7 @@ final class NormalizerTest extends TestCase
 
         /** @var PolicyInterface|MockObject $embeddedNamePolicy */
         $embeddedNamePolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliantIncludingPath')
+            Call::create('isCompliant')
                 ->with('name', $object, new ArgumentInstanceOf(NormalizerContextInterface::class))
                 ->willReturn(true),
         ]);
@@ -90,7 +90,7 @@ final class NormalizerTest extends TestCase
 
         /** @var PolicyInterface|MockObject $nameLinkPolicy */
         $nameLinkPolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliantIncludingPath')
+            Call::create('isCompliant')
                 ->with('name', $object, new ArgumentInstanceOf(NormalizerContextInterface::class))
                 ->willReturn(true),
         ]);
@@ -154,7 +154,7 @@ final class NormalizerTest extends TestCase
 
         /** @var PolicyInterface|MockObject $namePolicy */
         $namePolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliantIncludingPath')
+            Call::create('isCompliant')
                 ->with('name', $object, new ArgumentInstanceOf(NormalizerContextInterface::class))
                 ->willReturn(false),
         ]);
@@ -167,7 +167,7 @@ final class NormalizerTest extends TestCase
 
         /** @var PolicyInterface|MockObject $embeddedNamePolicy */
         $embeddedNamePolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliantIncludingPath')
+            Call::create('isCompliant')
                 ->with('name', $object, new ArgumentInstanceOf(NormalizerContextInterface::class))
                 ->willReturn(false),
         ]);
@@ -180,7 +180,7 @@ final class NormalizerTest extends TestCase
 
         /** @var PolicyInterface|MockObject $nameLinkPolicy */
         $nameLinkPolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliantIncludingPath')
+            Call::create('isCompliant')
                 ->with('name', $object, new ArgumentInstanceOf(NormalizerContextInterface::class))
                 ->willReturn(false),
         ]);

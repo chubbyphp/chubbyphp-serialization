@@ -15,6 +15,6 @@ $context = ...;
 
 $policy = new NotPolicy(new SomePolicy());
 
-echo $policy->isCompliantIncludingPath('path', $model, $context);
+echo $policy->isCompliant('path', $model, $context);
 // 1
 ```

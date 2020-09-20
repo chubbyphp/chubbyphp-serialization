@@ -14,6 +14,6 @@ $context = ...;
 
 $policy = new NullPolicy();
 
-echo $policy->isCompliantIncludingPath('path', $model, $context);
+echo $policy->isCompliant('path', $model, $context);
 // 1
 ```

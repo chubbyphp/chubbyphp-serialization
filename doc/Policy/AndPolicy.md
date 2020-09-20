@@ -19,6 +19,6 @@ $policy = new AndPolicy([
     new AnotherPolicy(),
 ]);
 
-echo $policy->isCompliantIncludingPath('path', $model, $context);
+echo $policy->isCompliant('path', $model, $context);
 // 1
 ```

@@ -32,17 +32,17 @@ final class AndPolicyTest extends TestCase
 
         /** @var PolicyInterface|MockObject $compliantPolicy1 */
         $compliantPolicy1 = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliantIncludingPath')->with($path, $object, $context)->willReturn(true),
+            Call::create('isCompliant')->with($path, $object, $context)->willReturn(true),
         ]);
 
         /** @var PolicyInterface|MockObject $compliantPolicy2 */
         $compliantPolicy2 = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliantIncludingPath')->with($path, $object, $context)->willReturn(true),
+            Call::create('isCompliant')->with($path, $object, $context)->willReturn(true),
         ]);
 
         $policy = new AndPolicy([$compliantPolicy1, $compliantPolicy2]);
 
-        self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
+        self::assertTrue($policy->isCompliant($path, $object, $context));
     }
 
     public function testIsCompliantIncludingPathReturnsFalseWithNonCompliantIncludingPathPolicy(): void
@@ -56,12 +56,12 @@ final class AndPolicyTest extends TestCase
 
         /** @var PolicyInterface|MockObject $compliantPolicy */
         $compliantPolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliantIncludingPath')->with($path, $object, $context)->willReturn(true),
+            Call::create('isCompliant')->with($path, $object, $context)->willReturn(true),
         ]);
 
         /** @var PolicyInterface|MockObject $compliantPolicy2 */
         $nonCompliantPolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliantIncludingPath')->with($path, $object, $context)->willReturn(false),
+            Call::create('isCompliant')->with($path, $object, $context)->willReturn(false),
         ]);
 
         /** @var PolicyInterface|MockObject $notExpectedToBeCalledPolicy */
@@ -69,6 +69,6 @@ final class AndPolicyTest extends TestCase
 
         $policy = new AndPolicy([$compliantPolicy, $nonCompliantPolicy, $notExpectedToBeCalledPolicy]);
 
-        self::assertFalse($policy->isCompliantIncludingPath($path, $object, $context));
+        self::assertFalse($policy->isCompliant($path, $object, $context));
     }
 }

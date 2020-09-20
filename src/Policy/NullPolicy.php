@@ -8,7 +8,7 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 
 final class NullPolicy implements PolicyInterface
 {
-    public function isCompliantIncludingPath(string $path, object $object, NormalizerContextInterface $context): bool
+    public function isCompliant(string $path, object $object, NormalizerContextInterface $context): bool
     {
         return true;
     }

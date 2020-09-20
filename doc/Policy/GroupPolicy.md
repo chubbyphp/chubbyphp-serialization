@@ -15,6 +15,6 @@ $context = $context->withAttribute('groups', ['group1']);
 
 $policy = new GroupPolicy(['group1']);
 
-echo $policy->isCompliantIncludingPath('path', $model, $context);
+echo $policy->isCompliant('path', $model, $context);
 // 1
 ```

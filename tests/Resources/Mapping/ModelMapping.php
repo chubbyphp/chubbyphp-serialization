@@ -12,7 +12,7 @@ use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
 use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
 use Chubbyphp\Serialization\Policy\AndPolicy;
-use Chubbyphp\Serialization\Policy\CallbackPolicyIncludingPath;
+use Chubbyphp\Serialization\Policy\CallbackPolicy;
 use Chubbyphp\Serialization\Policy\GroupPolicy;
 use Chubbyphp\Serialization\Policy\NullPolicy;
 use Chubbyphp\Serialization\Policy\OrPolicy;
@@ -40,7 +40,7 @@ final class ModelMapping implements NormalizationObjectMappingInterface
                 ->setPolicy(new AndPolicy([
                     new NullPolicy(),
                     new OrPolicy([
-                        new CallbackPolicyIncludingPath(function () {
+                        new CallbackPolicy(function () {
                             return false;
                         }),
                         new NullPolicy(),
@@ -57,7 +57,7 @@ final class ModelMapping implements NormalizationObjectMappingInterface
                 ->setPolicy(new AndPolicy([
                     new NullPolicy(),
                     new OrPolicy([
-                        new CallbackPolicyIncludingPath(function () {
+                        new CallbackPolicy(function () {
                             return false;
                         }),
                     ]),

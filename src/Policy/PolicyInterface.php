@@ -8,5 +8,5 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 
 interface PolicyInterface
 {
-    public function isCompliantIncludingPath(string $path, object $object, NormalizerContextInterface $context): bool;
+    public function isCompliant(string $path, object $object, NormalizerContextInterface $context): bool;
 }

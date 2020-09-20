@@ -32,12 +32,12 @@ final class NotPolicyTest extends TestCase
 
         /** @var PolicyInterface|MockObject $nonCompliantPolicy */
         $nonCompliantPolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliantIncludingPath')->with($path, $object, $context)->willReturn(false),
+            Call::create('isCompliant')->with($path, $object, $context)->willReturn(false),
         ]);
 
         $policy = new NotPolicy($nonCompliantPolicy);
 
-        self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
+        self::assertTrue($policy->isCompliant($path, $object, $context));
     }
 
     public function testIsCompliantIncludingPathReturnsFalseIfGivenPolicyIncludingPathReturnsTrue(): void
@@ -51,11 +51,11 @@ final class NotPolicyTest extends TestCase
 
         /** @var PolicyInterface|MockObject $nonCompliantPolicy */
         $nonCompliantPolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliantIncludingPath')->with($path, $object, $context)->willReturn(true),
+            Call::create('isCompliant')->with($path, $object, $context)->willReturn(true),
         ]);
 
         $policy = new NotPolicy($nonCompliantPolicy);
 
-        self::assertFalse($policy->isCompliantIncludingPath($path, $object, $context));
+        self::assertFalse($policy->isCompliant($path, $object, $context));
     }
 }

@@ -6,7 +6,7 @@ namespace Chubbyphp\Serialization\Policy;
 
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 
-final class CallbackPolicyIncludingPath implements PolicyInterface
+final class CallbackPolicy implements PolicyInterface
 {
     /**
      * @var callable
@@ -18,7 +18,7 @@ final class CallbackPolicyIncludingPath implements PolicyInterface
         $this->callback = $callback;
     }
 
-    public function isCompliantIncludingPath(string $path, object $object, NormalizerContextInterface $context): bool
+    public function isCompliant(string $path, object $object, NormalizerContextInterface $context): bool
     {
         return ($this->callback)($path, $object, $context);
     }
