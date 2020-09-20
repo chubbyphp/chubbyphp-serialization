@@ -19,55 +19,47 @@ final class CallbackPolicyTest extends TestCase
 {
     use MockByCallsTrait;
 
-    public function testIsCompliantReturnsTrueIfCallbackReturnsTrue(): void
+    public function testIsCompliantIncludingPathReturnsTrueIfCallbackReturnsTrue(): void
     {
-        error_clear_last();
-
         $object = new \stdClass();
+
+        $path = '';
 
         /** @var NormalizerContextInterface|MockObject $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
 
-        $policy = new CallbackPolicy(function ($contextParameter, $objectParameter) use ($context, $object) {
-            self::assertSame($context, $contextParameter);
-            self::assertSame($object, $objectParameter);
+        $policy = new CallbackPolicy(
+            function ($pathParameter, $objectParameter, $contextParameter) use ($path, $object, $context) {
+                self::assertSame($context, $contextParameter);
+                self::assertSame($object, $objectParameter);
+                self::assertSame($path, $pathParameter);
 
-            return true;
-        });
+                return true;
+            }
+        );
 
-        self::assertTrue($policy->isCompliant($context, $object));
-
-        $error = error_get_last();
-
-        self::assertNotNull($error);
-
-        self::assertSame(E_USER_DEPRECATED, $error['type']);
-        self::assertSame('Use "CallbackPolicyIncludingPath" instead of "CallbackPolicy"', $error['message']);
+        self::assertTrue($policy->isCompliant($path, $object, $context));
     }
 
-    public function testIsCompliantReturnsFalseIfCallbackReturnsFalse(): void
+    public function testIsCompliantIncludingPathReturnsFalseIfCallbackReturnsFalse(): void
     {
-        error_clear_last();
-
         $object = new \stdClass();
+
+        $path = '';
 
         /** @var NormalizerContextInterface|MockObject $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
 
-        $policy = new CallbackPolicy(function ($contextParameter, $objectParameter) use ($context, $object) {
-            self::assertSame($context, $contextParameter);
-            self::assertSame($object, $objectParameter);
+        $policy = new CallbackPolicy(
+            function ($pathParameter, $objectParameter, $contextParameter) use ($path, $object, $context) {
+                self::assertSame($context, $contextParameter);
+                self::assertSame($object, $objectParameter);
+                self::assertSame($path, $pathParameter);
 
-            return false;
-        });
+                return false;
+            }
+        );
 
-        self::assertFalse($policy->isCompliant($context, $object));
-
-        $error = error_get_last();
-
-        self::assertNotNull($error);
-
-        self::assertSame(E_USER_DEPRECATED, $error['type']);
-        self::assertSame('Use "CallbackPolicyIncludingPath" instead of "CallbackPolicy"', $error['message']);
+        self::assertFalse($policy->isCompliant($path, $object, $context));
     }
 }

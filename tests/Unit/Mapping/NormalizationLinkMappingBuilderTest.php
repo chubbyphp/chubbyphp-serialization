@@ -32,7 +32,6 @@ final class NormalizationLinkMappingBuilderTest extends TestCase
         $linkMapping = NormalizationLinkMappingBuilder::create('name', $linkNormalizer)->getMapping();
 
         self::assertSame('name', $linkMapping->getName());
-        self::assertSame([], $linkMapping->getGroups());
         self::assertSame($linkNormalizer, $linkMapping->getLinkNormalizer());
         self::assertInstanceOf(NullPolicy::class, $linkMapping->getPolicy());
     }
@@ -42,7 +41,6 @@ final class NormalizationLinkMappingBuilderTest extends TestCase
         $linkMapping = NormalizationLinkMappingBuilder::createCallback('name', function (): void {})->getMapping();
 
         self::assertSame('name', $linkMapping->getName());
-        self::assertSame([], $linkMapping->getGroups());
         self::assertInstanceOf(CallbackLinkNormalizer::class, $linkMapping->getLinkNormalizer());
         self::assertInstanceOf(NullPolicy::class, $linkMapping->getPolicy());
     }
@@ -55,7 +53,6 @@ final class NormalizationLinkMappingBuilderTest extends TestCase
         $linkMapping = NormalizationLinkMappingBuilder::createLink('name', $link)->getMapping();
 
         self::assertSame('name', $linkMapping->getName());
-        self::assertSame([], $linkMapping->getGroups());
         self::assertInstanceOf(LinkNormalizer::class, $linkMapping->getLinkNormalizer());
         self::assertInstanceOf(NullPolicy::class, $linkMapping->getPolicy());
     }
@@ -69,13 +66,11 @@ final class NormalizationLinkMappingBuilderTest extends TestCase
         $policy = $this->getMockByCalls(PolicyInterface::class);
 
         $linkMapping = NormalizationLinkMappingBuilder::create('name', $linkNormalizer)
-            ->setGroups(['group1'])
             ->setPolicy($policy)
             ->getMapping()
         ;
 
         self::assertSame('name', $linkMapping->getName());
-        self::assertSame(['group1'], $linkMapping->getGroups());
         self::assertSame($linkNormalizer, $linkMapping->getLinkNormalizer());
         self::assertSame($policy, $linkMapping->getPolicy());
     }

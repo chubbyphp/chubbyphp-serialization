@@ -1,4 +1,4 @@
-# XmlTypeEncoder
+# XmlTypeEncoder  (alias for Jsonx)
 
 ```php
 <?php
@@ -11,5 +11,5 @@ echo $encoderType->getContentType();
 // 'application/xml'
 
 echo $encoderType->encode(['name' => 'php']);
-// '<name type="string">php</name>'
+// '<json:object><json:string name="name">php</json:string></json:object>'
 ```

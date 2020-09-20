@@ -11,14 +11,15 @@ namespace MyProject\Serialization;
 
 use Chubbyphp\Serialization\Accessor\PropertyAccessor;
 use Chubbyphp\Serialization\Link\LinkBuilder;
-use Chubbyphp\Serialization\Mapping\NormalizationLinkMapping;
-use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
-use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
-use Chubbyphp\Serialization\Normalizer\Relation\EmbedManyFieldNormalizer;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
+use Chubbyphp\Serialization\Mapping\NormalizationLinkMapping;
+use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
+use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
+use Chubbyphp\Serialization\Normalizer\Relation\EmbedManyFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\Relation\EmbedOneFieldNormalizer;
+use Chubbyphp\Serialization\Policy\GroupPolicy;
 use MyProject\Model\Model;
 
 final class ModelMapping implements NormalizationObjectMappingInterface
@@ -48,8 +49,12 @@ final class ModelMapping implements NormalizationObjectMappingInterface
     public function getNormalizationFieldMappings(string $path, string $type = null): array
     {
         return [
-            NormalizationFieldMappingBuilder::create('id')->setGroups(['baseInformation'])->getMapping(),
-            NormalizationFieldMappingBuilder::create('name')->setGroups(['baseInformation'])->getMapping(),
+            NormalizationFieldMappingBuilder::create('id')
+                ->setPolicy(new GroupPolicy(['baseInformation']))
+                ->getMapping(),
+            NormalizationFieldMappingBuilder::create('name')
+                ->setPolicy(new GroupPolicy(['baseInformation']))
+                ->getMapping(),
             NormalizationFieldMappingBuilder::createEmbedOne('one')->getMapping(),
             NormalizationFieldMappingBuilder::createEmbedMany('manies')->getMapping(),
         ];

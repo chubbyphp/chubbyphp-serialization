@@ -6,17 +6,10 @@ namespace Chubbyphp\Serialization\Normalizer;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-final class NormalizerContextBuilder implements NormalizerContextBuilderInterface
+final class NormalizerContextBuilder
 {
     /**
-     * @deprecated
-     *
-     * @var array<int, string>
-     */
-    private $groups = [];
-
-    /**
-     * @var array<mixed>
+     * @var array<string, mixed>
      */
     private $attributes = [];
 
@@ -29,34 +22,22 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
     {
     }
 
-    public static function create(): NormalizerContextBuilderInterface
+    public static function create(): self
     {
         return new self();
     }
 
     /**
-     * @deprecated
-     *
-     * @param array<int, string> $groups
+     * @param array<string, mixed> $attributes
      */
-    public function setGroups(array $groups): NormalizerContextBuilderInterface
-    {
-        $this->groups = $groups;
-
-        return $this;
-    }
-
-    /**
-     * @param array<mixed> $attributes
-     */
-    public function setAttributes(array $attributes): NormalizerContextBuilderInterface
+    public function setAttributes(array $attributes): self
     {
         $this->attributes = $attributes;
 
         return $this;
     }
 
-    public function setRequest(?ServerRequestInterface $request = null): NormalizerContextBuilderInterface
+    public function setRequest(?ServerRequestInterface $request = null): self
     {
         $this->request = $request;
 
@@ -65,6 +46,6 @@ final class NormalizerContextBuilder implements NormalizerContextBuilderInterfac
 
     public function getContext(): NormalizerContextInterface
     {
-        return new NormalizerContext($this->groups, $this->request, $this->attributes);
+        return new NormalizerContext($this->request, $this->attributes);
     }
 }

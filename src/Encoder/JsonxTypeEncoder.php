@@ -21,32 +21,18 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
      */
     private $prettyPrint;
 
-    /**
-     * @var string
-     */
-    private $contentType;
-
-    public function __construct(bool $prettyPrint = false, string $contentType = 'application/x-jsonx')
+    public function __construct(bool $prettyPrint = false)
     {
         $this->prettyPrint = $prettyPrint;
-
-        if ('application/x-jsonx' === $contentType) {
-            @trigger_error(
-                'Use "application/jsonx+xml" instead of "application/x-jsonx", cause jsonx is a xml variant.',
-                E_USER_DEPRECATED
-            );
-        }
-
-        $this->contentType = $contentType;
     }
 
     public function getContentType(): string
     {
-        return $this->contentType;
+        return 'application/jsonx+xml';
     }
 
     /**
-     * @param array<mixed> $data
+     * @param array<string, array|string|float|int|bool|null> $data
      */
     public function encode(array $data): string
     {
@@ -69,9 +55,9 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param array<mixed> $value
+     * @param array<string, array|string|float|int|bool|null> $value
      */
-    private function createObjectNode(\DOMDocument $document, array $value, ?string $name = null): \DOMNode
+    private function createObjectNode(\DOMDocument $document, array $value, ?string $name = null): \DOMElement
     {
         $node = $document->createElement('json:object');
 
@@ -101,7 +87,10 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
         return $node;
     }
 
-    private function createArrayNode(\DOMDocument $document, array $value, ?string $name = null): \DOMNode
+    /**
+     * @param array<int, array|string|float|int|bool|null> $value
+     */
+    private function createArrayNode(\DOMDocument $document, array $value, ?string $name = null): \DOMElement
     {
         $node = $document->createElement('json:array');
 
@@ -131,7 +120,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
         return $node;
     }
 
-    private function createBooleanNode(\DOMDocument $document, bool $value, ?string $name = null): \DOMNode
+    private function createBooleanNode(\DOMDocument $document, bool $value, ?string $name = null): \DOMElement
     {
         $node = $document->createElement('json:boolean', $value ? 'true' : 'false');
 
@@ -142,7 +131,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
         return $node;
     }
 
-    private function createStringNode(\DOMDocument $document, string $value, ?string $name = null): \DOMNode
+    private function createStringNode(\DOMDocument $document, string $value, ?string $name = null): \DOMElement
     {
         $node = $document->createElement('json:string', htmlentities($value, ENT_COMPAT | ENT_XML1, 'UTF-8'));
 
@@ -156,7 +145,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     /**
      * @param int|float $value
      */
-    private function createNumberNode(\DOMDocument $document, $value, ?string $name = null): \DOMNode
+    private function createNumberNode(\DOMDocument $document, $value, ?string $name = null): \DOMElement
     {
         $node = $document->createElement('json:number', (string) $value);
 
@@ -167,7 +156,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
         return $node;
     }
 
-    private function createNullNode(\DOMDocument $document, ?string $name = null): \DOMNode
+    private function createNullNode(\DOMDocument $document, ?string $name = null): \DOMElement
     {
         $node = $document->createElement('json:null');
 
@@ -179,7 +168,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param array|bool|string|int|float|null $value
+     * @param array|string|float|int|bool|null $value
      */
     private function getType($value): string
     {

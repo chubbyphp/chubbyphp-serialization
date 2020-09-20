@@ -26,7 +26,6 @@ final class NormalizerContextBuilderTest extends TestCase
 
         self::assertInstanceOf(NormalizerContextInterface::class, $context);
 
-        self::assertSame([], $context->getGroups());
         self::assertNull($context->getRequest());
         self::assertSame([], $context->getAttributes());
     }
@@ -37,7 +36,6 @@ final class NormalizerContextBuilderTest extends TestCase
         $request = $this->getMockByCalls(ServerRequestInterface::class);
 
         $context = NormalizerContextBuilder::create()
-            ->setGroups(['group1'])
             ->setRequest($request)
             ->setAttributes(['attribute' => 'value'])
             ->getContext()
@@ -45,7 +43,6 @@ final class NormalizerContextBuilderTest extends TestCase
 
         self::assertInstanceOf(NormalizerContextInterface::class, $context);
 
-        self::assertSame(['group1'], $context->getGroups());
         self::assertSame($request, $context->getRequest());
         self::assertSame(['attribute' => 'value'], $context->getAttributes());
     }

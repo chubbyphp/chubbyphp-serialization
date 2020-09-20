@@ -32,10 +32,7 @@ final class CallableNormalizationObjectMapping implements NormalizationObjectMap
         return $this->class;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getNormalizationType()
+    public function getNormalizationType(): ?string
     {
         return $this->getMapping()->getNormalizationType();
     }

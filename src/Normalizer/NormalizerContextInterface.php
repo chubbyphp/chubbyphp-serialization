@@ -6,42 +6,24 @@ namespace Chubbyphp\Serialization\Normalizer;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-/**
- * @method array                      getAttributes()
- * @method mixed                      getAttribute(string $name, $default = null)
- * @method NormalizerContextInterface withAttribute(string $name, $value)
- */
 interface NormalizerContextInterface
 {
-    /**
-     * @deprecated
-     *
-     * @return array<int, string>
-     */
-    public function getGroups(): array;
+    public function getRequest(): ?ServerRequestInterface;
 
     /**
-     * @return ServerRequestInterface|null
+     * @return array<string, mixed>
      */
-    public function getRequest();
+    public function getAttributes(): array;
 
-    /*
-     * @return array<mixed>
-     */
-    //public function getAttributes(): array;
-
-    /*
-     * @param string $name
-     * @param mixed  $default
+    /**
+     * @param mixed $default
      *
      * @return mixed
      */
-    //public function getAttribute(string $name, $default = null);
+    public function getAttribute(string $name, $default = null);
 
-    /*
-     * @param string $name
-     * @param mixed  $value
-     * @return self
+    /**
+     * @param mixed $value
      */
-    //public function withAttribute(string $name, $value): self;
+    public function withAttribute(string $name, $value): self;
 }

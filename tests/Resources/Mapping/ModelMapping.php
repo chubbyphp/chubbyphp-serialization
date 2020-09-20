@@ -37,7 +37,6 @@ final class ModelMapping implements NormalizationObjectMappingInterface
     {
         return [
             NormalizationFieldMappingBuilder::create('id')
-                ->setGroups(['baseInformation'])
                 ->setPolicy(new AndPolicy([
                     new NullPolicy(),
                     new OrPolicy([
@@ -49,7 +48,6 @@ final class ModelMapping implements NormalizationObjectMappingInterface
                 ]))
                 ->getMapping(),
             NormalizationFieldMappingBuilder::create('name')
-                ->setGroups(['baseInformation'])
                 ->setPolicy(new GroupPolicy([]))
                 ->getMapping(),
             NormalizationFieldMappingBuilder::create('additionalInfo')
@@ -86,7 +84,6 @@ final class ModelMapping implements NormalizationObjectMappingInterface
         return [
             new NormalizationLinkMapping(
                 'self',
-                [],
                 new CallbackLinkNormalizer(
                     function (string $path, Model $model) {
                         return LinkBuilder::create('/api/model/'.$model->getId())

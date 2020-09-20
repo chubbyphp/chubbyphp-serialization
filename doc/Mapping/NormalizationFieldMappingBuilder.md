@@ -8,7 +8,6 @@ use Chubbyphp\Serialization\Normalizer\FieldNormalizer;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder;
 
 $fieldMapping = NormalizationFieldMappingBuilder::create('name')
-    ->setGroups(['group1'])
     ->setFieldNormalizer(
         new FieldNormalizer(
             new PropertyAccessor('name')

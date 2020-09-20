@@ -4,63 +4,36 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Normalizer;
 
-use Chubbyphp\Serialization\Policy\GroupPolicy;
 use Psr\Http\Message\ServerRequestInterface;
 
 final class NormalizerContext implements NormalizerContextInterface
 {
-    /**
-     * @deprecated
-     *
-     * @var array<int, string>
-     */
-    private $groups = [];
-
     /**
      * @var ServerRequestInterface|null
      */
     private $request;
 
     /**
-     * @var array<mixed>
+     * @var array<string, mixed>
      */
     private $attributes;
 
     /**
-     * @param array<int, string> $groups
-     * @param array<mixed>       $attributes
+     * @param array<string, mixed> $attributes
      */
-    public function __construct(array $groups = [], ?ServerRequestInterface $request = null, array $attributes = [])
+    public function __construct(?ServerRequestInterface $request = null, array $attributes = [])
     {
-        if ([] !== $groups) {
-            @trigger_error(sprintf('groups are deprecated, use "%s" instead', GroupPolicy::class), E_USER_DEPRECATED);
-        }
-
-        $this->groups = $groups;
         $this->request = $request;
         $this->attributes = $attributes;
     }
 
-    /**
-     * @deprecated
-     *
-     * @return array<int, string>
-     */
-    public function getGroups(): array
-    {
-        return $this->groups;
-    }
-
-    /**
-     * @return ServerRequestInterface|null
-     */
-    public function getRequest()
+    public function getRequest(): ?ServerRequestInterface
     {
         return $this->request;
     }
 
     /**
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     public function getAttributes(): array
     {
@@ -79,6 +52,17 @@ final class NormalizerContext implements NormalizerContextInterface
         }
 
         return $default;
+    }
+
+    /**
+     * @param array<string, mixed> $attributes
+     */
+    public function withAttributes(array $attributes): NormalizerContextInterface
+    {
+        $context = clone $this;
+        $context->attributes = $attributes;
+
+        return $context;
     }
 
     /**

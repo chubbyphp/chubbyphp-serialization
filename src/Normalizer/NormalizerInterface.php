@@ -11,7 +11,7 @@ interface NormalizerInterface
     /**
      * @throws SerializerLogicException
      *
-     * @return array<mixed>
+     * @return array<string, array|string|float|int|bool|null>
      */
     public function normalize(object $object, ?NormalizerContextInterface $context = null, string $path = ''): array;
 }

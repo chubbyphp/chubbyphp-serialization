@@ -8,7 +8,6 @@ use Chubbyphp\Mock\Call;
 use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer;
-use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -21,45 +20,6 @@ use PHPUnit\Framework\TestCase;
 final class DateTimeFieldNormalizerTest extends TestCase
 {
     use MockByCallsTrait;
-
-    public function testNormalizeFieldWithInvalidConstructArgument(): void
-    {
-        $this->expectException(\TypeError::class);
-        $this->expectExceptionMessage(
-            'Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer::__construct() expects parameter 1 to be '
-                .'Chubbyphp\Serialization\Accessor\AccessorInterface|Chubbyphp\Serialization\Normalizer\\'
-                .'FieldNormalizerInterface, DateTime given'
-        );
-
-        new DateTimeFieldNormalizer(new \DateTime());
-    }
-
-    public function testNormalizeFieldWithFieldNormalizer(): void
-    {
-        $object = $this->getObject();
-        $object->setDate(new \DateTime('2017-01-01 22:00:00+01:00'));
-
-        /** @var NormalizerContextInterface|MockObject $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class);
-
-        /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
-        $fieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class, [
-            Call::create('normalizeField')
-            ->with('date', $object, $context, null)
-                ->willReturn('2017-01-01 22:00:00+01:00'),
-        ]);
-
-        $dateTimeFieldNormalizer = new DateTimeFieldNormalizer($fieldNormalizer);
-
-        self::assertSame(
-            '2017-01-01T22:00:00+01:00',
-            $dateTimeFieldNormalizer->normalizeField(
-                'date',
-                $object,
-                $context
-            )
-        );
-    }
 
     public function testNormalizeField(): void
     {

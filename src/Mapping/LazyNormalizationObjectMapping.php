@@ -23,10 +23,7 @@ final class LazyNormalizationObjectMapping implements NormalizationObjectMapping
      */
     private $class;
 
-    /**
-     * @param string $serviceId
-     */
-    public function __construct(ContainerInterface $container, $serviceId, string $class)
+    public function __construct(ContainerInterface $container, string $serviceId, string $class)
     {
         $this->container = $container;
         $this->serviceId = $serviceId;
@@ -38,10 +35,7 @@ final class LazyNormalizationObjectMapping implements NormalizationObjectMapping
         return $this->class;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getNormalizationType()
+    public function getNormalizationType(): ?string
     {
         return $this->container->get($this->serviceId)->getNormalizationType();
     }

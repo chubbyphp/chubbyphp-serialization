@@ -9,11 +9,9 @@ use Chubbyphp\Serialization\SerializerLogicException;
 interface AccessorInterface
 {
     /**
-     * @param object $object
-     *
      * @throws SerializerLogicException
      *
      * @return mixed
      */
-    public function getValue($object);
+    public function getValue(object $object);
 }

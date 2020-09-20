@@ -6,6 +6,7 @@ namespace Chubbyphp\Tests\Serialization\Unit\DependencyInjection;
 
 use Chubbyphp\Serialization\DependencyInjection\SerializationCompilerPass;
 use Chubbyphp\Serialization\Encoder\Encoder;
+use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
@@ -35,6 +36,11 @@ final class SerializationCompilerPassTest extends TestCase
             ->addTag('chubbyphp.serializer.normalizer.objectmapping')
         ;
 
+        $container
+            ->register('chubbyphp.serializer.encoder.type.json', JsonTypeEncoder::class)
+            ->addTag('chubbyphp.serializer.encoder.type')
+        ;
+
         $container->compile();
 
         self::assertTrue($container->has('chubbyphp.serializer'));
@@ -60,21 +66,6 @@ final class SerializationCompilerPassTest extends TestCase
         self::assertInstanceOf(Encoder::class, $encoder);
 
         self::assertSame('{"key":"value"}', $encoder->encode(['key' => 'value'], 'application/json'));
-        self::assertSame(
-            '<?xml version="1.0" encoding="UTF-8"?>'."\n"
-            .'<json:object xsi:schemaLocation="http://www.datapower.com/schemas/json jsonx.xsd"'
-            .' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
-            .' xmlns:json="http://www.ibm.com/xmlns/prod/2009/jsonx">'
-            .'<json:string name="key">value</json:string></json:object>',
-            $encoder->encode(['key' => 'value'], 'application/x-jsonx')
-        );
-        self::assertSame('key=value', $encoder->encode(['key' => 'value'], 'application/x-www-form-urlencoded'));
-        self::assertSame(
-            '<?xml version="1.0" encoding="UTF-8"?>'."\n"
-            .'<object><key type="string">value</key></object>',
-            $encoder->encode(['key' => 'value'], 'application/xml')
-        );
-        self::assertSame('key: value', $encoder->encode(['key' => 'value'], 'application/x-yaml'));
 
         self::assertSame(['_type' => 'stdClass'], $normalizer->normalize(new \stdClass()));
     }

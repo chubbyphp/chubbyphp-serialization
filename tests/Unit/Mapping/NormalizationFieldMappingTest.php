@@ -25,19 +25,9 @@ final class NormalizationFieldMappingTest extends TestCase
         /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
         $fieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class);
 
-        $fieldMapping = new NormalizationFieldMapping('name', ['group1'], $fieldNormalizer);
+        $fieldMapping = new NormalizationFieldMapping('name', $fieldNormalizer);
 
         self::assertSame('name', $fieldMapping->getName());
-    }
-
-    public function testGetGroups(): void
-    {
-        /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
-        $fieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class);
-
-        $fieldMapping = new NormalizationFieldMapping('name', ['group1'], $fieldNormalizer);
-
-        self::assertSame(['group1'], $fieldMapping->getGroups());
     }
 
     public function testGetFieldNormalizer(): void
@@ -45,7 +35,7 @@ final class NormalizationFieldMappingTest extends TestCase
         /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
         $fieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class);
 
-        $fieldMapping = new NormalizationFieldMapping('name', ['group1'], $fieldNormalizer);
+        $fieldMapping = new NormalizationFieldMapping('name', $fieldNormalizer);
 
         self::assertSame($fieldNormalizer, $fieldMapping->getFieldNormalizer());
     }
@@ -58,7 +48,7 @@ final class NormalizationFieldMappingTest extends TestCase
         /** @var PolicyInterface|MockObject $policy */
         $policy = $this->getMockByCalls(PolicyInterface::class);
 
-        $fieldMapping = new NormalizationFieldMapping('name', ['group1'], $fieldNormalizer, $policy);
+        $fieldMapping = new NormalizationFieldMapping('name', $fieldNormalizer, $policy);
 
         self::assertSame($policy, $fieldMapping->getPolicy());
     }

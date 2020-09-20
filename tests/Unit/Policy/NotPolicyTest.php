@@ -20,70 +20,9 @@ use PHPUnit\Framework\TestCase;
 final class NotPolicyTest extends TestCase
 {
     use MockByCallsTrait;
-    use PolicyIncludingPathTrait;
-
-    public function testIsCompliantReturnsTrueIfGivenPolicyReturnsFalse(): void
-    {
-        error_clear_last();
-
-        $object = new \stdClass();
-
-        /** @var NormalizerContextInterface|MockObject $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
-
-        /** @var PolicyInterface|MockObject $nonCompliantPolicy */
-        $nonCompliantPolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliant')->with($context, $object)->willReturn(false),
-        ]);
-
-        $policy = new NotPolicy($nonCompliantPolicy);
-
-        self::assertTrue($policy->isCompliant($context, $object));
-
-        $error = error_get_last();
-
-        self::assertNotNull($error);
-
-        self::assertSame(E_USER_DEPRECATED, $error['type']);
-        self::assertSame(
-            sprintf('The %s::isCompliant method is deprecated ().', PolicyInterface::class),
-            $error['message']
-        );
-    }
-
-    public function testIsCompliantReturnsFalseIfGivenPolicyReturnsTrue(): void
-    {
-        error_clear_last();
-
-        $object = new \stdClass();
-
-        /** @var NormalizerContextInterface|MockObject $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
-
-        /** @var PolicyInterface|MockObject $nonCompliantPolicy */
-        $nonCompliantPolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliant')->with($context, $object)->willReturn(true),
-        ]);
-
-        $policy = new NotPolicy($nonCompliantPolicy);
-
-        self::assertFalse($policy->isCompliant($context, $object));
-
-        $error = error_get_last();
-
-        self::assertNotNull($error);
-
-        self::assertSame(E_USER_DEPRECATED, $error['type']);
-        self::assertSame(
-            sprintf('The %s::isCompliant method is deprecated ().', PolicyInterface::class),
-            $error['message']
-        );
-    }
 
     public function testIsCompliantIncludingPathReturnsTrueIfGivenPolicyIncludingPathReturnsFalse(): void
     {
-        error_clear_last();
-
         $object = new \stdClass();
 
         $path = '';
@@ -92,44 +31,17 @@ final class NotPolicyTest extends TestCase
         $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
 
         /** @var PolicyInterface|MockObject $nonCompliantPolicy */
-        $nonCompliantPolicy = $this->getCompliantPolicyIncludingPath(false);
+        $nonCompliantPolicy = $this->getMockByCalls(PolicyInterface::class, [
+            Call::create('isCompliant')->with($path, $object, $context)->willReturn(false),
+        ]);
 
         $policy = new NotPolicy($nonCompliantPolicy);
 
-        self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
-
-        $error = error_get_last();
-
-        self::assertNull($error);
+        self::assertTrue($policy->isCompliant($path, $object, $context));
     }
 
     public function testIsCompliantIncludingPathReturnsFalseIfGivenPolicyIncludingPathReturnsTrue(): void
     {
-        error_clear_last();
-
-        $object = new \stdClass();
-
-        $path = '';
-
-        /** @var NormalizerContextInterface|MockObject $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
-
-        /** @var PolicyInterface|MockObject $nonCompliantPolicy */
-        $nonCompliantPolicy = $this->getCompliantPolicyIncludingPath(true);
-
-        $policy = new NotPolicy($nonCompliantPolicy);
-
-        self::assertFalse($policy->isCompliantIncludingPath($path, $object, $context));
-
-        $error = error_get_last();
-
-        self::assertNull($error);
-    }
-
-    public function testIsCompliantIncludingPathReturnsTrueIfGivenPolicyReturnsFalse(): void
-    {
-        error_clear_last();
-
         $object = new \stdClass();
 
         $path = '';
@@ -139,52 +51,11 @@ final class NotPolicyTest extends TestCase
 
         /** @var PolicyInterface|MockObject $nonCompliantPolicy */
         $nonCompliantPolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliant')->with($context, $object)->willReturn(false),
+            Call::create('isCompliant')->with($path, $object, $context)->willReturn(true),
         ]);
 
         $policy = new NotPolicy($nonCompliantPolicy);
 
-        self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
-
-        $error = error_get_last();
-
-        self::assertNotNull($error);
-
-        self::assertSame(E_USER_DEPRECATED, $error['type']);
-        self::assertSame(
-            sprintf('The %s::isCompliant method is deprecated ().', PolicyInterface::class),
-            $error['message']
-        );
-    }
-
-    public function testIsCompliantIncludingPathReturnsFalseIfGivenPolicyReturnsTrue(): void
-    {
-        error_clear_last();
-
-        $object = new \stdClass();
-
-        $path = '';
-
-        /** @var NormalizerContextInterface|MockObject $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
-
-        /** @var PolicyInterface|MockObject $nonCompliantPolicy */
-        $nonCompliantPolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliant')->with($context, $object)->willReturn(true),
-        ]);
-
-        $policy = new NotPolicy($nonCompliantPolicy);
-
-        self::assertFalse($policy->isCompliantIncludingPath($path, $object, $context));
-
-        $error = error_get_last();
-
-        self::assertNotNull($error);
-
-        self::assertSame(E_USER_DEPRECATED, $error['type']);
-        self::assertSame(
-            sprintf('The %s::isCompliant method is deprecated ().', PolicyInterface::class),
-            $error['message']
-        );
+        self::assertFalse($policy->isCompliant($path, $object, $context));
     }
 }

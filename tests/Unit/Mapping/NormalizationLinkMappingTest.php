@@ -25,19 +25,9 @@ final class NormalizationLinkMappingTest extends TestCase
         /** @var LinkNormalizerInterface|MockObject $linkNormalizer */
         $linkNormalizer = $this->getMockByCalls(LinkNormalizerInterface::class);
 
-        $linkMapping = new NormalizationLinkMapping('name', ['group1'], $linkNormalizer);
+        $linkMapping = new NormalizationLinkMapping('name', $linkNormalizer);
 
         self::assertSame('name', $linkMapping->getName());
-    }
-
-    public function testGetGroups(): void
-    {
-        /** @var LinkNormalizerInterface|MockObject $linkNormalizer */
-        $linkNormalizer = $this->getMockByCalls(LinkNormalizerInterface::class);
-
-        $linkMapping = new NormalizationLinkMapping('name', ['group1'], $linkNormalizer);
-
-        self::assertSame(['group1'], $linkMapping->getGroups());
     }
 
     public function testGetLinkNormalizer(): void
@@ -45,7 +35,7 @@ final class NormalizationLinkMappingTest extends TestCase
         /** @var LinkNormalizerInterface|MockObject $linkNormalizer */
         $linkNormalizer = $this->getMockByCalls(LinkNormalizerInterface::class);
 
-        $linkMapping = new NormalizationLinkMapping('name', ['group1'], $linkNormalizer);
+        $linkMapping = new NormalizationLinkMapping('name', $linkNormalizer);
 
         self::assertSame($linkNormalizer, $linkMapping->getLinkNormalizer());
     }
@@ -58,7 +48,7 @@ final class NormalizationLinkMappingTest extends TestCase
         /** @var PolicyInterface|MockObject $policy */
         $policy = $this->getMockByCalls(PolicyInterface::class);
 
-        $linkMapping = new NormalizationLinkMapping('name', ['group1'], $linkNormalizer, $policy);
+        $linkMapping = new NormalizationLinkMapping('name', $linkNormalizer, $policy);
 
         self::assertSame($policy, $linkMapping->getPolicy());
     }

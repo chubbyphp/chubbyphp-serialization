@@ -12,7 +12,7 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param array<mixed> $data
+     * @param array<string, array|string|float|int|bool|null> $data
      */
     public function encode(array $data): string
     {
@@ -20,7 +20,7 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param array<mixed> $data
+     * @param array<int|string, array|string|float|int|bool|null> $data
      */
     private function buildQuery(array $data, string $path = ''): string
     {

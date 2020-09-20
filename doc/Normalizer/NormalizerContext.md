@@ -8,10 +8,10 @@ use Psr\Http\Message\ServerRequestInterface;
 
 $request = ...;
 
-$context = new NormalizerContext(['group1'], $request);
-
-print_r($context->getGroups());
-// ['group1']
+$context = new NormalizerContext($request, ['key' => 'value']);
 
 $request = $context->getRequest();
+
+print_r($context->getAttributes());
+// ['key' => 'value']
 ```

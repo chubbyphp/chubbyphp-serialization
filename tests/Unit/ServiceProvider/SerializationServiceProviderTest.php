@@ -6,11 +6,6 @@ namespace Chubbyphp\Tests\Serialization\Unit\ServiceProvider;
 
 use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Encoder\Encoder;
-use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
-use Chubbyphp\Serialization\Encoder\JsonxTypeEncoder;
-use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
-use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
-use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
 use Chubbyphp\Serialization\Normalizer\Normalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;
@@ -34,8 +29,6 @@ final class SerializationServiceProviderTest extends TestCase
         $container = new Container();
         $container->register(new SerializationServiceProvider());
 
-        error_clear_last();
-
         self::assertTrue(isset($container['serializer']));
 
         self::assertTrue(isset($container['serializer.normalizer']));
@@ -53,11 +46,6 @@ final class SerializationServiceProviderTest extends TestCase
 
         self::assertInstanceOf(Encoder::class, $container['serializer.encoder']);
         self::assertIsArray($container['serializer.encodertypes']);
-        self::assertInstanceOf(JsonTypeEncoder::class, $container['serializer.encodertypes'][0]);
-        self::assertInstanceOf(JsonxTypeEncoder::class, $container['serializer.encodertypes'][1]);
-        self::assertInstanceOf(UrlEncodedTypeEncoder::class, $container['serializer.encodertypes'][2]);
-        self::assertInstanceOf(XmlTypeEncoder::class, $container['serializer.encodertypes'][3]);
-        self::assertInstanceOf(YamlTypeEncoder::class, $container['serializer.encodertypes'][4]);
 
         /** @var Normalizer $normalizer */
         $normalizer = $container['serializer.normalizer'];
@@ -68,17 +56,6 @@ final class SerializationServiceProviderTest extends TestCase
         $reflectionProperty->setAccessible(true);
 
         self::assertInstanceOf(NullLogger::class, $reflectionProperty->getValue($normalizer));
-
-        $error = error_get_last();
-
-        self::assertNotNull($error);
-
-        self::assertSame(E_USER_DEPRECATED, $error['type']);
-        self::assertSame(
-            'Register the encoder types by yourself:'
-                .' $container[\'serializer.encodertypes\'] = function () { return [new JsonTypeEncoder()]; };',
-            $error['message']
-        );
     }
 
     public function testRegisterWithDefinedLogger(): void

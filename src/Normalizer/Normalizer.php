@@ -7,7 +7,6 @@ namespace Chubbyphp\Serialization\Normalizer;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
-use Chubbyphp\Serialization\Policy\GroupPolicy;
 use Chubbyphp\Serialization\SerializerLogicException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -33,14 +32,12 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @param object $object
-     *
      * @throws SerializerLogicException
      *
-     * @return array<mixed>
+     * @return array<string, array|string|float|int|bool|null>
      */
     public function normalize(
-        $object,
+        object $object,
         ?NormalizerContextInterface $context = null,
         string $path = ''
     ): array {
@@ -91,7 +88,7 @@ final class Normalizer implements NormalizerInterface
     /**
      * @param array<int, NormalizationFieldMappingInterface> $normalizationFieldMappings
      *
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     private function getFieldsByFieldNormalizationMappings(
         NormalizerContextInterface $context,
@@ -109,10 +106,6 @@ final class Normalizer implements NormalizerInterface
                 continue;
             }
 
-            if (!$this->isWithinGroup($context, $normalizationFieldMapping)) {
-                continue;
-            }
-
             $fieldNormalizer = $normalizationFieldMapping->getFieldNormalizer();
 
             $this->logger->info('serialize: path {path}', ['path' => $subPath]);
@@ -126,7 +119,7 @@ final class Normalizer implements NormalizerInterface
     /**
      * @param array<int, NormalizationLinkMappingInterface> $normalizationLinkMappings
      *
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     private function getLinksByLinkNormalizationMappings(
         NormalizerContextInterface $context,
@@ -136,21 +129,17 @@ final class Normalizer implements NormalizerInterface
     ): array {
         $links = [];
         foreach ($normalizationLinkMappings as $normalizationLinkMapping) {
-            if (!$this->isCompliant($path, $object, $context, $normalizationLinkMapping)) {
-                continue;
-            }
+            $name = $normalizationLinkMapping->getName();
 
-            if (!$this->isWithinGroup($context, $normalizationLinkMapping)) {
+            $subPath = $this->getSubPathByName($path, $name);
+
+            if (!$this->isCompliant($subPath, $object, $context, $normalizationLinkMapping)) {
                 continue;
             }
 
             $linkNormalizer = $normalizationLinkMapping->getLinkNormalizer();
 
-            if (null === $link = $linkNormalizer->normalizeLink($path, $object, $context)) {
-                continue;
-            }
-
-            $links[$normalizationLinkMapping->getName()] = $link;
+            $links[$name] = $linkNormalizer->normalizeLink($path, $object, $context);
         }
 
         return $links;
@@ -161,42 +150,7 @@ final class Normalizer implements NormalizerInterface
      */
     private function isCompliant(string $path, object $object, NormalizerContextInterface $context, $mapping): bool
     {
-        if (!is_callable([$mapping, 'getPolicy'])) {
-            return true;
-        }
-
-        if (is_callable([$mapping->getPolicy(), 'isCompliantIncludingPath'])) {
-            return $mapping->getPolicy()->isCompliantIncludingPath($path, $object, $context);
-        }
-
-        return $mapping->getPolicy()->isCompliant($context, $object);
-    }
-
-    /**
-     * @param NormalizationFieldMappingInterface|NormalizationLinkMappingInterface $mapping
-     */
-    private function isWithinGroup(NormalizerContextInterface $context, $mapping): bool
-    {
-        if ([] === $groups = $context->getGroups()) {
-            return true;
-        }
-
-        @trigger_error(
-            sprintf(
-                'Use "%s" instead of "%s::setGroups"',
-                GroupPolicy::class,
-                NormalizerContextInterface::class
-            ),
-            E_USER_DEPRECATED
-        );
-
-        foreach ($mapping->getGroups() as $group) {
-            if (in_array($group, $groups, true)) {
-                return true;
-            }
-        }
-
-        return false;
+        return $mapping->getPolicy()->isCompliant($path, $object, $context);
     }
 
     private function getSubPathByName(string $path, string $name): string

@@ -19,28 +19,7 @@ final class NullPolicyTest extends TestCase
 {
     use MockByCallsTrait;
 
-    public function testIsCompliantReturnsTrue(): void
-    {
-        error_clear_last();
-
-        $object = new \stdClass();
-
-        /** @var NormalizerContextInterface|MockObject $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class);
-
-        $policy = new NullPolicy();
-
-        self::assertTrue($policy->isCompliant($context, $object));
-
-        $error = error_get_last();
-
-        self::assertNotNull($error);
-
-        self::assertSame(E_USER_DEPRECATED, $error['type']);
-        self::assertSame('Use "isCompliantIncludingPath()" instead of "isCompliant()"', $error['message']);
-    }
-
-    public function testIsCompliantIncludingPathReturnsTrue(): void
+    public function testIsCompliantIncludingReturnsTrue(): void
     {
         $object = new \stdClass();
 
@@ -51,6 +30,6 @@ final class NullPolicyTest extends TestCase
 
         $policy = new NullPolicy();
 
-        self::assertTrue($policy->isCompliantIncludingPath($path, $object, $context));
+        self::assertTrue($policy->isCompliant($path, $object, $context));
     }
 }

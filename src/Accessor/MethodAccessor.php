@@ -19,13 +19,11 @@ final class MethodAccessor implements AccessorInterface
     }
 
     /**
-     * @param object $object
-     *
      * @throws SerializerLogicException
      *
      * @return mixed
      */
-    public function getValue($object)
+    public function getValue(object $object)
     {
         $get = 'get'.ucfirst($this->property);
         $has = 'has'.ucfirst($this->property);

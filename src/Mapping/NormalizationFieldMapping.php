@@ -16,11 +16,6 @@ final class NormalizationFieldMapping implements NormalizationFieldMappingInterf
     private $name;
 
     /**
-     * @var array<int, string>
-     */
-    private $groups;
-
-    /**
      * @var FieldNormalizerInterface
      */
     private $fieldNormalizer;
@@ -30,18 +25,12 @@ final class NormalizationFieldMapping implements NormalizationFieldMappingInterf
      */
     private $policy;
 
-    /**
-     * @param string             $name
-     * @param array<int, string> $groups
-     */
     public function __construct(
-        $name,
-        array $groups,
+        string $name,
         FieldNormalizerInterface $fieldNormalizer,
         ?PolicyInterface $policy = null
     ) {
         $this->name = $name;
-        $this->groups = $groups;
         $this->fieldNormalizer = $fieldNormalizer;
         $this->policy = $policy ?? new NullPolicy();
     }
@@ -49,16 +38,6 @@ final class NormalizationFieldMapping implements NormalizationFieldMappingInterf
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /**
-     * @deprecated
-     *
-     * @return array<int, string>
-     */
-    public function getGroups(): array
-    {
-        return $this->groups;
     }
 
     public function getFieldNormalizer(): FieldNormalizerInterface

@@ -62,27 +62,6 @@ final class CallbackLinkNormalizerTest extends TestCase
         );
     }
 
-    public function testNormalizeLinkWithNull(): void
-    {
-        $object = new \stdClass();
-
-        /** @var NormalizerContextInterface|MockObject $normalizerContext */
-        $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);
-
-        $linkNormalizer = new CallbackLinkNormalizer(
-            function (
-                string $path,
-                $object,
-                NormalizerContextInterface $context
-            ): void {
-            }
-        );
-
-        self::assertNull(
-            $linkNormalizer->normalizeLink('name', $object, $normalizerContext)
-        );
-    }
-
     public function testNormalizeLinkWithWrongDataType(): void
     {
         $this->expectException(SerializerLogicException::class);

@@ -14,25 +14,25 @@ A simple serialization.
 ## Requirements
 
  * php: ^7.2
- * doctrine/inflector: ^1.0
+ * doctrine/inflector: ^1.0|^2.0
  * psr/http-message: ^1.0.1
  * psr/link: ^1.0
- * psr/log: ^1.1
+ * psr/log: ^1.1.3
 
 ## Suggest
 
- * chubbyphp/chubbyphp-container: ^1.0
- * pimple/pimple: ^3.2.3
+ * chubbyphp/chubbyphp-container: ^1.1
+ * pimple/pimple: ^3.3
  * psr/container: ^1.0
- * symfony/dependency-injection: ^2.8.50|^3.4.26|^4.2.7|^5.0 (symfony integration)
- * symfony/yaml: ^2.8.50|^3.4.26|^4.2.7|^5.0 (application/x-yaml support)
+ * symfony/dependency-injection: ^3.4.42|^4.4.10|^5.0.10 (symfony integration)
+ * symfony/yaml: ^3.4.42|^4.4.10|^5.0.10 (application/x-yaml support)
 
 ## Installation
 
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-serialization][1].
 
 ```sh
-composer require chubbyphp/chubbyphp-serialization "^2.15"
+composer require chubbyphp/chubbyphp-serialization "^3.0"
 ```
 
 ## Usage
@@ -111,11 +111,20 @@ composer require chubbyphp/chubbyphp-serialization "^2.15"
  * [CallableNormalizationObjectMapping][30]
  * [LazyNormalizationObjectMapping][31]
 
+### Policy
+
+* [AndPolicy][32]
+* [CallbackPolicy][33]
+* [GroupPolicy][34]
+* [NotPolicy][35]
+* [NullPolicy][36]
+* [OrPolicy][37]
+
 ### ServiceFactory
 
 #### chubbyphp-container
 
- * [SerializationServiceFactory][32]
+ * [SerializationServiceFactory][38]
 
 #### chubbyphp-laminas-config-factory
 
@@ -126,7 +135,7 @@ composer require chubbyphp/chubbyphp-serialization "^2.15"
 
 ### ServiceProvider
 
-* [SerializationServiceProvider][33]
+* [SerializationServiceProvider][39]
 
 ### Serializer
 
@@ -188,7 +197,7 @@ print_r($data);
 print_r($serializer->getContentTypes());
 //[
 //    'application/json',
-//    'application/x-jsonx',
+//    'application/jsonx+xml',
 //    'application/x-www-form-urlencoded',
 //    'application/xml',
 //    'application/x-yaml'
@@ -252,9 +261,16 @@ Dominik Zogg 2020
 [30]: doc/Mapping/CallableNormalizationObjectMapping.md
 [31]: doc/Mapping/LazyNormalizationObjectMapping.md
 
-[32]: doc/ServiceFactory/SerializationServiceFactory.md
+[32]: doc/Policy/AndPolicy.md
+[33]: doc/Policy/CallbackPolicy.md
+[34]: doc/Policy/GroupPolicy.md
+[35]: doc/Policy/NotPolicy.md
+[36]: doc/Policy/NullPolicy.md
+[37]: doc/Policy/OrPolicy.md
 
-[33]: doc/ServiceProvider/SerializationServiceProvider.md
+[38]: doc/ServiceFactory/SerializationServiceFactory.md
+
+[39]: doc/ServiceProvider/SerializationServiceProvider.md
 
 [40]: doc/ServiceFactory/EncoderFactory.md
 [41]: doc/ServiceFactory/NormalizerFactory.md

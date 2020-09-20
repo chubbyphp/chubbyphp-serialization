@@ -10,14 +10,10 @@ use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 
 interface SerializerInterface extends EncoderInterface, NormalizerInterface
 {
-    /**
-     * @param object $object
-     * @param string $path
-     */
     public function serialize(
-        $object,
+        object $object,
         string $contentType,
         ?NormalizerContextInterface $context = null,
-        $path = ''
+        string $path = ''
     ): string;
 }

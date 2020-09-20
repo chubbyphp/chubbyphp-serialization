@@ -6,7 +6,7 @@ namespace Chubbyphp\Serialization\Link;
 
 use Psr\Link\LinkInterface;
 
-final class LinkBuilder implements LinkBuilderInterface
+final class LinkBuilder
 {
     /**
      * @var string
@@ -19,7 +19,7 @@ final class LinkBuilder implements LinkBuilderInterface
     private $rels;
 
     /**
-     * @var array<mixed>
+     * @var array<string, mixed>
      */
     private $attributes;
 
@@ -27,7 +27,7 @@ final class LinkBuilder implements LinkBuilderInterface
     {
     }
 
-    public static function create(string $href): LinkBuilderInterface
+    public static function create(string $href): self
     {
         $self = new self();
         $self->href = $href;
@@ -40,7 +40,7 @@ final class LinkBuilder implements LinkBuilderInterface
     /**
      * @param array<int, string> $rels
      */
-    public function setRels(array $rels): LinkBuilderInterface
+    public function setRels(array $rels): self
     {
         $this->rels = $rels;
 
@@ -48,9 +48,9 @@ final class LinkBuilder implements LinkBuilderInterface
     }
 
     /**
-     * @param array<mixed> $attributes
+     * @param array<string, mixed> $attributes
      */
-    public function setAttributes(array $attributes): LinkBuilderInterface
+    public function setAttributes(array $attributes): self
     {
         $this->attributes = $attributes;
 

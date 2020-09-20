@@ -25,212 +25,192 @@ final class XmlTypeEncoderTest extends AbstractTypeEncoderTest
      */
     public function testFormat(array $data): void
     {
-        $xmlencoder = new XmlTypeEncoder(true);
-        $xml = $xmlencoder->encode($data);
+        $encoder = new XmlTypeEncoder(true);
+
+        $xml = $encoder->encode($data);
 
         $expectedXml = <<<'EOT'
 <?xml version="1.0" encoding="UTF-8"?>
-<object type="search">
-  <page type="integer">1</page>
-  <perPage type="integer">10</perPage>
-  <search></search>
-  <sort type="string">name</sort>
-  <order type="string">asc</order>
-  <meta-embedded>
-    <mainItem>
-      <object type="item">
-        <id type="string">id1</id>
-        <name type="string">A fäncy Name
-</name>
-        <treeValues>
-          <treeValue key="1">
-            <treeValue type="integer" key="2">3</treeValue>
-          </treeValue>
-        </treeValues>
-        <progress type="float">76.8</progress>
-        <active type="boolean">true</active>
-        <meta-links>
-          <read>
-            <href type="string">http://test.com/items/id1</href>
-            <templated type="boolean">false</templated>
-            <rels></rels>
-            <attributes>
-              <method type="string">GET</method>
-            </attributes>
-          </read>
-          <update>
-            <href type="string">http://test.com/items/id1</href>
-            <templated type="boolean">false</templated>
-            <rels></rels>
-            <attributes>
-              <method type="string">PUT</method>
-            </attributes>
-          </update>
-          <delete>
-            <href type="string">http://test.com/items/id1</href>
-            <templated type="boolean">false</templated>
-            <rels></rels>
-            <attributes>
-              <method type="string">DELETE</method>
-            </attributes>
-          </delete>
-        </meta-links>
-      </object>
-    </mainItem>
-    <items>
-      <object type="item" key="0">
-        <id type="string">id1</id>
-        <name type="string">A fäncy Name
-</name>
-        <treeValues>
-          <treeValue key="1">
-            <treeValue type="integer" key="2">3</treeValue>
-          </treeValue>
-        </treeValues>
-        <progress type="float">76.8</progress>
-        <active type="boolean">true</active>
-        <meta-links>
-          <read>
-            <href type="string">http://test.com/items/id1</href>
-            <templated type="boolean">false</templated>
-            <rels></rels>
-            <attributes>
-              <method type="string">GET</method>
-            </attributes>
-          </read>
-          <update>
-            <href type="string">http://test.com/items/id1</href>
-            <templated type="boolean">false</templated>
-            <rels></rels>
-            <attributes>
-              <method type="string">PUT</method>
-            </attributes>
-          </update>
-          <delete>
-            <href type="string">http://test.com/items/id1</href>
-            <templated type="boolean">false</templated>
-            <rels></rels>
-            <attributes>
-              <method type="string">DELETE</method>
-            </attributes>
-          </delete>
-        </meta-links>
-      </object>
-      <object type="item" key="1">
-        <id type="string">id2</id>
-        <name type="string">B fancy Name</name>
-        <treeValues>
-          <treeValue key="1">
-            <treeValue type="integer" key="2">3</treeValue>
-            <treeValue type="integer" key="3">4</treeValue>
-          </treeValue>
-        </treeValues>
-        <progress type="float">24.7</progress>
-        <active type="boolean">true</active>
-        <meta-links>
-          <read>
-            <href type="string">http://test.com/items/id2</href>
-            <templated type="boolean">false</templated>
-            <rels></rels>
-            <attributes>
-              <method type="string">GET</method>
-            </attributes>
-          </read>
-          <update>
-            <href type="string">http://test.com/items/id2</href>
-            <templated type="boolean">false</templated>
-            <rels></rels>
-            <attributes>
-              <method type="string">PUT</method>
-            </attributes>
-          </update>
-          <delete>
-            <href type="string">http://test.com/items/id2</href>
-            <templated type="boolean">false</templated>
-            <rels></rels>
-            <attributes>
-              <method type="string">DELETE</method>
-            </attributes>
-          </delete>
-        </meta-links>
-      </object>
-      <object type="item" key="2">
-        <id type="string">id3</id>
-        <name type="string">C fancy Name</name>
-        <treeValues>
-          <treeValue key="1">
-            <treeValue type="integer" key="2">3</treeValue>
-            <treeValue type="integer" key="3">4</treeValue>
-            <treeValue type="integer" key="6">7</treeValue>
-          </treeValue>
-        </treeValues>
-        <progress type="float">100.0</progress>
-        <active type="boolean">false</active>
-        <meta-links>
-          <read>
-            <href type="string">http://test.com/items/id3</href>
-            <templated type="boolean">false</templated>
-            <rels></rels>
-            <attributes>
-              <method type="string">GET</method>
-            </attributes>
-          </read>
-          <update>
-            <href type="string">http://test.com/items/id3</href>
-            <templated type="boolean">false</templated>
-            <rels></rels>
-            <attributes>
-              <method type="string">PUT</method>
-            </attributes>
-          </update>
-          <delete>
-            <href type="string">http://test.com/items/id3</href>
-            <templated type="boolean">false</templated>
-            <rels></rels>
-            <attributes>
-              <method type="string">DELETE</method>
-            </attributes>
-          </delete>
-        </meta-links>
-      </object>
-    </items>
-  </meta-embedded>
-  <meta-links>
-    <self>
-      <href type="string"><![CDATA[http://test.com/items/?page=1&perPage=10&sort=name&order=asc]]></href>
-      <method type="string">GET</method>
-    </self>
-    <create>
-      <href type="string">http://test.com/items/</href>
-      <method type="string">POST</method>
-    </create>
-  </meta-links>
-</object>
+<json:object xsi:schemaLocation="http://www.datapower.com/schemas/json jsonx.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:json="http://www.ibm.com/xmlns/prod/2009/jsonx">
+  <json:number name="page">1</json:number>
+  <json:number name="perPage">10</json:number>
+  <json:null name="search"/>
+  <json:string name="sort">name</json:string>
+  <json:string name="order">asc</json:string>
+  <json:object name="_embedded">
+    <json:object name="mainItem">
+      <json:string name="id">id1</json:string>
+      <json:string name="name">A fäncy Name
+</json:string>
+      <json:object name="treeValues">
+        <json:object name="1">
+          <json:number name="2">3</json:number>
+        </json:object>
+      </json:object>
+      <json:number name="progress">76.8</json:number>
+      <json:boolean name="active">true</json:boolean>
+      <json:string name="_type">item</json:string>
+      <json:object name="_links">
+        <json:object name="read">
+          <json:string name="href">http://test.com/items/id1</json:string>
+          <json:boolean name="templated">false</json:boolean>
+          <json:array name="rels"/>
+          <json:object name="attributes">
+            <json:string name="method">GET</json:string>
+          </json:object>
+        </json:object>
+        <json:object name="update">
+          <json:string name="href">http://test.com/items/id1</json:string>
+          <json:boolean name="templated">false</json:boolean>
+          <json:array name="rels"/>
+          <json:object name="attributes">
+            <json:string name="method">PUT</json:string>
+          </json:object>
+        </json:object>
+        <json:object name="delete">
+          <json:string name="href">http://test.com/items/id1</json:string>
+          <json:boolean name="templated">false</json:boolean>
+          <json:array name="rels"/>
+          <json:object name="attributes">
+            <json:string name="method">DELETE</json:string>
+          </json:object>
+        </json:object>
+      </json:object>
+    </json:object>
+    <json:array name="items">
+      <json:object>
+        <json:string name="id">id1</json:string>
+        <json:string name="name">A fäncy Name
+</json:string>
+        <json:object name="treeValues">
+          <json:object name="1">
+            <json:number name="2">3</json:number>
+          </json:object>
+        </json:object>
+        <json:number name="progress">76.8</json:number>
+        <json:boolean name="active">true</json:boolean>
+        <json:string name="_type">item</json:string>
+        <json:object name="_links">
+          <json:object name="read">
+            <json:string name="href">http://test.com/items/id1</json:string>
+            <json:boolean name="templated">false</json:boolean>
+            <json:array name="rels"/>
+            <json:object name="attributes">
+              <json:string name="method">GET</json:string>
+            </json:object>
+          </json:object>
+          <json:object name="update">
+            <json:string name="href">http://test.com/items/id1</json:string>
+            <json:boolean name="templated">false</json:boolean>
+            <json:array name="rels"/>
+            <json:object name="attributes">
+              <json:string name="method">PUT</json:string>
+            </json:object>
+          </json:object>
+          <json:object name="delete">
+            <json:string name="href">http://test.com/items/id1</json:string>
+            <json:boolean name="templated">false</json:boolean>
+            <json:array name="rels"/>
+            <json:object name="attributes">
+              <json:string name="method">DELETE</json:string>
+            </json:object>
+          </json:object>
+        </json:object>
+      </json:object>
+      <json:object>
+        <json:string name="id">id2</json:string>
+        <json:string name="name">B fancy Name</json:string>
+        <json:object name="treeValues">
+          <json:object name="1">
+            <json:number name="2">3</json:number>
+            <json:number name="3">4</json:number>
+          </json:object>
+        </json:object>
+        <json:number name="progress">24.7</json:number>
+        <json:boolean name="active">true</json:boolean>
+        <json:string name="_type">item</json:string>
+        <json:object name="_links">
+          <json:object name="read">
+            <json:string name="href">http://test.com/items/id2</json:string>
+            <json:boolean name="templated">false</json:boolean>
+            <json:array name="rels"/>
+            <json:object name="attributes">
+              <json:string name="method">GET</json:string>
+            </json:object>
+          </json:object>
+          <json:object name="update">
+            <json:string name="href">http://test.com/items/id2</json:string>
+            <json:boolean name="templated">false</json:boolean>
+            <json:array name="rels"/>
+            <json:object name="attributes">
+              <json:string name="method">PUT</json:string>
+            </json:object>
+          </json:object>
+          <json:object name="delete">
+            <json:string name="href">http://test.com/items/id2</json:string>
+            <json:boolean name="templated">false</json:boolean>
+            <json:array name="rels"/>
+            <json:object name="attributes">
+              <json:string name="method">DELETE</json:string>
+            </json:object>
+          </json:object>
+        </json:object>
+      </json:object>
+      <json:object>
+        <json:string name="id">id3</json:string>
+        <json:string name="name">C fancy Name</json:string>
+        <json:object name="treeValues">
+          <json:object name="1">
+            <json:number name="2">3</json:number>
+            <json:number name="3">4</json:number>
+            <json:number name="6">7</json:number>
+          </json:object>
+        </json:object>
+        <json:number name="progress">100</json:number>
+        <json:boolean name="active">false</json:boolean>
+        <json:string name="_type">item</json:string>
+        <json:object name="_links">
+          <json:object name="read">
+            <json:string name="href">http://test.com/items/id3</json:string>
+            <json:boolean name="templated">false</json:boolean>
+            <json:array name="rels"/>
+            <json:object name="attributes">
+              <json:string name="method">GET</json:string>
+            </json:object>
+          </json:object>
+          <json:object name="update">
+            <json:string name="href">http://test.com/items/id3</json:string>
+            <json:boolean name="templated">false</json:boolean>
+            <json:array name="rels"/>
+            <json:object name="attributes">
+              <json:string name="method">PUT</json:string>
+            </json:object>
+          </json:object>
+          <json:object name="delete">
+            <json:string name="href">http://test.com/items/id3</json:string>
+            <json:boolean name="templated">false</json:boolean>
+            <json:array name="rels"/>
+            <json:object name="attributes">
+              <json:string name="method">DELETE</json:string>
+            </json:object>
+          </json:object>
+        </json:object>
+      </json:object>
+    </json:array>
+  </json:object>
+  <json:object name="_links">
+    <json:object name="self">
+      <json:string name="href">http://test.com/items/?page=1&amp;perPage=10&amp;sort=name&amp;order=asc</json:string>
+      <json:string name="method">GET</json:string>
+    </json:object>
+    <json:object name="create">
+      <json:string name="href">http://test.com/items/</json:string>
+      <json:string name="method">POST</json:string>
+    </json:object>
+  </json:object>
+  <json:string name="_type">search</json:string>
+</json:object>
 EOT;
-
         self::assertEquals($expectedXml, $xml);
-    }
-
-    public function testFormatFormatWithoutType(): void
-    {
-        $expectedXml = <<<'EOT'
-<?xml version="1.0" encoding="UTF-8"?>
-<object>
-  <key type="string">value</key>
-</object>
-EOT;
-
-        $xmlencoder = new XmlTypeEncoder(true);
-
-        self::assertSame($expectedXml, $xmlencoder->encode(['key' => 'value']));
-    }
-
-    public function testInvalidValueAsString(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unsupported data type: object');
-
-        $xmlencoder = new XmlTypeEncoder(true);
-        $xmlencoder->encode(['key' => new \stdClass()]);
     }
 }

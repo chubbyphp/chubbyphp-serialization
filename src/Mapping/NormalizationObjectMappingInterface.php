@@ -8,10 +8,7 @@ interface NormalizationObjectMappingInterface
 {
     public function getClass(): string;
 
-    /**
-     * @return string|null
-     */
-    public function getNormalizationType();
+    public function getNormalizationType(): ?string;
 
     /**
      * @return array<int, NormalizationFieldMappingInterface>

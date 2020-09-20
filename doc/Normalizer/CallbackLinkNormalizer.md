@@ -14,7 +14,7 @@ $context = ...;
 $fieldNormalizer = new CallbackLinkNormalizer(
     function (
         string $path,
-        $object,
+        object $object,
         NormalizerContextInterface $context
     ) {
         return new Link('/api/model');
