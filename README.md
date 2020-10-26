@@ -2,10 +2,23 @@
 
 [![Build Status](https://api.travis-ci.org/chubbyphp/chubbyphp-serialization.png?branch=master)](https://travis-ci.org/chubbyphp/chubbyphp-serialization)
 [![Coverage Status](https://coveralls.io/repos/github/chubbyphp/chubbyphp-serialization/badge.svg?branch=master)](https://coveralls.io/github/chubbyphp/chubbyphp-serialization?branch=master)
+[![Infection MSI](https://badge.stryker-mutator.io/github.com/chubbyphp/chubbyphp-serialization/master)](https://travis-ci.org/chubbyphp/chubbyphp-serialization)
 [![Latest Stable Version](https://poser.pugx.org/chubbyphp/chubbyphp-serialization/v/stable.png)](https://packagist.org/packages/chubbyphp/chubbyphp-serialization)
 [![Total Downloads](https://poser.pugx.org/chubbyphp/chubbyphp-serialization/downloads.png)](https://packagist.org/packages/chubbyphp/chubbyphp-serialization)
 [![Monthly Downloads](https://poser.pugx.org/chubbyphp/chubbyphp-serialization/d/monthly)](https://packagist.org/packages/chubbyphp/chubbyphp-serialization)
-[![Daily Downloads](https://poser.pugx.org/chubbyphp/chubbyphp-serialization/d/daily)](https://packagist.org/packages/chubbyphp/chubbyphp-serialization)
+
+[![bugs](https://sonarcloud.io/api/project_badges/measure?project=chubbyphp_chubbyphp-serialization&metric=bugs)](https://sonarcloud.io/dashboard?id=chubbyphp_chubbyphp-serialization)
+[![code_smells](https://sonarcloud.io/api/project_badges/measure?project=chubbyphp_chubbyphp-serialization&metric=code_smells)](https://sonarcloud.io/dashboard?id=chubbyphp_chubbyphp-serialization)
+[![coverage](https://sonarcloud.io/api/project_badges/measure?project=chubbyphp_chubbyphp-serialization&metric=coverage)](https://sonarcloud.io/dashboard?id=chubbyphp_chubbyphp-serialization)
+[![duplicated_lines_density](https://sonarcloud.io/api/project_badges/measure?project=chubbyphp_chubbyphp-serialization&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=chubbyphp_chubbyphp-serialization)
+[![ncloc](https://sonarcloud.io/api/project_badges/measure?project=chubbyphp_chubbyphp-serialization&metric=ncloc)](https://sonarcloud.io/dashboard?id=chubbyphp_chubbyphp-serialization)
+[![sqale_rating](https://sonarcloud.io/api/project_badges/measure?project=chubbyphp_chubbyphp-serialization&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=chubbyphp_chubbyphp-serialization)
+[![alert_status](https://sonarcloud.io/api/project_badges/measure?project=chubbyphp_chubbyphp-serialization&metric=alert_status)](https://sonarcloud.io/dashboard?id=chubbyphp_chubbyphp-serialization)
+[![reliability_rating](https://sonarcloud.io/api/project_badges/measure?project=chubbyphp_chubbyphp-serialization&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=chubbyphp_chubbyphp-serialization)
+[![security_rating](https://sonarcloud.io/api/project_badges/measure?project=chubbyphp_chubbyphp-serialization&metric=security_rating)](https://sonarcloud.io/dashboard?id=chubbyphp_chubbyphp-serialization)
+[![sqale_index](https://sonarcloud.io/api/project_badges/measure?project=chubbyphp_chubbyphp-serialization&metric=sqale_index)](https://sonarcloud.io/dashboard?id=chubbyphp_chubbyphp-serialization)
+[![vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=chubbyphp_chubbyphp-serialization&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=chubbyphp_chubbyphp-serialization)
+
 
 ## Description
 
@@ -13,7 +26,7 @@ A simple serialization.
 
 ## Requirements
 
- * php: ^7.2
+ * php: ^7.2|^8.0
  * doctrine/inflector: ^1.0|^2.0
  * psr/http-message: ^1.0.1
  * psr/link: ^1.0
