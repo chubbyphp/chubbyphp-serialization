@@ -36,8 +36,7 @@
         "symfony/yaml": "^3.4.42|^4.4.10|^5.0.10"
     },
     "conflict": {
-        "composer/composer": "<1.10.16",
-        "ocramius/package-versions": ">=1.10"
+        "composer/composer": "<1.10.16"
     },
     "autoload": {
         "psr-4": { "Chubbyphp\\Serialization\\": "src/" }
