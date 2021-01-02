@@ -11,12 +11,9 @@ final class NormalizerContextBuilder
     /**
      * @var array<string, mixed>
      */
-    private $attributes = [];
+    private array $attributes = [];
 
-    /**
-     * @var ServerRequestInterface|null
-     */
-    private $request;
+    private ?ServerRequestInterface $request = null;
 
     private function __construct()
     {

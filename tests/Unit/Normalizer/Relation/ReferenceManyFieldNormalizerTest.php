@@ -115,10 +115,7 @@ final class ReferenceManyFieldNormalizerTest extends TestCase
     private function getParent()
     {
         return new class() {
-            /**
-             * @var array|null
-             */
-            private $children;
+            private ?array $children = null;
 
             /**
              * @return array
@@ -143,10 +140,7 @@ final class ReferenceManyFieldNormalizerTest extends TestCase
     private function getChild(string $id = null)
     {
         return new class($id ?? uniqid()) {
-            /**
-             * @var string
-             */
-            private $id;
+            private string $id;
 
             public function __construct(string $id)
             {

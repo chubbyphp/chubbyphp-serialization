@@ -12,15 +12,9 @@ use Chubbyphp\Serialization\SerializerLogicException;
 
 final class ReferenceOneFieldNormalizer implements FieldNormalizerInterface
 {
-    /**
-     * @var AccessorInterface
-     */
-    private $identifierAccessor;
+    private AccessorInterface $identifierAccessor;
 
-    /**
-     * @var AccessorInterface
-     */
-    private $accessor;
+    private AccessorInterface $accessor;
 
     public function __construct(AccessorInterface $identifierAccessor, AccessorInterface $accessor)
     {

@@ -28,14 +28,7 @@ final class CallbackFieldNormalizerTest extends TestCase
         $object = new \stdClass();
 
         $fieldNormalizer = new CallbackFieldNormalizer(
-            function (
-                string $path,
-                $object,
-                NormalizerContextInterface $context,
-                NormalizerInterface $normalizer = null
-            ) {
-                return 'name';
-            }
+            fn (string $path, $object, NormalizerContextInterface $context, NormalizerInterface $normalizer = null) => 'name'
         );
 
         self::assertSame('name', $fieldNormalizer->normalizeField('name', $object, $normalizerContext));

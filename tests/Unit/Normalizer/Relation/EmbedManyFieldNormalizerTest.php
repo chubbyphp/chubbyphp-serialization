@@ -143,10 +143,7 @@ final class EmbedManyFieldNormalizerTest extends TestCase
     private function getParent()
     {
         return new class() {
-            /**
-             * @var array|null
-             */
-            private $children;
+            private ?array $children = null;
 
             /**
              * @return array
@@ -171,10 +168,7 @@ final class EmbedManyFieldNormalizerTest extends TestCase
     private function getChild()
     {
         return new class() {
-            /**
-             * @var string
-             */
-            private $name;
+            private ?string $name = null;
 
             public function getName(): string
             {

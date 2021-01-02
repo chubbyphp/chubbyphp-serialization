@@ -26,7 +26,7 @@ A simple serialization.
 
 ## Requirements
 
- * php: ^7.2|^8.0
+ * php: ^7.4|^8.0
  * doctrine/inflector: ^1.0|^2.0
  * psr/http-message: ^1.0.1
  * psr/link: ^1.0
@@ -45,7 +45,7 @@ A simple serialization.
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-serialization][1].
 
 ```sh
-composer require chubbyphp/chubbyphp-serialization "^3.0"
+composer require chubbyphp/chubbyphp-serialization "^3.1"
 ```
 
 ## Usage

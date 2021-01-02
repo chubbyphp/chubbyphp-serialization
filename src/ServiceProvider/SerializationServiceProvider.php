@@ -15,31 +15,19 @@ final class SerializationServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $container): void
     {
-        $container['serializer'] = static function () use ($container) {
-            return new Serializer($container['serializer.normalizer'], $container['serializer.encoder']);
-        };
+        $container['serializer'] = static fn () => new Serializer($container['serializer.normalizer'], $container['serializer.encoder']);
 
-        $container['serializer.normalizer'] = static function () use ($container) {
-            return new Normalizer(
-                $container['serializer.normalizer.objectmappingregistry'],
-                $container['logger'] ?? null
-            );
-        };
+        $container['serializer.normalizer'] = static fn () => new Normalizer(
+            $container['serializer.normalizer.objectmappingregistry'],
+            $container['logger'] ?? null
+        );
 
-        $container['serializer.normalizer.objectmappingregistry'] = static function () use ($container) {
-            return new NormalizerObjectMappingRegistry($container['serializer.normalizer.objectmappings']);
-        };
+        $container['serializer.normalizer.objectmappingregistry'] = static fn () => new NormalizerObjectMappingRegistry($container['serializer.normalizer.objectmappings']);
 
-        $container['serializer.normalizer.objectmappings'] = static function () {
-            return [];
-        };
+        $container['serializer.normalizer.objectmappings'] = static fn () => [];
 
-        $container['serializer.encoder'] = static function () use ($container) {
-            return new Encoder($container['serializer.encodertypes']);
-        };
+        $container['serializer.encoder'] = static fn () => new Encoder($container['serializer.encodertypes']);
 
-        $container['serializer.encodertypes'] = static function () {
-            return [];
-        };
+        $container['serializer.encodertypes'] = static fn () => [];
     }
 }

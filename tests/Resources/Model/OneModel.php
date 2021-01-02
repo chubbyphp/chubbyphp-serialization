@@ -6,15 +6,9 @@ namespace Chubbyphp\Tests\Serialization\Resources\Model;
 
 final class OneModel
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private ?string $name = null;
 
-    /**
-     * @var string
-     */
-    private $value;
+    private ?string $value = null;
 
     public function getName(): string
     {

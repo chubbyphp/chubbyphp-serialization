@@ -67,9 +67,7 @@ final class SerializationServiceFactoryTest extends TestCase
         $logger = $this->getMockByCalls(LoggerInterface::class);
 
         $container = new Container([
-            'logger' => static function () use ($logger) {
-                return $logger;
-            },
+            'logger' => static fn () => $logger,
         ]);
 
         $container->factories((new SerializationServiceFactory())());

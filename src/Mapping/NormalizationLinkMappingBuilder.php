@@ -13,20 +13,14 @@ use Psr\Link\LinkInterface;
 
 final class NormalizationLinkMappingBuilder
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
     /**
      * @var LinkNormalizerInterface
      */
     private $linkNormalizer;
 
-    /**
-     * @var PolicyInterface|null
-     */
-    private $policy;
+    private ?PolicyInterface $policy = null;
 
     private function __construct(string $name)
     {

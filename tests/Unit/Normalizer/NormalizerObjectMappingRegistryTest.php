@@ -78,10 +78,7 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
     private function getObject()
     {
         return new class() {
-            /**
-             * @var string
-             */
-            private $name;
+            private ?string $name = null;
 
             /**
              * @return string|null

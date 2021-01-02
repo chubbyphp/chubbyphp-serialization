@@ -6,35 +6,20 @@ namespace Chubbyphp\Tests\Serialization\Resources\Model;
 
 final class Model
 {
-    /**
-     * @var string
-     */
-    private $id;
+    private string $id;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private ?string $name = null;
 
-    /**
-     * @var string
-     */
-    private $additionalInfo;
+    private ?string $additionalInfo = null;
 
-    /**
-     * @var string
-     */
-    private $hiddenProperty;
+    private string $hiddenProperty;
 
-    /**
-     * @var OneModel|null
-     */
-    private $one;
+    private ?OneModel $one = null;
 
     /**
      * @var AbstractManyModel[]
      */
-    private $manies;
+    private ?array $manies = null;
 
     public function __construct()
     {

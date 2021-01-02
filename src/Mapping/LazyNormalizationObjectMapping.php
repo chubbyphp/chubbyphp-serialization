@@ -8,20 +8,11 @@ use Psr\Container\ContainerInterface;
 
 final class LazyNormalizationObjectMapping implements NormalizationObjectMappingInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
+    private ContainerInterface $container;
 
-    /**
-     * @var string
-     */
-    private $serviceId;
+    private string $serviceId;
 
-    /**
-     * @var string
-     */
-    private $class;
+    private string $class;
 
     public function __construct(ContainerInterface $container, string $serviceId, string $class)
     {

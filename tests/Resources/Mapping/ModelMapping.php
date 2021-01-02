@@ -40,9 +40,7 @@ final class ModelMapping implements NormalizationObjectMappingInterface
                 ->setPolicy(new AndPolicy([
                     new NullPolicy(),
                     new OrPolicy([
-                        new CallbackPolicy(function () {
-                            return false;
-                        }),
+                        new CallbackPolicy(fn () => false),
                         new NullPolicy(),
                     ]),
                 ]))
@@ -57,9 +55,7 @@ final class ModelMapping implements NormalizationObjectMappingInterface
                 ->setPolicy(new AndPolicy([
                     new NullPolicy(),
                     new OrPolicy([
-                        new CallbackPolicy(function () {
-                            return false;
-                        }),
+                        new CallbackPolicy(fn () => false),
                     ]),
                 ]))
                 ->getMapping(),
@@ -85,14 +81,11 @@ final class ModelMapping implements NormalizationObjectMappingInterface
             new NormalizationLinkMapping(
                 'self',
                 new CallbackLinkNormalizer(
-                    function (string $path, Model $model) {
-                        return LinkBuilder::create('/api/model/'.$model->getId())
-                            ->setAttributes([
-                                'method' => 'GET',
-                            ])
-                            ->getLink()
-                        ;
-                    }
+                    fn (string $path, Model $model) => LinkBuilder::create('/api/model/'.$model->getId())
+                        ->setAttributes([
+                            'method' => 'GET',
+                        ])
+                        ->getLink()
                 )
             ),
         ];

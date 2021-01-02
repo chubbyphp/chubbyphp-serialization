@@ -13,15 +13,9 @@ use Psr\Log\NullLogger;
 
 final class Normalizer implements NormalizerInterface
 {
-    /**
-     * @var NormalizerObjectMappingRegistryInterface
-     */
-    private $normalizerObjectMappingRegistry;
+    private NormalizerObjectMappingRegistryInterface $normalizerObjectMappingRegistry;
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         NormalizerObjectMappingRegistryInterface $normalizerObjectMappingRegistry,
@@ -41,7 +35,7 @@ final class Normalizer implements NormalizerInterface
         ?NormalizerContextInterface $context = null,
         string $path = ''
     ): array {
-        $context = $context ?? NormalizerContextBuilder::create()->getContext();
+        $context ??= NormalizerContextBuilder::create()->getContext();
 
         $class = get_class($object);
         $objectMapping = $this->getObjectMapping($class);

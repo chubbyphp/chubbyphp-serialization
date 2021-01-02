@@ -8,15 +8,12 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class NormalizerContext implements NormalizerContextInterface
 {
-    /**
-     * @var ServerRequestInterface|null
-     */
-    private $request;
+    private ?ServerRequestInterface $request = null;
 
     /**
      * @var array<string, mixed>
      */
-    private $attributes;
+    private array $attributes;
 
     /**
      * @param array<string, mixed> $attributes

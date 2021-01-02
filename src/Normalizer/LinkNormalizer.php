@@ -9,10 +9,7 @@ use Psr\Link\LinkInterface;
 
 final class LinkNormalizer implements LinkNormalizerInterface
 {
-    /**
-     * @var LinkInterface
-     */
-    private $link;
+    private LinkInterface $link;
 
     public function __construct(LinkInterface $link)
     {

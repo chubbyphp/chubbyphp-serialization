@@ -6,15 +6,9 @@ namespace Chubbyphp\Tests\Serialization\Resources\Model;
 
 abstract class AbstractManyModel
 {
-    /**
-     * @var string
-     */
-    protected $name;
+    protected ?string $name = null;
 
-    /**
-     * @var string
-     */
-    private $address;
+    private ?string $address = null;
 
     public function getName(): string
     {

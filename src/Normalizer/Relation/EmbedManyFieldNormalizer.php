@@ -12,10 +12,7 @@ use Chubbyphp\Serialization\SerializerLogicException;
 
 final class EmbedManyFieldNormalizer implements FieldNormalizerInterface
 {
-    /**
-     * @var AccessorInterface
-     */
-    private $accessor;
+    private AccessorInterface $accessor;
 
     public function __construct(AccessorInterface $accessor)
     {

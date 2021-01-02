@@ -236,15 +236,9 @@ final class NormalizerTest extends TestCase
     private function getObject()
     {
         return new class() {
-            /**
-             * @var string
-             */
-            private $id = 'id1';
+            private string $id = 'id1';
 
-            /**
-             * @var string
-             */
-            private $name;
+            private ?string $name = null;
 
             public function getId(): string
             {

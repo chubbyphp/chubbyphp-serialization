@@ -18,30 +18,18 @@ final class SerializationServiceFactory
     public function __invoke(): array
     {
         return [
-            'serializer' => static function (ContainerInterface $container) {
-                return new Serializer(
-                    $container->get('serializer.normalizer'),
-                    $container->get('serializer.encoder')
-                );
-            },
-            'serializer.normalizer' => static function (ContainerInterface $container) {
-                return new Normalizer(
-                    $container->get('serializer.normalizer.objectmappingregistry'),
-                    $container->has('logger') ? $container->get('logger') : null
-                );
-            },
-            'serializer.normalizer.objectmappingregistry' => static function (ContainerInterface $container) {
-                return new NormalizerObjectMappingRegistry($container->get('serializer.normalizer.objectmappings'));
-            },
-            'serializer.normalizer.objectmappings' => static function () {
-                return [];
-            },
-            'serializer.encoder' => static function (ContainerInterface $container) {
-                return new Encoder($container->get('serializer.encodertypes'));
-            },
-            'serializer.encodertypes' => static function () {
-                return [];
-            },
+            'serializer' => static fn (ContainerInterface $container) => new Serializer(
+                $container->get('serializer.normalizer'),
+                $container->get('serializer.encoder')
+            ),
+            'serializer.normalizer' => static fn (ContainerInterface $container) => new Normalizer(
+                $container->get('serializer.normalizer.objectmappingregistry'),
+                $container->has('logger') ? $container->get('logger') : null
+            ),
+            'serializer.normalizer.objectmappingregistry' => static fn (ContainerInterface $container) => new NormalizerObjectMappingRegistry($container->get('serializer.normalizer.objectmappings')),
+            'serializer.normalizer.objectmappings' => static fn () => [],
+            'serializer.encoder' => static fn (ContainerInterface $container) => new Encoder($container->get('serializer.encodertypes')),
+            'serializer.encodertypes' => static fn () => [],
         ];
     }
 }

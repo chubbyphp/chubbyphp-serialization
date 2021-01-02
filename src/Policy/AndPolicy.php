@@ -11,7 +11,7 @@ final class AndPolicy implements PolicyInterface
     /**
      * @var array<int, PolicyInterface>
      */
-    private $policies;
+    private array $policies;
 
     /**
      * @param array<int, PolicyInterface> $policies

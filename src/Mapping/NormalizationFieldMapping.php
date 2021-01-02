@@ -10,20 +10,11 @@ use Chubbyphp\Serialization\Policy\PolicyInterface;
 
 final class NormalizationFieldMapping implements NormalizationFieldMappingInterface
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var FieldNormalizerInterface
-     */
-    private $fieldNormalizer;
+    private FieldNormalizerInterface $fieldNormalizer;
 
-    /**
-     * @var PolicyInterface
-     */
-    private $policy;
+    private PolicyInterface $policy;
 
     public function __construct(
         string $name,

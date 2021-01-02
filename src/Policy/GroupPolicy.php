@@ -15,7 +15,7 @@ final class GroupPolicy implements PolicyInterface
     /**
      * @var array<int, string>
      */
-    private $groups;
+    private array $groups;
 
     /**
      * @param array<int, string> $groups

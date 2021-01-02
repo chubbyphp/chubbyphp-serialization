@@ -12,7 +12,7 @@ final class NormalizerObjectMappingRegistry implements NormalizerObjectMappingRe
     /**
      * @var array<string, NormalizationObjectMappingInterface>
      */
-    private $objectMappings;
+    private array $objectMappings;
 
     /**
      * @param array<int, NormalizationObjectMappingInterface> $objectMappings
@@ -26,6 +26,8 @@ final class NormalizerObjectMappingRegistry implements NormalizerObjectMappingRe
     }
 
     /**
+     * @param class-string $class
+     *
      * @throws SerializerLogicException
      */
     public function getObjectMapping(string $class): NormalizationObjectMappingInterface

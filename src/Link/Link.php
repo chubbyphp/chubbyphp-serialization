@@ -8,20 +8,17 @@ use Psr\Link\LinkInterface;
 
 final class Link implements LinkInterface
 {
-    /**
-     * @var string
-     */
-    private $href;
+    private string $href;
 
     /**
      * @var array<int, string>
      */
-    private $rels;
+    private array $rels;
 
     /**
      * @var array<string, mixed>
      */
-    private $attributes;
+    private array $attributes;
 
     /**
      * @param array<int, string>   $rels

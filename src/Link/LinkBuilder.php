@@ -8,20 +8,17 @@ use Psr\Link\LinkInterface;
 
 final class LinkBuilder
 {
-    /**
-     * @var string
-     */
-    private $href;
+    private ?string $href = null;
 
     /**
      * @var array<int, string>
      */
-    private $rels;
+    private ?array $rels = null;
 
     /**
      * @var array<string, mixed>
      */
-    private $attributes;
+    private ?array $attributes = null;
 
     private function __construct()
     {

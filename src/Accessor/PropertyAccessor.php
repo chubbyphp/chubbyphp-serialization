@@ -9,10 +9,7 @@ use Doctrine\Persistence\Proxy;
 
 final class PropertyAccessor implements AccessorInterface
 {
-    /**
-     * @var string
-     */
-    private $property;
+    private string $property;
 
     public function __construct(string $property)
     {
@@ -31,9 +28,7 @@ final class PropertyAccessor implements AccessorInterface
         }
 
         $getter = \Closure::bind(
-            function ($property) {
-                return $this->{$property};
-            },
+            fn ($property) => $this->{$property},
             $object,
             $class
         );

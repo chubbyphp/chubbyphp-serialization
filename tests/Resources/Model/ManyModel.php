@@ -6,10 +6,7 @@ namespace Chubbyphp\Tests\Serialization\Resources\Model;
 
 final class ManyModel extends AbstractManyModel
 {
-    /**
-     * @var string
-     */
-    private $value;
+    private ?string $value = null;
 
     public function getValue(): string
     {

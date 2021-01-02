@@ -16,10 +16,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     public const DATATYPE_NUMBER = 'number';
     public const DATATYPE_NULL = 'null';
 
-    /**
-     * @var bool
-     */
-    private $prettyPrint;
+    private bool $prettyPrint;
 
     public function __construct(bool $prettyPrint = false)
     {

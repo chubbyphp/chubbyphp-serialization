@@ -11,7 +11,7 @@ final class Encoder implements EncoderInterface
     /**
      * @var array<string, TypeEncoderInterface>
      */
-    private $encoderTypes;
+    private array $encoderTypes;
 
     /**
      * @param array<int, TypeEncoderInterface> $encoderTypes

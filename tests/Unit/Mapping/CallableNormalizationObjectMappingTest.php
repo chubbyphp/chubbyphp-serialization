@@ -30,11 +30,9 @@ final class CallableNormalizationObjectMappingTest extends TestCase
 
     public function testGetNormalizationType(): void
     {
-        $mapping = new CallableNormalizationObjectMapping(\stdClass::class, function () {
-            return $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
-                Call::create('getNormalizationType')->with()->willReturn('type'),
-            ]);
-        });
+        $mapping = new CallableNormalizationObjectMapping(\stdClass::class, fn () => $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
+            Call::create('getNormalizationType')->with()->willReturn('type'),
+        ]));
 
         self::assertSame('type', $mapping->getNormalizationType());
     }
@@ -43,11 +41,9 @@ final class CallableNormalizationObjectMappingTest extends TestCase
     {
         $fieldMapping = $this->getMockByCalls(NormalizationFieldMappingInterface::class);
 
-        $mapping = new CallableNormalizationObjectMapping(\stdClass::class, function () use ($fieldMapping) {
-            return $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
-                Call::create('getNormalizationFieldMappings')->with('path')->willReturn([$fieldMapping]),
-            ]);
-        });
+        $mapping = new CallableNormalizationObjectMapping(\stdClass::class, fn () => $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
+            Call::create('getNormalizationFieldMappings')->with('path')->willReturn([$fieldMapping]),
+        ]));
 
         self::assertSame($fieldMapping, $mapping->getNormalizationFieldMappings('path')[0]);
     }
@@ -56,11 +52,9 @@ final class CallableNormalizationObjectMappingTest extends TestCase
     {
         $fieldMapping = $this->getMockByCalls(NormalizationFieldMappingInterface::class);
 
-        $mapping = new CallableNormalizationObjectMapping(\stdClass::class, function () use ($fieldMapping) {
-            return $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
-                Call::create('getNormalizationEmbeddedFieldMappings')->with('path')->willReturn([$fieldMapping]),
-            ]);
-        });
+        $mapping = new CallableNormalizationObjectMapping(\stdClass::class, fn () => $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
+            Call::create('getNormalizationEmbeddedFieldMappings')->with('path')->willReturn([$fieldMapping]),
+        ]));
 
         self::assertSame($fieldMapping, $mapping->getNormalizationEmbeddedFieldMappings('path')[0]);
     }
@@ -69,11 +63,9 @@ final class CallableNormalizationObjectMappingTest extends TestCase
     {
         $linkMapping = $this->getMockByCalls(NormalizationLinkMappingInterface::class);
 
-        $mapping = new CallableNormalizationObjectMapping(\stdClass::class, function () use ($linkMapping) {
-            return $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
-                Call::create('getNormalizationLinkMappings')->with('path')->willReturn([$linkMapping]),
-            ]);
-        });
+        $mapping = new CallableNormalizationObjectMapping(\stdClass::class, fn () => $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
+            Call::create('getNormalizationLinkMappings')->with('path')->willReturn([$linkMapping]),
+        ]));
 
         self::assertSame($linkMapping, $mapping->getNormalizationLinkMappings('path')[0]);
     }

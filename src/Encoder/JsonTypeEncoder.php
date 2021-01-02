@@ -6,10 +6,7 @@ namespace Chubbyphp\Serialization\Encoder;
 
 final class JsonTypeEncoder implements TypeEncoderInterface
 {
-    /**
-     * @var bool
-     */
-    private $prettyPrint;
+    private bool $prettyPrint;
 
     public function __construct(bool $prettyPrint = false)
     {
