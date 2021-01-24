@@ -23,7 +23,7 @@ final class CallableNormalizationObjectMappingTest extends TestCase
 
     public function testGetClass(): void
     {
-        $mapping = new CallableNormalizationObjectMapping(\stdClass::class, function (): void {});
+        $mapping = new CallableNormalizationObjectMapping(\stdClass::class, static function (): void {});
 
         self::assertSame(\stdClass::class, $mapping->getClass());
     }

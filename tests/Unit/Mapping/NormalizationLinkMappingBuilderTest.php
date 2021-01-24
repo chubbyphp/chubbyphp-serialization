@@ -38,7 +38,7 @@ final class NormalizationLinkMappingBuilderTest extends TestCase
 
     public function testGetDefaultMappingForCallback(): void
     {
-        $linkMapping = NormalizationLinkMappingBuilder::createCallback('name', function (): void {})->getMapping();
+        $linkMapping = NormalizationLinkMappingBuilder::createCallback('name', static function (): void {})->getMapping();
 
         self::assertSame('name', $linkMapping->getName());
         self::assertInstanceOf(CallbackLinkNormalizer::class, $linkMapping->getLinkNormalizer());

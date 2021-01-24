@@ -51,7 +51,7 @@ final class NormalizationFieldMappingBuilderTest extends TestCase
 
     public function testGetDefaultMappingForCallback(): void
     {
-        $fieldMapping = NormalizationFieldMappingBuilder::createCallback('name', function (): void {})->getMapping();
+        $fieldMapping = NormalizationFieldMappingBuilder::createCallback('name', static function (): void {})->getMapping();
 
         self::assertSame('name', $fieldMapping->getName());
         self::assertInstanceOf(CallbackFieldNormalizer::class, $fieldMapping->getFieldNormalizer());

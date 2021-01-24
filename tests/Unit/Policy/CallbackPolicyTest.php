@@ -29,7 +29,7 @@ final class CallbackPolicyTest extends TestCase
         $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
 
         $policy = new CallbackPolicy(
-            function ($pathParameter, $objectParameter, $contextParameter) use ($path, $object, $context) {
+            static function ($pathParameter, $objectParameter, $contextParameter) use ($path, $object, $context) {
                 self::assertSame($context, $contextParameter);
                 self::assertSame($object, $objectParameter);
                 self::assertSame($path, $pathParameter);
@@ -51,7 +51,7 @@ final class CallbackPolicyTest extends TestCase
         $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
 
         $policy = new CallbackPolicy(
-            function ($pathParameter, $objectParameter, $contextParameter) use ($path, $object, $context) {
+            static function ($pathParameter, $objectParameter, $contextParameter) use ($path, $object, $context) {
                 self::assertSame($context, $contextParameter);
                 self::assertSame($object, $objectParameter);
                 self::assertSame($path, $pathParameter);

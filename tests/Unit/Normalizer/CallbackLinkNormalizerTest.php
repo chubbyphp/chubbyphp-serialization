@@ -38,7 +38,7 @@ final class CallbackLinkNormalizerTest extends TestCase
         $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $linkNormalizer = new CallbackLinkNormalizer(
-            fn (string $path, $object, NormalizerContextInterface $context) => $link
+            static fn (string $path, $object, NormalizerContextInterface $context) => $link
         );
 
         self::assertEquals(
@@ -69,7 +69,7 @@ final class CallbackLinkNormalizerTest extends TestCase
         $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $linkNormalizer = new CallbackLinkNormalizer(
-            fn (string $path, $object, NormalizerContextInterface $context) => 'test'
+            static fn (string $path, $object, NormalizerContextInterface $context) => 'test'
         );
 
         $linkNormalizer->normalizeLink('name', $object, $normalizerContext);
