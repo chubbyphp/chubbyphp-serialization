@@ -1,8 +1,8 @@
 # chubbyphp-serialization
 
-[![Build Status](https://api.travis-ci.org/chubbyphp/chubbyphp-serialization.png?branch=master)](https://travis-ci.org/chubbyphp/chubbyphp-serialization)
+[![CI](https://github.com/chubbyphp/chubbyphp-serialization/workflows/CI/badge.svg?branch=master)](https://github.com/chubbyphp/chubbyphp-serialization/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/chubbyphp/chubbyphp-serialization/badge.svg?branch=master)](https://coveralls.io/github/chubbyphp/chubbyphp-serialization?branch=master)
-[![Infection MSI](https://badge.stryker-mutator.io/github.com/chubbyphp/chubbyphp-serialization/master)](https://travis-ci.org/chubbyphp/chubbyphp-serialization)
+[![Infection MSI](https://badge.stryker-mutator.io/github.com/chubbyphp/chubbyphp-serialization/master)](https://dashboard.stryker-mutator.io/reports/github.com/chubbyphp/chubbyphp-serialization/master)
 [![Latest Stable Version](https://poser.pugx.org/chubbyphp/chubbyphp-serialization/v/stable.png)](https://packagist.org/packages/chubbyphp/chubbyphp-serialization)
 [![Total Downloads](https://poser.pugx.org/chubbyphp/chubbyphp-serialization/downloads.png)](https://packagist.org/packages/chubbyphp/chubbyphp-serialization)
 [![Monthly Downloads](https://poser.pugx.org/chubbyphp/chubbyphp-serialization/d/monthly)](https://packagist.org/packages/chubbyphp/chubbyphp-serialization)
