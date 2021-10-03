@@ -12,9 +12,14 @@ $finder = PhpCsFixer\Finder::create()
 /** @var array $config */
 $config = require __DIR__ . '/vendor/chubbyphp/chubbyphp-dev-helper/phpcs.php';
 
-unset ($config['rules']['final_class']);
+unset($config['rules']['final_class']);
 
-return PhpCsFixer\Config::create()
+$config['rules']['final_public_method_for_abstract_class'] = false;
+
+// drop onces code is >= 8.0
+unset($config['rules']['phpdoc_to_return_type']);
+
+return (new PhpCsFixer\Config)
     ->setIndent($config['indent'])
     ->setLineEnding($config['lineEnding'])
     ->setRules($config['rules'])

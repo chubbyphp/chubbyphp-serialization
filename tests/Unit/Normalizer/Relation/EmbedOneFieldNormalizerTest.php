@@ -33,7 +33,7 @@ final class EmbedOneFieldNormalizerTest extends TestCase
         /** @var AccessorInterface|MockObject $accessor */
         $accessor = $this->getMockByCalls(AccessorInterface::class);
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $fieldNormalizer = new EmbedOneFieldNormalizer($accessor);
@@ -50,10 +50,10 @@ final class EmbedOneFieldNormalizerTest extends TestCase
             Call::create('getValue')->with($object)->willReturn(null),
         ]);
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
-        /** @var NormalizerInterface|MockObject $normalizer */
+        /** @var MockObject|NormalizerInterface $normalizer */
         $normalizer = $this->getMockByCalls(NormalizerInterface::class);
 
         $fieldNormalizer = new EmbedOneFieldNormalizer($accessor);
@@ -65,7 +65,7 @@ final class EmbedOneFieldNormalizerTest extends TestCase
             $normalizer
         );
 
-        self::assertSame(null, $data);
+        self::assertNull($data);
     }
 
     public function testNormalizeFieldWithObject(): void
@@ -81,10 +81,10 @@ final class EmbedOneFieldNormalizerTest extends TestCase
             Call::create('getValue')->with($object)->willReturn($relation),
         ]);
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
-        /** @var NormalizerInterface|MockObject $normalizer */
+        /** @var MockObject|NormalizerInterface $normalizer */
         $normalizer = $this->getMockByCalls(NormalizerInterface::class, [
             Call::create('normalize')
                 ->with($relation, $context, 'relation')
@@ -103,29 +103,17 @@ final class EmbedOneFieldNormalizerTest extends TestCase
         self::assertSame(['name' => 'php'], $data);
     }
 
-    /**
-     * @return object
-     */
-    private function getObject()
+    private function getObject(): object
     {
         return new class() {
-            /**
-             * @var object
-             */
-            private $relation;
+            private object $relation;
 
-            /**
-             * @return object
-             */
-            public function getRelation()
+            public function getRelation(): object
             {
                 return $this->relation;
             }
 
-            /**
-             * @param object $relation
-             */
-            public function setRelation($relation): self
+            public function setRelation(object $relation): self
             {
                 $this->relation = $relation;
 
@@ -134,16 +122,10 @@ final class EmbedOneFieldNormalizerTest extends TestCase
         };
     }
 
-    /**
-     * @return object
-     */
-    private function getRelation()
+    private function getRelation(): object
     {
         return new class() {
-            /**
-             * @var string
-             */
-            private $name;
+            private string $name;
 
             public function getName(): string
             {

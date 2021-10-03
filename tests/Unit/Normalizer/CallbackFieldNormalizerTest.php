@@ -22,13 +22,13 @@ final class CallbackFieldNormalizerTest extends TestCase
 
     public function testNormalizeField(): void
     {
-        /** @var NormalizerContextInterface|MockObject $normalizerContext */
+        /** @var MockObject|NormalizerContextInterface $normalizerContext */
         $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $object = new \stdClass();
 
         $fieldNormalizer = new CallbackFieldNormalizer(
-            static fn (string $path, $object, NormalizerContextInterface $context, NormalizerInterface $normalizer = null) => 'name'
+            static fn (string $path, $object, NormalizerContextInterface $context, ?NormalizerInterface $normalizer = null) => 'name'
         );
 
         self::assertSame('name', $fieldNormalizer->normalizeField('name', $object, $normalizerContext));

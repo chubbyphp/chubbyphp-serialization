@@ -51,34 +51,34 @@ final class SerializerTest extends TestCase
         $model->setManies([(new ManyModel())->setName('Name')->setValue('Value')]);
 
         $expectedJson = <<<'EOD'
-{
-    "id": "ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a",
-    "name": "Name",
-    "one": {
-        "name": "Name",
-        "value": "Value",
-        "_type": "one-model"
-    },
-    "manies": [
-        {
-            "name": "Name",
-            "value": "Value",
-            "_type": "many-model"
-        }
-    ],
-    "_links": {
-        "self": {
-            "href": "/api/model/ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a",
-            "templated": false,
-            "rel": [],
-            "attributes": {
-                "method": "GET"
+            {
+                "id": "ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a",
+                "name": "Name",
+                "one": {
+                    "name": "Name",
+                    "value": "Value",
+                    "_type": "one-model"
+                },
+                "manies": [
+                    {
+                        "name": "Name",
+                        "value": "Value",
+                        "_type": "many-model"
+                    }
+                ],
+                "_links": {
+                    "self": {
+                        "href": "/api/model/ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a",
+                        "templated": false,
+                        "rel": [],
+                        "attributes": {
+                            "method": "GET"
+                        }
+                    }
+                },
+                "_type": "model"
             }
-        }
-    },
-    "_type": "model"
-}
-EOD;
+            EOD;
 
         self::assertSame($expectedJson, $serializer->serialize($model, 'application/json'));
 
@@ -168,35 +168,35 @@ EOD;
         $model->setManies([(new ManyModel())->setName('Name')->setValue('Value')]);
 
         $expectedJson = <<<'EOD'
-{
-    "id": "ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a",
-    "name": "Name",
-    "additionalInfo": "AdditionalInfo",
-    "one": {
-        "name": "Name",
-        "value": "Value",
-        "_type": "one-model"
-    },
-    "manies": [
-        {
-            "name": "Name",
-            "value": "Value",
-            "_type": "many-model"
-        }
-    ],
-    "_links": {
-        "self": {
-            "href": "/api/model/ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a",
-            "templated": false,
-            "rel": [],
-            "attributes": {
-                "method": "GET"
+            {
+                "id": "ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a",
+                "name": "Name",
+                "additionalInfo": "AdditionalInfo",
+                "one": {
+                    "name": "Name",
+                    "value": "Value",
+                    "_type": "one-model"
+                },
+                "manies": [
+                    {
+                        "name": "Name",
+                        "value": "Value",
+                        "_type": "many-model"
+                    }
+                ],
+                "_links": {
+                    "self": {
+                        "href": "/api/model/ebac0dd9-8eca-4eb9-9fac-aeef65c5c59a",
+                        "templated": false,
+                        "rel": [],
+                        "attributes": {
+                            "method": "GET"
+                        }
+                    }
+                },
+                "_type": "model"
             }
-        }
-    },
-    "_type": "model"
-}
-EOD;
+            EOD;
 
         $context = NormalizerContextBuilder::create()
             ->setAttributes([GroupPolicy::ATTRIBUTE_GROUPS => ['additionalInfo']])
@@ -296,10 +296,7 @@ EOD;
         $serializer->serialize(new \stdClass(), 'application/json');
     }
 
-    /**
-     * @return AbstractLogger
-     */
-    private function getLogger()
+    private function getLogger(): AbstractLogger
     {
         return new class() extends AbstractLogger {
             private array $entries = [];

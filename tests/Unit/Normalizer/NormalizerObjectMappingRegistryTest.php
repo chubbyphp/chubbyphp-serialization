@@ -31,7 +31,7 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
             $this->getNormalizationObjectMapping(),
         ]);
 
-        $mapping = $registry->getObjectMapping(get_class($object));
+        $mapping = $registry->getObjectMapping(\get_class($object));
 
         self::assertInstanceOf(NormalizationObjectMappingInterface::class, $mapping);
     }
@@ -43,21 +43,21 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
 
         $registry = new NormalizerObjectMappingRegistry([]);
 
-        $registry->getObjectMapping(get_class(new \stdClass()));
+        $registry->getObjectMapping(\get_class(new \stdClass()));
     }
 
     public function testGetObjectMappingFromDoctrineProxy(): void
     {
         $object = $this->getProxyObject();
 
-        /** @var NormalizationObjectMappingInterface|MockObject $objectMapping */
+        /** @var MockObject|NormalizationObjectMappingInterface $objectMapping */
         $objectMapping = $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
             Call::create('getClass')->with()->willReturn(AbstractManyModel::class),
         ]);
 
         $registry = new NormalizerObjectMappingRegistry([$objectMapping]);
 
-        $mapping = $registry->getObjectMapping(get_class($object));
+        $mapping = $registry->getObjectMapping(\get_class($object));
 
         self::assertInstanceOf(NormalizationObjectMappingInterface::class, $mapping);
     }
@@ -66,24 +66,18 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
     {
         $object = $this->getObject();
 
-        /** @var NormalizationObjectMappingInterface|MockObject $objectMapping */
+        // @var NormalizationObjectMappingInterface|MockObject $objectMapping
         return $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
-            Call::create('getClass')->with()->willReturn(get_class($object)),
+            Call::create('getClass')->with()->willReturn(\get_class($object)),
         ]);
     }
 
-    /**
-     * @return object
-     */
-    private function getObject()
+    private function getObject(): object
     {
         return new class() {
             private ?string $name = null;
 
-            /**
-             * @return string|null
-             */
-            public function getName()
+            public function getName(): ?string
             {
                 return $this->name;
             }
@@ -97,10 +91,7 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
         };
     }
 
-    /**
-     * @return object
-     */
-    private function getProxyObject()
+    private function getProxyObject(): object
     {
         return new class() extends AbstractManyModel implements Proxy {
             /**
@@ -114,10 +105,8 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
 
             /**
              * Returns whether this proxy is initialized or not.
-             *
-             * @return bool
              */
-            public function __isInitialized()
+            public function __isInitialized(): bool
             {
             }
         };

@@ -23,7 +23,7 @@ final class EncoderTest extends TestCase
 
     public function testGetContentTypes(): void
     {
-        /** @var TypeEncoderInterface|MockObject $typeEncoder */
+        /** @var MockObject|TypeEncoderInterface $typeEncoder */
         $typeEncoder = $this->getMockByCalls(TypeEncoderInterface::class, [
             Call::create('getContentType')->with()->willReturn('application/json'),
         ]);
@@ -35,7 +35,7 @@ final class EncoderTest extends TestCase
 
     public function testEncode(): void
     {
-        /** @var TypeEncoderInterface|MockObject $typeEncoder */
+        /** @var MockObject|TypeEncoderInterface $typeEncoder */
         $typeEncoder = $this->getMockByCalls(TypeEncoderInterface::class, [
             Call::create('getContentType')->with()->willReturn('application/json'),
             Call::create('encode')->with(['key' => 'value'])->willReturn('{"key":"value"}'),
@@ -51,7 +51,7 @@ final class EncoderTest extends TestCase
         $this->expectException(SerializerLogicException::class);
         $this->expectExceptionMessage('There is no encoder for content-type: "application/xml"');
 
-        /** @var TypeEncoderInterface|MockObject $typeEncoder */
+        /** @var MockObject|TypeEncoderInterface $typeEncoder */
         $typeEncoder = $this->getMockByCalls(TypeEncoderInterface::class, [
             Call::create('getContentType')->with()->willReturn('application/json'),
         ]);

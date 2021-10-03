@@ -28,7 +28,7 @@ final class Normalizer implements NormalizerInterface
     /**
      * @throws SerializerLogicException
      *
-     * @return array<string, array|string|float|int|bool|null>
+     * @return array<string, null|array|bool|float|int|string>
      */
     public function normalize(
         object $object,
@@ -37,7 +37,7 @@ final class Normalizer implements NormalizerInterface
     ): array {
         $context ??= NormalizerContextBuilder::create()->getContext();
 
-        $class = get_class($object);
+        $class = \get_class($object);
         $objectMapping = $this->getObjectMapping($class);
 
         $fieldMappings = $objectMapping->getNormalizationFieldMappings($path);

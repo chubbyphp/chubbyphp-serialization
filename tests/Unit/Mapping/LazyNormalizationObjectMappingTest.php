@@ -31,7 +31,7 @@ final class LazyNormalizationObjectMappingTest extends TestCase
 
         $normalizationLinkMappings = [$this->getMockByCalls(NormalizationLinkMappingInterface::class)];
 
-        /** @var NormalizationObjectMappingInterface|MockObject $normalizationObjectMapping */
+        /** @var MockObject|NormalizationObjectMappingInterface $normalizationObjectMapping */
         $normalizationObjectMapping = $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
             Call::create('getNormalizationType')->with()->willReturn('type'),
             Call::create('getNormalizationFieldMappings')

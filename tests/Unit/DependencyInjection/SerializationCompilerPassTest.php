@@ -26,7 +26,7 @@ final class SerializationCompilerPassTest extends TestCase
     public function testProcess(): void
     {
         $stdClassMapping = $this->getStdClassMapping();
-        $stdClassMappingClass = get_class($stdClassMapping);
+        $stdClassMappingClass = \get_class($stdClassMapping);
 
         $container = new ContainerBuilder();
         $container->addCompilerPass(new SerializationCompilerPass());

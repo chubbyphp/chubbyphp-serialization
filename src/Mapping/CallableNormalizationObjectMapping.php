@@ -13,10 +13,7 @@ final class CallableNormalizationObjectMapping implements NormalizationObjectMap
      */
     private $callable;
 
-    /**
-     * @var NormalizationObjectMappingInterface|null
-     */
-    private $mapping;
+    private ?NormalizationObjectMappingInterface $mapping = null;
 
     public function __construct(string $class, callable $callable)
     {

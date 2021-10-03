@@ -15,10 +15,7 @@ final class NormalizationLinkMappingBuilder
 {
     private string $name;
 
-    /**
-     * @var LinkNormalizerInterface
-     */
-    private $linkNormalizer;
+    private LinkNormalizerInterface $linkNormalizer;
 
     private ?PolicyInterface $policy = null;
 

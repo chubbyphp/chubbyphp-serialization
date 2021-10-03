@@ -29,7 +29,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param array<string, array|string|float|int|bool|null> $data
+     * @param array<string, null|array|bool|float|int|string> $data
      */
     public function encode(array $data): string
     {
@@ -52,7 +52,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param array<string, array|string|float|int|bool|null> $value
+     * @param array<string, null|array|bool|float|int|string> $value
      */
     private function createObjectNode(\DOMDocument $document, array $value, ?string $name = null): \DOMElement
     {
@@ -85,7 +85,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param array<int, array|string|float|int|bool|null> $value
+     * @param array<int, null|array|bool|float|int|string> $value
      */
     private function createArrayNode(\DOMDocument $document, array $value, ?string $name = null): \DOMElement
     {
@@ -140,7 +140,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param int|float $value
+     * @param float|int $value
      */
     private function createNumberNode(\DOMDocument $document, $value, ?string $name = null): \DOMElement
     {
@@ -165,11 +165,11 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param array|string|float|int|bool|null $value
+     * @param null|array|bool|float|int|string $value
      */
     private function getType($value): string
     {
-        if (is_array($value)) {
+        if (\is_array($value)) {
             if ($value !== array_values($value)) {
                 return self::DATATYPE_OBJECT;
             }
@@ -177,15 +177,15 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
             return self::DATATYPE_ARRAY;
         }
 
-        if (is_bool($value)) {
+        if (\is_bool($value)) {
             return self::DATATYPE_BOOLEAN;
         }
 
-        if (is_string($value)) {
+        if (\is_string($value)) {
             return self::DATATYPE_STRING;
         }
 
-        if (is_int($value) || is_float($value)) {
+        if (\is_int($value) || \is_float($value)) {
             return self::DATATYPE_NUMBER;
         }
 
@@ -196,7 +196,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
         throw new \InvalidArgumentException(
             sprintf(
                 'Value needs to be of type array|bool|string|int|float|null, %s given',
-                is_object($value) ? get_class($value) : gettype($value)
+                \is_object($value) ? \get_class($value) : \gettype($value)
             )
         );
     }

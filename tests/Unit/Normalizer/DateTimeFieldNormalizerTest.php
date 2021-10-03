@@ -24,9 +24,9 @@ final class DateTimeFieldNormalizerTest extends TestCase
     public function testNormalizeField(): void
     {
         $object = $this->getObject();
-        $object->setDate(new \DateTime('2017-01-01 22:00:00+01:00'));
+        $object->setDate(new \DateTimeImmutable('2017-01-01 22:00:00+01:00'));
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
         /** @var AccessorInterface|MockObject $accessor */
@@ -51,7 +51,7 @@ final class DateTimeFieldNormalizerTest extends TestCase
         $object = $this->getObject();
         $object->setDate('2017-01-01 22:00:00+01:00');
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
         /** @var AccessorInterface|MockObject $accessor */
@@ -76,7 +76,7 @@ final class DateTimeFieldNormalizerTest extends TestCase
         $object = $this->getObject();
         $object->setDate('2017-01-01 25:00:00');
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
         /** @var AccessorInterface|MockObject $accessor */
@@ -100,7 +100,7 @@ final class DateTimeFieldNormalizerTest extends TestCase
     {
         $object = $this->getObject();
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
         /** @var AccessorInterface|MockObject $accessor */
@@ -119,12 +119,12 @@ final class DateTimeFieldNormalizerTest extends TestCase
     {
         return new class() {
             /**
-             * @var \DateTime|string|null
+             * @var null|\DateTime|string
              */
             private $date;
 
             /**
-             * @return \DateTime|string|null
+             * @return null|\DateTime|string
              */
             public function getDate()
             {
@@ -132,7 +132,7 @@ final class DateTimeFieldNormalizerTest extends TestCase
             }
 
             /**
-             * @param \DateTime|string|null $date
+             * @param null|\DateTime|string $date
              */
             public function setDate($date): self
             {

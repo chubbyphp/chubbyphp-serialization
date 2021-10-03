@@ -27,10 +27,10 @@ final class SerializerTest extends TestCase
         $object = new \stdClass();
         $object->name = 'Name';
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
-        /** @var NormalizerInterface|MockObject $normalizer */
+        /** @var MockObject|NormalizerInterface $normalizer */
         $normalizer = $this->getMockByCalls(NormalizerInterface::class, [
             Call::create('normalize')->with($object, $context, 'path')->willReturn(['name' => 'Name']),
         ]);
@@ -52,10 +52,10 @@ final class SerializerTest extends TestCase
         $object = new \stdClass();
         $object->name = 'Name';
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
-        /** @var NormalizerInterface|MockObject $normalizer */
+        /** @var MockObject|NormalizerInterface $normalizer */
         $normalizer = $this->getMockByCalls(NormalizerInterface::class, [
             Call::create('normalize')->with($object, $context, 'path')->willReturn(['name' => 'Name']),
         ]);
@@ -72,7 +72,7 @@ final class SerializerTest extends TestCase
 
     public function testGetContentTypes(): void
     {
-        /** @var NormalizerInterface|MockObject $normalizer */
+        /** @var MockObject|NormalizerInterface $normalizer */
         $normalizer = $this->getMockByCalls(NormalizerInterface::class);
 
         /** @var EncoderInterface|MockObject $encoder */
@@ -87,7 +87,7 @@ final class SerializerTest extends TestCase
 
     public function testEncode(): void
     {
-        /** @var NormalizerInterface|MockObject $normalizer */
+        /** @var MockObject|NormalizerInterface $normalizer */
         $normalizer = $this->getMockByCalls(NormalizerInterface::class);
 
         /** @var EncoderInterface|MockObject $encoder */

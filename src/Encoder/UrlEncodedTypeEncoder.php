@@ -12,7 +12,7 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param array<string, array|string|float|int|bool|null> $data
+     * @param array<string, null|array|bool|float|int|string> $data
      */
     public function encode(array $data): string
     {
@@ -20,7 +20,7 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param array<int|string, array|string|float|int|bool|null> $data
+     * @param array<int|string, null|array|bool|float|int|string> $data
      */
     private function buildQuery(array $data, string $path = ''): string
     {
@@ -32,7 +32,7 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
 
             $subPath = '' !== $path ? $path.'['.$key.']' : (string) $key;
 
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $queryPart = $this->buildQuery($value, $subPath);
 
                 $query .= '' !== $queryPart ? $queryPart.'&' : '';
@@ -45,21 +45,21 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
     }
 
     /**
-     * @param bool|int|float|string $value
+     * @param bool|float|int|string $value
      *
      * @throws \InvalidArgumentException
      */
     private function getValueAsString($value): string
     {
-        if (is_string($value)) {
+        if (\is_string($value)) {
             return $value;
         }
 
-        if (is_bool($value)) {
+        if (\is_bool($value)) {
             return $value ? 'true' : 'false';
         }
 
-        if (is_float($value)) {
+        if (\is_float($value)) {
             $value = (string) $value;
             if (false === strpos($value, '.')) {
                 $value .= '.0';
@@ -68,10 +68,10 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
             return $value;
         }
 
-        if (is_int($value)) {
+        if (\is_int($value)) {
             return (string) $value;
         }
 
-        throw new \InvalidArgumentException(sprintf('Unsupported data type: %s', gettype($value)));
+        throw new \InvalidArgumentException(sprintf('Unsupported data type: %s', \gettype($value)));
     }
 }

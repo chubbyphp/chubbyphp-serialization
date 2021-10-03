@@ -29,9 +29,9 @@ final class DateTimeFieldNormalizer implements FieldNormalizerInterface
     ) {
         $value = $this->accessor->getValue($object);
 
-        if (is_string($value)) {
+        if (\is_string($value)) {
             try {
-                $value = new \DateTime($value);
+                $value = new \DateTimeImmutable($value);
             } catch (\Exception $exception) {
             }
         }

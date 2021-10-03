@@ -33,7 +33,7 @@ final class ModelMapping implements NormalizationObjectMappingInterface
     /**
      * @return array<int, NormalizationFieldMappingInterface>
      */
-    public function getNormalizationFieldMappings(string $path, string $type = null): array
+    public function getNormalizationFieldMappings(string $path, ?string $type = null): array
     {
         return [
             NormalizationFieldMappingBuilder::create('id')

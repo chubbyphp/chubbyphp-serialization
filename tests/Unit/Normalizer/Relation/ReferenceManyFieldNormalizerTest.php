@@ -40,7 +40,7 @@ final class ReferenceManyFieldNormalizerTest extends TestCase
             Call::create('getValue')->with($parent)->willReturn($parent->getChildren()),
         ]);
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $fieldNormalizer = new ReferenceManyFieldNormalizer($identifierAccessor, $accessor);
@@ -68,7 +68,7 @@ final class ReferenceManyFieldNormalizerTest extends TestCase
             Call::create('getValue')->with($parent)->willReturn($parent->getChildren()),
         ]);
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $fieldNormalizer = new ReferenceManyFieldNormalizer($identifierAccessor, $accessor);
@@ -95,7 +95,7 @@ final class ReferenceManyFieldNormalizerTest extends TestCase
             Call::create('getValue')->with($parent)->willReturn($parent->getChildren()),
         ]);
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $fieldNormalizer = new ReferenceManyFieldNormalizer($identifierAccessor, $accessor);
@@ -109,23 +109,17 @@ final class ReferenceManyFieldNormalizerTest extends TestCase
         );
     }
 
-    /**
-     * @return object
-     */
-    private function getParent()
+    private function getParent(): object
     {
         return new class() {
             private ?array $children = null;
 
-            /**
-             * @return array
-             */
-            public function getChildren()
+            public function getChildren(): ?array
             {
                 return $this->children;
             }
 
-            public function setChildren(array $children = null): self
+            public function setChildren(?array $children = null): self
             {
                 $this->children = $children;
 
@@ -134,10 +128,7 @@ final class ReferenceManyFieldNormalizerTest extends TestCase
         };
     }
 
-    /**
-     * @return object
-     */
-    private function getChild(string $id = null)
+    private function getChild(?string $id = null): object
     {
         return new class($id ?? uniqid()) {
             private string $id;

@@ -34,7 +34,7 @@ final class CallbackLinkNormalizerTest extends TestCase
             Call::create('getAttributes')->with()->willReturn(['method' => 'GET']),
         ]);
 
-        /** @var NormalizerContextInterface|MockObject $normalizerContext */
+        /** @var MockObject|NormalizerContextInterface $normalizerContext */
         $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $linkNormalizer = new CallbackLinkNormalizer(
@@ -65,7 +65,7 @@ final class CallbackLinkNormalizerTest extends TestCase
 
         $object = new \stdClass();
 
-        /** @var NormalizerContextInterface|MockObject $normalizerContext */
+        /** @var MockObject|NormalizerContextInterface $normalizerContext */
         $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $linkNormalizer = new CallbackLinkNormalizer(

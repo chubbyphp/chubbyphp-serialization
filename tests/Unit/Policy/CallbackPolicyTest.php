@@ -25,7 +25,7 @@ final class CallbackPolicyTest extends TestCase
 
         $path = '';
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
 
         $policy = new CallbackPolicy(
@@ -47,7 +47,7 @@ final class CallbackPolicyTest extends TestCase
 
         $path = '';
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
 
         $policy = new CallbackPolicy(

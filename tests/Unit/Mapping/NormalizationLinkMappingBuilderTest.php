@@ -62,7 +62,7 @@ final class NormalizationLinkMappingBuilderTest extends TestCase
         /** @var LinkNormalizerInterface|MockObject $linkNormalizer */
         $linkNormalizer = $this->getMockByCalls(LinkNormalizerInterface::class);
 
-        /** @var PolicyInterface|MockObject $policy */
+        /** @var MockObject|PolicyInterface $policy */
         $policy = $this->getMockByCalls(PolicyInterface::class);
 
         $linkMapping = NormalizationLinkMappingBuilder::create('name', $linkNormalizer)

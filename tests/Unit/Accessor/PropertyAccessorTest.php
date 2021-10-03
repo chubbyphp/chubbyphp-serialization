@@ -34,10 +34,7 @@ final class PropertyAccessorTest extends TestCase
             {
             }
 
-            /**
-             * @return bool
-             */
-            public function __isInitialized()
+            public function __isInitialized(): bool
             {
                 return false;
             }

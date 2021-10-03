@@ -34,7 +34,7 @@ final class GroupPolicy implements PolicyInterface
         $contextGroups = $context->getAttribute(self::ATTRIBUTE_GROUPS, [self::GROUP_DEFAULT]);
 
         foreach ($this->groups as $group) {
-            if (in_array($group, $contextGroups, true)) {
+            if (\in_array($group, $contextGroups, true)) {
                 return true;
             }
         }

@@ -31,7 +31,7 @@ final class NormalizerContextTest extends TestCase
 
     public function testCreateWithOverridenSettings(): void
     {
-        /** @var ServerRequestInterface|MockObject $request */
+        /** @var MockObject|ServerRequestInterface $request */
         $request = $this->getMockByCalls(ServerRequestInterface::class);
 
         $context = new NormalizerContext(
@@ -46,7 +46,7 @@ final class NormalizerContextTest extends TestCase
 
     public function testWithAttributes(): void
     {
-        /** @var ServerRequestInterface|MockObject $request */
+        /** @var MockObject|ServerRequestInterface $request */
         $request = $this->getMockByCalls(ServerRequestInterface::class);
 
         $context = new NormalizerContext($request, ['attribute' => 'value']);
@@ -61,7 +61,7 @@ final class NormalizerContextTest extends TestCase
 
     public function testWithAttribute(): void
     {
-        /** @var ServerRequestInterface|MockObject $request */
+        /** @var MockObject|ServerRequestInterface $request */
         $request = $this->getMockByCalls(ServerRequestInterface::class);
 
         $context = new NormalizerContext($request, ['attribute' => 'value'], ['allowed_field']);

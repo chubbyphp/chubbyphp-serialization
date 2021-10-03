@@ -125,7 +125,7 @@ final class NormalizationFieldMappingBuilderTest extends TestCase
         /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
         $fieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class);
 
-        /** @var PolicyInterface|MockObject $policy */
+        /** @var MockObject|PolicyInterface $policy */
         $policy = $this->getMockByCalls(PolicyInterface::class);
 
         $fieldMapping = NormalizationFieldMappingBuilder::create('name', $fieldNormalizer)

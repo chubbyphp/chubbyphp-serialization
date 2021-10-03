@@ -34,7 +34,7 @@ final class NormalizerObjectMappingRegistry implements NormalizerObjectMappingRe
     {
         $reflectionClass = new \ReflectionClass($class);
 
-        if (in_array('Doctrine\Persistence\Proxy', $reflectionClass->getInterfaceNames(), true)) {
+        if (\in_array('Doctrine\Persistence\Proxy', $reflectionClass->getInterfaceNames(), true)) {
             /** @var \ReflectionClass $parentReflectionClass */
             $parentReflectionClass = $reflectionClass->getParentClass();
             $class = $parentReflectionClass->getName();

@@ -26,7 +26,7 @@ final class GroupPolicyTest extends TestCase
 
         $path = '';
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $policy = new GroupPolicy([]);
@@ -40,7 +40,7 @@ final class GroupPolicyTest extends TestCase
 
         $path = '';
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class, [
             Call::create('getAttribute')
                 ->with(GroupPolicy::ATTRIBUTE_GROUPS, [GroupPolicy::GROUP_DEFAULT])
@@ -58,7 +58,7 @@ final class GroupPolicyTest extends TestCase
 
         $path = '';
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class, [
             Call::create('getAttribute')
                 ->with(GroupPolicy::ATTRIBUTE_GROUPS, [GroupPolicy::GROUP_DEFAULT])
@@ -76,7 +76,7 @@ final class GroupPolicyTest extends TestCase
 
         $path = '';
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class, [
             Call::create('getAttribute')
                 ->with(GroupPolicy::ATTRIBUTE_GROUPS, [GroupPolicy::GROUP_DEFAULT])
@@ -94,7 +94,7 @@ final class GroupPolicyTest extends TestCase
 
         $path = '';
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class, [
             Call::create('getAttribute')
                 ->with(GroupPolicy::ATTRIBUTE_GROUPS, [GroupPolicy::GROUP_DEFAULT])

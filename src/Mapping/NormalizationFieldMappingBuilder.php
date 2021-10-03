@@ -20,10 +20,7 @@ final class NormalizationFieldMappingBuilder
 {
     private string $name;
 
-    /**
-     * @var FieldNormalizerInterface|null
-     */
-    private $fieldNormalizer;
+    private ?FieldNormalizerInterface $fieldNormalizer;
 
     private ?PolicyInterface $policy = null;
 

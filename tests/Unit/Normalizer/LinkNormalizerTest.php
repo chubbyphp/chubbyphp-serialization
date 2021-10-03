@@ -33,7 +33,7 @@ final class LinkNormalizerTest extends TestCase
             Call::create('getAttributes')->with()->willReturn(['method' => 'GET']),
         ]);
 
-        /** @var NormalizerContextInterface|MockObject $normalizerContext */
+        /** @var MockObject|NormalizerContextInterface $normalizerContext */
         $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $linkNormalizer = new LinkNormalizer($link);

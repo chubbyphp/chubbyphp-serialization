@@ -30,7 +30,7 @@ final class Serializer implements SerializerInterface
     }
 
     /**
-     * @return array<string, array|string|float|int|bool|null>
+     * @return array<string, null|array|bool|float|int|string>
      */
     public function normalize(object $object, ?NormalizerContextInterface $context = null, string $path = ''): array
     {
@@ -46,7 +46,7 @@ final class Serializer implements SerializerInterface
     }
 
     /**
-     * @param array<string, array|string|float|int|bool|null> $data
+     * @param array<string, null|array|bool|float|int|string> $data
      *
      * @throws SerializerLogicException
      */

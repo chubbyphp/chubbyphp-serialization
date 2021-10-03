@@ -33,7 +33,7 @@ final class ReferenceOneFieldNormalizerTest extends TestCase
             Call::create('getValue')->with($object)->willReturn(null),
         ]);
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $fieldNormalizer = new ReferenceOneFieldNormalizer($identifierAccessor, $accessor);
@@ -44,7 +44,7 @@ final class ReferenceOneFieldNormalizerTest extends TestCase
             $context
         );
 
-        self::assertSame(null, $data);
+        self::assertNull($data);
     }
 
     public function testNormalizeFieldWithObject(): void
@@ -63,7 +63,7 @@ final class ReferenceOneFieldNormalizerTest extends TestCase
             Call::create('getValue')->with($object)->willReturn($relation),
         ]);
 
-        /** @var NormalizerContextInterface|MockObject $context */
+        /** @var MockObject|NormalizerContextInterface $context */
         $context = $this->getMockByCalls(NormalizerContextInterface::class);
 
         $fieldNormalizer = new ReferenceOneFieldNormalizer($identifierAccessor, $accessor);

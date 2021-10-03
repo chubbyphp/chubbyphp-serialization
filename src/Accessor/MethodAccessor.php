@@ -38,6 +38,6 @@ final class MethodAccessor implements AccessorInterface
             return $object->{$is}();
         }
 
-        throw SerializerLogicException::createMissingMethod(get_class($object), [$get, $has, $is]);
+        throw SerializerLogicException::createMissingMethod(\get_class($object), [$get, $has, $is]);
     }
 }

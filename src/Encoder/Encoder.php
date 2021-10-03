@@ -33,7 +33,7 @@ final class Encoder implements EncoderInterface
     }
 
     /**
-     * @param array<string, array|string|float|int|bool|null> $data
+     * @param array<string, null|array|bool|float|int|string> $data
      *
      * @throws SerializerLogicException
      */

@@ -32,7 +32,7 @@ final class NormalizerContextBuilderTest extends TestCase
 
     public function testCreateWithOverridenSettings(): void
     {
-        /** @var ServerRequestInterface|MockObject $request */
+        /** @var MockObject|ServerRequestInterface $request */
         $request = $this->getMockByCalls(ServerRequestInterface::class);
 
         $context = NormalizerContextBuilder::create()
