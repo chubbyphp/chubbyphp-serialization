@@ -130,7 +130,7 @@ final class YamlTypeEncoderTest extends AbstractTypeEncoderTest
                                 2: 3
                                 3: 4
                                 6: 7
-                        progress: !!float 100
+                        progress: 100.0
                         active: false
                         _type: item
                         _links:

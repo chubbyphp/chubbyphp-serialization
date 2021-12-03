@@ -37,8 +37,8 @@ A simple serialization.
  * chubbyphp/chubbyphp-container: ^1.1
  * pimple/pimple: ^3.3
  * psr/container: ^1.0
- * symfony/dependency-injection: ^3.4.42|^4.4.10|^5.0.10 (symfony integration)
- * symfony/yaml: ^3.4.42|^4.4.10|^5.0.10 (application/x-yaml support)
+ * symfony/dependency-injection: ^4.4.34|^5.3.11|^6.0.0 (symfony integration)
+ * symfony/yaml: ^4.4.34|^5.3.11|^6.0.0 (application/x-yaml support)
 
 ## Installation
 

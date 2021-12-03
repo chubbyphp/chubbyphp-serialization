@@ -1,6 +1,9 @@
 parameters:
     ignoreErrors:
         -
+            message: '/no value type specified in iterable type array/'
+            path: %currentWorkingDirectory%/src/*.php
+        -
             message: '/Method Chubbyphp\\Serialization\\Encoder\\JsonTypeEncoder\:\:encode\(\) should return string but returns string\|false\./'
             path: %currentWorkingDirectory%/src/Encoder/JsonTypeEncoder.php
         -
