@@ -8,11 +8,8 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 
 final class NotPolicy implements PolicyInterface
 {
-    private PolicyInterface $policy;
-
-    public function __construct(PolicyInterface $policy)
+    public function __construct(private PolicyInterface $policy)
     {
-        $this->policy = $policy;
     }
 
     public function isCompliant(string $path, object $object, NormalizerContextInterface $context): bool

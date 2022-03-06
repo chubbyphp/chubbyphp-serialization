@@ -13,15 +13,12 @@ use Psr\Link\LinkInterface;
 
 final class NormalizationLinkMappingBuilder
 {
-    private string $name;
-
     private LinkNormalizerInterface $linkNormalizer;
 
     private ?PolicyInterface $policy = null;
 
-    private function __construct(string $name)
+    private function __construct(private string $name)
     {
-        $this->name = $name;
     }
 
     public static function create(

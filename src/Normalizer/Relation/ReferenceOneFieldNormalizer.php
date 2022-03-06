@@ -12,14 +12,8 @@ use Chubbyphp\Serialization\SerializerLogicException;
 
 final class ReferenceOneFieldNormalizer implements FieldNormalizerInterface
 {
-    private AccessorInterface $identifierAccessor;
-
-    private AccessorInterface $accessor;
-
-    public function __construct(AccessorInterface $identifierAccessor, AccessorInterface $accessor)
+    public function __construct(private AccessorInterface $identifierAccessor, private AccessorInterface $accessor)
     {
-        $this->identifierAccessor = $identifierAccessor;
-        $this->accessor = $accessor;
     }
 
     /**

@@ -8,11 +8,8 @@ use Chubbyphp\Serialization\SerializerLogicException;
 
 final class MethodAccessor implements AccessorInterface
 {
-    private string $property;
-
-    public function __construct(string $property)
+    public function __construct(private string $property)
     {
-        $this->property = $property;
     }
 
     /**
@@ -38,6 +35,6 @@ final class MethodAccessor implements AccessorInterface
             return $object->{$is}();
         }
 
-        throw SerializerLogicException::createMissingMethod(\get_class($object), [$get, $has, $is]);
+        throw SerializerLogicException::createMissingMethod($object::class, [$get, $has, $is]);
     }
 }

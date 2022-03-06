@@ -34,7 +34,7 @@ final class NormalizerTest extends TestCase
         $object = $this->getObject();
         $object->setName('php');
 
-        $class = \get_class($object);
+        $class = $object::class;
 
         /** @var MockObject|PolicyInterface $namePolicy */
         $namePolicy = $this->getMockByCalls(PolicyInterface::class, [
@@ -150,7 +150,7 @@ final class NormalizerTest extends TestCase
         $object = $this->getObject();
         $object->setName('php');
 
-        $class = \get_class($object);
+        $class = $object::class;
 
         /** @var MockObject|PolicyInterface $namePolicy */
         $namePolicy = $this->getMockByCalls(PolicyInterface::class, [

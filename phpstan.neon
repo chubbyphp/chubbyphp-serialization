@@ -10,8 +10,5 @@ parameters:
             message: '//'
             path: %currentWorkingDirectory%/src/Encoder/JsonxTypeEncoder.php
         -
-            message: '/Unreachable statement - code above always terminates\./'
-            path: %currentWorkingDirectory%/src/Encoder/UrlEncodedTypeEncoder.php
-        -
             message: '/PHPDoc tag @var for variable \$parentReflectionClass contains generic class ReflectionClass but does not specify its types\: T/'
             path: %currentWorkingDirectory%/src/Normalizer/NormalizerObjectMappingRegistry.php

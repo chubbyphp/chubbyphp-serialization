@@ -38,7 +38,7 @@ final class SerializationCompilerPass implements CompilerPassInterface
     private function registerObjectmappingRegistry(ContainerBuilder $container): void
     {
         $normalizerObjectMappingReferences = [];
-        foreach ($container->findTaggedServiceIds('chubbyphp.serializer.normalizer.objectmapping') as $id => $tags) {
+        foreach (array_keys($container->findTaggedServiceIds('chubbyphp.serializer.normalizer.objectmapping')) as $id) {
             $normalizerObjectMappingReferences[] = new Reference($id);
         }
 
@@ -55,7 +55,7 @@ final class SerializationCompilerPass implements CompilerPassInterface
     private function registerEncoder(ContainerBuilder $container): void
     {
         $encoderTypeReferences = [];
-        foreach ($container->findTaggedServiceIds('chubbyphp.serializer.encoder.type') as $id => $tags) {
+        foreach (array_keys($container->findTaggedServiceIds('chubbyphp.serializer.encoder.type')) as $id) {
             $encoderTypeReferences[] = new Reference($id);
         }
 

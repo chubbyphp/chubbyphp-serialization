@@ -31,7 +31,7 @@ final class CallbackLinkNormalizer implements LinkNormalizerInterface
         $link = $callback($path, $object, $context);
 
         if (!$link instanceof LinkInterface) {
-            $type = \is_object($link) ? \get_class($link) : \gettype($link);
+            $type = get_debug_type($link);
 
             throw SerializerLogicException::createInvalidLinkTypeReturned($path, $type);
         }

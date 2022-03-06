@@ -6,8 +6,6 @@ namespace Chubbyphp\Serialization\Mapping;
 
 final class CallableNormalizationObjectMapping implements NormalizationObjectMappingInterface
 {
-    private string $class;
-
     /**
      * @var callable
      */
@@ -15,9 +13,8 @@ final class CallableNormalizationObjectMapping implements NormalizationObjectMap
 
     private ?NormalizationObjectMappingInterface $mapping = null;
 
-    public function __construct(string $class, callable $callable)
+    public function __construct(private string $class, callable $callable)
     {
-        $this->class = $class;
         $this->callable = $callable;
     }
 

@@ -8,27 +8,12 @@ use Psr\Link\LinkInterface;
 
 final class Link implements LinkInterface
 {
-    private string $href;
-
-    /**
-     * @var array<int, string>
-     */
-    private array $rels;
-
-    /**
-     * @var array<string, mixed>
-     */
-    private array $attributes;
-
     /**
      * @param array<int, string>   $rels
      * @param array<string, mixed> $attributes
      */
-    public function __construct(string $href, array $rels, array $attributes)
+    public function __construct(private string $href, private array $rels, private array $attributes)
     {
-        $this->href = $href;
-        $this->rels = $rels;
-        $this->attributes = $attributes;
     }
 
     public function getHref(): string
@@ -38,7 +23,7 @@ final class Link implements LinkInterface
 
     public function isTemplated(): bool
     {
-        return false !== strpos($this->href, '{');
+        return str_contains($this->href, '{');
     }
 
     /**

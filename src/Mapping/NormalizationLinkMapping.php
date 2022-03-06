@@ -10,19 +10,13 @@ use Chubbyphp\Serialization\Policy\PolicyInterface;
 
 final class NormalizationLinkMapping implements NormalizationLinkMappingInterface
 {
-    private string $name;
-
-    private LinkNormalizerInterface $linkNormalizer;
-
     private PolicyInterface $policy;
 
     public function __construct(
-        string $name,
-        LinkNormalizerInterface $linkNormalizer,
+        private string $name,
+        private LinkNormalizerInterface $linkNormalizer,
         ?PolicyInterface $policy = null
     ) {
-        $this->name = $name;
-        $this->linkNormalizer = $linkNormalizer;
         $this->policy = $policy ?? new NullPolicy();
     }
 

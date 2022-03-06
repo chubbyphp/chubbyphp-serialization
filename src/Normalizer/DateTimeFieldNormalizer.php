@@ -8,14 +8,8 @@ use Chubbyphp\Serialization\Accessor\AccessorInterface;
 
 final class DateTimeFieldNormalizer implements FieldNormalizerInterface
 {
-    private AccessorInterface $accessor;
-
-    private string $format;
-
-    public function __construct(AccessorInterface $accessor, string $format = 'c')
+    public function __construct(private AccessorInterface $accessor, private string $format = 'c')
     {
-        $this->accessor = $accessor;
-        $this->format = $format;
     }
 
     /**
@@ -32,7 +26,7 @@ final class DateTimeFieldNormalizer implements FieldNormalizerInterface
         if (\is_string($value)) {
             try {
                 $value = new \DateTimeImmutable($value);
-            } catch (\Exception $exception) {
+            } catch (\Exception) {
             }
         }
 

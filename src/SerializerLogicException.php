@@ -13,9 +13,6 @@ final class SerializerLogicException extends \LogicException
         return new self(sprintf('There is no encoder for content-type: "%s"', $contentType));
     }
 
-    /**
-     * @return SerializerLogicException
-     */
     public static function createWrongDataType(string $path, string $type): self
     {
         return new self(sprintf('Wrong data type "%s" at path : "%s"', $type, $path));

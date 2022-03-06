@@ -8,20 +8,11 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class NormalizerContext implements NormalizerContextInterface
 {
-    private ?ServerRequestInterface $request = null;
-
-    /**
-     * @var array<string, mixed>
-     */
-    private array $attributes;
-
     /**
      * @param array<string, mixed> $attributes
      */
-    public function __construct(?ServerRequestInterface $request = null, array $attributes = [])
+    public function __construct(private ?ServerRequestInterface $request = null, private array $attributes = [])
     {
-        $this->request = $request;
-        $this->attributes = $attributes;
     }
 
     public function getRequest(): ?ServerRequestInterface

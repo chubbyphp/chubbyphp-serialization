@@ -13,16 +13,10 @@ final class GroupPolicy implements PolicyInterface
     public const GROUP_DEFAULT = 'default';
 
     /**
-     * @var array<int, string>
-     */
-    private array $groups;
-
-    /**
      * @param array<int, string> $groups
      */
-    public function __construct(array $groups = [self::GROUP_DEFAULT])
+    public function __construct(private array $groups = [self::GROUP_DEFAULT])
     {
-        $this->groups = $groups;
     }
 
     public function isCompliant(string $path, object $object, NormalizerContextInterface $context): bool

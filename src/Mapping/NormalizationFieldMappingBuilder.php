@@ -18,15 +18,12 @@ use Chubbyphp\Serialization\Policy\PolicyInterface;
 
 final class NormalizationFieldMappingBuilder
 {
-    private string $name;
-
-    private ?FieldNormalizerInterface $fieldNormalizer;
+    private ?FieldNormalizerInterface $fieldNormalizer = null;
 
     private ?PolicyInterface $policy = null;
 
-    private function __construct(string $name)
+    private function __construct(private string $name)
     {
-        $this->name = $name;
     }
 
     public static function create(

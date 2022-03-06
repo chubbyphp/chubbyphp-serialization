@@ -16,11 +16,8 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
     public const DATATYPE_NUMBER = 'number';
     public const DATATYPE_NULL = 'null';
 
-    private bool $prettyPrint;
-
-    public function __construct(bool $prettyPrint = false)
+    public function __construct(private bool $prettyPrint = false)
     {
-        $this->prettyPrint = $prettyPrint;
     }
 
     public function getContentType(): string
@@ -139,10 +136,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
         return $node;
     }
 
-    /**
-     * @param float|int $value
-     */
-    private function createNumberNode(\DOMDocument $document, $value, ?string $name = null): \DOMElement
+    private function createNumberNode(\DOMDocument $document, float|int $value, ?string $name = null): \DOMElement
     {
         $node = $document->createElement('json:number', (string) $value);
 
@@ -196,7 +190,7 @@ final class JsonxTypeEncoder implements TypeEncoderInterface
         throw new \InvalidArgumentException(
             sprintf(
                 'Value needs to be of type array|bool|string|int|float|null, %s given',
-                \is_object($value) ? \get_class($value) : \gettype($value)
+                get_debug_type($value)
             )
         );
     }

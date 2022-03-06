@@ -9,16 +9,10 @@ use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 final class OrPolicy implements PolicyInterface
 {
     /**
-     * @var array<int, PolicyInterface>
-     */
-    private array $policies;
-
-    /**
      * @param array<int, PolicyInterface> $policies
      */
-    public function __construct(array $policies)
+    public function __construct(private array $policies)
     {
-        $this->policies = $policies;
     }
 
     public function isCompliant(string $path, object $object, NormalizerContextInterface $context): bool

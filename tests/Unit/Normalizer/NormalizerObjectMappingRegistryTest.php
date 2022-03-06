@@ -31,7 +31,7 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
             $this->getNormalizationObjectMapping(),
         ]);
 
-        $mapping = $registry->getObjectMapping(\get_class($object));
+        $mapping = $registry->getObjectMapping($object::class);
 
         self::assertInstanceOf(NormalizationObjectMappingInterface::class, $mapping);
     }
@@ -43,7 +43,7 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
 
         $registry = new NormalizerObjectMappingRegistry([]);
 
-        $registry->getObjectMapping(\get_class(new \stdClass()));
+        $registry->getObjectMapping((new \stdClass())::class);
     }
 
     public function testGetObjectMappingFromDoctrineProxy(): void
@@ -57,7 +57,7 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
 
         $registry = new NormalizerObjectMappingRegistry([$objectMapping]);
 
-        $mapping = $registry->getObjectMapping(\get_class($object));
+        $mapping = $registry->getObjectMapping($object::class);
 
         self::assertInstanceOf(NormalizationObjectMappingInterface::class, $mapping);
     }
@@ -68,7 +68,7 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
 
         // @var NormalizationObjectMappingInterface|MockObject $objectMapping
         return $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
-            Call::create('getClass')->with()->willReturn(\get_class($object)),
+            Call::create('getClass')->with()->willReturn($object::class),
         ]);
     }
 

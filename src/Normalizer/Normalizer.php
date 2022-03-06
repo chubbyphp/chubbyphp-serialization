@@ -13,15 +13,12 @@ use Psr\Log\NullLogger;
 
 final class Normalizer implements NormalizerInterface
 {
-    private NormalizerObjectMappingRegistryInterface $normalizerObjectMappingRegistry;
-
     private LoggerInterface $logger;
 
     public function __construct(
-        NormalizerObjectMappingRegistryInterface $normalizerObjectMappingRegistry,
+        private NormalizerObjectMappingRegistryInterface $normalizerObjectMappingRegistry,
         ?LoggerInterface $logger = null
     ) {
-        $this->normalizerObjectMappingRegistry = $normalizerObjectMappingRegistry;
         $this->logger = $logger ?? new NullLogger();
     }
 
@@ -37,7 +34,7 @@ final class Normalizer implements NormalizerInterface
     ): array {
         $context ??= NormalizerContextBuilder::create()->getContext();
 
-        $class = \get_class($object);
+        $class = $object::class;
         $objectMapping = $this->getObjectMapping($class);
 
         $fieldMappings = $objectMapping->getNormalizationFieldMappings($path);
@@ -139,11 +136,12 @@ final class Normalizer implements NormalizerInterface
         return $links;
     }
 
-    /**
-     * @param NormalizationFieldMappingInterface|NormalizationLinkMappingInterface $mapping
-     */
-    private function isCompliant(string $path, object $object, NormalizerContextInterface $context, $mapping): bool
-    {
+    private function isCompliant(
+        string $path,
+        object $object,
+        NormalizerContextInterface $context,
+        NormalizationFieldMappingInterface|NormalizationLinkMappingInterface $mapping
+    ): bool {
         return $mapping->getPolicy()->isCompliant($path, $object, $context);
     }
 

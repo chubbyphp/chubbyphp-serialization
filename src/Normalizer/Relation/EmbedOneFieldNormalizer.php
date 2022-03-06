@@ -12,11 +12,8 @@ use Chubbyphp\Serialization\SerializerLogicException;
 
 final class EmbedOneFieldNormalizer implements FieldNormalizerInterface
 {
-    private AccessorInterface $accessor;
-
-    public function __construct(AccessorInterface $accessor)
+    public function __construct(private AccessorInterface $accessor)
     {
-        $this->accessor = $accessor;
     }
 
     /**

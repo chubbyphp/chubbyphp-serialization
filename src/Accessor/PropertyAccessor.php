@@ -9,11 +9,8 @@ use Doctrine\Persistence\Proxy;
 
 final class PropertyAccessor implements AccessorInterface
 {
-    private string $property;
-
-    public function __construct(string $property)
+    public function __construct(private string $property)
     {
-        $this->property = $property;
     }
 
     /**
@@ -49,6 +46,6 @@ final class PropertyAccessor implements AccessorInterface
             }
         }
 
-        return \get_class($object);
+        return $object::class;
     }
 }
