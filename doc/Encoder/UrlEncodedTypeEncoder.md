@@ -1,15 +1,5 @@
 # UrlEncodedTypeEncoder
 
-```php
-<?php
+Use [UrlEncodedTypeEncoder][1] from chubbyphp/chubbyphp-decode-encode.
 
-use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
-
-$encoderType = new UrlEncodedTypeEncoder();
-
-echo $encoderType->getContentType();
-// 'application/x-www-form-urlencoded'
-
-echo $encoderType->encode(['name' => 'php']);
-// 'name=php'
-```
+[1]: https://github.com/chubbyphp/chubbyphp-decode-encode/blob/master/doc/Encoder/UrlEncodedTypeEncoder.md

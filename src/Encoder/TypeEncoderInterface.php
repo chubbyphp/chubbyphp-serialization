@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Encoder;
 
-interface TypeEncoderInterface
-{
-    public function getContentType(): string;
+use Chubbyphp\DecodeEncode\Encoder\TypeEncoderInterface as BaseTypeEncoderInterface;
 
-    /**
-     * @param array<string, null|array|bool|float|int|string> $data
-     */
-    public function encode(array $data): string;
+/**
+ * @deprecated use \Chubbyphp\DecodeEncode\Encoder\TypeEncoderInterface
+ */
+interface TypeEncoderInterface extends BaseTypeEncoderInterface
+{
 }

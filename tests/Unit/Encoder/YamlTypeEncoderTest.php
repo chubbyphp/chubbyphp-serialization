@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Encoder;
 
+use Chubbyphp\DecodeEncode\Encoder\YamlTypeEncoder as BaseYamlTypeEncoder;
 use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
 
 /**
@@ -17,7 +18,20 @@ final class YamlTypeEncoderTest extends AbstractTypeEncoderTest
     {
         $encoder = new YamlTypeEncoder();
 
+        error_clear_last();
+
         self::assertSame('application/x-yaml', $encoder->getContentType());
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(sprintf(
+            '%s:getContentType use %s:getContentType',
+            YamlTypeEncoder::class,
+            BaseYamlTypeEncoder::class
+        ), $error['message']);
     }
 
     /**
@@ -26,6 +40,8 @@ final class YamlTypeEncoderTest extends AbstractTypeEncoderTest
     public function testFormat(array $data): void
     {
         $yamlencoder = new YamlTypeEncoder();
+
+        error_clear_last();
 
         $yaml = $yamlencoder->encode($data);
 
@@ -163,5 +179,16 @@ final class YamlTypeEncoderTest extends AbstractTypeEncoderTest
             EOT;
 
         self::assertEquals($expectedYaml, $yaml);
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(sprintf(
+            '%s:encode use %s:encode',
+            YamlTypeEncoder::class,
+            BaseYamlTypeEncoder::class
+        ), $error['message']);
     }
 }

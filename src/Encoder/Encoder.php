@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Encoder;
 
+use Chubbyphp\DecodeEncode\Encoder\Encoder as BaseEncoder;
+use Chubbyphp\DecodeEncode\Encoder\EncoderInterface as BaseEncoderInterface;
+use Chubbyphp\DecodeEncode\LogicException;
 use Chubbyphp\Serialization\SerializerLogicException;
 
+/**
+ * @deprecated use \Chubbyphp\DecodeEncode\Encoder\Encoder
+ */
 final class Encoder implements EncoderInterface
 {
-    /**
-     * @var array<string, TypeEncoderInterface>
-     */
-    private array $encoderTypes;
+    private BaseEncoderInterface $encoder;
 
     /**
      * @param array<int, TypeEncoderInterface> $encoderTypes
      */
     public function __construct(array $encoderTypes)
     {
-        $this->encoderTypes = [];
-        foreach ($encoderTypes as $encoderType) {
-            $this->addTypeEncoder($encoderType);
-        }
+        $this->encoder = new BaseEncoder($encoderTypes);
     }
 
     /**
@@ -29,7 +29,16 @@ final class Encoder implements EncoderInterface
      */
     public function getContentTypes(): array
     {
-        return array_keys($this->encoderTypes);
+        @trigger_error(
+            sprintf(
+                '%s:getContentTypes use %s:getContentTypes',
+                self::class,
+                BaseEncoder::class
+            ),
+            E_USER_DEPRECATED
+        );
+
+        return $this->encoder->getContentTypes();
     }
 
     /**
@@ -39,15 +48,19 @@ final class Encoder implements EncoderInterface
      */
     public function encode(array $data, string $contentType): string
     {
-        if (isset($this->encoderTypes[$contentType])) {
-            return $this->encoderTypes[$contentType]->encode($data);
+        @trigger_error(
+            sprintf(
+                '%s:encode use %s:encode',
+                self::class,
+                BaseEncoder::class
+            ),
+            E_USER_DEPRECATED
+        );
+
+        try {
+            return $this->encoder->encode($data, $contentType);
+        } catch (LogicException $e) {
+            throw new SerializerLogicException($e->getMessage(), $e->getCode(), $e);
         }
-
-        throw SerializerLogicException::createMissingContentType($contentType);
-    }
-
-    private function addTypeEncoder(TypeEncoderInterface $encoderType): void
-    {
-        $this->encoderTypes[$encoderType->getContentType()] = $encoderType;
     }
 }

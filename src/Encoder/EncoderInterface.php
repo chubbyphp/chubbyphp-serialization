@@ -4,19 +4,11 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Encoder;
 
-use Chubbyphp\Serialization\SerializerLogicException;
+use Chubbyphp\DecodeEncode\Encoder\EncoderInterface as BaseEncoderInterface;
 
-interface EncoderInterface
+/**
+ * @deprecated use \Chubbyphp\DecodeEncode\Encoder\EncoderInterface
+ */
+interface EncoderInterface extends BaseEncoderInterface
 {
-    /**
-     * @return array<int, string>
-     */
-    public function getContentTypes(): array;
-
-    /**
-     * @param array<string, null|array|bool|float|int|string> $data
-     *
-     * @throws SerializerLogicException
-     */
-    public function encode(array $data, string $contentType): string;
 }

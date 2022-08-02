@@ -1,15 +1,5 @@
 # JsonTypeEncoder
 
-```php
-<?php
+Use [JsonTypeEncoder][1] from chubbyphp/chubbyphp-decode-encode.
 
-use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
-
-$encoderType = new JsonTypeEncoder();
-
-echo $encoderType->getContentType();
-// 'application/json'
-
-echo $encoderType->encode(['name' => 'php']);
-// '{"name": "php"}'
-```
+[1]: https://github.com/chubbyphp/chubbyphp-decode-encode/blob/master/doc/Encoder/JsonTypeEncoder.md

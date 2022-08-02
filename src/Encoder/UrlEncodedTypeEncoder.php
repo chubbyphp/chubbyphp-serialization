@@ -4,11 +4,32 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Encoder;
 
+use Chubbyphp\DecodeEncode\Encoder\UrlEncodedTypeEncoder as BaseUrlEncodedTypeEncoder;
+
+/**
+ * @deprecated use \Chubbyphp\DecodeEncode\Encoder\UrlEncodedTypeEncoder
+ */
 final class UrlEncodedTypeEncoder implements TypeEncoderInterface
 {
+    private BaseUrlEncodedTypeEncoder $urlEncodedTypeEncoder;
+
+    public function __construct()
+    {
+        $this->urlEncodedTypeEncoder = new BaseUrlEncodedTypeEncoder();
+    }
+
     public function getContentType(): string
     {
-        return 'application/x-www-form-urlencoded';
+        @trigger_error(
+            sprintf(
+                '%s:getContentType use %s:getContentType',
+                self::class,
+                BaseUrlEncodedTypeEncoder::class
+            ),
+            E_USER_DEPRECATED
+        );
+
+        return $this->urlEncodedTypeEncoder->getContentType();
     }
 
     /**
@@ -16,60 +37,15 @@ final class UrlEncodedTypeEncoder implements TypeEncoderInterface
      */
     public function encode(array $data): string
     {
-        return $this->buildQuery($data);
-    }
+        @trigger_error(
+            sprintf(
+                '%s:encode use %s:encode',
+                self::class,
+                BaseUrlEncodedTypeEncoder::class
+            ),
+            E_USER_DEPRECATED
+        );
 
-    /**
-     * @param array<int|string, null|array|bool|float|int|string> $data
-     */
-    private function buildQuery(array $data, string $path = ''): string
-    {
-        $query = '';
-        foreach ($data as $key => $value) {
-            if (null === $value || [] === $value) {
-                continue;
-            }
-
-            $subPath = '' !== $path ? $path.'['.$key.']' : (string) $key;
-
-            if (\is_array($value)) {
-                $queryPart = $this->buildQuery($value, $subPath);
-
-                $query .= '' !== $queryPart ? $queryPart.'&' : '';
-            } else {
-                $query .= $subPath.'='.urlencode($this->getValueAsString($value)).'&';
-            }
-        }
-
-        return substr($query, 0, -1);
-    }
-
-    /**
-     * @throws \InvalidArgumentException
-     */
-    private function getValueAsString(\stdClass|bool|float|int|string $value): string
-    {
-        if (\is_string($value)) {
-            return $value;
-        }
-
-        if (\is_bool($value)) {
-            return $value ? 'true' : 'false';
-        }
-
-        if (\is_float($value)) {
-            $value = (string) $value;
-            if (!str_contains($value, '.')) {
-                $value .= '.0';
-            }
-
-            return $value;
-        }
-
-        if (\is_int($value)) {
-            return (string) $value;
-        }
-
-        throw new \InvalidArgumentException(sprintf('Unsupported data type: %s', \gettype($value)));
+        return $this->urlEncodedTypeEncoder->encode($data);
     }
 }

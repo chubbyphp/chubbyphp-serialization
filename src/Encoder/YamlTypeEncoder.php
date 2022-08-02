@@ -4,13 +4,32 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Encoder;
 
-use Symfony\Component\Yaml\Yaml;
+use Chubbyphp\DecodeEncode\Encoder\YamlTypeEncoder as BaseYamlTypeEncoder;
 
+/**
+ * @deprecated use \Chubbyphp\DecodeEncode\Encoder\YamlTypeEncoder
+ */
 final class YamlTypeEncoder implements TypeEncoderInterface
 {
+    private BaseYamlTypeEncoder $yamlTypeEncoder;
+
+    public function __construct()
+    {
+        $this->yamlTypeEncoder = new BaseYamlTypeEncoder();
+    }
+
     public function getContentType(): string
     {
-        return 'application/x-yaml';
+        @trigger_error(
+            sprintf(
+                '%s:getContentType use %s:getContentType',
+                self::class,
+                BaseYamlTypeEncoder::class
+            ),
+            E_USER_DEPRECATED
+        );
+
+        return $this->yamlTypeEncoder->getContentType();
     }
 
     /**
@@ -18,6 +37,15 @@ final class YamlTypeEncoder implements TypeEncoderInterface
      */
     public function encode(array $data): string
     {
-        return trim(Yaml::dump($data, 10, 4));
+        @trigger_error(
+            sprintf(
+                '%s:encode use %s:encode',
+                self::class,
+                BaseYamlTypeEncoder::class
+            ),
+            E_USER_DEPRECATED
+        );
+
+        return $this->yamlTypeEncoder->encode($data);
     }
 }
