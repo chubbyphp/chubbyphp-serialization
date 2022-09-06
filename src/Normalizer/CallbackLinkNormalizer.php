@@ -20,9 +20,9 @@ final class CallbackLinkNormalizer implements LinkNormalizerInterface
     }
 
     /**
-     * @throws SerializerLogicException
-     *
      * @return array<string, mixed>
+     *
+     * @throws SerializerLogicException
      */
     public function normalizeLink(string $path, object $object, NormalizerContextInterface $context): array
     {

@@ -23,9 +23,9 @@ final class Normalizer implements NormalizerInterface
     }
 
     /**
-     * @throws SerializerLogicException
-     *
      * @return array<string, null|array|bool|float|int|string>
+     *
+     * @throws SerializerLogicException
      */
     public function normalize(
         object $object,

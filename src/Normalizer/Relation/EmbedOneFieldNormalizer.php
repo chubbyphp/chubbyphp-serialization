@@ -17,9 +17,9 @@ final class EmbedOneFieldNormalizer implements FieldNormalizerInterface
     }
 
     /**
-     * @throws SerializerLogicException
-     *
      * @return mixed
+     *
+     * @throws SerializerLogicException
      */
     public function normalizeField(
         string $path,

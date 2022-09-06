@@ -9,9 +9,9 @@ use Chubbyphp\Serialization\SerializerLogicException;
 interface FieldNormalizerInterface
 {
     /**
-     * @throws SerializerLogicException
-     *
      * @return mixed
+     *
+     * @throws SerializerLogicException
      */
     public function normalizeField(
         string $path,
