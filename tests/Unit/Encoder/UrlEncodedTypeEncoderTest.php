@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Encoder;
 
+use Chubbyphp\DecodeEncode\Encoder\UrlEncodedTypeEncoder as BaseUrlEncodedTypeEncoder;
 use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
 
 /**
@@ -17,7 +18,20 @@ final class UrlEncodedTypeEncoderTest extends AbstractTypeEncoderTest
     {
         $encoder = new UrlEncodedTypeEncoder();
 
+        error_clear_last();
+
         self::assertSame('application/x-www-form-urlencoded', $encoder->getContentType());
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(sprintf(
+            '%s:getContentType use %s:getContentType',
+            UrlEncodedTypeEncoder::class,
+            BaseUrlEncodedTypeEncoder::class
+        ), $error['message']);
     }
 
     /**
@@ -39,6 +53,20 @@ final class UrlEncodedTypeEncoderTest extends AbstractTypeEncoderTest
         $this->expectExceptionMessage('Unsupported data type: object');
 
         $urlEncodedencoder = new UrlEncodedTypeEncoder();
+
+        error_clear_last();
+
         $urlEncodedencoder->encode(['key' => new \stdClass()]);
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(sprintf(
+            '%s:encode use %s:encode',
+            UrlEncodedTypeEncoder::class,
+            BaseUrlEncodedTypeEncoder::class
+        ), $error['message']);
     }
 }

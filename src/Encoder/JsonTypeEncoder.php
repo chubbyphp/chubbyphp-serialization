@@ -4,15 +4,32 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\Encoder;
 
+use Chubbyphp\DecodeEncode\Encoder\JsonTypeEncoder as BaseJsonTypeEncoder;
+
+/**
+ * @deprecated use \Chubbyphp\DecodeEncode\Encoder\JsonTypeEncoder
+ */
 final class JsonTypeEncoder implements TypeEncoderInterface
 {
-    public function __construct(private bool $prettyPrint = false)
+    private BaseJsonTypeEncoder $jsonTypeEncoder;
+
+    public function __construct(bool $prettyPrint = false)
     {
+        $this->jsonTypeEncoder = new BaseJsonTypeEncoder($prettyPrint);
     }
 
     public function getContentType(): string
     {
-        return 'application/json';
+        @trigger_error(
+            sprintf(
+                '%s:getContentType use %s:getContentType',
+                self::class,
+                BaseJsonTypeEncoder::class
+            ),
+            E_USER_DEPRECATED
+        );
+
+        return $this->jsonTypeEncoder->getContentType();
     }
 
     /**
@@ -20,11 +37,15 @@ final class JsonTypeEncoder implements TypeEncoderInterface
      */
     public function encode(array $data): string
     {
-        $options = JSON_PRESERVE_ZERO_FRACTION | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_IGNORE;
-        if ($this->prettyPrint) {
-            $options |= JSON_PRETTY_PRINT;
-        }
+        @trigger_error(
+            sprintf(
+                '%s:encode use %s:encode',
+                self::class,
+                BaseJsonTypeEncoder::class
+            ),
+            E_USER_DEPRECATED
+        );
 
-        return json_encode($data, $options);
+        return $this->jsonTypeEncoder->encode($data);
     }
 }

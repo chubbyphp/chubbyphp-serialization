@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Encoder;
 
+use Chubbyphp\DecodeEncode\Encoder\Encoder as BaseEncoder;
 use Chubbyphp\Mock\Call;
 use Chubbyphp\Mock\MockByCallsTrait;
 use Chubbyphp\Serialization\Encoder\Encoder;
@@ -30,7 +31,20 @@ final class EncoderTest extends TestCase
 
         $encoder = new Encoder([$typeEncoder]);
 
+        error_clear_last();
+
         self::assertSame(['application/json'], $encoder->getContentTypes());
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(sprintf(
+            '%s:getContentTypes use %s:getContentTypes',
+            Encoder::class,
+            BaseEncoder::class
+        ), $error['message']);
     }
 
     public function testEncode(): void
@@ -43,13 +57,26 @@ final class EncoderTest extends TestCase
 
         $encoder = new Encoder([$typeEncoder]);
 
+        error_clear_last();
+
         self::assertSame('{"key":"value"}', $encoder->encode(['key' => 'value'], 'application/json'));
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(sprintf(
+            '%s:encode use %s:encode',
+            Encoder::class,
+            BaseEncoder::class
+        ), $error['message']);
     }
 
     public function testDecodeWithMissingType(): void
     {
         $this->expectException(SerializerLogicException::class);
-        $this->expectExceptionMessage('There is no encoder for content-type: "application/xml"');
+        $this->expectExceptionMessage('There is no decoder/encoder for content-type: "application/xml"');
 
         /** @var MockObject|TypeEncoderInterface $typeEncoder */
         $typeEncoder = $this->getMockByCalls(TypeEncoderInterface::class, [

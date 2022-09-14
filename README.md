@@ -27,6 +27,7 @@ A simple serialization.
 ## Requirements
 
  * php: ^8.0
+ * chubbyphp/chubbyphp-decode-encode: ^1.0.0
  * doctrine/inflector: ^1.4.4|^2.0.4
  * psr/http-message: ^1.0.1
  * psr/link: ^1.0
@@ -38,14 +39,13 @@ A simple serialization.
  * pimple/pimple: ^3.5
  * psr/container: ^1.1.2|^2.0.2
  * symfony/dependency-injection: ^4.4.38|^5.4.5|^6.0 (symfony integration)
- * symfony/yaml: ^4.4.38|^5.4.5|^6.0 (application/x-yaml support)
 
 ## Installation
 
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-serialization][1].
 
 ```sh
-composer require chubbyphp/chubbyphp-serialization "^3.2"
+composer require chubbyphp/chubbyphp-serialization "^3.3"
 ```
 
 ## Usage
@@ -155,12 +155,12 @@ composer require chubbyphp/chubbyphp-serialization "^3.2"
 ```php
 <?php
 
-use Chubbyphp\Serialization\Encoder\Encoder;
-use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
-use Chubbyphp\Serialization\Encoder\JsonxTypeEncoder;
-use Chubbyphp\Serialization\Encoder\UrlEncodedTypeEncoder;
-use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
-use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
+use Chubbyphp\DecodeEncode\Encoder\Encoder;
+use Chubbyphp\DecodeEncode\Encoder\JsonTypeEncoder;
+use Chubbyphp\DecodeEncode\Encoder\JsonxTypeEncoder;
+use Chubbyphp\DecodeEncode\Encoder\UrlEncodedTypeEncoder;
+use Chubbyphp\DecodeEncode\Encoder\XmlTypeEncoder;
+use Chubbyphp\DecodeEncode\Encoder\YamlTypeEncoder;
 use Chubbyphp\Serialization\Normalizer\Normalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;

@@ -1,15 +1,5 @@
 # YamlTypeEncoder
 
-```php
-<?php
+Use [YamlTypeEncoder][1] from chubbyphp/chubbyphp-decode-encode.
 
-use Chubbyphp\Serialization\Encoder\YamlTypeEncoder;
-
-$encoderType = new YamlTypeEncoder();
-
-echo $encoderType->getContentType();
-// 'application/x-yaml'
-
-echo $encoderType->encode(['name' => 'php']);
-// 'name: php'
-```
+[1]: https://github.com/chubbyphp/chubbyphp-decode-encode/blob/master/doc/Encoder/YamlTypeEncoder.md

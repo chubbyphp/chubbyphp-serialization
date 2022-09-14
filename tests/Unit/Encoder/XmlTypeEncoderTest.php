@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Encoder;
 
+use Chubbyphp\DecodeEncode\Encoder\XmlTypeEncoder as BaseXmlTypeEncoder;
 use Chubbyphp\Serialization\Encoder\XmlTypeEncoder;
 
 /**
@@ -17,7 +18,20 @@ final class XmlTypeEncoderTest extends AbstractTypeEncoderTest
     {
         $encoder = new XmlTypeEncoder();
 
+        error_clear_last();
+
         self::assertSame('application/xml', $encoder->getContentType());
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(sprintf(
+            '%s:getContentType use %s:getContentType',
+            XmlTypeEncoder::class,
+            BaseXmlTypeEncoder::class
+        ), $error['message']);
     }
 
     /**
@@ -26,6 +40,8 @@ final class XmlTypeEncoderTest extends AbstractTypeEncoderTest
     public function testFormat(array $data): void
     {
         $encoder = new XmlTypeEncoder(true);
+
+        error_clear_last();
 
         $xml = $encoder->encode($data);
 
@@ -212,5 +228,16 @@ final class XmlTypeEncoderTest extends AbstractTypeEncoderTest
             </json:object>
             EOT;
         self::assertEquals($expectedXml, $xml);
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(sprintf(
+            '%s:encode use %s:encode',
+            XmlTypeEncoder::class,
+            BaseXmlTypeEncoder::class
+        ), $error['message']);
     }
 }

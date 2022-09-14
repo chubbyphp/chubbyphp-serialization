@@ -1,15 +1,5 @@
 # JsonxTypeEncoder
 
-```php
-<?php
+Use [JsonxTypeEncoder][1] from chubbyphp/chubbyphp-decode-encode.
 
-use Chubbyphp\Serialization\Encoder\JsonxTypeEncoder;
-
-$encoderType = new JsonxTypeEncoder();
-
-echo $encoderType->getContentType();
-// 'application/jsonx+xml'
-
-echo $encoderType->encode(['name' => 'php']);
-// '<json:object><json:string name="name">php</json:string></json:object>'
-```
+[1]: https://github.com/chubbyphp/chubbyphp-decode-encode/blob/master/doc/Encoder/JsonxTypeEncoder.md

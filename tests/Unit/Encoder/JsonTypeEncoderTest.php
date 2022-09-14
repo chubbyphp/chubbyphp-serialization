@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Encoder;
 
+use Chubbyphp\DecodeEncode\Encoder\JsonTypeEncoder as BaseJsonTypeEncoder;
 use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
 
 /**
@@ -17,7 +18,20 @@ final class JsonTypeEncoderTest extends AbstractTypeEncoderTest
     {
         $encoder = new JsonTypeEncoder();
 
+        error_clear_last();
+
         self::assertSame('application/json', $encoder->getContentType());
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(sprintf(
+            '%s:getContentType use %s:getContentType',
+            JsonTypeEncoder::class,
+            BaseJsonTypeEncoder::class
+        ), $error['message']);
     }
 
     /**
@@ -26,6 +40,8 @@ final class JsonTypeEncoderTest extends AbstractTypeEncoderTest
     public function testFormat(array $data): void
     {
         $jsonencoder = new JsonTypeEncoder(true);
+
+        error_clear_last();
 
         $json = $jsonencoder->encode($data);
 
@@ -209,6 +225,17 @@ final class JsonTypeEncoderTest extends AbstractTypeEncoderTest
             }
             EOT;
         self::assertEquals($expectedJson, $json);
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(sprintf(
+            '%s:encode use %s:encode',
+            JsonTypeEncoder::class,
+            BaseJsonTypeEncoder::class
+        ), $error['message']);
     }
 
     public function testFormatJsonIgnoreInvalidUtf8WithPrettyPrint(): void

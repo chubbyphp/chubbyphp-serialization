@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Encoder;
 
+use Chubbyphp\DecodeEncode\Encoder\JsonxTypeEncoder as BaseJsonxTypeEncoder;
 use Chubbyphp\Serialization\Encoder\JsonxTypeEncoder;
 
 /**
@@ -17,7 +18,20 @@ final class JsonxTypeEncoderTest extends AbstractTypeEncoderTest
     {
         $encoder = new JsonxTypeEncoder();
 
+        error_clear_last();
+
         self::assertSame('application/jsonx+xml', $encoder->getContentType());
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(sprintf(
+            '%s:getContentType use %s:getContentType',
+            JsonxTypeEncoder::class,
+            BaseJsonxTypeEncoder::class
+        ), $error['message']);
     }
 
     /**
@@ -26,6 +40,8 @@ final class JsonxTypeEncoderTest extends AbstractTypeEncoderTest
     public function testFormat(array $data): void
     {
         $encoder = new JsonxTypeEncoder(true);
+
+        $error = error_get_last();
 
         $jsonx = $encoder->encode($data);
 
@@ -212,6 +228,17 @@ final class JsonxTypeEncoderTest extends AbstractTypeEncoderTest
             </json:object>
             EOT;
         self::assertEquals($expectedJsonx, $jsonx);
+
+        $error = error_get_last();
+
+        self::assertNotNull($error);
+
+        self::assertSame(E_USER_DEPRECATED, $error['type']);
+        self::assertSame(sprintf(
+            '%s:encode use %s:encode',
+            JsonxTypeEncoder::class,
+            BaseJsonxTypeEncoder::class
+        ), $error['message']);
     }
 
     public function testArray(): void
