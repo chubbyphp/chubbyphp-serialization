@@ -225,7 +225,7 @@ echo $serializer->encode(
 
 ## Copyright
 
-Dominik Zogg 2022
+2023 Dominik Zogg
 
 
 [1]: https://packagist.org/packages/chubbyphp/chubbyphp-serialization
