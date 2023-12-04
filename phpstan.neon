@@ -4,8 +4,5 @@ parameters:
             message: '/no value type specified in iterable type array/'
             path: %currentWorkingDirectory%/src/*.php
         -
-            message: '//'
-            path: %currentWorkingDirectory%/src/Encoder/JsonxTypeEncoder.php
-        -
             message: '/PHPDoc tag @var for variable \$parentReflectionClass contains generic class ReflectionClass but does not specify its types\: T/'
             path: %currentWorkingDirectory%/src/Normalizer/NormalizerObjectMappingRegistry.php

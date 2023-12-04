@@ -9,9 +9,7 @@ use Psr\Link\LinkInterface;
 
 final class LinkNormalizer implements LinkNormalizerInterface
 {
-    public function __construct(private LinkInterface $link)
-    {
-    }
+    public function __construct(private LinkInterface $link) {}
 
     /**
      * @return array<string, mixed>

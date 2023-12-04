@@ -12,9 +12,7 @@ final class Link implements LinkInterface
      * @param array<int, string>   $rels
      * @param array<string, mixed> $attributes
      */
-    public function __construct(private string $href, private array $rels, private array $attributes)
-    {
-    }
+    public function __construct(private string $href, private array $rels, private array $attributes) {}
 
     public function getHref(): string
     {

@@ -8,9 +8,7 @@ use Chubbyphp\Serialization\SerializerLogicException;
 
 final class MethodAccessor implements AccessorInterface
 {
-    public function __construct(private string $property)
-    {
-    }
+    public function __construct(private string $property) {}
 
     /**
      * @return mixed

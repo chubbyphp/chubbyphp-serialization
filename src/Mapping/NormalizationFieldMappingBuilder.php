@@ -22,9 +22,7 @@ final class NormalizationFieldMappingBuilder
 
     private ?PolicyInterface $policy = null;
 
-    private function __construct(private string $name)
-    {
-    }
+    private function __construct(private string $name) {}
 
     public static function create(
         string $name,

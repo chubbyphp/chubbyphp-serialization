@@ -9,9 +9,7 @@ use Doctrine\Persistence\Proxy;
 
 final class PropertyAccessor implements AccessorInterface
 {
-    public function __construct(private string $property)
-    {
-    }
+    public function __construct(private string $property) {}
 
     /**
      * @return mixed

@@ -15,9 +15,7 @@ final class NormalizerContextBuilder
 
     private ?ServerRequestInterface $request = null;
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     public static function create(): self
     {

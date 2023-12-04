@@ -11,9 +11,7 @@ final class OrPolicy implements PolicyInterface
     /**
      * @param array<int, PolicyInterface> $policies
      */
-    public function __construct(private array $policies)
-    {
-    }
+    public function __construct(private array $policies) {}
 
     public function isCompliant(string $path, object $object, NormalizerContextInterface $context): bool
     {

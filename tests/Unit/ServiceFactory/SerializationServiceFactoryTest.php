@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Chubbyphp\Tests\Serialization\Unit\ServiceFactory;
 
 use Chubbyphp\Container\Container;
+use Chubbyphp\DecodeEncode\Encoder\Encoder;
 use Chubbyphp\Mock\MockByCallsTrait;
-use Chubbyphp\Serialization\Encoder\Encoder;
 use Chubbyphp\Serialization\Normalizer\Normalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;

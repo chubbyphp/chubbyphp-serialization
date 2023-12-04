@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/chubbyphp/chubbyphp-serialization/workflows/CI/badge.svg?branch=master)](https://github.com/chubbyphp/chubbyphp-serialization/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/github/chubbyphp/chubbyphp-serialization/badge.svg?branch=master)](https://coveralls.io/github/chubbyphp/chubbyphp-serialization?branch=master)
-[![Infection MSI](https://badge.stryker-mutator.io/github.com/chubbyphp/chubbyphp-serialization/master)](https://dashboard.stryker-mutator.io/reports/github.com/chubbyphp/chubbyphp-serialization/master)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fchubbyphp%2Fchubbyphp-serialization%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/chubbyphp/chubbyphp-serialization/master)[![Latest Stable Version](https://poser.pugx.org/chubbyphp/chubbyphp-serialization/v/stable.png)](https://packagist.org/packages/chubbyphp/chubbyphp-serialization)
 [![Latest Stable Version](https://poser.pugx.org/chubbyphp/chubbyphp-serialization/v/stable.png)](https://packagist.org/packages/chubbyphp/chubbyphp-serialization)
 [![Total Downloads](https://poser.pugx.org/chubbyphp/chubbyphp-serialization/downloads.png)](https://packagist.org/packages/chubbyphp/chubbyphp-serialization)
 [![Monthly Downloads](https://poser.pugx.org/chubbyphp/chubbyphp-serialization/d/monthly)](https://packagist.org/packages/chubbyphp/chubbyphp-serialization)
@@ -26,26 +26,26 @@ A simple serialization.
 
 ## Requirements
 
- * php: ^8.0
- * chubbyphp/chubbyphp-decode-encode: ^1.0.0
- * doctrine/inflector: ^1.4.4|^2.0.4
- * psr/http-message: ^1.0.1
- * psr/link: ^1.0
- * psr/log: ^1.1.4|^2.0|^3.0
+ * php: ^8.1
+ * chubbyphp/chubbyphp-decode-encode: ^1.1
+ * doctrine/inflector: ^1.4.4|^2.0.8
+ * psr/http-message: ^1.1|^2.0
+ * psr/link: ^1.1.1|^2.0.1
+ * psr/log: ^2.0|^3.0
 
 ## Suggest
 
- * chubbyphp/chubbyphp-container: ^2.1
+ * chubbyphp/chubbyphp-container: ^2.2
  * pimple/pimple: ^3.5
- * psr/container: ^1.1.2|^2.0.2
- * symfony/dependency-injection: ^4.4.38|^5.4.5|^6.0 (symfony integration)
+ * psr/container: ^2.0.2
+ * symfony/dependency-injection: ^5.4.31|^6.3.8|^7.0 (symfony integration)
 
 ## Installation
 
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-serialization][1].
 
 ```sh
-composer require chubbyphp/chubbyphp-serialization "^3.3"
+composer require chubbyphp/chubbyphp-serialization "^4.0"
 ```
 
 ## Usage

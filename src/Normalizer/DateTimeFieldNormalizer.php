@@ -8,9 +8,7 @@ use Chubbyphp\Serialization\Accessor\AccessorInterface;
 
 final class DateTimeFieldNormalizer implements FieldNormalizerInterface
 {
-    public function __construct(private AccessorInterface $accessor, private string $format = 'c')
-    {
-    }
+    public function __construct(private AccessorInterface $accessor, private string $format = 'c') {}
 
     /**
      * @return mixed

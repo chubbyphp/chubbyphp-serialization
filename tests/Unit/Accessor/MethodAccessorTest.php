@@ -88,8 +88,7 @@ final class MethodAccessorTest extends TestCase
     {
         $this->expectException(SerializerLogicException::class);
 
-        $object = new class() {
-        };
+        $object = new class() {};
 
         $accessor = new MethodAccessor('name');
         $accessor->getValue($object);

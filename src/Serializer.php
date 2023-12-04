@@ -10,9 +10,7 @@ use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 
 final class Serializer implements SerializerInterface
 {
-    public function __construct(private NormalizerInterface $normalizer, private EncoderInterface $encoder)
-    {
-    }
+    public function __construct(private NormalizerInterface $normalizer, private EncoderInterface $encoder) {}
 
     public function serialize(
         object $object,

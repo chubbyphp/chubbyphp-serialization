@@ -20,9 +20,7 @@ final class LinkBuilder
      */
     private ?array $attributes = null;
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     public static function create(string $href): self
     {

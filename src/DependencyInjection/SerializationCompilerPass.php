@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Serialization\DependencyInjection;
 
-use Chubbyphp\Serialization\Encoder\Encoder;
+use Chubbyphp\DecodeEncode\Encoder\Encoder;
 use Chubbyphp\Serialization\Normalizer\Normalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;

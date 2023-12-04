@@ -118,7 +118,7 @@ final class DateTimeFieldNormalizerTest extends TestCase
     private function getObject()
     {
         return new class() {
-            private \DateTimeImmutable|string|null $date = null;
+            private null|\DateTimeImmutable|string $date = null;
 
             /**
              * @return null|\DateTime|string
@@ -128,10 +128,7 @@ final class DateTimeFieldNormalizerTest extends TestCase
                 return $this->date;
             }
 
-            /**
-             * @param null|\DateTime|string $date
-             */
-            public function setDate($date): self
+            public function setDate(null|\DateTimeImmutable|string $date): self
             {
                 $this->date = $date;
 

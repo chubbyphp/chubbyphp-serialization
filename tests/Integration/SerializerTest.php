@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Integration;
 
-use Chubbyphp\Serialization\Encoder\Encoder;
-use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
+use Chubbyphp\DecodeEncode\Encoder\Encoder;
+use Chubbyphp\DecodeEncode\Encoder\JsonTypeEncoder;
 use Chubbyphp\Serialization\Normalizer\Normalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextBuilder;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\DependencyInjection;
 
+use Chubbyphp\DecodeEncode\Encoder\Encoder;
+use Chubbyphp\DecodeEncode\Encoder\JsonTypeEncoder;
 use Chubbyphp\Serialization\DependencyInjection\SerializationCompilerPass;
-use Chubbyphp\Serialization\Encoder\Encoder;
-use Chubbyphp\Serialization\Encoder\JsonTypeEncoder;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;

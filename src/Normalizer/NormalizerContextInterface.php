@@ -16,14 +16,9 @@ interface NormalizerContextInterface
     public function getAttributes(): array;
 
     /**
-     * @param mixed $default
-     *
      * @return mixed
      */
-    public function getAttribute(string $name, $default = null);
+    public function getAttribute(string $name, mixed $default = null);
 
-    /**
-     * @param mixed $value
-     */
-    public function withAttribute(string $name, $value): self;
+    public function withAttribute(string $name, mixed $value): self;
 }

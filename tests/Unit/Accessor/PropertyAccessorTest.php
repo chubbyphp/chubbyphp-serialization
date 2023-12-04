@@ -30,9 +30,7 @@ final class PropertyAccessorTest extends TestCase
     public function testGetValueCanAccessPrivatePropertyThroughDoctrineProxyClass(): void
     {
         $object = new class() extends Model implements Proxy {
-            public function __load(): void
-            {
-            }
+            public function __load(): void {}
 
             public function __isInitialized(): bool
             {
@@ -51,8 +49,7 @@ final class PropertyAccessorTest extends TestCase
     {
         $this->expectException(SerializerLogicException::class);
 
-        $object = new class() {
-        };
+        $object = new class() {};
 
         $accessor = new PropertyAccessor('name');
         $accessor->getValue($object);

@@ -8,9 +8,7 @@ use Chubbyphp\Serialization\Accessor\AccessorInterface;
 
 final class FieldNormalizer implements FieldNormalizerInterface
 {
-    public function __construct(private AccessorInterface $accessor)
-    {
-    }
+    public function __construct(private AccessorInterface $accessor) {}
 
     /**
      * @return mixed
