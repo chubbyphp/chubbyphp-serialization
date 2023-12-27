@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Chubbyphp\Serialization;
 
 use Chubbyphp\DecodeEncode\Encoder\EncoderInterface;
+use Chubbyphp\DecodeEncode\RuntimeException as DecodeEncodeRuntimeException;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 
@@ -18,7 +19,7 @@ final class Serializer implements SerializerInterface
         ?NormalizerContextInterface $context = null,
         string $path = ''
     ): string {
-        return $this->encoder->encode($this->normalizer->normalize($object, $context, $path), $contentType);
+        return $this->encode($this->normalize($object, $context, $path), $contentType);
     }
 
     /**
@@ -40,7 +41,7 @@ final class Serializer implements SerializerInterface
     /**
      * @param array<string, null|array|bool|float|int|string> $data
      *
-     * @throws SerializerLogicException
+     * @throws DecodeEncodeRuntimeException
      */
     public function encode(array $data, string $contentType): string
     {
