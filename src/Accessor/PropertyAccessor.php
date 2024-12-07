@@ -31,6 +31,7 @@ final class PropertyAccessor implements AccessorInterface
         return $getter($this->property);
     }
 
+    /** @return class-string<object> */
     private function getClass(object $object): string
     {
         if (interface_exists('Doctrine\Persistence\Proxy') && $object instanceof Proxy) {

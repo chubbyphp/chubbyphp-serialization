@@ -72,7 +72,7 @@ final class SerializationCompilerPassTest extends TestCase
 
     private function getStdClassMapping()
     {
-        return new class() implements NormalizationObjectMappingInterface {
+        return new class implements NormalizationObjectMappingInterface {
             public function getClass(): string
             {
                 return \stdClass::class;

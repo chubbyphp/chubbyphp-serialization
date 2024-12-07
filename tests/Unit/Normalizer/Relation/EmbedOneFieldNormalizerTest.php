@@ -105,7 +105,7 @@ final class EmbedOneFieldNormalizerTest extends TestCase
 
     private function getObject(): object
     {
-        return new class() {
+        return new class {
             private object $relation;
 
             public function getRelation(): object
@@ -124,7 +124,7 @@ final class EmbedOneFieldNormalizerTest extends TestCase
 
     private function getRelation(): object
     {
-        return new class() {
+        return new class {
             private string $name;
 
             public function getName(): string

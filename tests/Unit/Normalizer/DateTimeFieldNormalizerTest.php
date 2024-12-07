@@ -117,7 +117,7 @@ final class DateTimeFieldNormalizerTest extends TestCase
 
     private function getObject()
     {
-        return new class() {
+        return new class {
             private null|\DateTimeImmutable|string $date = null;
 
             /**

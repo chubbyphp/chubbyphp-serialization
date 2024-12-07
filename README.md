@@ -26,26 +26,27 @@ A simple serialization.
 
 ## Requirements
 
- * php: ^8.1
+ * php: ^8.2
  * chubbyphp/chubbyphp-decode-encode: ^1.1
- * doctrine/inflector: ^1.4.4|^2.0.8
+ * doctrine/inflector: ^1.4.4|^2.0.10
  * psr/http-message: ^1.1|^2.0
  * psr/link: ^1.1.1|^2.0.1
- * psr/log: ^2.0|^3.0
+ * psr/log: ^2.0|^3.0.2
 
 ## Suggest
 
  * chubbyphp/chubbyphp-container: ^2.2
  * pimple/pimple: ^3.5
  * psr/container: ^2.0.2
- * symfony/dependency-injection: ^5.4.31|^6.3.8|^7.0 (symfony integration)
+ * symfony/config: ^5.4.46|^6.4.14|^7.2 (symfony integration)
+ * symfony/dependency-injection: ^5.4.46|^6.4.14|^7.2 (symfony integration)
 
 ## Installation
 
 Through [Composer](http://getcomposer.org) as [chubbyphp/chubbyphp-serialization][1].
 
 ```sh
-composer require chubbyphp/chubbyphp-serialization "^4.0"
+composer require chubbyphp/chubbyphp-serialization "^4.1"
 ```
 
 ## Usage

@@ -298,7 +298,7 @@ final class SerializerTest extends TestCase
 
     private function getLogger(): AbstractLogger
     {
-        return new class() extends AbstractLogger {
+        return new class extends AbstractLogger {
             private array $entries = [];
 
             public function log($level, $message, array $context = []): void

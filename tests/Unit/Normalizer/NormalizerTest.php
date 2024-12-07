@@ -232,7 +232,7 @@ final class NormalizerTest extends TestCase
 
     private function getObject(): object
     {
-        return new class() {
+        return new class {
             private string $id = 'id1';
 
             private ?string $name = null;

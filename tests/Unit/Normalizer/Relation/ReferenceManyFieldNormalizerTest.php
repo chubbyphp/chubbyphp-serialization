@@ -111,7 +111,7 @@ final class ReferenceManyFieldNormalizerTest extends TestCase
 
     private function getParent(): object
     {
-        return new class() {
+        return new class {
             private ?array $children = null;
 
             public function getChildren(): ?array
