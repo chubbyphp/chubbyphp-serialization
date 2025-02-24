@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Normalizer;
 
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Normalizer\NormalizerContext;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -17,8 +17,6 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 final class NormalizerContextTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testCreate(): void
     {
         $context = new NormalizerContext();
@@ -29,10 +27,12 @@ final class NormalizerContextTest extends TestCase
         self::assertSame('default', $context->getAttribute('nonExistingAttribute', 'default'));
     }
 
-    public function testCreateWithOverridenSettings(): void
+    public function testCreateWithOverriddenSettings(): void
     {
+        $builder = new MockObjectBuilder();
+
         /** @var MockObject|ServerRequestInterface $request */
-        $request = $this->getMockByCalls(ServerRequestInterface::class);
+        $request = $builder->create(ServerRequestInterface::class, []);
 
         $context = new NormalizerContext(
             $request,
@@ -46,8 +46,10 @@ final class NormalizerContextTest extends TestCase
 
     public function testWithAttributes(): void
     {
+        $builder = new MockObjectBuilder();
+
         /** @var MockObject|ServerRequestInterface $request */
-        $request = $this->getMockByCalls(ServerRequestInterface::class);
+        $request = $builder->create(ServerRequestInterface::class, []);
 
         $context = new NormalizerContext($request, ['attribute' => 'value']);
 
@@ -61,8 +63,10 @@ final class NormalizerContextTest extends TestCase
 
     public function testWithAttribute(): void
     {
+        $builder = new MockObjectBuilder();
+
         /** @var MockObject|ServerRequestInterface $request */
-        $request = $this->getMockByCalls(ServerRequestInterface::class);
+        $request = $builder->create(ServerRequestInterface::class, []);
 
         $context = new NormalizerContext($request, ['attribute' => 'value'], ['allowed_field']);
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Normalizer;
 
-use Chubbyphp\Mock\Call;
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockMethod\WithReturn;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\Relation\ReferenceOneFieldNormalizer;
@@ -19,30 +19,26 @@ use PHPUnit\Framework\TestCase;
  */
 final class ReferenceOneFieldNormalizerTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testNormalizeFieldWithNull(): void
     {
         $object = new \stdClass();
 
+        $builder = new MockObjectBuilder();
+
         /** @var AccessorInterface|MockObject $identifierAccessor */
-        $identifierAccessor = $this->getMockByCalls(AccessorInterface::class);
+        $identifierAccessor = $builder->create(AccessorInterface::class, []);
 
         /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockByCalls(AccessorInterface::class, [
-            Call::create('getValue')->with($object)->willReturn(null),
+        $accessor = $builder->create(AccessorInterface::class, [
+            new WithReturn('getValue', [$object], null),
         ]);
 
         /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+        $context = $builder->create(NormalizerContextInterface::class, []);
 
         $fieldNormalizer = new ReferenceOneFieldNormalizer($identifierAccessor, $accessor);
 
-        $data = $fieldNormalizer->normalizeField(
-            'relation',
-            $object,
-            $context
-        );
+        $data = $fieldNormalizer->normalizeField('relation', $object, $context);
 
         self::assertNull($data);
     }
@@ -53,26 +49,24 @@ final class ReferenceOneFieldNormalizerTest extends TestCase
 
         $object = new \stdClass();
 
+        $builder = new MockObjectBuilder();
+
         /** @var AccessorInterface|MockObject $identifierAccessor */
-        $identifierAccessor = $this->getMockByCalls(AccessorInterface::class, [
-            Call::create('getValue')->with($relation)->willReturn('id1'),
+        $identifierAccessor = $builder->create(AccessorInterface::class, [
+            new WithReturn('getValue', [$relation], 'id1'),
         ]);
 
         /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockByCalls(AccessorInterface::class, [
-            Call::create('getValue')->with($object)->willReturn($relation),
+        $accessor = $builder->create(AccessorInterface::class, [
+            new WithReturn('getValue', [$object], $relation),
         ]);
 
         /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+        $context = $builder->create(NormalizerContextInterface::class, []);
 
         $fieldNormalizer = new ReferenceOneFieldNormalizer($identifierAccessor, $accessor);
 
-        $data = $fieldNormalizer->normalizeField(
-            'relation',
-            $object,
-            $context
-        );
+        $data = $fieldNormalizer->normalizeField('relation', $object, $context);
 
         self::assertSame('id1', $data);
     }

@@ -27,7 +27,7 @@ A simple serialization.
 ## Requirements
 
  * php: ^8.2
- * chubbyphp/chubbyphp-decode-encode: ^1.1
+ * chubbyphp/chubbyphp-decode-encode: ^1.2
  * doctrine/inflector: ^1.4.4|^2.0.10
  * psr/http-message: ^1.1|^2.0
  * psr/link: ^1.1.1|^2.0.1

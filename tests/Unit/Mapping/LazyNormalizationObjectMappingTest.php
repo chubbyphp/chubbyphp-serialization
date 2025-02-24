@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Mapping;
 
-use Chubbyphp\Mock\Call;
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockMethod\WithReturn;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Mapping\LazyNormalizationObjectMapping;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
@@ -21,36 +21,36 @@ use Psr\Container\ContainerInterface;
  */
 final class LazyNormalizationObjectMappingTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testInvoke(): void
     {
-        $normalizationFieldMappings = [$this->getMockByCalls(NormalizationFieldMappingInterface::class)];
+        $builder = new MockObjectBuilder();
 
-        $normalizationEmbeddedFieldMappings = [$this->getMockByCalls(NormalizationFieldMappingInterface::class)];
+        $normalizationFieldMappings = [
+            $builder->create(NormalizationFieldMappingInterface::class, []),
+        ];
 
-        $normalizationLinkMappings = [$this->getMockByCalls(NormalizationLinkMappingInterface::class)];
+        $normalizationEmbeddedFieldMappings = [
+            $builder->create(NormalizationFieldMappingInterface::class, []),
+        ];
+
+        $normalizationLinkMappings = [
+            $builder->create(NormalizationLinkMappingInterface::class, []),
+        ];
 
         /** @var MockObject|NormalizationObjectMappingInterface $normalizationObjectMapping */
-        $normalizationObjectMapping = $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
-            Call::create('getNormalizationType')->with()->willReturn('type'),
-            Call::create('getNormalizationFieldMappings')
-                ->with('path')
-                ->willReturn($normalizationFieldMappings),
-            Call::create('getNormalizationEmbeddedFieldMappings')
-                ->with('path')
-                ->willReturn($normalizationEmbeddedFieldMappings),
-            Call::create('getNormalizationLinkMappings')
-                ->with('path')
-                ->willReturn($normalizationLinkMappings),
+        $normalizationObjectMapping = $builder->create(NormalizationObjectMappingInterface::class, [
+            new WithReturn('getNormalizationType', [], 'type'),
+            new WithReturn('getNormalizationFieldMappings', ['path'], $normalizationFieldMappings),
+            new WithReturn('getNormalizationEmbeddedFieldMappings', ['path'], $normalizationEmbeddedFieldMappings),
+            new WithReturn('getNormalizationLinkMappings', ['path'], $normalizationLinkMappings),
         ]);
 
         /** @var ContainerInterface|MockObject $container */
-        $container = $this->getMockByCalls(ContainerInterface::class, [
-            Call::create('get')->with('service')->willReturn($normalizationObjectMapping),
-            Call::create('get')->with('service')->willReturn($normalizationObjectMapping),
-            Call::create('get')->with('service')->willReturn($normalizationObjectMapping),
-            Call::create('get')->with('service')->willReturn($normalizationObjectMapping),
+        $container = $builder->create(ContainerInterface::class, [
+            new WithReturn('get', ['service'], $normalizationObjectMapping),
+            new WithReturn('get', ['service'], $normalizationObjectMapping),
+            new WithReturn('get', ['service'], $normalizationObjectMapping),
+            new WithReturn('get', ['service'], $normalizationObjectMapping),
         ]);
 
         $objectMapping = new LazyNormalizationObjectMapping($container, 'service', \stdClass::class);

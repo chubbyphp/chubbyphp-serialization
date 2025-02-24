@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Mapping;
 
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMapping;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizerInterface;
 use Chubbyphp\Serialization\Policy\PolicyInterface;
@@ -18,12 +18,12 @@ use PHPUnit\Framework\TestCase;
  */
 final class NormalizationFieldMappingTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testGetName(): void
     {
+        $builder = new MockObjectBuilder();
+
         /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
-        $fieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class);
+        $fieldNormalizer = $builder->create(FieldNormalizerInterface::class, []);
 
         $fieldMapping = new NormalizationFieldMapping('name', $fieldNormalizer);
 
@@ -32,8 +32,10 @@ final class NormalizationFieldMappingTest extends TestCase
 
     public function testGetFieldNormalizer(): void
     {
+        $builder = new MockObjectBuilder();
+
         /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
-        $fieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class);
+        $fieldNormalizer = $builder->create(FieldNormalizerInterface::class, []);
 
         $fieldMapping = new NormalizationFieldMapping('name', $fieldNormalizer);
 
@@ -42,11 +44,13 @@ final class NormalizationFieldMappingTest extends TestCase
 
     public function testGetPolicy(): void
     {
+        $builder = new MockObjectBuilder();
+
         /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
-        $fieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class);
+        $fieldNormalizer = $builder->create(FieldNormalizerInterface::class, []);
 
         /** @var MockObject|PolicyInterface $policy */
-        $policy = $this->getMockByCalls(PolicyInterface::class);
+        $policy = $builder->create(PolicyInterface::class, []);
 
         $fieldMapping = new NormalizationFieldMapping('name', $fieldNormalizer, $policy);
 

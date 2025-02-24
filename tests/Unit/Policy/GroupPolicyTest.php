@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Policy;
 
-use Chubbyphp\Mock\Call;
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockMethod\WithReturn;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Policy\GroupPolicy;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,16 +17,16 @@ use PHPUnit\Framework\TestCase;
  */
 final class GroupPolicyTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testIsCompliantIncludingPathReturnsTrueIfNoGroupsAreSet(): void
     {
         $object = new \stdClass();
 
         $path = '';
 
-        /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+        $builder = new MockObjectBuilder();
+
+        /** @var NormalizerContextInterface $context */
+        $context = $builder->create(NormalizerContextInterface::class, []);
 
         $policy = new GroupPolicy([]);
 
@@ -40,11 +39,11 @@ final class GroupPolicyTest extends TestCase
 
         $path = '';
 
-        /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class, [
-            Call::create('getAttribute')
-                ->with(GroupPolicy::ATTRIBUTE_GROUPS, [GroupPolicy::GROUP_DEFAULT])
-                ->willReturn([GroupPolicy::GROUP_DEFAULT]),
+        $builder = new MockObjectBuilder();
+
+        /** @var NormalizerContextInterface $context */
+        $context = $builder->create(NormalizerContextInterface::class, [
+            new WithReturn('getAttribute', [GroupPolicy::ATTRIBUTE_GROUPS, [GroupPolicy::GROUP_DEFAULT]], [GroupPolicy::GROUP_DEFAULT]),
         ]);
 
         $policy = new GroupPolicy();
@@ -58,11 +57,11 @@ final class GroupPolicyTest extends TestCase
 
         $path = '';
 
-        /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class, [
-            Call::create('getAttribute')
-                ->with(GroupPolicy::ATTRIBUTE_GROUPS, [GroupPolicy::GROUP_DEFAULT])
-                ->willReturn(['group2']),
+        $builder = new MockObjectBuilder();
+
+        /** @var NormalizerContextInterface $context */
+        $context = $builder->create(NormalizerContextInterface::class, [
+            new WithReturn('getAttribute', [GroupPolicy::ATTRIBUTE_GROUPS, [GroupPolicy::GROUP_DEFAULT]], ['group2']),
         ]);
 
         $policy = new GroupPolicy(['group1', 'group2']);
@@ -76,11 +75,11 @@ final class GroupPolicyTest extends TestCase
 
         $path = '';
 
-        /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class, [
-            Call::create('getAttribute')
-                ->with(GroupPolicy::ATTRIBUTE_GROUPS, [GroupPolicy::GROUP_DEFAULT])
-                ->willReturn([]),
+        $builder = new MockObjectBuilder();
+
+        /** @var NormalizerContextInterface $context */
+        $context = $builder->create(NormalizerContextInterface::class, [
+            new WithReturn('getAttribute', [GroupPolicy::ATTRIBUTE_GROUPS, [GroupPolicy::GROUP_DEFAULT]], []),
         ]);
 
         $policy = new GroupPolicy(['group1', 'group2']);
@@ -94,11 +93,11 @@ final class GroupPolicyTest extends TestCase
 
         $path = '';
 
-        /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class, [
-            Call::create('getAttribute')
-                ->with(GroupPolicy::ATTRIBUTE_GROUPS, [GroupPolicy::GROUP_DEFAULT])
-                ->willReturn(['unknownGroup']),
+        $builder = new MockObjectBuilder();
+
+        /** @var NormalizerContextInterface $context */
+        $context = $builder->create(NormalizerContextInterface::class, [
+            new WithReturn('getAttribute', [GroupPolicy::ATTRIBUTE_GROUPS, [GroupPolicy::GROUP_DEFAULT]], ['unknownGroup']),
         ]);
 
         $policy = new GroupPolicy(['group1', 'group2']);

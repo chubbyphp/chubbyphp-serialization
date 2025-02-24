@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Chubbyphp\Tests\Serialization\Unit;
 
 use Chubbyphp\DecodeEncode\Encoder\EncoderInterface;
-use Chubbyphp\Mock\Call;
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockMethod\WithReturn;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\Serializer;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,24 +19,24 @@ use PHPUnit\Framework\TestCase;
  */
 final class SerializerTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testSerialize(): void
     {
         $object = new \stdClass();
         $object->name = 'Name';
 
-        /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+        $builder = new MockObjectBuilder();
 
-        /** @var MockObject|NormalizerInterface $normalizer */
-        $normalizer = $this->getMockByCalls(NormalizerInterface::class, [
-            Call::create('normalize')->with($object, $context, 'path')->willReturn(['name' => 'Name']),
+        /** @var NormalizerContextInterface $context */
+        $context = $builder->create(NormalizerContextInterface::class, []);
+
+        /** @var NormalizerInterface $normalizer */
+        $normalizer = $builder->create(NormalizerInterface::class, [
+            new WithReturn('normalize', [$object, $context, 'path'], ['name' => 'Name']),
         ]);
 
-        /** @var EncoderInterface|MockObject $encoder */
-        $encoder = $this->getMockByCalls(EncoderInterface::class, [
-            Call::create('encode')->with(['name' => 'Name'], 'application/json')->willReturn('{"name":"Name"}'),
+        /** @var EncoderInterface $encoder */
+        $encoder = $builder->create(EncoderInterface::class, [
+            new WithReturn('encode', [['name' => 'Name'], 'application/json'], '{"name":"Name"}'),
         ]);
 
         $serializer = new Serializer($normalizer, $encoder);
@@ -52,16 +51,18 @@ final class SerializerTest extends TestCase
         $object = new \stdClass();
         $object->name = 'Name';
 
-        /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+        $builder = new MockObjectBuilder();
 
-        /** @var MockObject|NormalizerInterface $normalizer */
-        $normalizer = $this->getMockByCalls(NormalizerInterface::class, [
-            Call::create('normalize')->with($object, $context, 'path')->willReturn(['name' => 'Name']),
+        /** @var NormalizerContextInterface $context */
+        $context = $builder->create(NormalizerContextInterface::class, []);
+
+        /** @var NormalizerInterface $normalizer */
+        $normalizer = $builder->create(NormalizerInterface::class, [
+            new WithReturn('normalize', [$object, $context, 'path'], ['name' => 'Name']),
         ]);
 
-        /** @var EncoderInterface|MockObject $encoder */
-        $encoder = $this->getMockByCalls(EncoderInterface::class);
+        /** @var EncoderInterface $encoder */
+        $encoder = $builder->create(EncoderInterface::class, []);
 
         $serializer = new Serializer($normalizer, $encoder);
 
@@ -72,12 +73,14 @@ final class SerializerTest extends TestCase
 
     public function testGetContentTypes(): void
     {
-        /** @var MockObject|NormalizerInterface $normalizer */
-        $normalizer = $this->getMockByCalls(NormalizerInterface::class);
+        $builder = new MockObjectBuilder();
 
-        /** @var EncoderInterface|MockObject $encoder */
-        $encoder = $this->getMockByCalls(EncoderInterface::class, [
-            Call::create('getContentTypes')->with()->willReturn(['application/json']),
+        /** @var NormalizerInterface $normalizer */
+        $normalizer = $builder->create(NormalizerInterface::class, []);
+
+        /** @var EncoderInterface $encoder */
+        $encoder = $builder->create(EncoderInterface::class, [
+            new WithReturn('getContentTypes', [], ['application/json']),
         ]);
 
         $serializer = new Serializer($normalizer, $encoder);
@@ -87,12 +90,14 @@ final class SerializerTest extends TestCase
 
     public function testEncode(): void
     {
-        /** @var MockObject|NormalizerInterface $normalizer */
-        $normalizer = $this->getMockByCalls(NormalizerInterface::class);
+        $builder = new MockObjectBuilder();
 
-        /** @var EncoderInterface|MockObject $encoder */
-        $encoder = $this->getMockByCalls(EncoderInterface::class, [
-            Call::create('encode')->with(['name' => 'Name'], 'application/json')->willReturn('{"name":"Name"}'),
+        /** @var NormalizerInterface $normalizer */
+        $normalizer = $builder->create(NormalizerInterface::class, []);
+
+        /** @var EncoderInterface $encoder */
+        $encoder = $builder->create(EncoderInterface::class, [
+            new WithReturn('encode', [['name' => 'Name'], 'application/json'], '{"name":"Name"}'),
         ]);
 
         $serializer = new Serializer($normalizer, $encoder);

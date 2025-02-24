@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Normalizer;
 
-use Chubbyphp\Mock\Call;
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockMethod\WithReturn;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\Normalizer\FieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
@@ -19,18 +19,18 @@ use PHPUnit\Framework\TestCase;
  */
 final class FieldNormalizerTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testNormalizeField(): void
     {
         $object = new \stdClass();
 
+        $builder = new MockObjectBuilder();
+
         /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+        $context = $builder->create(NormalizerContextInterface::class, []);
 
         /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockByCalls(AccessorInterface::class, [
-            Call::create('getValue')->with($object)->willReturn('name'),
+        $accessor = $builder->create(AccessorInterface::class, [
+            new WithReturn('getValue', [$object], 'name'),
         ]);
 
         $fieldNormalizer = new FieldNormalizer($accessor);

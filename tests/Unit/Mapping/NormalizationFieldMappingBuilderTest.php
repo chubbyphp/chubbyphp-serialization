@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Mapping;
 
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingBuilder;
 use Chubbyphp\Serialization\Normalizer\CallbackFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\DateTimeFieldNormalizer;
@@ -26,8 +26,6 @@ use PHPUnit\Framework\TestCase;
  */
 final class NormalizationFieldMappingBuilderTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testGetDefaultMapping(): void
     {
         $fieldMapping = NormalizationFieldMappingBuilder::create('name')->getMapping();
@@ -39,8 +37,10 @@ final class NormalizationFieldMappingBuilderTest extends TestCase
 
     public function testGetMappingWithNormalizer(): void
     {
+        $builder = new MockObjectBuilder();
+
         /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
-        $fieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class);
+        $fieldNormalizer = $builder->create(FieldNormalizerInterface::class, []);
 
         $fieldMapping = NormalizationFieldMappingBuilder::create('name', $fieldNormalizer)->getMapping();
 
@@ -122,11 +122,13 @@ final class NormalizationFieldMappingBuilderTest extends TestCase
 
     public function testGetMapping(): void
     {
+        $builder = new MockObjectBuilder();
+
         /** @var FieldNormalizerInterface|MockObject $fieldNormalizer */
-        $fieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class);
+        $fieldNormalizer = $builder->create(FieldNormalizerInterface::class, []);
 
         /** @var MockObject|PolicyInterface $policy */
-        $policy = $this->getMockByCalls(PolicyInterface::class);
+        $policy = $builder->create(PolicyInterface::class, []);
 
         $fieldMapping = NormalizationFieldMappingBuilder::create('name', $fieldNormalizer)
             ->setPolicy($policy)

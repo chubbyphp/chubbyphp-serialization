@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Chubbyphp\Tests\Serialization\Unit\Normalizer;
+namespace Chubbyphp\Tests\Serialization\Unit\Normalizer\Relation;
 
-use Chubbyphp\Mock\Call;
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockMethod\WithReturn;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
@@ -21,8 +21,6 @@ use PHPUnit\Framework\TestCase;
  */
 final class EmbedOneFieldNormalizerTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testNormalizeFieldWithMissingNormalizer(): void
     {
         $this->expectException(SerializerLogicException::class);
@@ -30,11 +28,13 @@ final class EmbedOneFieldNormalizerTest extends TestCase
 
         $object = $this->getObject();
 
+        $builder = new MockObjectBuilder();
+
         /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockByCalls(AccessorInterface::class);
+        $accessor = $builder->create(AccessorInterface::class, []);
 
         /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+        $context = $builder->create(NormalizerContextInterface::class, []);
 
         $fieldNormalizer = new EmbedOneFieldNormalizer($accessor);
 
@@ -45,25 +45,22 @@ final class EmbedOneFieldNormalizerTest extends TestCase
     {
         $object = $this->getObject();
 
+        $builder = new MockObjectBuilder();
+
         /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockByCalls(AccessorInterface::class, [
-            Call::create('getValue')->with($object)->willReturn(null),
+        $accessor = $builder->create(AccessorInterface::class, [
+            new WithReturn('getValue', [$object], null),
         ]);
 
         /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+        $context = $builder->create(NormalizerContextInterface::class, []);
 
         /** @var MockObject|NormalizerInterface $normalizer */
-        $normalizer = $this->getMockByCalls(NormalizerInterface::class);
+        $normalizer = $builder->create(NormalizerInterface::class, []);
 
         $fieldNormalizer = new EmbedOneFieldNormalizer($accessor);
 
-        $data = $fieldNormalizer->normalizeField(
-            'relation',
-            $object,
-            $context,
-            $normalizer
-        );
+        $data = $fieldNormalizer->normalizeField('relation', $object, $context, $normalizer);
 
         self::assertNull($data);
     }
@@ -76,29 +73,24 @@ final class EmbedOneFieldNormalizerTest extends TestCase
         $object = $this->getObject();
         $object->setRelation($relation);
 
+        $builder = new MockObjectBuilder();
+
         /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockByCalls(AccessorInterface::class, [
-            Call::create('getValue')->with($object)->willReturn($relation),
+        $accessor = $builder->create(AccessorInterface::class, [
+            new WithReturn('getValue', [$object], $relation),
         ]);
 
         /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+        $context = $builder->create(NormalizerContextInterface::class, []);
 
         /** @var MockObject|NormalizerInterface $normalizer */
-        $normalizer = $this->getMockByCalls(NormalizerInterface::class, [
-            Call::create('normalize')
-                ->with($relation, $context, 'relation')
-                ->willReturn(['name' => $relation->getName()]),
+        $normalizer = $builder->create(NormalizerInterface::class, [
+            new WithReturn('normalize', [$relation, $context, 'relation'], ['name' => $relation->getName()]),
         ]);
 
         $fieldNormalizer = new EmbedOneFieldNormalizer($accessor);
 
-        $data = $fieldNormalizer->normalizeField(
-            'relation',
-            $object,
-            $context,
-            $normalizer
-        );
+        $data = $fieldNormalizer->normalizeField('relation', $object, $context, $normalizer);
 
         self::assertSame(['name' => 'php'], $data);
     }
