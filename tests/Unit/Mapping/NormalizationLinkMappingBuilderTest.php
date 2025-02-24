@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Mapping;
 
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingBuilder;
 use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
 use Chubbyphp\Serialization\Normalizer\LinkNormalizer;
@@ -22,12 +22,12 @@ use Psr\Link\LinkInterface;
  */
 final class NormalizationLinkMappingBuilderTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testGetDefaultMapping(): void
     {
+        $builder = new MockObjectBuilder();
+
         /** @var LinkNormalizerInterface|MockObject $linkNormalizer */
-        $linkNormalizer = $this->getMockByCalls(LinkNormalizerInterface::class);
+        $linkNormalizer = $builder->create(LinkNormalizerInterface::class, []);
 
         $linkMapping = NormalizationLinkMappingBuilder::create('name', $linkNormalizer)->getMapping();
 
@@ -47,8 +47,10 @@ final class NormalizationLinkMappingBuilderTest extends TestCase
 
     public function testGetDefaultMappingForLink(): void
     {
+        $builder = new MockObjectBuilder();
+
         /** @var LinkInterface|MockObject $link */
-        $link = $this->getMockByCalls(LinkInterface::class);
+        $link = $builder->create(LinkInterface::class, []);
 
         $linkMapping = NormalizationLinkMappingBuilder::createLink('name', $link)->getMapping();
 
@@ -59,11 +61,13 @@ final class NormalizationLinkMappingBuilderTest extends TestCase
 
     public function testGetMapping(): void
     {
+        $builder = new MockObjectBuilder();
+
         /** @var LinkNormalizerInterface|MockObject $linkNormalizer */
-        $linkNormalizer = $this->getMockByCalls(LinkNormalizerInterface::class);
+        $linkNormalizer = $builder->create(LinkNormalizerInterface::class, []);
 
         /** @var MockObject|PolicyInterface $policy */
-        $policy = $this->getMockByCalls(PolicyInterface::class);
+        $policy = $builder->create(PolicyInterface::class, []);
 
         $linkMapping = NormalizationLinkMappingBuilder::create('name', $linkNormalizer)
             ->setPolicy($policy)

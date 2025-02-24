@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Normalizer;
 
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Normalizer\CallbackFieldNormalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
@@ -18,12 +18,12 @@ use PHPUnit\Framework\TestCase;
  */
 final class CallbackFieldNormalizerTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testNormalizeField(): void
     {
+        $builder = new MockObjectBuilder();
+
         /** @var MockObject|NormalizerContextInterface $normalizerContext */
-        $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);
+        $normalizerContext = $builder->create(NormalizerContextInterface::class, []);
 
         $object = new \stdClass();
 

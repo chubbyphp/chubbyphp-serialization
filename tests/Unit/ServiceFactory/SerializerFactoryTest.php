@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Chubbyphp\Tests\Serialization\Unit\ServiceFactory;
 
 use Chubbyphp\DecodeEncode\Encoder\EncoderInterface;
-use Chubbyphp\Mock\Call;
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockMethod\WithReturn;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
 use Chubbyphp\Serialization\SerializerInterface;
 use Chubbyphp\Serialization\ServiceFactory\SerializerFactory;
@@ -20,22 +20,22 @@ use Psr\Container\ContainerInterface;
  */
 final class SerializerFactoryTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testInvoke(): void
     {
+        $builder = new MockObjectBuilder();
+
         /** @var NormalizerInterface $normalizer */
-        $normalizer = $this->getMockByCalls(NormalizerInterface::class);
+        $normalizer = $builder->create(NormalizerInterface::class, []);
 
         /** @var EncoderInterface $encoder */
-        $encoder = $this->getMockByCalls(EncoderInterface::class);
+        $encoder = $builder->create(EncoderInterface::class, []);
 
         /** @var ContainerInterface $container */
-        $container = $this->getMockByCalls(ContainerInterface::class, [
-            Call::create('has')->with(NormalizerInterface::class)->willReturn(true),
-            Call::create('get')->with(NormalizerInterface::class)->willReturn($normalizer),
-            Call::create('has')->with(EncoderInterface::class)->willReturn(true),
-            Call::create('get')->with(EncoderInterface::class)->willReturn($encoder),
+        $container = $builder->create(ContainerInterface::class, [
+            new WithReturn('has', [NormalizerInterface::class], true),
+            new WithReturn('get', [NormalizerInterface::class], $normalizer),
+            new WithReturn('has', [EncoderInterface::class], true),
+            new WithReturn('get', [EncoderInterface::class], $encoder),
         ]);
 
         $factory = new SerializerFactory();
@@ -47,18 +47,20 @@ final class SerializerFactoryTest extends TestCase
 
     public function testCallStatic(): void
     {
+        $builder = new MockObjectBuilder();
+
         /** @var NormalizerInterface $normalizer */
-        $normalizer = $this->getMockByCalls(NormalizerInterface::class);
+        $normalizer = $builder->create(NormalizerInterface::class, []);
 
         /** @var EncoderInterface $encoder */
-        $encoder = $this->getMockByCalls(EncoderInterface::class);
+        $encoder = $builder->create(EncoderInterface::class, []);
 
         /** @var ContainerInterface $container */
-        $container = $this->getMockByCalls(ContainerInterface::class, [
-            Call::create('has')->with(NormalizerInterface::class.'default')->willReturn(true),
-            Call::create('get')->with(NormalizerInterface::class.'default')->willReturn($normalizer),
-            Call::create('has')->with(EncoderInterface::class.'default')->willReturn(true),
-            Call::create('get')->with(EncoderInterface::class.'default')->willReturn($encoder),
+        $container = $builder->create(ContainerInterface::class, [
+            new WithReturn('has', [NormalizerInterface::class.'default'], true),
+            new WithReturn('get', [NormalizerInterface::class.'default'], $normalizer),
+            new WithReturn('has', [EncoderInterface::class.'default'], true),
+            new WithReturn('get', [EncoderInterface::class.'default'], $encoder),
         ]);
 
         $factory = [SerializerFactory::class, 'default'];

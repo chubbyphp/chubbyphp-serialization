@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Normalizer;
 
-use Chubbyphp\Mock\Call;
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockMethod\WithReturn;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\SerializerLogicException;
@@ -21,8 +21,6 @@ use PHPUnit\Framework\TestCase;
  */
 final class NormalizerObjectMappingRegistryTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testGetObjectMapping(): void
     {
         $object = $this->getObject();
@@ -50,9 +48,11 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
     {
         $object = $this->getProxyObject();
 
+        $builder = new MockObjectBuilder();
+
         /** @var MockObject|NormalizationObjectMappingInterface $objectMapping */
-        $objectMapping = $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
-            Call::create('getClass')->with()->willReturn(AbstractManyModel::class),
+        $objectMapping = $builder->create(NormalizationObjectMappingInterface::class, [
+            new WithReturn('getClass', [], AbstractManyModel::class),
         ]);
 
         $registry = new NormalizerObjectMappingRegistry([$objectMapping]);
@@ -66,9 +66,11 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
     {
         $object = $this->getObject();
 
+        $builder = new MockObjectBuilder();
+
         // @var NormalizationObjectMappingInterface|MockObject $objectMapping
-        return $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
-            Call::create('getClass')->with()->willReturn($object::class),
+        return $builder->create(NormalizationObjectMappingInterface::class, [
+            new WithReturn('getClass', [], $object::class),
         ]);
     }
 
@@ -94,17 +96,17 @@ final class NormalizerObjectMappingRegistryTest extends TestCase
     private function getProxyObject(): object
     {
         return new class extends AbstractManyModel implements Proxy {
-            /**
-             * Initializes this proxy if its not yet initialized.
-             *
-             * Acts as a no-op if already initialized.
-             */
-            public function __load(): void {}
+            private bool $initialized = false;
 
-            /**
-             * Returns whether this proxy is initialized or not.
-             */
-            public function __isInitialized(): bool {}
+            public function __load(): void
+            {
+                $this->initialized = true;
+            }
+
+            public function __isInitialized(): bool
+            {
+                return $this->initialized;
+            }
         };
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Normalizer;
 
-use Chubbyphp\Mock\Call;
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockMethod\WithReturn;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Normalizer\CallbackLinkNormalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\SerializerLogicException;
@@ -20,22 +20,22 @@ use Psr\Link\LinkInterface;
  */
 final class CallbackLinkNormalizerTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testNormalizeLink(): void
     {
         $object = new \stdClass();
 
+        $builder = new MockObjectBuilder();
+
         /** @var LinkInterface|MockObject $link */
-        $link = $this->getMockByCalls(LinkInterface::class, [
-            Call::create('getHref')->with()->willReturn('/api/model/id1'),
-            Call::create('isTemplated')->with()->willReturn(false),
-            Call::create('getRels')->with()->willReturn(['model']),
-            Call::create('getAttributes')->with()->willReturn(['method' => 'GET']),
+        $link = $builder->create(LinkInterface::class, [
+            new WithReturn('getHref', [], '/api/model/id1'),
+            new WithReturn('isTemplated', [], false),
+            new WithReturn('getRels', [], ['model']),
+            new WithReturn('getAttributes', [], ['method' => 'GET']),
         ]);
 
         /** @var MockObject|NormalizerContextInterface $normalizerContext */
-        $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);
+        $normalizerContext = $builder->create(NormalizerContextInterface::class, []);
 
         $linkNormalizer = new CallbackLinkNormalizer(
             static fn (string $path, $object, NormalizerContextInterface $context) => $link
@@ -45,12 +45,8 @@ final class CallbackLinkNormalizerTest extends TestCase
             [
                 'href' => '/api/model/id1',
                 'templated' => false,
-                'rel' => [
-                    'model',
-                ],
-                'attributes' => [
-                    'method' => 'GET',
-                ],
+                'rel' => ['model'],
+                'attributes' => ['method' => 'GET'],
             ],
             $linkNormalizer->normalizeLink('name', $object, $normalizerContext)
         );
@@ -65,8 +61,10 @@ final class CallbackLinkNormalizerTest extends TestCase
 
         $object = new \stdClass();
 
+        $builder = new MockObjectBuilder();
+
         /** @var MockObject|NormalizerContextInterface $normalizerContext */
-        $normalizerContext = $this->getMockByCalls(NormalizerContextInterface::class);
+        $normalizerContext = $builder->create(NormalizerContextInterface::class, []);
 
         $linkNormalizer = new CallbackLinkNormalizer(
             static fn (string $path, $object, NormalizerContextInterface $context) => 'test'

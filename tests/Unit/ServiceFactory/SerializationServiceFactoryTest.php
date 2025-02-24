@@ -6,7 +6,7 @@ namespace Chubbyphp\Tests\Serialization\Unit\ServiceFactory;
 
 use Chubbyphp\Container\Container;
 use Chubbyphp\DecodeEncode\Encoder\Encoder;
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Normalizer\Normalizer;
 use Chubbyphp\Serialization\Normalizer\NormalizerObjectMappingRegistry;
 use Chubbyphp\Serialization\Serializer;
@@ -22,8 +22,6 @@ use Psr\Log\NullLogger;
  */
 final class SerializationServiceFactoryTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testRegister(): void
     {
         $container = new Container();
@@ -63,8 +61,10 @@ final class SerializationServiceFactoryTest extends TestCase
 
     public function testRegisterWithDefinedLogger(): void
     {
-        /** @var LoggerInterface|MockObject $logger */
-        $logger = $this->getMockByCalls(LoggerInterface::class);
+        $builder = new MockObjectBuilder();
+
+        /** @var LoggerInterface $logger */
+        $logger = $builder->create(LoggerInterface::class, []);
 
         $container = new Container([
             'logger' => static fn () => $logger,

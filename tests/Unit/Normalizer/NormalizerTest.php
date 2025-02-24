@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Normalizer;
 
-use Chubbyphp\Mock\Argument\ArgumentInstanceOf;
-use Chubbyphp\Mock\Call;
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockMethod\WithCallback;
+use Chubbyphp\Mock\MockMethod\WithException;
+use Chubbyphp\Mock\MockMethod\WithReturn;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Mapping\NormalizationFieldMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationLinkMappingInterface;
 use Chubbyphp\Serialization\Mapping\NormalizationObjectMappingInterface;
@@ -27,103 +28,115 @@ use PHPUnit\Framework\TestCase;
  */
 final class NormalizerTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testNormalize(): void
     {
+        $builder = new MockObjectBuilder();
+
         $object = $this->getObject();
         $object->setName('php');
 
         $class = $object::class;
 
         /** @var MockObject|PolicyInterface $namePolicy */
-        $namePolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliant')
-                ->with('name', $object, new ArgumentInstanceOf(NormalizerContextInterface::class))
-                ->willReturn(true),
+        $namePolicy = $builder->create(PolicyInterface::class, [
+            new WithCallback('isCompliant', static function ($name, $obj, $context) use ($object) {
+                self::assertSame('name', $name);
+                self::assertSame($object, $obj);
+                self::assertInstanceOf(NormalizerContextInterface::class, $context);
+
+                return true;
+            }),
         ]);
 
         /** @var FieldNormalizerInterface|MockObject $nameFieldNormalizer */
-        $nameFieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class, [
-            Call::create('normalizeField')
-                ->with(
-                    'name',
-                    $object,
-                    new ArgumentInstanceOf(NormalizerContextInterface::class),
-                    new ArgumentInstanceOf(Normalizer::class)
-                )
-                ->willReturn('php'),
+        $nameFieldNormalizer = $builder->create(FieldNormalizerInterface::class, [
+            new WithCallback('normalizeField', static function ($field, $obj, $context, $normalizer) use ($object) {
+                self::assertSame('name', $field);
+                self::assertSame($object, $obj);
+                self::assertInstanceOf(NormalizerContextInterface::class, $context);
+                self::assertInstanceOf(Normalizer::class, $normalizer);
+
+                return 'php';
+            }),
         ]);
 
         /** @var MockObject|NormalizationFieldMappingInterface $nameFieldMapping */
-        $nameFieldMapping = $this->getMockByCalls(NormalizationFieldMappingInterface::class, [
-            Call::create('getName')->with()->willReturn('name'),
-            Call::create('getPolicy')->with()->willReturn($namePolicy),
-            Call::create('getFieldNormalizer')->with()->willReturn($nameFieldNormalizer),
+        $nameFieldMapping = $builder->create(NormalizationFieldMappingInterface::class, [
+            new WithReturn('getName', [], 'name'),
+            new WithReturn('getPolicy', [], $namePolicy),
+            new WithReturn('getFieldNormalizer', [], $nameFieldNormalizer),
         ]);
 
         /** @var MockObject|PolicyInterface $embeddedNamePolicy */
-        $embeddedNamePolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliant')
-                ->with('name', $object, new ArgumentInstanceOf(NormalizerContextInterface::class))
-                ->willReturn(true),
+        $embeddedNamePolicy = $builder->create(PolicyInterface::class, [
+            new WithCallback('isCompliant', static function ($name, $obj, $context) use ($object) {
+                self::assertSame('name', $name);
+                self::assertSame($object, $obj);
+                self::assertInstanceOf(NormalizerContextInterface::class, $context);
+
+                return true;
+            }),
         ]);
 
         /** @var FieldNormalizerInterface|MockObject $embeddedNameFieldNormalizer */
-        $embeddedNameFieldNormalizer = $this->getMockByCalls(FieldNormalizerInterface::class, [
-            Call::create('normalizeField')
-                ->with(
-                    'name',
-                    $object,
-                    new ArgumentInstanceOf(NormalizerContextInterface::class),
-                    new ArgumentInstanceOf(Normalizer::class)
-                )
-                ->willReturn('php'),
+        $embeddedNameFieldNormalizer = $builder->create(FieldNormalizerInterface::class, [
+            new WithCallback('normalizeField', static function ($field, $obj, $context, $normalizer) use ($object) {
+                self::assertSame('name', $field);
+                self::assertSame($object, $obj);
+                self::assertInstanceOf(NormalizerContextInterface::class, $context);
+                self::assertInstanceOf(Normalizer::class, $normalizer);
+
+                return 'php';
+            }),
         ]);
 
         /** @var MockObject|NormalizationFieldMappingInterface $embeddedNameFieldMapping */
-        $embeddedNameFieldMapping = $this->getMockByCalls(NormalizationFieldMappingInterface::class, [
-            Call::create('getName')->with()->willReturn('name'),
-            Call::create('getPolicy')->with()->willReturn($embeddedNamePolicy),
-            Call::create('getFieldNormalizer')->with()->willReturn($embeddedNameFieldNormalizer),
+        $embeddedNameFieldMapping = $builder->create(NormalizationFieldMappingInterface::class, [
+            new WithReturn('getName', [], 'name'),
+            new WithReturn('getPolicy', [], $embeddedNamePolicy),
+            new WithReturn('getFieldNormalizer', [], $embeddedNameFieldNormalizer),
         ]);
 
         /** @var MockObject|PolicyInterface $nameLinkPolicy */
-        $nameLinkPolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliant')
-                ->with('name', $object, new ArgumentInstanceOf(NormalizerContextInterface::class))
-                ->willReturn(true),
+        $nameLinkPolicy = $builder->create(PolicyInterface::class, [
+            new WithCallback('isCompliant', static function ($name, $obj, $context) use ($object) {
+                self::assertSame('name', $name);
+                self::assertSame($object, $obj);
+                self::assertInstanceOf(NormalizerContextInterface::class, $context);
+
+                return true;
+            }),
         ]);
 
         /** @var LinkNormalizerInterface|MockObject $nameLinkNormalizer */
-        $nameLinkNormalizer = $this->getMockByCalls(LinkNormalizerInterface::class, [
-            Call::create('normalizeLink')
-                ->with(
-                    '',
-                    $object,
-                    new ArgumentInstanceOf(NormalizerContextInterface::class)
-                )
-                ->willReturn(['href' => '/api/model/id1']),
+        $nameLinkNormalizer = $builder->create(LinkNormalizerInterface::class, [
+            new WithCallback('normalizeLink', static function ($linkName, $obj, $context) use ($object) {
+                self::assertSame('', $linkName);
+                self::assertSame($object, $obj);
+                self::assertInstanceOf(NormalizerContextInterface::class, $context);
+
+                return ['href' => '/api/model/id1'];
+            }),
         ]);
 
         /** @var MockObject|NormalizationLinkMappingInterface $nameLinkMapping */
-        $nameLinkMapping = $this->getMockByCalls(NormalizationLinkMappingInterface::class, [
-            Call::create('getName')->with()->willReturn('name'),
-            Call::create('getPolicy')->with()->willReturn($nameLinkPolicy),
-            Call::create('getLinkNormalizer')->with()->willReturn($nameLinkNormalizer),
+        $nameLinkMapping = $builder->create(NormalizationLinkMappingInterface::class, [
+            new WithReturn('getName', [], 'name'),
+            new WithReturn('getPolicy', [], $nameLinkPolicy),
+            new WithReturn('getLinkNormalizer', [], $nameLinkNormalizer),
         ]);
 
         /** @var MockObject|NormalizationObjectMappingInterface $objectMapping */
-        $objectMapping = $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
-            Call::create('getNormalizationFieldMappings')->with('')->willReturn([$nameFieldMapping]),
-            Call::create('getNormalizationEmbeddedFieldMappings')->with('')->willReturn([$embeddedNameFieldMapping]),
-            Call::create('getNormalizationLinkMappings')->with('')->willReturn([$nameLinkMapping]),
-            Call::create('getNormalizationType')->with()->willReturn('object'),
+        $objectMapping = $builder->create(NormalizationObjectMappingInterface::class, [
+            new WithReturn('getNormalizationFieldMappings', [''], [$nameFieldMapping]),
+            new WithReturn('getNormalizationEmbeddedFieldMappings', [''], [$embeddedNameFieldMapping]),
+            new WithReturn('getNormalizationLinkMappings', [''], [$nameLinkMapping]),
+            new WithReturn('getNormalizationType', [], 'object'),
         ]);
 
         /** @var MockObject|NormalizerObjectMappingRegistryInterface $objectMappingRegistry */
-        $objectMappingRegistry = $this->getMockByCalls(NormalizerObjectMappingRegistryInterface::class, [
-            Call::create('getObjectMapping')->with($class)->willReturn($objectMapping),
+        $objectMappingRegistry = $builder->create(NormalizerObjectMappingRegistryInterface::class, [
+            new WithReturn('getObjectMapping', [$class], $objectMapping),
         ]);
 
         $normalizer = new Normalizer($objectMappingRegistry);
@@ -147,61 +160,75 @@ final class NormalizerTest extends TestCase
 
     public function testNormalizeWithNonCompliantPolicy(): void
     {
+        $builder = new MockObjectBuilder();
+
         $object = $this->getObject();
         $object->setName('php');
 
         $class = $object::class;
 
         /** @var MockObject|PolicyInterface $namePolicy */
-        $namePolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliant')
-                ->with('name', $object, new ArgumentInstanceOf(NormalizerContextInterface::class))
-                ->willReturn(false),
+        $namePolicy = $builder->create(PolicyInterface::class, [
+            new WithCallback('isCompliant', static function ($name, $obj, $context) use ($object) {
+                self::assertSame('name', $name);
+                self::assertSame($object, $obj);
+                self::assertInstanceOf(NormalizerContextInterface::class, $context);
+
+                return false;
+            }),
         ]);
 
         /** @var MockObject|NormalizationFieldMappingInterface $nameFieldMapping */
-        $nameFieldMapping = $this->getMockByCalls(NormalizationFieldMappingInterface::class, [
-            Call::create('getName')->with()->willReturn('name'),
-            Call::create('getPolicy')->with()->willReturn($namePolicy),
+        $nameFieldMapping = $builder->create(NormalizationFieldMappingInterface::class, [
+            new WithReturn('getName', [], 'name'),
+            new WithReturn('getPolicy', [], $namePolicy),
         ]);
 
         /** @var MockObject|PolicyInterface $embeddedNamePolicy */
-        $embeddedNamePolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliant')
-                ->with('name', $object, new ArgumentInstanceOf(NormalizerContextInterface::class))
-                ->willReturn(false),
+        $embeddedNamePolicy = $builder->create(PolicyInterface::class, [
+            new WithCallback('isCompliant', static function ($name, $obj, $context) use ($object) {
+                self::assertSame('name', $name);
+                self::assertSame($object, $obj);
+                self::assertInstanceOf(NormalizerContextInterface::class, $context);
+
+                return false;
+            }),
         ]);
 
         /** @var MockObject|NormalizationFieldMappingInterface $embeddedNameFieldMapping */
-        $embeddedNameFieldMapping = $this->getMockByCalls(NormalizationFieldMappingInterface::class, [
-            Call::create('getName')->with()->willReturn('name'),
-            Call::create('getPolicy')->with()->willReturn($embeddedNamePolicy),
+        $embeddedNameFieldMapping = $builder->create(NormalizationFieldMappingInterface::class, [
+            new WithReturn('getName', [], 'name'),
+            new WithReturn('getPolicy', [], $embeddedNamePolicy),
         ]);
 
         /** @var MockObject|PolicyInterface $nameLinkPolicy */
-        $nameLinkPolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliant')
-                ->with('name', $object, new ArgumentInstanceOf(NormalizerContextInterface::class))
-                ->willReturn(false),
+        $nameLinkPolicy = $builder->create(PolicyInterface::class, [
+            new WithCallback('isCompliant', static function ($name, $obj, $context) use ($object) {
+                self::assertSame('name', $name);
+                self::assertSame($object, $obj);
+                self::assertInstanceOf(NormalizerContextInterface::class, $context);
+
+                return false;
+            }),
         ]);
 
         /** @var MockObject|NormalizationLinkMappingInterface $nameLinkMapping */
-        $nameLinkMapping = $this->getMockByCalls(NormalizationLinkMappingInterface::class, [
-            Call::create('getName')->with()->willReturn('name'),
-            Call::create('getPolicy')->with()->willReturn($nameLinkPolicy),
+        $nameLinkMapping = $builder->create(NormalizationLinkMappingInterface::class, [
+            new WithReturn('getName', [], 'name'),
+            new WithReturn('getPolicy', [], $nameLinkPolicy),
         ]);
 
         /** @var MockObject|NormalizationObjectMappingInterface $objectMapping */
-        $objectMapping = $this->getMockByCalls(NormalizationObjectMappingInterface::class, [
-            Call::create('getNormalizationFieldMappings')->with('')->willReturn([$nameFieldMapping]),
-            Call::create('getNormalizationEmbeddedFieldMappings')->with('')->willReturn([$embeddedNameFieldMapping]),
-            Call::create('getNormalizationLinkMappings')->with('')->willReturn([$nameLinkMapping]),
-            Call::create('getNormalizationType')->with()->willReturn('object'),
+        $objectMapping = $builder->create(NormalizationObjectMappingInterface::class, [
+            new WithReturn('getNormalizationFieldMappings', [''], [$nameFieldMapping]),
+            new WithReturn('getNormalizationEmbeddedFieldMappings', [''], [$embeddedNameFieldMapping]),
+            new WithReturn('getNormalizationLinkMappings', [''], [$nameLinkMapping]),
+            new WithReturn('getNormalizationType', [], 'object'),
         ]);
 
         /** @var MockObject|NormalizerObjectMappingRegistryInterface $objectMappingRegistry */
-        $objectMappingRegistry = $this->getMockByCalls(NormalizerObjectMappingRegistryInterface::class, [
-            Call::create('getObjectMapping')->with($class)->willReturn($objectMapping),
+        $objectMappingRegistry = $builder->create(NormalizerObjectMappingRegistryInterface::class, [
+            new WithReturn('getObjectMapping', [$class], $objectMapping),
         ]);
 
         $normalizer = new Normalizer($objectMappingRegistry);
@@ -221,9 +248,11 @@ final class NormalizerTest extends TestCase
 
         $exception = SerializerLogicException::createMissingMapping(\stdClass::class);
 
+        $builder = new MockObjectBuilder();
+
         /** @var MockObject|NormalizerObjectMappingRegistryInterface $objectMappingRegistry */
-        $objectMappingRegistry = $this->getMockByCalls(NormalizerObjectMappingRegistryInterface::class, [
-            Call::create('getObjectMapping')->with(\stdClass::class)->willThrowException($exception),
+        $objectMappingRegistry = $builder->create(NormalizerObjectMappingRegistryInterface::class, [
+            new WithException('getObjectMapping', [\stdClass::class], $exception),
         ]);
 
         $normalizer = new Normalizer($objectMappingRegistry);

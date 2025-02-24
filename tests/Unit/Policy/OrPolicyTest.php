@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Policy;
 
-use Chubbyphp\Mock\Call;
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockMethod\WithReturn;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Policy\OrPolicy;
 use Chubbyphp\Serialization\Policy\PolicyInterface;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -19,29 +18,29 @@ use PHPUnit\Framework\TestCase;
  */
 final class OrPolicyTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testIsCompliantIncludingPathReturnsTrueIfOnePolicyIncludingPathReturnsTrue(): void
     {
         $object = new \stdClass();
 
         $path = '';
 
-        /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
+        $builder = new MockObjectBuilder();
 
-        /** @var MockObject|PolicyInterface $nonCompliantPolicy */
-        $nonCompliantPolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliant')->with($path, $object, $context)->willReturn(false),
+        /** @var NormalizerContextInterface $context */
+        $context = $builder->create(NormalizerContextInterface::class, []);
+
+        /** @var PolicyInterface $nonCompliantPolicy */
+        $nonCompliantPolicy = $builder->create(PolicyInterface::class, [
+            new WithReturn('isCompliant', [$path, $object, $context], false),
         ]);
 
-        /** @var MockObject|PolicyInterface $nonCompliantPcompliantPolicyolicy */
-        $compliantPolicy = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliant')->with($path, $object, $context)->willReturn(true),
+        /** @var PolicyInterface $compliantPolicy */
+        $compliantPolicy = $builder->create(PolicyInterface::class, [
+            new WithReturn('isCompliant', [$path, $object, $context], true),
         ]);
 
-        /** @var MockObject|PolicyInterface $notToBeCalledPolicy */
-        $notToBeCalledPolicy = $this->getMockByCalls(PolicyInterface::class, []);
+        /** @var PolicyInterface $notToBeCalledPolicy */
+        $notToBeCalledPolicy = $builder->create(PolicyInterface::class, []);
 
         $policy = new OrPolicy([$nonCompliantPolicy, $compliantPolicy, $notToBeCalledPolicy]);
 
@@ -54,17 +53,19 @@ final class OrPolicyTest extends TestCase
 
         $path = '';
 
-        /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class, []);
+        $builder = new MockObjectBuilder();
 
-        /** @var MockObject|PolicyInterface $nonCompliantPolicy1 */
-        $nonCompliantPolicy1 = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliant')->with($path, $object, $context)->willReturn(false),
+        /** @var NormalizerContextInterface $context */
+        $context = $builder->create(NormalizerContextInterface::class, []);
+
+        /** @var PolicyInterface $nonCompliantPolicy1 */
+        $nonCompliantPolicy1 = $builder->create(PolicyInterface::class, [
+            new WithReturn('isCompliant', [$path, $object, $context], false),
         ]);
 
-        /** @var MockObject|PolicyInterface $nonCompliantPolicy2 */
-        $nonCompliantPolicy2 = $this->getMockByCalls(PolicyInterface::class, [
-            Call::create('isCompliant')->with($path, $object, $context)->willReturn(false),
+        /** @var PolicyInterface $nonCompliantPolicy2 */
+        $nonCompliantPolicy2 = $builder->create(PolicyInterface::class, [
+            new WithReturn('isCompliant', [$path, $object, $context], false),
         ]);
 
         $policy = new OrPolicy([$nonCompliantPolicy1, $nonCompliantPolicy2]);

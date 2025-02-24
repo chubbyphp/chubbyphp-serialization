@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Chubbyphp\Tests\Serialization\Unit\Normalizer\Relation;
 
-use Chubbyphp\Mock\Call;
-use Chubbyphp\Mock\MockByCallsTrait;
+use Chubbyphp\Mock\MockMethod\WithReturn;
+use Chubbyphp\Mock\MockObjectBuilder;
 use Chubbyphp\Serialization\Accessor\AccessorInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerContextInterface;
 use Chubbyphp\Serialization\Normalizer\NormalizerInterface;
@@ -21,18 +21,18 @@ use PHPUnit\Framework\TestCase;
  */
 final class EmbedManyFieldNormalizerTest extends TestCase
 {
-    use MockByCallsTrait;
-
     public function testNormalizeMissingNormalizer(): void
     {
         $this->expectException(SerializerLogicException::class);
         $this->expectExceptionMessage('There is no normalizer at path: "children"');
 
+        $builder = new MockObjectBuilder();
+
         /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockByCalls(AccessorInterface::class);
+        $accessor = $builder->create(AccessorInterface::class, []);
 
         /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+        $context = $builder->create(NormalizerContextInterface::class, []);
 
         $fieldNormalizer = new EmbedManyFieldNormalizer($accessor);
 
@@ -50,34 +50,27 @@ final class EmbedManyFieldNormalizerTest extends TestCase
         $parent = $this->getParent();
         $parent->setChildren([$child1, $child2]);
 
+        $builder = new MockObjectBuilder();
+
         /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockByCalls(AccessorInterface::class, [
-            Call::create('getValue')->with($parent)->willReturn($parent->getChildren()),
+        $accessor = $builder->create(AccessorInterface::class, [
+            new WithReturn('getValue', [$parent], $parent->getChildren()),
         ]);
 
         /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+        $context = $builder->create(NormalizerContextInterface::class, []);
 
         /** @var MockObject|NormalizerInterface $normalizer */
-        $normalizer = $this->getMockByCalls(NormalizerInterface::class, [
-            Call::create('normalize')
-                ->with($child1, $context, 'children[0]')
-                ->willReturn(['name' => $child1->getName()]),
-            Call::create('normalize')
-                ->with($child2, $context, 'children[1]')
-                ->willReturn(['name' => $child2->getName()]),
+        $normalizer = $builder->create(NormalizerInterface::class, [
+            new WithReturn('normalize', [$child1, $context, 'children[0]'], ['name' => $child1->getName()]),
+            new WithReturn('normalize', [$child2, $context, 'children[1]'], ['name' => $child2->getName()]),
         ]);
 
         $fieldNormalizer = new EmbedManyFieldNormalizer($accessor);
 
         self::assertSame(
             [['name' => 'name1'], ['name' => 'name2']],
-            $fieldNormalizer->normalizeField(
-                'children',
-                $parent,
-                $context,
-                $normalizer
-            )
+            $fieldNormalizer->normalizeField('children', $parent, $context, $normalizer)
         );
     }
 
@@ -86,27 +79,24 @@ final class EmbedManyFieldNormalizerTest extends TestCase
         $parent = $this->getParent();
         $parent->setChildren([]);
 
+        $builder = new MockObjectBuilder();
+
         /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockByCalls(AccessorInterface::class, [
-            Call::create('getValue')->with($parent)->willReturn($parent->getChildren()),
+        $accessor = $builder->create(AccessorInterface::class, [
+            new WithReturn('getValue', [$parent], $parent->getChildren()),
         ]);
 
         /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+        $context = $builder->create(NormalizerContextInterface::class, []);
 
         /** @var MockObject|NormalizerInterface $normalizer */
-        $normalizer = $this->getMockByCalls(NormalizerInterface::class);
+        $normalizer = $builder->create(NormalizerInterface::class, []);
 
         $fieldNormalizer = new EmbedManyFieldNormalizer($accessor);
 
         self::assertSame(
             [],
-            $fieldNormalizer->normalizeField(
-                'children',
-                $parent,
-                $context,
-                $normalizer
-            )
+            $fieldNormalizer->normalizeField('children', $parent, $context, $normalizer)
         );
     }
 
@@ -114,26 +104,23 @@ final class EmbedManyFieldNormalizerTest extends TestCase
     {
         $parent = $this->getParent();
 
+        $builder = new MockObjectBuilder();
+
         /** @var AccessorInterface|MockObject $accessor */
-        $accessor = $this->getMockByCalls(AccessorInterface::class, [
-            Call::create('getValue')->with($parent)->willReturn($parent->getChildren()),
+        $accessor = $builder->create(AccessorInterface::class, [
+            new WithReturn('getValue', [$parent], $parent->getChildren()),
         ]);
 
         /** @var MockObject|NormalizerContextInterface $context */
-        $context = $this->getMockByCalls(NormalizerContextInterface::class);
+        $context = $builder->create(NormalizerContextInterface::class, []);
 
         /** @var MockObject|NormalizerInterface $normalizer */
-        $normalizer = $this->getMockByCalls(NormalizerInterface::class);
+        $normalizer = $builder->create(NormalizerInterface::class, []);
 
         $fieldNormalizer = new EmbedManyFieldNormalizer($accessor);
 
         self::assertNull(
-            $fieldNormalizer->normalizeField(
-                'children',
-                $parent,
-                $context,
-                $normalizer
-            )
+            $fieldNormalizer->normalizeField('children', $parent, $context, $normalizer)
         );
     }
 
