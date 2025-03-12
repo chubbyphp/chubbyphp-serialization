@@ -24,6 +24,9 @@
 
 A simple serialization.
 
+DEPRECATED: No personal interest anymore.
+Please take a look to [chubbyphp-parsing](https://github.com/chubbyphp/chubbyphp-parsing) its a different concept. But i believe parsing is the way to go instead of deserialze/validate.
+
 ## Requirements
 
  * php: ^8.2
