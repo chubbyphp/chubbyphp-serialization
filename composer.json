@@ -24,7 +24,7 @@
         "chubbyphp/chubbyphp-container": "^2.2",
         "chubbyphp/chubbyphp-dev-helper": "dev-master",
         "chubbyphp/chubbyphp-laminas-config-factory": "^1.4",
-        "chubbyphp/chubbyphp-mock": "^2.0@dev",
+        "chubbyphp/chubbyphp-mock": "^2.0",
         "doctrine/collections": "^2.2.2",
         "doctrine/persistence": "^4.0",
         "infection/infection": "^0.29.12",
